@@ -1,0 +1,18 @@
+.teamname {
+    position: absolute;
+    width: 1620px;
+    height: 637px;
+    left: 150px;
+    top: 75px;
+    align-items: center;
+    text-align: center;
+    background-image: url(cloud.jpg);
+}
+
+#teamtype {
+    position: absolute;
+    width: 90px;
+    height: 23px;
+    left: 865px;
+    top: 402px;
+}
