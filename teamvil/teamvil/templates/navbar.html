@@ -1,19 +1,18 @@
 {% load static %}
 
-<nav class="navbar-main">
-    <span>
-        <img src="{% static 'image/Logo.png' %}" alt="">
-    </span>
+<nav class="navbar-nav-container">
+    <div class="navbar-left-container">
+        <img class="navbar-logo" src="{% static 'image/Logo.png' %}" alt="">
 
-    <ul>
-        <li><a href="">팀 찾기</a></li>
-        <li><a href="">팀원 찾기</a></li>
-        <li><a href="">커뮤니티</a></li>
+        <ul class="navbar-menu-container">
+            <li class="navbar-menu-item"><a href="">팀 찾기</a></li>
+            <li class="navbar-menu-item"><a href="">팀원 찾기</a></li>
+            <li class="navbar-menu-item"><a href="">커뮤니티</a></li>
+        </ul>
+    </div>
+
+    <ul class="navbar-my-container">
+        <li class="navbar-my-item"><a href="">마이페이지</a></li>
+        <li class="navbar-my-item"><a href="">로그인/</a><a href="">회원가입</a></li>
     </ul>
-
-    <ul>
-        <li><a href="">마이페이지</a></li>
-        <li><a href="">로그인</a>/<a href="">회원가입</a></li>
-    </ul>
-
 </nav>
