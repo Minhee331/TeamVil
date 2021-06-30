@@ -1,7 +1,12 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 .teamname {
     position: absolute;
-    width: 1020px;
-    height: 637px;
+    width: 1219.2px;
+    height: 504.02625px;
     left: 150px;
     top: 75px;
     align-items: center;
