@@ -70,3 +70,33 @@ li a {
 
 
 /* footer */
+footer {
+    padding: 0 161.415px;
+    display: block;
+    color: #ffffff;
+    background-color: #0f59ff;
+}
+
+.footer-link {
+    padding-top: 26.9025px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.footer-link a {
+    color: #ffffff;
+}
+
+.footer-link p {
+    padding: 0 10px;
+}
+
+.footer-info p {
+    padding: 3px 0;
+}
+
+.copyright {
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 22.94625px;
+}
