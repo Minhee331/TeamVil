@@ -1,18 +1,64 @@
-.teamname {
-    position: absolute;
-    width: 1219.2px;
+.team-container {
+    margin: 0 118.6875px;
+}
+
+
+.team-name {
+    margin: 10.28625px 0 19.78125px;
+    display: flex;
+    justify-content: center;
+    width: 1281.825px;
     height: 504.02625px;
     left: 150px;
     top: 75px;
     align-items: center;
     text-align: center;
-    background-image: url(cloud.jpg);
+    background-image: url(../image/cloud.jpg);
+    background-size: 1281.825px 504.020625px;
 }
 
-#teamtype {
-    position: absolute;
+header {
+    text-align: center;
+    width: 536.4675px;
+    padding: 27.69375px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+
+.team-title {
+    padding: 10px 0;
+    font-size: 25.32px;
+    font-weight: bold;
+}
+
+#team-type {
+    padding: 10px;
     width: 90px;
     height: 23px;
     left: 865px;
     top: 402px;
+}
+
+.team-leader {
+    margin-top: 17.4075px;
+    text-align: right;
+}
+
+.team-info {
+    height: 185.94375px;
+    border-top: 1px #ebebeb solid;
+    border-bottom: 1px #ebebeb solid;
+    border-right: 0px;
+    border-left: 0px;
+    text-align: center;
+}
+
+.team-pr {
+    padding: 50px 0;
+    font-size: 19.78125;
+}
+
+.team-introduce {
+    font-size: 18.99px;
+    font-weight: bold;
 }
