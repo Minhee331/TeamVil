@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% for project in projects %}
+    <h1>{{project.title}}</h1>
+    <p>분야: {{project.field1_id.field1}}</p>
+    <p>기간: {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
+    <p>모집인원: {{project.mem_now}} / {{project.mem_duty}}
+        {% if project.state == 1%}
+            모집중
+        {% else %}
+        모집완료
+        {% endif %}
+    </p>
+    <p>지역: {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
+    {% endfor %}
+</body>
+</html>

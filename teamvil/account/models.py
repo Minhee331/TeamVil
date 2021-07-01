@@ -5,20 +5,26 @@ from home.models import Field1, Region1, Region2, Education
 # Create your models here.
 class Mbti(models.Model):
     mbti = models.CharField(max_length=4)
-    mbti_cnt = models.IntegerField()
+    mbti_cnt = models.IntegerField(default=0)
+    def __str__(self):
+        return self.mbti
 
 class Job(models.Model):
     job = models.CharField(max_length=20)
+    def __str__(self):
+        return self.job
 
 class Term(models.Model):
     term = models.CharField(max_length=20)
     term_type = models.CharField(max_length=10)
+    def __str__(self):
+        return self.term
 
 class Profile(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="user_id")
     name = models.CharField(max_length=25)
     mbti_id = models.ForeignKey(Mbti, on_delete = models.CASCADE, db_column="mbti_id")
-    mbti_detail = models.CharField(max_length=100, null=True)
+    mbti_detail = models.CharField(max_length=100, null=True, blank=True)
     email = models.CharField(max_length=45)
     phone = models.CharField(max_length=15)
     birthday = models.DateField()
@@ -39,15 +45,21 @@ class Profile(models.Model):
     register = models.DateTimeField()
     photo = models.CharField(max_length=100)
     isReview = models.IntegerField()
-    view_cnt = models.IntegerField()
+    view_cnt = models.IntegerField(default=0)
+    def __str__(self):
+        return self.name
 
 class User_link(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="user_id")
     link = models.CharField(max_length=45)
+    def __str__(self):
+        return self.link
 
 class User_file(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="user_id")
     file = models.CharField(max_length=45)
+    def __str__(self):
+        return self.file
 
 class User_carrer(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="user_id")
@@ -55,3 +67,5 @@ class User_carrer(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     content = models.TextField()
+    def __str__(self):
+        return self.file

@@ -1,0 +1,38 @@
+{% load custom_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% for profile in profiles %}
+    <h1>
+        {% if profile.state == 1 %}
+            팀 찾는 중
+        {% elif profile.state == 2 %}
+            휴식 중
+        {% else %}
+            팀 참여 중
+        {% endif %}
+    </h1>
+    <h1>이름: {{profile.name}}</h1>
+    <p>성격유형: {{profile.mbti_id.mbti}}</p>
+    <p>관심분야: {{profile.field1_id.field1}}</p>
+    <p>선호 프로젝트: 
+        {% if profile.type == 0 %}
+            창업
+        {% elif profile.type == 1 %}
+            공모전
+        {% else %}
+            프로젝트
+        {% endif %}
+    </p>
+    <p>나이: {% getAge profile.birthday %}</p>
+    <p>직업: {{ profile.job_id.job }}</p>
+    <p>지역: {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
+    {% endfor %}
+</body>
+</html>
