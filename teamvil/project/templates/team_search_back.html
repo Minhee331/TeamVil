@@ -5,8 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 <body>
+    {% for field1 in field1s %}
+    <input type="checkbox" value='{{field1.id}}' class="field1">{{field1.field1}}
+    <br>
+    {% endfor %}
+    <br>
+    {% for mbti in mbtis %}
+    <input type="checkbox" value='{{mbti.id}}' class="mbti">{{mbti.mbti}}
+    <br>
+    {% endfor %}
+    <br>
+    {% for region2 in region2s %}
+    <input type="checkbox" value='{{region2.id}}' class="region2">{{region2.region1_id.region1}} {{region2.region2}}
+    <br>
+    {% endfor %}
+    <br>
+    {% for term in terms %}
+    <input type="checkbox" value='{{term.id}}' class="term">{{term.term}}
+    <br>
+    {% endfor %}
+    <br>
+
+    <input type="checkbox" value='1' class="state">모집중
+    <br>
+    <input type="checkbox" value='0' class="state">모집완료 
+    <br><br>
+
+    {% for job in jobs %}
+    <input type="checkbox" value='{{job.id}}' class="job">{{job.job}}
+    <br>
+    {% endfor %}
+    <br>
+
+    <button class="search">
+        <a href="{% url 'team_search_back' %}">검색</a>
+    </button>
+
     {% for project in projects %}
     <h1>{{project.title}}</h1>
     <p>분야: {{project.field1_id.field1}}</p>
@@ -21,4 +58,60 @@
     <p>지역: {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
     {% endfor %}
 </body>
+<script>
+    $(document).ready(function(){
+        // 각각의 박스들이 체크될떄마다 어느 한 배열에 모아가지고, 검색 버튼 눌리면 그 배열만 가지고 오게 
+        var selected_arr = new Array();
+        $(".field1").on("click", function(){  
+            if(Object.keys(object_1).includes('test_1'))
+            var field1 = $(this).val();
+            if($(this).is(":checked") == true) {
+                selected_arr['field1']
+                console.log(field1, "체크 됨");
+            }else{
+                console.log(field1, "체크해제 됨");
+            }
+        });
+        $(".mbti").on("click", function(){  
+            var field1 = $(this).val();
+            if($(this).is(":checked") == true) {
+                console.log(field1, "체크 됨");
+            }else{
+                console.log(field1, "체크해제 됨");
+            }
+        }); 
+        $(".region2").on("click", function(){  
+            var field1 = $(this).val();
+            if($(this).is(":checked") == true) {
+                console.log(field1, "체크 됨");
+            }else{
+                console.log(field1, "체크해제 됨");
+            }
+        }); 
+        $(".term").on("click", function(){  
+            var field1 = $(this).val();
+            if($(this).is(":checked") == true) {
+                console.log(field1, "체크 됨");
+            }else{
+                console.log(field1, "체크해제 됨");
+            }
+        }); 
+        $(".state").on("click", function(){  
+            var field1 = $(this).val();
+            if($(this).is(":checked") == true) {
+                console.log(field1, "체크 됨");
+            }else{
+                console.log(field1, "체크해제 됨");
+            }
+        }); 
+        $(".job").on("click", function(){  
+            var field1 = $(this).val();
+            if($(this).is(":checked") == true) {
+                console.log(field1, "체크 됨");
+            }else{
+                console.log(field1, "체크해제 됨");
+            }
+        }); 
+    });
+</script>
 </html>
