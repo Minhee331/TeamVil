@@ -19,3 +19,12 @@ def team_search_back(request):
     job = Job.objects.all()
     return render(request, "team_search_back.html", {'projects':projects, "field1s":field1, "mbtis" : mbti, 
                                                     "region2s": region2, "terms": term, "jobs": job})
+
+def team_detail_back(request, project_id):
+    project = Project.objects.get(id=project_id)
+    profile = Profile.objects.get(user_id = project.user_id)
+    project_links = Project_link.objects.filter(project_id = project_id)
+    project_files = Project_file.objects.filter(project_id = project_id)
+    duties = Duty.objects.filter(project_id = project_id)
+    return render(request, "team_detail_back.html", {'project':project, 'profile':profile, 
+                "project_links":project_links, "project_files":project_files, "duties": duties})

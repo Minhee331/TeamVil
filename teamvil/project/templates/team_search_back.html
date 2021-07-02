@@ -45,7 +45,7 @@
     </button>
 
     {% for project in projects %}
-    <h1>{{project.title}}</h1>
+    <h1><a href="{% url 'team_detail_back' {{project.id}} %}">{project.title}}</a>{</h1>
     <p>분야: {{project.field1_id.field1}}</p>
     <p>기간: {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
     <p>모집인원: {{project.mem_now}} / {{project.mem_duty}}
