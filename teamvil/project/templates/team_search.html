@@ -14,7 +14,7 @@
 </head>
 <body>
     {% include 'navbar.html' %}
-    <section class="margin">
+    <section class="team_search-category-container margin">
 
     </section>
 
@@ -23,110 +23,146 @@
     </section>
 
     <section class="team_search-main-container margin">
-    <aside class="team_search-filter-container">
-        <div class="team_search-filter-item-container">
-            <div class="team_search-filter-active">
-                <p class="team_search-filter-title spoqa-medium">관심분야</p>
-                <div value="field1" class="drop_btn">
-                    <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
-                </div>
-            </div>
-
-            <div id="field1">
-                {% for field1 in field1s %}
-                    <div class="team_search-filter-item-list">
-                        <input type="checkbox" value='{{field1.id}}' class="field1">
-                        <span>{{field1.field1}}</span>
+        <aside class="team_search-filter-container">
+            <div class="team_search-filter-item-container">
+                <div class="team_search-filter-active">
+                    <p class="team_search-filter-title spoqa-medium">관심분야</p>
+                    <div value="field1" class="drop_btn">
+                        <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
                     </div>
-                {% endfor %}
-            </div>
-
-            <hr>
-        </div>
-
-        <div id="mbti">
-            <div class="team_search-filter-active">
-                <p class="team_search-filter-title">관심분야</p>
-                <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
-            </div>
-
-            {% for mbti in mbtis %}
-                <div class="team_search-filter-item-list">
-                    <input type="checkbox" value='{{mbti.id}}' class="mbti">
-                    <span>{{mbti.mbti}}</span>
                 </div>
-            {% endfor %}
-        </div>
 
-        <hr>
+                <div id="field1">
+                    {% for field1 in field1s %}
+                        <div class="team_search-filter-item-list spoqa-light">
+                            <input type="checkbox" value='{{field1.id}}' class="field1">
+                            <span>{{field1.field1}}</span>
+                        </div>
+                    {% endfor %}
+                </div>
 
-        <div id="region">
-        {% for region2 in region2s %}
-            <div class="team_search-filter-item-list">
-                <input type="checkbox" value='{{region2.id}}' class="region2">
-                <span>{{region2.region1_id.region1}} {{region2.region2}}</span>
-            </div>
-        {% endfor %}
-        </div>
+                <hr>
 
-        <hr>
-
-        <div id="term">
-        {% for term in terms %}
-            <div class="team_search-filter-item-list">
-                <input type="checkbox" value='{{term.id}}' class="term">
-                <span>{{term.term}}</span>
-            </div>
-        {% endfor %}
-        </div>
-
-        <div id="state">
-            <div class="team_search-filter-item-list">
-                <input type="checkbox" value='1' class="state">
-                <span>모집중</span>
-            </div>
-
-            <div class="team_search-filter-item-list">
-                <input type="checkbox" value='0' class="state">
-                <span>모집완료</span>
-            </div>
-        </div>
-
-        <hr>
-
-        <div id="job">
-            {% for job in jobs %}
-            <div class="team_search-filter-item-list">
-                <input type="checkbox" value='{{job.id}}' class="job">
-                <span>{{job.job}}</span>
-            </div>
-            {% endfor %}
-        </div>
-    </aside>
-
-    <main class="team_search-team-container">
-        {% for project in projects %}
-            <article class="team_search-team-item">
-                <img class="team_search-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                <div class="team_search-team-item-text">
-                    <p class="team_search-team-item-title">{{project.title}}</p>
-                    <p class="team_search-team-item-content">분야 : {{project.field1_id.field1}}</p>
-                    <p class="team_search-team-item-content">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
-                    <p class="team_search-team-item-content">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
-                        {% if project.state == 1%}
-                            (모집중)
-                        {% else %}
-                            (모집완료)
-                        {% endif %}
-                    </p>
-                    <p class="team_search-team-item-content">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
+                <div class="team_search-filter-active">
+                    <p class="team_search-filter-title spoqa-medium">성향</p>
+                    <div value="mbti" class="drop_btn">
+                        <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
+                    </div>
+                </div>
+        
+                <div id="mbti">
+                    {% for mbti in mbtis %}
+                        <div class="team_search-filter-item-list spoqa-light">
+                            <input type="checkbox" value='{{mbti.id}}' class="mbti">
+                            <span>{{mbti.mbti}}</span>
+                        </div>
+                    {% endfor %}
                 </div>
                 
-            </article>
-        {% endfor %}
-    </main>
+                <hr>
+
+                <div class="team_search-filter-active">
+                    <p class="team_search-filter-title spoqa-medium">지역</p>
+                    <div value="region" class="drop_btn">
+                        <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
+                    </div>
+                </div>
+
+                <div id="region">
+                    {% for region2 in region2s %}
+                        <div class="team_search-filter-item-list spoqa-light">
+                            <input type="checkbox" value='{{region2.id}}' class="region2">
+                            <span>{{region2.region1_id.region1}} {{region2.region2}}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <hr>
+
+                <div class="team_search-filter-active">
+                    <p class="team_search-filter-title spoqa-medium">선호 기간</p>
+                    <div value="term" class="drop_btn">
+                        <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
+                    </div>
+                </div>
+
+                <div id="term">
+                    {% for term in terms %}
+                        <div class="team_search-filter-item-list spoqa-light">
+                            <input type="checkbox" value='{{term.id}}' class="term">
+                            <span>{{term.term}}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <hr>
+        
+                <div class="team_search-filter-active">
+                    <p class="team_search-filter-title spoqa-medium">참여 상태</p>
+                    <div value="state" class="drop_btn">
+                        <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
+                    </div>
+                </div>
+
+                <div id="state">
+                    <div class="team_search-filter-item-list spoqa-light">
+                        <input type="checkbox" value='1' class="state">
+                        <span>모집중</span>
+                    </div>
+
+                    <div class="team_search-filter-item-list spoqa-light">
+                        <input type="checkbox" value='0' class="state">
+                        <span>모집완료</span>
+                    </div>
+                </div>
+
+                <hr>
+    
+                <div class="team_search-filter-active">
+                    <p class="team_search-filter-title spoqa-medium">직업</p>
+                    <div value="job" class="drop_btn">
+                        <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
+                    </div>
+                </div>
+
+                <div id="job">
+                    {% for job in jobs %}
+                    <div class="team_search-filter-item-list spoqa-light">
+                        <input type="checkbox" value='{{job.id}}' class="job">
+                        <span>{{job.job}}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            
+        </aside>
+
+        <main class="team_search-team-container">
+            {% for project in projects %}
+                <article class="team_search-team-item">
+                    <img class="team_search-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
+
+                    <div class="team_search-team-item-text">
+                        <p class="team_search-team-item-title">{{project.title}}</p>
+                        <p class="team_search-team-item-content">분야 : {{project.field1_id.field1}}</p>
+                        <p class="team_search-team-item-content">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
+                        <p class="team_search-team-item-content">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
+                            {% if project.state == 1%}
+                                (모집중)
+                            {% else %}
+                                (모집완료)
+                            {% endif %}
+                        </p>
+                        <p class="team_search-team-item-content">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
+                    </div>
+                    
+                </article>
+            {% endfor %}
+        </main>
     </section>
+
+    {% include 'footer.html' %}
 </body>
 
 <script>
@@ -139,8 +175,6 @@
             
             if(currentClass.style.display === "none"){
                 currentClass.style.display = "block";
-
-
             } else{
                 currentClass.style.display = "none";
             }

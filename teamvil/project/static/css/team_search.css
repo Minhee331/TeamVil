@@ -1,12 +1,16 @@
-/* input {
-    display: block;
-    padding: 10px;
-} */
+hr {
+    margin: 10px 0px;
+}
+
+.team_search-category-container {
+    margin-top: 40px;
+}
 
 .team_search-main-container {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    margin-bottom: 100px;
 }
 
 .team_search-filter-container {
@@ -36,8 +40,14 @@
     display: flex;
     align-items: center;
     margin-bottom: 7px;
+    font-size: 14px;
 }
 
+.team_search-filter-item-list input {
+    margin-right: 5px;
+}
+
+/* team */
 .team_search-team-container {
     display: flex;
     flex-wrap: wrap;
