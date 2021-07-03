@@ -8,31 +8,31 @@
     margin: 0px 118.6875px;
 }
 
-/* Spoca Han Sans
+/* Spoqa Han Sans Neo
     font-family: 'Spoqa Han Sans Neo', 'sans-serif';
     font-weight: 100 300 400 500 700 */
 
-    .spoca-thin {
+    .spoqa-thin {
         font-family: 'Spoqa Han Sans Neo', 'sans-serif';
         font-weight: 100;
     }
 
-    .spoca-light {
+    .spoqa-light {
         font-family: 'Spoqa Han Sans Neo', 'sans-serif';
         font-weight: 300;
     }
 
-    .spoca-regular {
+    .spoqa-regular {
         font-family: 'Spoqa Han Sans Neo', 'sans-serif';
         font-weight: 400;
     }
 
-    .spoca-medium {
+    .spoqa-medium {
         font-family: 'Spoqa Han Sans Neo', 'sans-serif';
         font-weight: 500;
     }
 
-    .spoca-bold {
+    .spoqa-bold {
         font-family: 'Spoqa Han Sans Neo', 'sans-serif';
         font-weight: 700;
     }
