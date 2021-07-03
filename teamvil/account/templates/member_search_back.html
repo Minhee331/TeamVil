@@ -47,7 +47,13 @@
     <button class="search">
         <a href="{% url 'member_search_back' %}">검색</a>
     </button>
-
+    <!-- 멤버 맞춤 추천 -->
+    {% for reg in profiles_reg %}
+        <h1>이름: {{reg.name}}</h1>
+        <p>성격유형: {{reg.mbti_id.mbti}}</p>
+        <p>관심분야: {{reg.field1_id.field1}}</p>
+    {% endfor %}
+    
     {% for profile in profiles %}
     <h1>
         {% if profile.state == 1 %}

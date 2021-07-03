@@ -44,8 +44,16 @@
         <a href="{% url 'team_search_back' %}">검색</a>
     </button>
 
+    <!-- 팀 맞춤 추천 -->
+    {% for reg in projects_reg %}
+        <h1>이름: {{reg.title}} </h1>
+        <p>분야: {{reg.field1_id.field1}}</p>
+        <p>기간: {{reg.start_date|date:"Y-m-d"}} ~ {{reg.end_date|date:"Y-m-d"}}</p>
+        <p>지역: {{reg.region1_id.region1}} {{reg.region2_id.region2}}</p>
+    {% endfor %}
+
     {% for project in projects %}
-    <h1><a href="{% url 'team_detail_back' {{project.id}} %}">{project.title}}</a>{</h1>
+    <h1><a href="{% url 'team_detail_back' project.id %}">{{project.title}}</a></h1>
     <p>분야: {{project.field1_id.field1}}</p>
     <p>기간: {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
     <p>모집인원: {{project.mem_now}} / {{project.mem_duty}}

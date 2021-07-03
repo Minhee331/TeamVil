@@ -9,23 +9,25 @@ def team_detail(request):
 
 def team_search(request):
     projects = Project.objects.all()
+    projects_reg = Project.objects.all().order_by('id')[:4]
     field1 = Field1.objects.all() # 대분야 (ex IT)
     mbti = Mbti.objects.all()
     region2 = Region2.objects.all() # ~시 (서울만 ~구)
     term = Term.objects.all()
     job = Job.objects.all()
     return render(request, "team_search.html", {'projects':projects, "field1s":field1, "mbtis" : mbti, 
-                                                    "region2s": region2, "terms": term, "jobs": job})
+                                                    "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg})
 
 def team_search_back(request):
     projects = Project.objects.all()
+    projects_reg = Project.objects.all().order_by('id')[:4]
     field1 = Field1.objects.all() # 대분야 (ex IT)
     mbti = Mbti.objects.all()
     region2 = Region2.objects.all() # ~시 (서울만 ~구)
     term = Term.objects.all()
     job = Job.objects.all()
     return render(request, "team_search_back.html", {'projects':projects, "field1s":field1, "mbtis" : mbti, 
-                                                    "region2s": region2, "terms": term, "jobs": job})
+                                                    "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg})
 
 def team_detail_back(request, project_id):
     project = Project.objects.get(id=project_id)

@@ -4,7 +4,9 @@ from account.models import *
 
 # Create your views here.
 def home(request):
-    return render(request, "home.html")
+    projects = Project.objects.all()
+    profiles = Profile.objects.all()
+    return render(request, "home.html", {'profiles':profiles, "projects":projects })
 
 def home_back(request):
     projects = Project.objects.all()
