@@ -41,6 +41,14 @@ header {
     top: 402px;
 }
 
+#team-field1 {
+    padding: 10px;
+    width: 90px;
+    height: 23px;
+    left: 865px;
+    top: 402px;
+}
+
 .team-leader {
     margin-top: 17.4075px;
     text-align: right;
@@ -59,32 +67,39 @@ header {
     font-weight: 600;
 }
 
-.team-pr {
+.team-desc {
     padding: 50px 0;
 }
 
-.team-pr p {
+.team-desc p {
     font-size: 19.78125px;
 }
 
-.team-pr p{
+.team-desc p{
     font-size: 20px;
 }
 
-.team-introduce {
+.team-content-container {
+    border-top: 0;
+    border-bottom: 1px #ebebeb solid;
+    border-right: 0px;
+    border-left: 0px;
+}
+
+.team-content {
     display: inline-grid;
     width: 871.16625px;
      
 }
 
-.team-introduce-title {
+.team-content-title {
     margin-top: 30.0675px;
     margin-bottom: 18.19875px;
     font-size: 18.99px;
     font-weight: bold;
 }
 
-.team-introduce-body {
+.team-content-body {
     border-top: 0;
     border-bottom: 0;
     border-right: 1px #ebebeb solid ;
@@ -96,4 +111,68 @@ header {
 .team-info-detail {
     display: inline-grid;
     width: 365.5575px;
+    margin-left: 40.35375px;
 }
+
+.team-apply {
+    width: 72.795px;
+    height: 24.52875px;
+    border: 1px solid #0f59ff;
+    padding: 5px 13px;
+    color: #0f59ff;  
+    font-size: 10px;
+    background-color: #ffffff;
+    margin-left: auto;
+}
+
+.team-apply:hover {
+    background-color: #0f59ff;
+    color: #ffffff; 
+    cursor: pointer; 
+}
+
+.team-info-detail-title {
+    font-size: 19px;
+    font-weight: bold;
+    padding: 9px 0;
+}
+
+.team-info-detail-body {
+    font-size: 15px;
+    padding: 2px 0;
+}
+
+.team-info-detail-title-margin {
+    margin-bottom: 43.5px;
+}
+
+.team-info-detail-content {
+    margin-bottom: 15px;
+}
+
+.team-info-etc {
+    margin: 30px 0 45px;
+}
+
+.team-info-etc p {
+    padding: 12px 0;
+}
+
+.team-info-etc-title {
+    display: inline-block;
+    width: 83px;
+    font-size: 19px;
+    font-weight: bold;
+    padding-right: 10px;
+}
+
+.team-info-etc-body {
+    margin-left: 100px;
+}
+
+.team-info-etc-body1 {
+    margin-left: 100px;
+    color: #ff0000;
+}
+
+

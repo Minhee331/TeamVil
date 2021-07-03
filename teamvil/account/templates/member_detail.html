@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+{% load custom_tags %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/member_detail.css' %}">
+</head>
+<body>
+{% include 'navbar.html' %}
+
+<div class="member-container">
+    <div class="member-profile">
+        <img src="{% static 'image/profile.jpeg' %}" class="member-profileimg">
+        <hr>
+        <div class="member-profile-important">
+        <h1>{{profile.name}}</h1>
+            <p>
+                <span class="member-profile-title">직업</span><span class="member-profile-body">{{profile.job_id.job}}</span>
+            </p>
+            <p>
+                <span class="member-profile-title">나이</span><span class="member-profile-body">24세</span>
+            </p>
+            <p>
+                <span class="member-profile-title">지역</span><span class="member-profile-body">{{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</span>
+            </p>
+            <p>
+                <span class="member-profile-title">상태</span>
+                <span class="member-profile-body">
+                {% if profile.state == 1 %}
+                    팀 찾는 중
+                {% elif profile.state == 2 %}
+                    휴식 중
+                {% else %}
+                    팀 참여 중
+                {% endif %}</span>
+            </p>
+        </div>
+    </div>
+
+
+    <div class="member-profile-etc-container">
+        
+        <div class="member-profile-etc">
+            <p>
+                <span class="member-profile-etc-title">관심분야</span><span class="member-profile-etc-body">{{profile.field1_id.field1}}</span>
+            </p>
+            <p>
+                <span class="member-profile-etc-title">기간</span><span class="member-profile-etc-body">{{profile.term_id.term}}</span>
+            </p>
+            <hr>
+            <p>
+                <span class="member-profile-etc-title">MBTI</span><span class="member-profile-etc-body">{{profile.mbti_id.mbti}}</span>
+            </p>
+            {% if profile.mbti_detail == None %}
+            <p>{{profile.mbti_detail}}</p>
+            {% endif %}
+            <hr>
+            <p>
+                <span class="member-profile-etc-title">연락처</span>
+                <span class="member-profile-body">
+                    {% if profile.open_phone %}
+                    <span>{{profile.phone}}</span>
+                    {% else %}
+                    <span>비공개</span>
+                    {% endif %}
+                </span>
+            </p>
+            <p>
+                <span class="member-profile-etc-title">이메일</span>
+                <span class="member-profile-body">
+                    {% if profile.open_email %}
+                    <span>{{profile.email}}</span>
+                    {% else %}
+                    <span>비공개</span>
+                    {% endif %}
+                </span>
+            </p>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+{% include 'footer.html' %}  
+</body>
+</html>

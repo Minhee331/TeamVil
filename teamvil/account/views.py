@@ -13,6 +13,15 @@ def member_search_back(request):
     return render(request, "member_search_back.html", {'profiles':profiles, "field1s":field1, "mbtis" : mbti, 
                                                     "region2s": region2, "terms": term, "jobs": job})
 
+
+def member_detail(request, profile_id):
+    profile = Profile.objects.get(id = profile_id)
+    carrers = User_carrer.objects.filter(user_id = profile.user_id)
+    user_links = User_link.objects.filter(user_id = profile.user_id)
+    user_files = User_file.objects.filter(user_id = profile.user_id)
+    return render(request, "member_detail.html", {"profile":profile, "carrers":carrers,
+                "user_links": user_links, "user_files": user_files})
+
 def member_detail_back(request, profile_id):
     profile = Profile.objects.get(id = profile_id)
     carrers = User_carrer.objects.filter(user_id = profile.user_id)
