@@ -9,9 +9,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
 </head>
 <body>
     {% include 'navbar.html' %}
+    <div class="home-slide-container">
+        <div class="home-slide-item fade" style="display: block;">
+            <div class="home-slide-img-container">
+                <img class="home-slide-img" src="{% static 'image/home_slide_img_1.jpg' %}" alt="">
+            </div>
+        </div>
+        <div class="home-slide-item fade">
+            <div class="home-slide-img-container">
+                <img class="home-slide-img" src="{% static 'image/home_slide_img_2.jpg' %}" alt="">
+            </div>
+            
+        </div>
+        <div class="home-slide-item fade">
+            <div class="home-slide-img-container">
+                <img class="home-slide-img" src="{% static 'image/home_slide_img_3.jpg' %}" alt="">
+            </div>
+        </div>
+        <div class="home-slide-item fade">
+            <div class="home-slide-img-container">
+                <img class="home-slide-img" src="{% static 'image/home_slide_img_4.jpg' %}" alt="">
+            </div>
+        </div>
+        <div class="home-slide-item fade">
+            <div class="home-slide-img-container">
+                <img class="home-slide-img" src="{% static 'image/home_slide_img_5.jpg' %}" alt="">
+            </div>
+        </div>
+        <a class="home-slide-prev" onclick="plusSlide(-1)">&#10094;</a>
+        <a class="home-slide-next" onclick="plusSlide(1)">&#10095;</a>
+        <div class="home-slide-dot-container">
+            <span class="home-slide-dot" onclick="currentSlide(1)"></span>
+            <span class="home-slide-dot" onclick="currentSlide(2)"></span>
+            <span class="home-slide-dot" onclick="currentSlide(3)"></span>
+            <span class="home-slide-dot" onclick="currentSlide(4)"></span>
+            <span class="home-slide-dot" onclick="currentSlide(5)"></span>
+        </div>
+    </div>
+
+    <div class="home-info-container margin">
+    
+    </div>
     {% include 'footer.html' %}
+    <script type="text/javascript" src="{% static 'js/home.js' %}"></script>
 </body>
 </html>
