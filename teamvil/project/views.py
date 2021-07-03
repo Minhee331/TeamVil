@@ -8,7 +8,14 @@ def team_detail(request):
     return render(request, "team_detail.html")
 
 def team_search(request):
-    return render(request, "team_search.html")
+    projects = Project.objects.all()
+    field1 = Field1.objects.all() # 대분야 (ex IT)
+    mbti = Mbti.objects.all()
+    region2 = Region2.objects.all() # ~시 (서울만 ~구)
+    term = Term.objects.all()
+    job = Job.objects.all()
+    return render(request, "team_search.html", {'projects':projects, "field1s":field1, "mbtis" : mbti, 
+                                                    "region2s": region2, "terms": term, "jobs": job})
 
 def team_search_back(request):
     projects = Project.objects.all()
