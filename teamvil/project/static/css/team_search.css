@@ -1,6 +1,75 @@
-/* button */
-.button-container {
+/* input {
+    display: block;
+    padding: 10px;
+} */
 
+.team_search-main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
 }
 
-/*  */
+.team_search-filter-container {
+    width: 320px;
+}
+
+.team_search-filter-item-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.team_search-filter-active {
+    display: flex;
+    justify-content: space-between;
+}
+
+.team_search-filter-title {
+    margin-bottom: 10px;
+}
+
+.team_search-chevron {
+    width: 20px;
+    height: 20px;
+}
+
+.team_search-filter-item-list {
+    display: flex;
+    align-items: center;
+    margin-bottom: 7px;
+}
+
+.team_search-team-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.team_search-team-item {
+    width: 324.985px;
+    height: 371.8875px;
+    border: 1px solid #D7D7D7;
+    border-radius: 1px;
+    margin-left: 31.65px;
+    margin-bottom: 20px;
+}
+
+.team_search-team-image {
+    width: 324.985px;
+    height: 212.055px;
+    border-radius: 1px;
+}
+
+.team_search-team-item-text {
+    padding: 10px 20px;
+    line-height: 25px;
+}
+
+.team_search-team-item-title {
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.team_search-team-item-content {
+    font-size: 12px;
+}

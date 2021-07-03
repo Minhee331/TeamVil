@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+{% load custom_tags %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/member_search.css' %}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <section class="margin">
+
+    </section>
+
+    <section class="member_search-main-container margin">
+        <aside>
+
+        </aside>
+
+        <main class="member_search-member-container">
+            {% for profile in profiles %}
+                <article class="member_search-member-item">
+                    <!-- <p>
+                        {% if profile.state == 1 %}
+                            팀 찾는 중
+                        {% elif profile.state == 2 %}
+                            휴식 중
+                        {% else %}
+                            팀 참여 중
+                        {% endif %}
+                    </p> -->
+
+                    <div class="member_search-member-profile-container">
+                        <div class="member_search-member-name-container">
+                            <img class="member_search-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+                            <p>{{profile.name}}</p>
+                        </div>
+
+                        <p>성격유형 : {{profile.mbti_id.mbti}}</p>
+                    </div>
+
+                    <p>관심분야 : {{profile.field1_id.field1}}</p>
+                    <p>선호 프로젝트 : 
+                        {% if profile.type == 0 %}
+                            창업
+                        {% elif profile.type == 1 %}
+                            공모전
+                        {% else %}
+                            프로젝트
+                        {% endif %}
+                    </p>
+                    <p>선호 기간 : </p>
+
+                    <hr>
+
+                    <p>나이 : {% getAge profile.birthday %}</p>
+                    <p>직업 : {{ profile.job_id.job }}</p>
+                    <p>지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
+                </article>
+            {% endfor %}
+            {% for profile in profiles %}
+                <article class="member_search-member-item">
+                    <!-- <p>
+                        {% if profile.state == 1 %}
+                            팀 찾는 중
+                        {% elif profile.state == 2 %}
+                            휴식 중
+                        {% else %}
+                            팀 참여 중
+                        {% endif %}
+                    </p> -->
+
+                    <div class="member_search-member-profile-container">
+                        <div class="member_search-member-name-container">
+                            <img class="member_search-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+                            <p>{{profile.name}}</p>
+                        </div>
+
+                        <p>성격유형 : {{profile.mbti_id.mbti}}</p>
+                    </div>
+
+                    <p>관심분야 : {{profile.field1_id.field1}}</p>
+                    <p>선호 프로젝트 : 
+                        {% if profile.type == 0 %}
+                            창업
+                        {% elif profile.type == 1 %}
+                            공모전
+                        {% else %}
+                            프로젝트
+                        {% endif %}
+                    </p>
+                    <p>선호 기간 : </p>
+
+                    <hr>
+
+                    <p>나이 : {% getAge profile.birthday %}</p>
+                    <p>직업 : {{ profile.job_id.job }}</p>
+                    <p>지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
+                </article>
+            {% endfor %}
+        </main>
+    </section>
+</body>
+</html>
