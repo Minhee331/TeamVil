@@ -143,24 +143,48 @@
 
         <main class="team_search-team-container">
             {% for project in projects %}
-                <article class="team_search-team-item">
-                    <img class="team_search-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
+                <a href="{% url 'team_detail' project.id %}">
+                    <article class="team_search-team-item">
+                        <img class="team_search-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
 
-                    <div class="team_search-team-item-text">
-                        <p class="team_search-team-item-title spoqa-medium">{{project.title}}</p>
-                        <p class="team_search-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
-                        <p class="team_search-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
-                        <p class="team_search-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
-                            {% if project.state == 1%}
-                                (모집중)
-                            {% else %}
-                                (모집완료)
-                            {% endif %}
-                        </p>
-                        <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
-                    </div>
-                    
-                </article>
+                        <div class="team_search-team-item-text">
+                            <p class="team_search-team-item-title spoqa-medium">{{project.title}}</p>
+                            <p class="team_search-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
+                            <p class="team_search-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
+                            <p class="team_search-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
+                                {% if project.state == 1%}
+                                    (모집중)
+                                {% else %}
+                                    (모집완료)
+                                {% endif %}
+                            </p>
+                            <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
+                        </div>
+                        
+                    </article>
+                </a>
+            {% endfor %}
+            {% for project in projects %}
+                <a href="{% url 'team_detail' project.id %}">
+                    <article class="team_search-team-item">
+                        <img class="team_search-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
+
+                        <div class="team_search-team-item-text">
+                            <p class="team_search-team-item-title spoqa-medium">{{project.title}}</p>
+                            <p class="team_search-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
+                            <p class="team_search-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
+                            <p class="team_search-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
+                                {% if project.state == 1%}
+                                    (모집중)
+                                {% else %}
+                                    (모집완료)
+                                {% endif %}
+                            </p>
+                            <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
+                        </div>
+                        
+                    </article>
+                </a>
             {% endfor %}
         </main>
     </section>

@@ -173,44 +173,88 @@
 
         <main class="member_search-member-container">
             {% for profile in profiles %}
-                <article class="member_search-member-item">
-                    <!-- <p>
-                        {% if profile.state == 1 %}
-                            팀 찾는 중
-                        {% elif profile.state == 2 %}
-                            휴식 중
-                        {% else %}
-                            팀 참여 중
-                        {% endif %}
-                    </p> -->
+                <a href="{% url 'member_detail' profile.id %}">
+                    <article class="member_search-member-item">
+                        <!-- <p>
+                            {% if profile.state == 1 %}
+                                팀 찾는 중
+                            {% elif profile.state == 2 %}
+                                휴식 중
+                            {% else %}
+                                팀 참여 중
+                            {% endif %}
+                        </p> -->
 
-                    <div class="member_search-member-profile-container">
-                        <div class="member_search-member-name-container">
-                            <img class="member_search-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-                            <p class="spoqa-bold">{{profile.name}}</p>
+                        <div class="member_search-member-profile-container">
+                            <div class="member_search-member-name-container">
+                                <img class="member_search-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+                                <p class="spoqa-bold">{{profile.name}}</p>
+                            </div>
+
+                            <p class="spoqa-medium">MBTI : {{profile.mbti_id.mbti}}</p>
                         </div>
 
-                        <p class="spoqa-medium">MBTI : {{profile.mbti_id.mbti}}</p>
-                    </div>
+                        <p class="spoqa-medium">관심분야 : {{profile.field1_id.field1}}</p>
+                        <p class="spoqa-medium">선호 프로젝트 : 
+                            {% if profile.type == 0 %}
+                                창업
+                            {% elif profile.type == 1 %}
+                                공모전
+                            {% else %}
+                                프로젝트
+                            {% endif %}
+                        </p>
+                        <p class="spoqa-medium">선호 기간 : </p>
 
-                    <p class="spoqa-medium">관심분야 : {{profile.field1_id.field1}}</p>
-                    <p class="spoqa-medium">선호 프로젝트 : 
-                        {% if profile.type == 0 %}
-                            창업
-                        {% elif profile.type == 1 %}
-                            공모전
-                        {% else %}
-                            프로젝트
-                        {% endif %}
-                    </p>
-                    <p class="spoqa-medium">선호 기간 : </p>
+                        <hr>
 
-                    <hr>
+                        <p class="spoqa-regular">나이 : {% getAge profile.birthday %}</p>
+                        <p class="spoqa-regular">직업 : {{ profile.job_id.job }}</p>
+                        <p class="spoqa-regular">지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
+                    </article>
+                </a>
+            {% endfor %}
+            {% for profile in profiles %}
+                <a href="{% url 'member_detail' profile.id %}">
+                    <article class="member_search-member-item">
+                        <!-- <p>
+                            {% if profile.state == 1 %}
+                                팀 찾는 중
+                            {% elif profile.state == 2 %}
+                                휴식 중
+                            {% else %}
+                                팀 참여 중
+                            {% endif %}
+                        </p> -->
 
-                    <p class="spoqa-regular">나이 : {% getAge profile.birthday %}</p>
-                    <p class="spoqa-regular">직업 : {{ profile.job_id.job }}</p>
-                    <p class="spoqa-regular">지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
-                </article>
+                        <div class="member_search-member-profile-container">
+                            <div class="member_search-member-name-container">
+                                <img class="member_search-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+                                <p class="spoqa-bold">{{profile.name}}</p>
+                            </div>
+
+                            <p class="spoqa-medium">MBTI : {{profile.mbti_id.mbti}}</p>
+                        </div>
+
+                        <p class="spoqa-medium">관심분야 : {{profile.field1_id.field1}}</p>
+                        <p class="spoqa-medium">선호 프로젝트 : 
+                            {% if profile.type == 0 %}
+                                창업
+                            {% elif profile.type == 1 %}
+                                공모전
+                            {% else %}
+                                프로젝트
+                            {% endif %}
+                        </p>
+                        <p class="spoqa-medium">선호 기간 : </p>
+
+                        <hr>
+
+                        <p class="spoqa-regular">나이 : {% getAge profile.birthday %}</p>
+                        <p class="spoqa-regular">직업 : {{ profile.job_id.job }}</p>
+                        <p class="spoqa-regular">지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
+                    </article>
+                </a>
             {% endfor %}
         </main>
     </section>
