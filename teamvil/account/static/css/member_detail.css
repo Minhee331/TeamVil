@@ -1,6 +1,13 @@
+.member-all {
+    display: flex;
+    justify-content: center;
+}
+
 .member-container {
     margin: 91px 479px 0;
     display: flex;
+    justify-content: space-between;
+    width: 570px;
 }
 
 .member-profileimg {
@@ -12,17 +19,15 @@
 
 .member-profile {
     width: 266px;
-    margin-right: 27px;
     border-top: 1px solid #ebebeb;
     border-right: 1px solid #ebebeb;
     border-left: 1px solid #ebebeb;
-    box-shadow: 0px 4px 4px #ebebeb;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-hr {   
+.member-profile-line {   
     margin: 0px auto;
     width: 70%;
-    border: 1px solid #000000;
 }
 
 .member-profile-important {
@@ -50,20 +55,105 @@ hr {
     font-size: 12.66px;
 }
 
-.member-profile-etc-container {
+.member-profile-more-container {
     width: 266px;
-    border-top: 1px solid #ebebeb;
-    border-right: 1px solid #ebebeb;
-    border-left: 1px solid #ebebeb;
-    box-shadow: 0px 4px 4px #ebebeb;
+    border-top: 1px solid #0F4C81;
+    border-right: 1px solid #0F4C81;
+    border-left: 1px solid #0F4C81;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    background-color: #0F4C81;
+    color: #ffffff;
 }
 
-.member-profile-etc-title {
+.member-profile-more {
+    padding: 47.475px 35px;
+}
+
+.member-profile-more p {
+    padding: 10px 10.5px;
+}
+
+.member-profile-more-title {
+    display: inline-block;
+    width: 63px;
     font-size: 14.24px;
     font-weight: bold;
     padding-right: 14.24px;
 }
 
-.member-profile-etc-body {
+.member-profile-more-line {
+    margin: 5px auto;
+    width: 100%;
+}
+
+
+.member-profile-more-body {
     font-size: 12.66px;
+}
+
+.invite {
+    position: fixed;
+    top: 450px;
+    left: 1200px;
+    width: 100px;
+    height: 24.52875px;
+    border: 1px solid #ffffff;
+    padding: 5px 13px;
+    color: #ffffff;  
+    font-size: 10px;
+    background-color: #0f59ff;
+    margin-left: auto;
+}
+
+.invite:hover {
+    background-color: #ffffff;
+    color: #0f59ff;
+    border-color: #0f59ff; 
+    cursor: pointer; 
+}
+
+.message {
+    position: fixed;
+    top: 450px;
+    left: 1300px;
+    width: 72.795px;
+    height: 24.52875px;
+    border: 1px solid #0f59ff;
+    padding: 5px 13px;
+    color: #0f59ff;  
+    font-size: 10px;
+    background-color: #ffffff;
+    margin-left: auto;
+}
+
+.message:hover {
+    background-color: #0f59ff;
+    color: #ffffff; 
+    cursor: pointer; 
+}
+
+.member-profile-middleline {
+    margin: 57px auto;
+    width: 80%;
+    border-color: #ebebeb;
+}
+
+.member-profile-etc {
+    margin: 30px 500px 45px;
+}
+
+.member-profile-etc p {
+    padding: 12px 0;
+}
+
+.member-profile-etc-title {
+    display: inline-block;
+    width: 83px;
+    font-size: 19px;
+    font-weight: bold;
+    padding-right: 10px;
+}
+
+.member-profile-etc-body {
+    margin-left: 50px;
 }

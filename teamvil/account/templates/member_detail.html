@@ -13,80 +13,129 @@
 </head>
 <body>
 {% include 'navbar.html' %}
+<div class="member-all">
+    <div class="member-container">
+        <div class="member-profile">
+            <img src="{% static 'image/profile.jpeg' %}" class="member-profileimg">
+            <hr class="member-profile-line">
+            <div class="member-profile-important">
+            <h1>{{profile.name}}</h1>
+                <p>
+                    <span class="member-profile-title">직업</span><span class="member-profile-body">{{profile.job_id.job}}</span>
+                </p>
+                <p>
+                    <span class="member-profile-title">나이</span><span class="member-profile-body">{% getAge profile.birthday %}세</span>
+                </p>
+                <p>
+                    <span class="member-profile-title">지역</span><span class="member-profile-body">{{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</span>
+                </p>
+                <p>
+                    <span class="member-profile-title">상태</span>
+                    <span class="member-profile-body">
+                    {% if profile.state == 1 %}
+                        팀 찾는 중
+                    {% elif profile.state == 2 %}
+                        휴식 중
+                    {% else %}
+                        팀 참여 중
+                    {% endif %}</span>
+                </p>
+            </div>
+        </div>
 
-<div class="member-container">
-    <div class="member-profile">
-        <img src="{% static 'image/profile.jpeg' %}" class="member-profileimg">
-        <hr>
-        <div class="member-profile-important">
-        <h1>{{profile.name}}</h1>
-            <p>
-                <span class="member-profile-title">직업</span><span class="member-profile-body">{{profile.job_id.job}}</span>
-            </p>
-            <p>
-                <span class="member-profile-title">나이</span><span class="member-profile-body">24세</span>
-            </p>
-            <p>
-                <span class="member-profile-title">지역</span><span class="member-profile-body">{{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</span>
-            </p>
-            <p>
-                <span class="member-profile-title">상태</span>
-                <span class="member-profile-body">
-                {% if profile.state == 1 %}
-                    팀 찾는 중
-                {% elif profile.state == 2 %}
-                    휴식 중
-                {% else %}
-                    팀 참여 중
-                {% endif %}</span>
-            </p>
+
+        <div class="member-profile-more-container">
+            
+            <div class="member-profile-more">
+                <p>
+                    <span class="member-profile-more-title">관심 분야</span><span class="member-profile-more-body">{{profile.field1_id.field1}}</span>
+                </p>
+                <p>
+                    <span class="member-profile-more-title">기간</span><span class="member-profile-more-body">{{profile.term_id.term}}</span>
+                </p>
+                <hr class="member-profile-more-line">
+                <p>
+                    <span class="member-profile-more-title">MBTI</span><span class="member-profile-more-body">{{profile.mbti_id.mbti}}</span>
+                </p>
+                {% if profile.mbti_detail == None %}
+                <p>{{profile.mbti_detail}}</p>
+                {% endif %}
+                <hr class="member-profile-more-line">
+                <p>
+                    <span class="member-profile-more-title">연락처</span>
+                    <span class="member-profile-body">
+                        {% if profile.open_phone %}
+                        <span>{{profile.phone}}</span>
+                        {% else %}
+                        <span>비공개</span>
+                        {% endif %}
+                    </span>
+                </p>
+                <p>
+                    <span class="member-profile-more-title">이메일</span>
+                    <span class="member-profile-body">
+                        {% if profile.open_email %}
+                        <span>{{profile.email}}</span>
+                        {% else %}
+                        <span>비공개</span>
+                        {% endif %}
+                    </span>
+                </p>
+            </div>
         </div>
     </div>
-
-
-    <div class="member-profile-etc-container">
-        
-        <div class="member-profile-etc">
-            <p>
-                <span class="member-profile-etc-title">관심분야</span><span class="member-profile-etc-body">{{profile.field1_id.field1}}</span>
-            </p>
-            <p>
-                <span class="member-profile-etc-title">기간</span><span class="member-profile-etc-body">{{profile.term_id.term}}</span>
-            </p>
-            <hr>
-            <p>
-                <span class="member-profile-etc-title">MBTI</span><span class="member-profile-etc-body">{{profile.mbti_id.mbti}}</span>
-            </p>
-            {% if profile.mbti_detail == None %}
-            <p>{{profile.mbti_detail}}</p>
-            {% endif %}
-            <hr>
-            <p>
-                <span class="member-profile-etc-title">연락처</span>
-                <span class="member-profile-body">
-                    {% if profile.open_phone %}
-                    <span>{{profile.phone}}</span>
-                    {% else %}
-                    <span>비공개</span>
-                    {% endif %}
-                </span>
-            </p>
-            <p>
-                <span class="member-profile-etc-title">이메일</span>
-                <span class="member-profile-body">
-                    {% if profile.open_email %}
-                    <span>{{profile.email}}</span>
-                    {% else %}
-                    <span>비공개</span>
-                    {% endif %}
-                </span>
-            </p>
-        </div>
-    </div>
-
-
-
 </div>
+
+<button type="button" class="invite">초대하기</button>
+<button type="button" class="message">메세지</button>
+<hr class="member-profile-middleline">
+
+
+
+<div class="member-profile-etc">
+    <p>
+    <p class="member-profile-etc-title">PR</p>
+    <p class="member-profile-etc-body">
+    {% if profile.pr == None %}
+    {{profile.pr}}
+    {% endif %}
+    </p>
+    </p>
+
+    <p>
+    <p class="member-profile-etc-title">경력</p>
+    <p class="member-profile-etc-body">
+    {% if profile.isCarrer %}
+    {% for carrer in carrers %}
+    {{carrer.start_date}} ~ {{carrer.end_date}} | {{carrer.content}}
+    {% endfor %}
+    {% endif %}
+    </p>
+    </p>
+
+    <p>
+    <p class="member-profile-etc-title">링크</p>
+    <p class="member-profile-etc-body">
+    {% if profile.isLink %}
+    {% for user_link in user_links %}
+    {{user_link.link}}
+    {% endfor %}
+    {% endif %}
+    </p>
+    </p>
+
+    <p>
+    <p class="member-profile-etc-title">파일</p>
+    <p class="member-profile-etc-body">
+    {% if profile.isFile %}
+    {% for user_file in user_files %}
+    {{user_file.file}}
+    {% endfor %}
+    {% endif %}
+    </p>
+    </p>
+</div>
+
 
 
 {% include 'footer.html' %}  

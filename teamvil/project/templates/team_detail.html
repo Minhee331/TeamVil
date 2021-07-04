@@ -2,6 +2,7 @@
 <html lang="en">
 
 {% load static %}
+{% load custom_tags %}
 
 <head>
     <meta charset="UTF-8">
@@ -18,86 +19,105 @@
 <div class="team-container">
     <div class="team-name">
         <header>
-            <h1 class="team-title">신뢰할 수 있는 팀원모집 플랫폼</h1>
-            <span id="team-type">프로젝트</span>
-            <span>|</span>
-            <span id="team-fidld1">IT-웹 개발</span>
-            <p class="team-leader">by 박민희</p>
+            <h1 class="team-title">{{project.title}}</h1>
+            <span id="team-type">
+            {% if project.type == 0 %}
+            창업 | {{project.field1_id.field1}}
+            {% elif project.type == 1 %}
+            공모전 | {{project.field1_id.field1}}
+            {% else %}
+            프로젝트 | {{project.field1_id.field1}}
+            {% endif %}
+            </span>
+
+            <p class="team-leader">by {{profile.name}}</p>
         </header>
     </div>
 
     <div class="team-info">
         <div class="team-desc">
             <p>
-            환경보호를 위한 공유서비스를 만들고자 시작한 프로젝트입니다.
+            {{project.desc}}
             </p>
         </div>
-        <span id="">2021.05 ~ 미정</span>
-        <span>|</span>
-        <span id="">서울특별시</span>
-        <span>|</span>
-        <span id="">모집중</span>
+        <span>{{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}} | {{ project.region2_id }} | 
+        {% if project.state == 0 %}
+            모집완료
+        {% else %}
+            모집 중
+        {% endif %}
+        </span>
     </div>
     <div class="team-content-container">
         <div class="team-content">
             <p class="team-content-title">소개<p>
             <p class="team-content-body">
-            incidunt euismod blandit sed viverra dignissim. Arcu erat vitae eget magna nullam. Facilisis vitae, potenti purus, sit tristique pretium amet.
-
-            Morbi nisi a in risus porttitor in hendrerit gravida posuere. Massa eget in pharetra eu imperdiet lectus adipiscing. Quisque lorem leo felis in fermentum, facilisi. Id nulla orci nascetur ut mi. Eu lorem faucibus praesent etiam cras commodo. Sed morbi rhoncus sed porttitor varius nulla.
-            Sed quis consequat amet vitae at posuere. Quis pharetra arcu mi posuere dapibus non velit nibh. Dictum magna egestas lectus ipsum non orci. Interdum volutpat maecenas tempus purus netus purus imperdiet. Massa, blandit tellus gravida vulputate elementum malesuada gravida. Donec vitae non hendrerit tortor in turpis id. Volutpat in commodo sagittis, volutpat condimentum varius sodales. Morbi egestas commodo nunc dignissim neque semper adipiscing sapien egestas. Auctor pretium tempus et tortor amet, donec quam. Nunc tincidunt malesuada facilisi est neque hendrerit id eu magna.
-
-            Imperdiet fringilla quam nibh pellentesque lectus id. Purus in placerat et nunc felis, ridiculus convallis et dis. Eleifend pretium in metus eget consequat turpis tempor in. Magna quis egestas lobortis gravida convallis cras aliquam. Pulvinar cursus feugiat sapien, donec vitae mi. Magna sagittis phasellus nulla porttitor mi aenean.
-            Ridiculus pulvinar faucibus lectus eros cras. Potenti arcu convallis lectus ac nunc, enim. Ut in amet vel rhoncus ipsum faucibus nisi vitae eu. Consectetur scelerisque posuere commodo integer a sit vitae aliquet. Amet, aliquet nunc, interdum amet senectus a nulla turpis. Ac id tristique nunc sit fusce. Non ipsum vitae sed nisi cursus proin aliquet neque id. Semper enim magna leo dolor vestibulum auctor ornare enim. Diam facilisis nulla elit risus arcu at aliquet odio. Pretium in volutpat, enim diam tellus. Pellentesque quis neque vel, est egestas non tellus lorem morbi. Ut nunc id consectetur pellentesque proin malesuada amet. Aliquam, faucibus justo, non nibh fermentum ac, euismod mattis. Cras lectus sem et, pellentesque tortor elementum, nam nisi. Fringilla ullamcorper viverra morbi amet mi mi.
-
-            Eu a orci viverra neque, orci vivamus viverra quam penatibus. Non iaculis elementum sed arcu sed. Duis interdum non sed dolor. Eget sit mattis in adipiscing consequat, velit. Nunc proin donec massa tellus non commodo vestibulum. Non gravida urna pharetra velit. Enim, dignissim diam eu tincidunt aenean. Interdum dictumst parturient sed neque viverra. Quis in ac id purus neque. Bibendum luctus diam augue eu blandit molestie mauris consequat, purus. Viverra hac cursus sed semper. Neque enim nibh feugiat aliquet sapien urna, id tellus. Velit eget consequat ac quam at laoreet nisi ullamcorper.
-            Sit id nullam dui, mi ultrices diam in. Lectus tristique orci, vivamus in mollis tincidunt sapien. Nunc, ut id sed tincidunt. Sed suspendisse pretium metus eu nec. Euismod commodo et, nisi integer.
-
-
-            Cum massa adipiscing volutpat sit odio pretium blandit ultricies. Risus habitasse tempus molestie vitae hac dictum quam lobortis lectus. Mauris, sed faucibus urna, quis sit. In blandit vel suspendisse id velit. Cras ut arcu molestie mattis. Vel lorem eu in auctor sit scelerisque blandit pretium. Nibh rhoncus elit, non bibendum mauris dui elit. Aliquam consequat faucibus lectus ornare sed auctor enim dolor, egestas. Proin laoreet condimentum dignissim pharetra nulla sit vivamus.
-
-            s gravida convallis cras aliquam. Pulvinar cursus feugiat sapien, donec vitae mi. Magna sagittis phasellus nulla porttitor mi aenean.
-            Ridiculus pulvinar faucibus lectus eros cras. Potenti arcu convallis lectus ac nunc, enim. Ut in amet vel rhoncus ipsum faucibus nisi vitae eu. Consectetur scelerisque posuere commodo integer a sit vitae aliquet. Amet, aliquet nunc, interdum amet senectus a nulla turpis. Ac id tristique nunc sit fusce. Non ipsum vitae sed nisi cursus proin aliquet neque id. Semper enim magna leo dolor vestibulum auctor ornare enim. Diam facilisis nulla elit risus arcu at aliquet odio. Pretium in volutpat, enim diam tellus. Pellentesque quis neque vel, est egestas non tellus lorem morbi. Ut nunc id c
-
-            vitae at posuere. Quis pharetra arcu mi posuere dapibus non velit nibh. Dictum magna egestas lectus ipsum non orci. Interdum volutpat maecenas tempus purus netus purus imperdiet. Massa, blandit tellus gravida vulputate elementum malesuada gravida. Donec vitae non hendrerit tortor in turpis id. Volutpat in commodo sagittis, volutpat condimentum varius sodales. Morbi ege
+            {{project.content}}
             </p>
         </div>
 
         <div class="team-info-detail">
             <button type="button" class="team-apply">지원하기</button>
             <span class="team-info-detail-title">전체 팀 인원</span>
-            <p class="team-info-detail-body team-info-detail-title-margin">8명 중 3명 모집 완료</p>
-            <p class="team-info-detail-title">모집 중인 직무 및 인원</p>
-            <p class="team-info-detail-body">프론트 1 / 2</p>
-            <p class="team-info-detail-body">백엔드 0 / 2</p>
-            <p class="team-info-detail-body team-info-detail-title-margin">기획 0 / 1</p>
+            <p class="team-info-detail-body team-info-detail-title-margin">
+            {{project.mem_total}}명 중 {{project.mem_now}}명 모집 완료
+            </p>
+            <p class="team-info-detail-title">
+            모집 중인 직무 및 인원
+            </p>
+            <p class="team-info-detail-body team-info-detail-title-margin">
+            {% for duty in duties %}
+            {{duty.name}} | {{duty.now}} / {{duty.total}} 
+            <br>
+            {% endfor %}</p>
             <p class="team-info-detail-title">직무 설명</p>
-            <p class="team-info-detail-body">프론트</p>
+            {% for duty in duties %}
+            <p class="team-info-detail-body">
+            {{duty.name}}
+            </p>
             <p class="team-info-detail-content"> 
-            vitae at posuere. Quis pharetra arcu mi posuere dapibus non velit nibh. Dictum magna egestas lectus ipsum non orci. Interdum volutpat maecenas tempus purus netus purus imperdiet. Massa, blandit tellus gravida vulputate elementum malesuada gravida. Donec vitae non hen
-            </p>
-            <p class="team-info-detail-body">백엔드</p>
-            <p class="team-info-detail-content">
-            vitae at posuere. Quis pharetra arcu mi posuere dapibus non velit nibh. Dictum magna egestas lectus ipsum non orci. Interdum volutpat maecenas tempus purus netus purus imperdiet. Massa, blandit tellus gravida vulputate elementum malesuada gravida. Donec vitae non hen
-            </p>
-            <p class="team-info-detail-body">기획</p>
-            <p class="team-info-detail-content">
-            vitae at posuere. Quis pharetra arcu mi posuere dapibus non velit nibh. Dictum magna egestas lectus ipsum non orci. Interdum volutpat maecenas tempus purus netus purus imperdiet. Massa, blandit tellus gravida vulputate elementum malesuada gravida. Donec vitae non hen
+            {{duty.desc}}
+            {% endfor %}
             </p>
         </div>
     </div>
     <div class="team-info-etc">
         <p>
-        <span class="team-info-etc-title">학교</span><span class="team-info-etc-body">한국항공대학교</span><span class="team-info-etc-body1">교내프로젝트</span>
+        <span class="team-info-etc-title">학교</span>
+        <span class="team-info-etc-body">
+        {% if project.school != None %}
+        {{project.school}}
+        {% endif %}
+        </span>
+        <span class="team-info-etc-body1">교내프로젝트</span>
         </p>
         <p>
-        <span class="team-info-etc-title">학력 제한</span><span class="team-info-etc-body">고졸 이상</span>
+        <span class="team-info-etc-title">학력 제한</span>
+        <span class="team-info-etc-body">
+        {% if project.education == None %}
+        {{project.education_id.education}}
+        {% endif %}
+        </span>
         </p>
         <p>
-        <span class="team-info-etc-title">링크</span><span class="team-info-etc-body">teamvil.github</span>
+        <span class="team-info-etc-title">링크</span>
+        <span class="team-info-etc-body">
+        {% if project.isLink %}
+        {% for project_link in project_links %}
+        {{project_link}}
+        {% endfor %}
+        {% endif %}
+        </span>
         </p>
         <p>
-        <span class="team-info-etc-title">파일</span><span class="team-info-etc-body">참고사진.jpg</span>
+        <span class="team-info-etc-title">파일</span>
+        <span class="team-info-etc-body">
+        {% if project.isFile %}
+        {% for project_file in project_files %}
+        {{project_file}}
+        {% endfor %}
+        {% endif %}
+        </span>
         </p>
     </div>
 

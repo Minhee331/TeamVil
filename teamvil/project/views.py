@@ -4,8 +4,14 @@ from home.models import *
 from account.models import *
 
 # Create your views here.
-def team_detail(request):
-    return render(request, "team_detail.html")
+def team_detail(request, project_id):
+    project = Project.objects.get(id=project_id)
+    profile = Profile.objects.get(user_id = project.user_id)
+    project_links = Project_link.objects.filter(project_id = project_id)
+    project_files = Project_file.objects.filter(project_id = project_id)
+    duties = Duty.objects.filter(project_id = project_id)
+    return render(request, "team_detail.html", {'project':project, 'profile':profile, 
+                "project_links":project_links, "project_files":project_files, "duties": duties})
 
 def team_search(request):
     projects = Project.objects.all()
