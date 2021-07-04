@@ -32,17 +32,6 @@
                 </div>
             </div>
             {% endfor %}
-            {% for reg in profiles_reg %}
-            <div class="member_search-rec-member">
-                <img class="member_search-rec-image" src="{% static 'image/cloud.jpg' %}">
-
-                <div class="member_search-rec-info">
-                    <p class="member_search-rec-info-name spoqa-regular">{{reg.name}}</p>
-                    <p class="spoqa-light">관심분야 : {{reg.field1_id.field1}}</p>
-                    <p class="spoqa-light">MBTI : {{reg.mbti_id.mbti}}</p>
-                </div>
-            </div>
-            {% endfor %}
 
             <img class="member_search-chevron-right" src="{% static 'image/chevron-right.png' %}" alt="">
         </div>
@@ -166,9 +155,9 @@
                 </div>
             </div>
 
-            <button class="search">
-                <a href="{% url 'member_search' %}">검색</a>
-            </button>
+            <a class="a-search" href="{% url 'member_search' %}">
+                <button class="search spoqa-medium">검색</button>
+            </a>
         </aside>
 
         <main class="member_search-member-container">

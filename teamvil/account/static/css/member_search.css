@@ -112,6 +112,7 @@ hr {
     justify-content: space-between;
     font-size: 12px;
     line-height: 20px;
+    width: 1700px;
 }
 
 .member_search-member-item {
@@ -154,6 +155,13 @@ hr {
     border-radius: 3px;
 }
 
-.search a {
+.a-search {
     color: #0f59ff;
+}
+
+.search:hover {
+    background-color: #0f59ff;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    cursor: pointer;
 }

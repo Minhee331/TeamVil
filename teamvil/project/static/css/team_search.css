@@ -114,6 +114,7 @@ hr {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    width: 1700px;
 }
 
 .team_search-team-item {
@@ -164,6 +165,13 @@ hr {
     border-radius: 3px;
 }
 
-.search a {
+.a-search {
     color: #0f59ff;
+}
+
+.search:hover {
+    background-color: #0f59ff;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    cursor: pointer;
 }
