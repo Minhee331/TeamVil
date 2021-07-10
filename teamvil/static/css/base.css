@@ -8,26 +8,31 @@
     margin: 0px 118.6875px;
 }
 
-/* Spoca Han Sans
+/* Spoqa Han Sans Neo
     font-family: 'Spoqa Han Sans Neo', 'sans-serif';
-    font-weight: 100 300 400 700 */
+    font-weight: 100 300 400 500 700 */
 
-    .spoca-thin {
+    .spoqa-thin {
         font-family: 'Spoqa Han Sans Neo', 'sans-serif';
         font-weight: 100;
     }
 
-    .spoca-light {
+    .spoqa-light {
         font-family: 'Spoqa Han Sans Neo', 'sans-serif';
         font-weight: 300;
     }
 
-    .spoca-regular {
+    .spoqa-regular {
         font-family: 'Spoqa Han Sans Neo', 'sans-serif';
         font-weight: 400;
     }
 
-    .spoca-bold {
+    .spoqa-medium {
+        font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+        font-weight: 500;
+    }
+
+    .spoqa-bold {
         font-family: 'Spoqa Han Sans Neo', 'sans-serif';
         font-weight: 700;
     }
@@ -62,7 +67,7 @@ li a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 420px;
+    width: 400px;
     flex-shrink: 0;
 }
 
@@ -108,18 +113,25 @@ footer {
 
 .footer-link a {
     color: #ffffff;
+    font-size: 15px;
 }
 
 .footer-link p {
-    padding: 0 10px;
+    padding: 0 20px;
+    font-size: 15px;
 }
 
 .footer-info p {
     padding: 3px 0;
+    font-size: 15px;
 }
 
 .footer-copyright {
     display: flex;
     justify-content: flex-end;
     padding-bottom: 22.94625px;
+}
+
+.footer-copyright p {
+    font-size: 15px;
 }

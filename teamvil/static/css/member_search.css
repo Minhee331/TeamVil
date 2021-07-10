@@ -2,21 +2,121 @@ hr {
     margin: 15px 0;
 }
 
+/* rec */
+
+.member_search-rec-box {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    height: 200px;
+    border: 1px solid #D7D7D7;
+    min-width: 1000px;
+}
+
+.member_search-rec-title {
+    height: 50px;
+    border-bottom: 1px solid #D7D7D7;
+    text-align: center;
+    line-height: 50px;
+    margin-bottom: 25px;
+    font-size: 18px;
+}
+
+.member_search-rec-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.member_search-chevron-left {
+    display: block;
+    width: 60px;
+    height: 60px;
+}
+
+.member_search-rec-member {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.member_search-rec-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 100px;
+    margin-right: 20px;
+}
+
+.member_search-rec-info {
+    font-size: 12px;
+}
+
+.member_search-rec-info-name {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
 .member_search-main-container {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
+    margin-bottom: 100px;
 }
 
+/* filter */
+.team_search-filter-container {
+    width: 320px;
+}
+
+.team_search-filter-item-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.team_search-filter-active {
+    display: flex;
+    justify-content: space-between;
+}
+
+.team_search-filter-title {
+    margin-bottom: 10px;
+}
+
+.team_search-chevron {
+    width: 20px;
+    height: 20px;
+}
+
+.team_search-filter-item-list {
+    display: flex;
+    align-items: center;
+    margin-bottom: 7px;
+    font-size: 14px;
+}
+
+.team_search-filter-item-list input {
+    margin-right: 5px;
+}
+
+.hidden {
+    display: none;
+}
+
+.active {
+    display: block;
+}
+
+/* member */
 .member_search-member-container {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
     font-size: 12px;
     line-height: 20px;
+    width: 1700px;
 }
 
 .member_search-member-item {
-    width: 275px;
+    width: 255px;
     height: 222px;
     border: 1px solid #D7D7D7;
     border-radius: 1px;
@@ -31,7 +131,6 @@ hr {
     align-items: center;
     margin-bottom: 15px;
     font-size: 14px;
-    font-weight: bold;
 }
 
 .member_search-member-name-container {
@@ -44,4 +143,25 @@ hr {
     height: 50px;
     border-radius: 75px;
     margin-right: 15px;
+}
+
+.search {
+    display: block;
+    width: 100%;
+    padding: 5px;
+    margin-top: 15px;
+    background-color: #ffffff;
+    border: 2px solid #0f59ff;
+    border-radius: 3px;
+}
+
+.a-search {
+    color: #0f59ff;
+}
+
+.search:hover {
+    background-color: #0f59ff;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    cursor: pointer;
 }

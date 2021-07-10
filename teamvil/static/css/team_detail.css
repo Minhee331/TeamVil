@@ -1,7 +1,7 @@
 .team-container {
     margin: 0 118.6875px;
-    display: inline-grid;
-    grid-template-columns: repeat(auto-fit);
+    /* display: inline-grid; */
+    /* grid-template-columns: repeat(auto-fit); */
 }
 
 
@@ -9,7 +9,7 @@
     margin: 10.28625px 0 19.78125px;
     display: grid;
     justify-content: center;
-    width: 1345.625px;
+    width: 100%;
     height: 504.02625px;
     left: 150px;
     top: 75px;
@@ -80,6 +80,7 @@ header {
 }
 
 .team-content-container {
+    display: flex;
     border-top: 0;
     border-bottom: 1px #ebebeb solid;
     border-right: 0px;
@@ -125,6 +126,12 @@ header {
     margin-left: auto;
 }
 
+.team-apply:hover {
+    background-color: #0f59ff;
+    color: #ffffff; 
+    cursor: pointer; 
+}
+
 .team-info-detail-title {
     font-size: 19px;
     font-weight: bold;
@@ -153,6 +160,7 @@ header {
 }
 
 .team-info-etc-title {
+    display: inline-block;
     width: 83px;
     font-size: 19px;
     font-weight: bold;

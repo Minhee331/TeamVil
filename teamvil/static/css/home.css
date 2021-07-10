@@ -2,6 +2,7 @@
     box-sizing: border-box;
 }
 
+/* slide */
 .home-slide-container{
     position: relative;
     width: 100%;
@@ -69,4 +70,126 @@
 @keyframes fade {
     from {opacity: 0.8}
     to {opacity: 1}
+}
+
+/* team & member head */
+.home-latest-team-head{
+    justify-self: flex-start;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+.home-latest-team-head-text{
+    /* margin-left: 31.65px; */
+    font-size: 16px;
+}
+
+.home-latest-member-head{
+    justify-self: flex-end;
+    margin-top: 40px;
+    margin-bottom: 10px;
+}
+.home-latest-member-head-text{
+    /* margin-right: 63.3px;
+    margin-left: 5px; */
+    margin-left: 30px;
+    font-size: 16px;
+}
+
+/* team & member container */
+.home-latest-info-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 100px;
+}
+
+/* team */
+.home-latest-team-container {
+    margin-right: 80px;
+    display: flex;
+    flex:1.3;
+    flex-direction: column;
+}
+.home-latest-team-table{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.home-latest-team-item {
+    width: 324.985px;
+    height: 371.8875px;
+    border: 1px solid #D7D7D7;
+    border-radius: 1px;
+    /* margin-left: 31.65px; */
+    margin-bottom: 20px;
+}
+
+.home-latest-team-image {
+    width: 324.985px;
+    height: 212.055px;
+    border-radius: 1px;
+}
+
+.home-latest-team-item-text {
+    padding: 10px 20px;
+    line-height: 25px;
+}
+
+.home-latest-team-item-title {
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.home-latest-team-item-content {
+    font-size: 12px;
+}
+
+/* member */
+.home-latest-member-container {
+    display: flex;
+    flex:1;
+    flex-direction: column;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+.home-latest-member-table{
+    display: flex;
+    flex: 1.1;
+    justify-content:space-between;
+    flex-wrap: wrap;
+}
+
+.home-latest-member-item {
+    display: inline-table;
+    width: 227.88px;
+    height: 177.24px;
+    border: 1px solid #D7D7D7;
+    border-radius: 1px;
+    padding: 27px;
+    margin-left: 30px;
+    /* margin-right: 31.65px; */
+    margin-bottom: 20px;
+}
+
+.home-latest-member-profile-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.home-latest-member-name-container {
+    display: flex;
+    align-items: center;
+}
+
+.home-latest-member-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 75px;
+    margin-right: 15px;
 }
