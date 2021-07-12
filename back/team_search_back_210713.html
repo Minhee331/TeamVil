@@ -2,7 +2,6 @@
 <html lang="en">
 
 {% load static %}
-{% load custom_tags %}
 
 <head>
     <meta charset="UTF-8">
@@ -10,25 +9,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/member_search.css' %}">
+    <link rel="stylesheet" href="{% static 'css/team_search.css' %}">
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 <body>
     {% include 'navbar.html' %}
-    <section class="member_search-rec-box margin">
-        <p class="member_search-rec-title spoqa-regular">recommended member</p>
+    <section class="team_search-category-container margin">
+
+    </section>
+
+    <section class="member_search-rec-box margin margin">
+        <p class="member_search-rec-title spoqa-regular">recommended project</p>
 
         <div class="member_search-rec-container">
             <img class="member_search-chevron-left" src="{% static 'image/chevron-left.png' %}" alt="">
 
-            {% for reg in profiles_reg %}
+            {% for reg in projects_reg %}
             <div class="member_search-rec-member">
                 <img class="member_search-rec-image" src="{% static 'image/cloud.jpg' %}">
 
                 <div class="member_search-rec-info">
-                    <p class="member_search-rec-info-name spoqa-regular">{{reg.name}}</p>
-                    <p class="spoqa-light">관심분야 : {{reg.field1_id.field1}}</p>
-                    <p class="spoqa-light">MBTI : {{reg.mbti_id.mbti}}</p>
+                    <p class="member_search-rec-info-name spoqa-regular">{{reg.title}}</p>
+                    <p class="spoqa-light">분야 : {{reg.field1_id.field1}}</p>
+                    <p class="spoqa-light">기간: {{reg.start_date|date:"Y-m-d"}} ~ {{reg.end_date|date:"Y-m-d"}}</p>
+                    <p class="spoqa-light">지역: {{reg.region1_id.region1}} {{reg.region2_id.region2}}</p>
                 </div>
             </div>
             {% endfor %}
@@ -37,16 +41,11 @@
         </div>
     </section>
 
-    <form mothod="POST">
-        {%csrf_token%} 
-        {% if not }
-    </form>
-
-    <section class="member_search-main-container margin">
+    <section class="team_search-main-container margin">
         <aside class="team_search-filter-container">
             <div class="team_search-filter-item-container">
                 <div class="team_search-filter-active">
-                    <p class="team_search-filter-title spoqa-medium">관심분야</p>
+                    <p class="team_search-filter-title spoqa-medium">분야</p>
                     <div value="field1" class="drop_btn">
                         <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
                     </div>
@@ -100,7 +99,7 @@
                 <hr>
 
                 <div class="team_search-filter-active">
-                    <p class="team_search-filter-title spoqa-medium">선호 기간</p>
+                    <p class="team_search-filter-title spoqa-medium">기간</p>
                     <div value="term" class="drop_btn">
                         <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
                     </div>
@@ -118,7 +117,7 @@
                 <hr>
         
                 <div class="team_search-filter-active">
-                    <p class="team_search-filter-title spoqa-medium">참여 상태</p>
+                    <p class="team_search-filter-title spoqa-medium">모집 상태</p>
                     <div value="state" class="drop_btn">
                         <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
                     </div>
@@ -127,36 +126,13 @@
                 <div class="hidden" id="state">
                     <div class="team_search-filter-item-list spoqa-light">
                         <input type="checkbox" value='1' class="state">
-                        <span>팀 찾는 중</span>
-                    </div>
-
-                    <div class="team_search-filter-item-list spoqa-light">
-                        <input type="checkbox" value='2' class="state">
-                        <span>휴식 중</span>
+                        <span>모집중</span>
                     </div>
 
                     <div class="team_search-filter-item-list spoqa-light">
                         <input type="checkbox" value='0' class="state">
-                        <span>팀 참여 중</span>
+                        <span>모집완료</span>
                     </div>
-                </div>
-
-                <hr>
-    
-                <div class="team_search-filter-active">
-                    <p class="team_search-filter-title spoqa-medium">직업</p>
-                    <div value="job" class="drop_btn">
-                        <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
-                    </div>
-                </div>
-
-                <div class="hidden" id="job">
-                    {% for job in jobs %}
-                    <div class="team_search-filter-item-list spoqa-light">
-                        <input type="checkbox" value='{{job.id}}' class="job">
-                        <span>{{job.job}}</span>
-                    </div>
-                    {% endfor %}
                 </div>
             </div>
 
@@ -165,88 +141,48 @@
             </a>
         </aside>
 
-        <main class="member_search-member-container">
-            {% for profile in profiles %}
-                <a href="{% url 'member_detail' profile.id %}">
-                    <article class="member_search-member-item">
-                        <!-- <p>
-                            {% if profile.state == 1 %}
-                                팀 찾는 중
-                            {% elif profile.state == 2 %}
-                                휴식 중
-                            {% else %}
-                                팀 참여 중
-                            {% endif %}
-                        </p> -->
+        <main class="team_search-team-container">
+            {% for project in projects %}
+                <a href="{% url 'team_detail' project.id %}">
+                    <article class="team_search-team-item">
+                        <img class="team_search-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
 
-                        <div class="member_search-member-profile-container">
-                            <div class="member_search-member-name-container">
-                                <img class="member_search-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-                                <p class="spoqa-bold">{{profile.name}}</p>
-                            </div>
-
-                            <p class="spoqa-medium">MBTI : {{profile.mbti_id.mbti}}</p>
+                        <div class="team_search-team-item-text">
+                            <p class="team_search-team-item-title spoqa-medium">{{project.title}}</p>
+                            <p class="team_search-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
+                            <p class="team_search-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
+                            <p class="team_search-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
+                                {% if project.state == 1%}
+                                    (모집중)
+                                {% else %}
+                                    (모집완료)
+                                {% endif %}
+                            </p>
+                            <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
                         </div>
-
-                        <p class="spoqa-medium">관심분야 : {{profile.field1_id.field1}}</p>
-                        <p class="spoqa-medium">선호 프로젝트 : 
-                            {% if profile.type == 0 %}
-                                창업
-                            {% elif profile.type == 1 %}
-                                공모전
-                            {% else %}
-                                프로젝트
-                            {% endif %}
-                        </p>
-                        <p class="spoqa-medium">선호 기간 : </p>
-
-                        <hr>
-
-                        <p class="spoqa-regular">나이 : {% getAge profile.birthday %}</p>
-                        <p class="spoqa-regular">직업 : {{ profile.job_id.job }}</p>
-                        <p class="spoqa-regular">지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
+                        
                     </article>
                 </a>
             {% endfor %}
-            {% for profile in profiles %}
-                <a href="{% url 'member_detail' profile.id %}">
-                    <article class="member_search-member-item">
-                        <!-- <p>
-                            {% if profile.state == 1 %}
-                                팀 찾는 중
-                            {% elif profile.state == 2 %}
-                                휴식 중
-                            {% else %}
-                                팀 참여 중
-                            {% endif %}
-                        </p> -->
+            {% for project in projects %}
+                <a href="{% url 'team_detail' project.id %}">
+                    <article class="team_search-team-item">
+                        <img class="team_search-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
 
-                        <div class="member_search-member-profile-container">
-                            <div class="member_search-member-name-container">
-                                <img class="member_search-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-                                <p class="spoqa-bold">{{profile.name}}</p>
-                            </div>
-
-                            <p class="spoqa-medium">MBTI : {{profile.mbti_id.mbti}}</p>
+                        <div class="team_search-team-item-text">
+                            <p class="team_search-team-item-title spoqa-medium">{{project.title}}</p>
+                            <p class="team_search-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
+                            <p class="team_search-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
+                            <p class="team_search-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
+                                {% if project.state == 1%}
+                                    (모집중)
+                                {% else %}
+                                    (모집완료)
+                                {% endif %}
+                            </p>
+                            <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
                         </div>
-
-                        <p class="spoqa-medium">관심분야 : {{profile.field1_id.field1}}</p>
-                        <p class="spoqa-medium">선호 프로젝트 : 
-                            {% if profile.type == 0 %}
-                                창업
-                            {% elif profile.type == 1 %}
-                                공모전
-                            {% else %}
-                                프로젝트
-                            {% endif %}
-                        </p>
-                        <p class="spoqa-medium">선호 기간 : </p>
-
-                        <hr>
-
-                        <p class="spoqa-regular">나이 : {% getAge profile.birthday %}</p>
-                        <p class="spoqa-regular">직업 : {{ profile.job_id.job }}</p>
-                        <p class="spoqa-regular">지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
+                        
                     </article>
                 </a>
             {% endfor %}
@@ -288,5 +224,4 @@
     //     }
     // }
 </script>
-
 </html>

@@ -8,16 +8,19 @@
     </head>
     <body>
         <div class='container'>
-            <form action="" method="GET">
+            <form action="{% url 'team_create_back' %}" method="GET">
+                <h4>프로젝트 종류</h4>
+                <input type="button" name="type" value="S스타트업">
                 <h4>팀이름: </h4>
                 <input type="text" name="title">
                 <br>
                 <br>
                 <h4>설명: </h4>
-                <textarea name="body" cols="40" rows="10"></textarea>
+                <textarea name="body" cols="100" rows="10"></textarea>
                 <br>
                 <br>
                 <input type="submit" value="등록하기">
+            </form>
         </div>
     </body>
 </html>

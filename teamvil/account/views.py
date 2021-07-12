@@ -48,43 +48,44 @@ def member_detail_back(request, profile_id):
                 "user_links": user_links, "user_files": user_files})
 
 def signup_back(request):
-    if request.method == "POST":
-        if request.POST["password"] == request.POST["passwordCheck"]:
-            user = User.objects.create_user(
-                username=request.POST["username"],
-                password=request.POST["password"])
-            name = request.POST["name"]      
-            Phone = request.POST["Phone"]
-            user.profile.name = name
-            user.profile.mbti_id = "mbti_아이디"
-            user.profile.email = "이메일"
-            user.profile.phone = Phone
-            user.profile.birthday = "생일"
-            user.profile.region1_id = "대지역"
-            user.profile.region2_id = "세부지역"
-            user.profile.openPhone = "번호공개여부"
-            user.profile.openEmail = "이메일공개여부"
-            user.profile.term_id = "기간"
-            user.profile.field1_id = "대분야"
-            user.profile.field2 = "세부분야"
-            user.profile.state = "참여상태"
-            user.profile.job_id = "직업"
-            user.profile.isLink = "링크"
-            user.profile.isFile ="파일"
-            user.profile.isCarrer = "직업공개"
-            user.profile.register  = "등록시간"
-            user.profile.photo ="사진"
-            user.profile.isReview ="리뷰개수"
-            user.profile.view_cnt ="조회수"
-            user.save()
-            auth.login(request, user)
-            return redirect('/')
-        elif Profile.objects.filter(Phone=request.POST['Phone']).exists():
+    if request.method == "POST":   
+        if Profile.objects.filter(phone=request.POST['phone']).exists():
                 return render(request, "signup_back.html", {'error': '이미 등록된 연락처입니다.'})
         elif request.POST['password'] != request.POST['passwordCheck'] :
                 return render(request, "signup_back.html", {'error': '비밀번호가 일치하지 않습니다.'})
         elif Profile.objects.filter(name=request.POST['username']).exists():
-            return render(request, 'signup_back.html', {'error':"이미 존재하는 사용자입니다."})       
+            return render(request, 'signup_back.html', {'error':"이미 존재하는 사용자입니다."})   
+        else:
+            user = User.objects.create_user(
+                username=request.POST["username"],
+                password=request.POST["password"])
+            profile = Profile()
+            profile.user = user
+            profile.name = request.POST['name']
+            profile.mbti = "Mbti"
+            profile.email = "email"
+            profile.phone = request.POST['phone']
+            profile.birthday = 2021-7-10
+            profile.region1 = "Region"
+            profile.region2 = "Region2"
+            profile.openPhone = 1
+            profile.openEmail = 1
+            profile.term = 1
+            profile.field1 = "Field1"
+            profile.field2 = "Field2"
+            profile.state = 1
+            profile.job = "Job"
+            profile.isLink = 1
+            profile.isFile =1
+            profile.isCarrer = 1
+            profile.register  = 2021-7-10
+            profile.photo = "Photo"
+            profile.isReview =1
+            profile.view_cnt =1
+            profile.save()
+            auth.login(request, user)
+            return redirect('/')
+
     else :
         return render(request, 'signup_back.html')
 

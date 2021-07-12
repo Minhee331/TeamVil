@@ -55,7 +55,6 @@
                 <p class="home-latest-team-head-text spoqa-medium">NEW TEAMS</p>
             </div>
             <div class="home-latest-team-table">
-                <div class="home-latest-team-table-item">
                 {% for project in projects %}
                     <article class="home-latest-team-item">
                         <img class="home-latest-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
@@ -76,7 +75,6 @@
                         
                     </article>
                 {% endfor %}
-                </div>
             </div>
         </section>
         <section class="home-latest-member-container">
@@ -84,7 +82,6 @@
                 <p class="home-latest-member-head-text spoqa-medium">NEW MEMBERS</p>
             </div>
             <div class="home-latest-member-table">
-                <div class="home-latest-member-table-item">
                 {% for profile in profiles %}
                     <article class="home-latest-member-item">
                         <div class="home-latest-member-profile-container">
@@ -115,7 +112,6 @@
                         <p>지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
                     </article>
                 {% endfor %}
-                </div>
             </div>
         </section>
     </div>

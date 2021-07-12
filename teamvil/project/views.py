@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import *
 from home.models import *
 from account.models import *
+from django.utils import timezone
 
 # Create your views here.
 def team_detail(request, project_id):
@@ -46,4 +47,11 @@ def team_detail_back(request, project_id):
 
 def team_new_back(request):
     return render(request, 'team_new_back.html')
+
+def team_create_back(request):
+    project = Project()
+    project.user_id = request.user
+    project.save()
+    return redirect('/team_detail/' + str(project.id))
+
 
