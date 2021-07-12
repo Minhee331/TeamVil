@@ -1,0 +1,36 @@
+
+{% block content %}
+<h1>회원가입</h1>
+<form method="POST" action="{% url 'signup_back' %}">
+    {% csrf_token %}
+    <br>
+  
+    {% if error %}
+        <p>{{error}}</p>
+        <br>
+    {% endif %}  
+    <h1>기본정보</h1> 
+    <br> 
+    
+    <h3>아이디</h3>
+    <input name="username" type="text">
+    <br>
+   
+    <h3>비밀번호</h3>
+    <input name="password" type="text">
+    <br>
+  
+    <h3>비밀번호 확인</h3>
+    <input  name="passwordCheck" type="password">
+    <br>
+ 
+    <h2>회원정보</h2>
+    <h5>이름</h5>
+    <input name="name" type="text">
+    <h6>휴대폰 번호</h6>
+    <input name="Phone" id="int">
+    <br>
+    <input type="submit" value="가입하기">
+    <input type="submit" value="본인인증">  
+</form>
+{% endblock %}

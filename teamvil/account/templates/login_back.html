@@ -1,0 +1,27 @@
+{% block content %}
+    <form method="POST" action="{% url 'login_back' %}">
+        {% csrf_token %}
+        <br>
+        <br>
+        {% if error %}
+            <p>{{error}}</p>
+            <br>
+        {% endif %}    
+        <h3>id </h3>
+        <input name="username" type="text">
+        <br>
+        <br>
+     
+        <h3>pawword</h3>
+        <br>
+        <input name="password" type="password">
+        <br>
+        <br>
+        <input type="submit" value="로그인">
+        <input type="submit" value="로그인 상태 유지">
+        
+        <!-- 비밀번호를 재설정 url연결해주려고 했는데 url연결 페이지가 없어요.   -->
+        <h4><a href="{% url 'signup_back'  %}">회원가입</a> </h4>    
+    </form>
+    {% endblock %}
+

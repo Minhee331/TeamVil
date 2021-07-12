@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class Field1(models.Model):
     field1 = models.CharField(max_length=20)
