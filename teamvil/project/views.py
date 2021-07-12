@@ -43,3 +43,7 @@ def team_detail_back(request, project_id):
     duties = Duty.objects.filter(project_id = project_id)
     return render(request, "team_detail_back.html", {'project':project, 'profile':profile, 
                 "project_links":project_links, "project_files":project_files, "duties": duties})
+
+def team_new_back(request):
+    return render(request, 'team_new_back.html')
+
