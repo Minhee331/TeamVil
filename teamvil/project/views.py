@@ -2,7 +2,10 @@ from django.shortcuts import redirect, render
 from .models import *
 from home.models import *
 from account.models import *
+# from django.contrib.auth.models import User
+# from django.contrib import auth
 from django.utils import timezone
+
 
 # Create your views here.
 def team_detail(request, project_id):
@@ -45,12 +48,47 @@ def team_detail_back(request, project_id):
     return render(request, "team_detail_back.html", {'project':project, 'profile':profile, 
                 "project_links":project_links, "project_files":project_files, "duties": duties})
 
-def team_new_back(request):
-    return render(request, 'team_new_back.html')
+def team_new_back_S(request):
+    return render(request, 'team_new_back_S.html')
 
-def team_create_back(request):
+def team_new_back_C(request):
+    return render(request, 'team_new_back_C.html')
+
+def team_new_back_P(request):
+    return render(request, 'team_new_back_P.html')
+
+def team_create_back_S(request):
     project = Project()
     project.user_id = request.user
+    project.use = 0
+    project.isEnd = 0
+    project.type = 0
+    project.title = request.GET['title']
+    project.desc = request.GET['desc']
+    field1 = Field1.objects.all()
+    region2 = Region2.objects.all()
+    project.field1_id = 1
+    project.field2_id = request.GET['field2_id']
+    # project.mem_total = ?
+    # project.mem_duty_name = request.GET['mem_duty_name']
+    # project.mem_duty = 
+    project.mem_now = request.GET['field2_id']
+    project.save()
+    return redirect('/team_detail/' + str(project.id))
+
+def team_create_back_C(request):
+    project = Project()
+    project.user_id = request.user
+    project.use = 0
+    project.type = 1
+    project.save()
+    return redirect('/team_detail/' + str(project.id))
+
+def team_create_back_P(request):
+    project = Project()
+    project.user_id = request.user
+    project.use = 0
+    project.type = 2
     project.save()
     return redirect('/team_detail/' + str(project.id))
 

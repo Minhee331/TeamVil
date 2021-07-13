@@ -6,4 +6,7 @@ admin.site.register(Field1)
 admin.site.register(Education)
 admin.site.register(Region1)
 admin.site.register(Region2)
+admin.site.register(Like)
+admin.site.register(Scrap)
+admin.site.register(Noti)
 

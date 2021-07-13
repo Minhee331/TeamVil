@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from home.models import Field1, Region1, Region2, Education
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from project.models import Project
+# from django.db.models.signals import post_save
+# from django.dispatch import receiver
 
 
 # Create your models here.
@@ -27,7 +28,7 @@ class Profile(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="user_id")
     name = models.CharField(max_length=25)
     mbti_id = models.ForeignKey(Mbti, on_delete = models.CASCADE, db_column="mbti_id")
-    mbti_detail = models.CharField(max_length=100, null=True, blank=True)
+    mbti_detail = models.CharField(max_length=100, null=True)
     email = models.CharField(max_length=45)
     phone = models.CharField(max_length=15)
     birthday = models.DateField()
@@ -71,15 +72,30 @@ class User_link(models.Model):
 
 class User_file(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="user_id")
-    file = models.CharField(max_length=45)
+    file = models.FileField()
     def __str__(self):
         return self.file
 
 class User_carrer(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="user_id")
-    file = models.CharField(max_length=45)
     start_date = models.DateField()
     end_date = models.DateField()
     content = models.TextField()
     def __str__(self):
-        return self.file
+        return self.content
+
+class User_review(models.Model):
+    from_user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="from_user_id", related_name="review_from_user_id")
+    to_user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="to_user_id", related_name="review_to_user_id")
+    project_id = models.ForeignKey(Project, on_delete = models.CASCADE, db_column="project_id")
+    content = models.TextField()
+    total  = models.FloatField()
+    question1 = models.IntegerField()
+    def __str__(self):
+        return self.total
+
+class Message(models.Model):
+    from_user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="from_user_id", related_name="message_from_user_id")
+    to_user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="to_user_id", related_name="message_to_user_id")
+    send_date = models.DateTimeField(auto_now_add= True)
+    content = models.CharField(max_length=1000)

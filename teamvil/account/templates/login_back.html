@@ -7,21 +7,21 @@
             <p>{{error}}</p>
             <br>
         {% endif %}    
-        <h3>id </h3>
+        <h1>ID : </h1>
         <input name="username" type="text">
         <br>
         <br>
      
-        <h3>pawword</h3>
+        <h2>PW :</h2>
         <br>
         <input name="password" type="password">
         <br>
         <br>
         <input type="submit" value="로그인">
-        <input type="submit" value="로그인 상태 유지">
-        
+        <h3><input type="checkbox" name="remember_session"/>로그인 상태 유지</h3>
+        <h4><a href="">비밀번호 재설정</a> </h4>
         <!-- 비밀번호를 재설정 url연결해주려고 했는데 url연결 페이지가 없어요.   -->
-        <h4><a href="{% url 'signup_back'  %}">회원가입</a> </h4>    
+        <h5><a href="{% url 'signup_back'  %}">회원가입</a> </h5>    
     </form>
     {% endblock %}
 

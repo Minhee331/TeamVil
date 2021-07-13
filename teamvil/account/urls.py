@@ -9,6 +9,7 @@ urlpatterns = [
     path('member_detail_back/<int:profile_id>', views.member_detail_back, name = "member_detail_back"),
     path('signup_back/', views.signup_back, name="signup_back"),
     path('login_back/', views.login_back, name="login_back"),
+    path('logout_back/',views.logout_back, name="logout_back"),
     
 
 

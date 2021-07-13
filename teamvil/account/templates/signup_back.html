@@ -1,6 +1,5 @@
 
 {% block content %}
-<h1>회원가입</h1>
 <form method="POST" action="{% url 'signup_back' %}">
     {% csrf_token %}
     <br>
@@ -29,8 +28,10 @@
     <input name="name" type="text">
     <h6>휴대폰 번호</h6>
     <input name="phone" id="int">
+    <input type="submit" value="본인인증">
     <br>
+   
     <input type="submit" value="가입하기">
-    <input type="submit" value="본인인증">  
+      
 </form>
 {% endblock %}

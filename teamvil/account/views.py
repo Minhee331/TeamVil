@@ -4,6 +4,7 @@ import datetime
 from django.contrib.auth.models import User
 from django.contrib import auth
 from .models import Profile
+from django.conf import settings
 
 
 # Create your views here.
@@ -60,25 +61,25 @@ def signup_back(request):
                 username=request.POST["username"],
                 password=request.POST["password"])
             profile = Profile()
-            profile.user = user
+            profile.user_id = user
             profile.name = request.POST['name']
-            profile.mbti = "Mbti"
+            profile.mbti_id = "Mbti"
             profile.email = "email"
-            profile.phone = request.POST['phone']
-            profile.birthday = 2021-7-10
-            profile.region1 = "Region"
-            profile.region2 = "Region2"
+            profile.phone =  request.POST['phone']
+            profile.birthday = "2021-07-10"
+            profile.region1_id = "Region"
+            profile.region2_id = "Region2"
             profile.openPhone = 1
             profile.openEmail = 1
-            profile.term = 1
-            profile.field1 = "Field1"
+            profile.term_id = 1
+            profile.field1_id = 1
             profile.field2 = "Field2"
             profile.state = 1
-            profile.job = "Job"
+            profile.job_id = 1
             profile.isLink = 1
             profile.isFile =1
             profile.isCarrer = 1
-            profile.register  = 2021-7-10
+            profile.register  = "2021-07-10"
             profile.photo = "Photo"
             profile.isReview =1
             profile.view_cnt =1
@@ -101,8 +102,15 @@ def login_back(request):
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)
+            remember_session = request.POST.get('remember_session', False)
+            if remember_session:
+                settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
             return redirect('/')
         else:
             return render(request, 'login_back.html',{'error':"사용자 이름 혹은 패스워드가 일치하지 않습니다."})
     else:
         return render(request, 'login_back.html')
+
+def logout_back(request):
+    auth.logout(request)
+    return redirect('/')
