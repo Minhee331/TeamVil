@@ -47,7 +47,7 @@ class Profile(models.Model):
     isCarrer = models.IntegerField()
     pr = models.TextField(null=True)
     register = models.DateTimeField()
-    photo = models.CharField(max_length=100)
+    photo = models.FileField()
     isReview = models.IntegerField()
     view_cnt = models.IntegerField(default=0)
     def __str__(self):

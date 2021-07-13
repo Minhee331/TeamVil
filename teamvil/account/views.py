@@ -114,3 +114,22 @@ def login_back(request):
 def logout_back(request):
     auth.logout(request)
     return redirect('/')
+
+def search(request):
+    post = Profile.objects.all().order_by('-id')
+    profiles_reg = Profile.objects.all().order_by('id')[:4]
+    field1 = Field1.objects.all() # 대분야 (ex IT)
+    mbti = Mbti.objects.all()
+    region2 = Region2.objects.all() # ~시 (서울만 ~구)
+    term = Term.objects.all()
+    job = Job.objects.all()
+    search = request.GET.get('search')
+    print(search)
+    if search:
+        search_page = post.filter(
+            Q(name__icontains = search)
+
+            
+        )
+    return render(request,'member_search.html',{'profiles':post, "field1s":field1, "mbtis" : mbti, 
+                                                    "region2s": region2, "terms": term, "jobs": job, "profiles_reg":profiles_reg})  

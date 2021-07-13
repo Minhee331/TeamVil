@@ -37,10 +37,64 @@
         </div>
     </section>
 
-    <form mothod="POST">
-        {%csrf_token%} 
-        {% if not }
+<!--검색 박스-->
+<section class="member_search-search-box">
+    <form method="GET" action= "{% url 'search' %}"` >
+        <input type="search" placeholder="검색어를 입력하세요." name = "search" value ="{{search}}">
+        <button type = "submit">검색</button>
     </form>
+</section>
+
+{% block content %} 
+{% for post in post.all %}
+    {% for profile in profiles %}
+        <main class="member_search-member-container">
+            <a href="{% url 'member_detail' profile.id %}">
+                <article class="member_search-member-item">
+                    <!-- <p>
+                        {% if profile.state == 1 %}
+                            팀 찾는 중
+                        {% elif profile.state == 2 %}
+                            휴식 `
+                        {% else %}
+                            팀 참여 중
+                        {% endif %}
+                    </p> -->
+
+                    <div class="member_search-member-profile-container">
+                        <div class="member_search-member-name-container">
+                            <img class="member_search-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+                            <p class="spoqa-bold">{{post.name}}</p>
+                        </div>
+
+                        <p class="spoqa-medium">MBTI : {{post.mbti_id.mbti}}</p>
+                    </div>
+
+                    <p class="spoqa-medium">관심분야 : {{post.field1_id.field1}}</p>
+                    <p class="spoqa-medium">선호 프로젝트 : 
+                        {% if post.type == 0 %}
+                            창업
+                        {% elif post.type == 1 %}
+                            공모전
+                        {% else %}
+                            프로젝트
+                        {% endif %}
+                    </p>
+                    <p class="spoqa-medium">선호 기간 : </p>
+
+                    <hr>
+
+                    <p class="spoqa-regular">나이 : {% getAge post.birthday %}</p>
+                    <p class="spoqa-regular">직업 : {{ post.job_id.job }}</p>
+                    <p class="spoqa-regular">지역 : {{ post.region1_id.region1 }} {{ post.region2_id.region2 }}</p>
+                </article>
+            </a>
+        </main>
+    {% endfor %}        
+{% endfor %}
+{% endblock %}
+
+<!---->
 
     <section class="member_search-main-container margin">
         <aside class="team_search-filter-container">
