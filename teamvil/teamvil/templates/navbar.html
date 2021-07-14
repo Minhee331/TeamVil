@@ -13,10 +13,11 @@
 
     <ul class="navbar-my-container spoqa-regular">
         <li class="navbar-my-item"><a href="">마이페이지</a></li>
+
         {% if user.is_authenticated %}
-        <li class="navbar-my-item"><a href="{% url 'logout_back' %}">로그아웃</li>
+            <li class="navbar-my-item"><a href="{% url 'logout_back' %}">로그아웃</a></li>
         {% else %}
-        <li class="navbar-my-item"><a href="{% url 'login_back' %}">로그인/</a><a href="{% url 'signup_back'  %}">회원가입</a></li>
+            <li class="navbar-my-item"><a href="{% url 'login_back' %}">로그인/</a><a href="{% url 'signup_back'  %}">회원가입</a></li>
         {% endif %}
     </ul>
 </nav>

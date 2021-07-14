@@ -55,7 +55,7 @@ def signup_back(request):
         elif request.POST['password'] != request.POST['passwordCheck'] :
                 return render(request, "signup_back.html", {'error': '비밀번호가 일치하지 않습니다.'})
         elif Profile.objects.filter(name=request.POST['username']).exists():
-            return render(request, 'signup_back.html', {'error':"이미 존재하는 사용자입니다."})   
+            return render(request, 'signup_back.html', {'error':"이미 존재하는 아이디입니다."})   
         else:
             user = User.objects.create_user(
                 username=request.POST["username"],
@@ -63,26 +63,26 @@ def signup_back(request):
             profile = Profile()
             profile.user_id = user
             profile.name = request.POST['name']
-            profile.mbti_id = "Mbti"
+            profile.mbti_id = Mbti.objects.get(id=1)
             profile.email = "email"
             profile.phone =  request.POST['phone']
             profile.birthday = "2021-07-10"
-            profile.region1_id = "Region"
-            profile.region2_id = "Region2"
-            profile.openPhone = 1
-            profile.openEmail = 1
-            profile.term_id = 1
-            profile.field1_id = 1
+            profile.region1_id = Region1.objects.get(id=1)
+            profile.region2_id = Region2.objects.get(id=1)
+            profile.openPhone = 0
+            profile.openEmail = 0
+            profile.term_id =  Term.objects.get(id=1)
+            profile.field1_id = Field1.objects.get(id=1)
             profile.field2 = "Field2"
-            profile.state = 1
-            profile.job_id = 1
-            profile.isLink = 1
-            profile.isFile =1
-            profile.isCarrer = 1
+            profile.state = 0
+            profile.job_id =  Job.objects.get(id=1)
+            profile.isLink = 0
+            profile.isFile =0
+            profile.isCarrer = 0
             profile.register  = "2021-07-10"
             profile.photo = "Photo"
-            profile.isReview =1
-            profile.view_cnt =1
+            profile.isReview =0
+            profile.view_cnt =0
             profile.save()
             auth.login(request, user)
             return redirect('/')
@@ -114,22 +114,4 @@ def login_back(request):
 def logout_back(request):
     auth.logout(request)
     return redirect('/')
-
-def search(request):
-    post = Profile.objects.all().order_by('-id')
-    profiles_reg = Profile.objects.all().order_by('id')[:4]
-    field1 = Field1.objects.all() # 대분야 (ex IT)
-    mbti = Mbti.objects.all()
-    region2 = Region2.objects.all() # ~시 (서울만 ~구)
-    term = Term.objects.all()
-    job = Job.objects.all()
-    search = request.GET.get('search')
-    print(search)
-    if search:
-        search_page = post.filter(
-            Q(name__icontains = search)
-
-            
-        )
-    return render(request,'member_search.html',{'profiles':post, "field1s":field1, "mbtis" : mbti, 
-                                                    "region2s": region2, "terms": term, "jobs": job, "profiles_reg":profiles_reg})  
+ 

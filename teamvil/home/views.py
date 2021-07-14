@@ -4,7 +4,7 @@ from account.models import *
 
 # Create your views here.
 def home(request):
-    projects = Project.objects.all().order_by('-id')[:6]
+    projects = Project.objects.all().order_by('-id')[:8]
     profiles = Profile.objects.all().order_by('-id')[:4]
     return render(request, "home.html", {'profiles':profiles, "projects":projects })
 

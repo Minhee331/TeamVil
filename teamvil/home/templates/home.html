@@ -12,35 +12,41 @@
 </head>
 <body>
     {% include 'navbar.html' %}
+
     <div class="home-slide-container">
         <div class="home-slide-item fade" style="display: block;">
             <div class="home-slide-img-container">
                 <img class="home-slide-img" src="{% static 'image/home_slide_img_1.jpg' %}" alt="">
             </div>
         </div>
+
         <div class="home-slide-item fade">
             <div class="home-slide-img-container">
                 <img class="home-slide-img" src="{% static 'image/home_slide_img_2.jpg' %}" alt="">
             </div>
-            
         </div>
+
         <div class="home-slide-item fade">
             <div class="home-slide-img-container">
                 <img class="home-slide-img" src="{% static 'image/home_slide_img_3.jpg' %}" alt="">
             </div>
         </div>
+
         <div class="home-slide-item fade">
             <div class="home-slide-img-container">
                 <img class="home-slide-img" src="{% static 'image/home_slide_img_4.jpg' %}" alt="">
             </div>
         </div>
+
         <div class="home-slide-item fade">
             <div class="home-slide-img-container">
                 <img class="home-slide-img" src="{% static 'image/home_slide_img_5.jpg' %}" alt="">
             </div>
         </div>
+
         <a class="home-slide-prev" onclick="plusSlide(-1)">&#10094;</a>
         <a class="home-slide-next" onclick="plusSlide(1)">&#10095;</a>
+
         <div class="home-slide-dot-container">
             <span class="home-slide-dot" onclick="currentSlide(1)"></span>
             <span class="home-slide-dot" onclick="currentSlide(2)"></span>
@@ -49,75 +55,72 @@
             <span class="home-slide-dot" onclick="currentSlide(5)"></span>
         </div>
     </div>
-    <div class="home-latest-info-container margin">
-        <section class="home-latest-team-container">
-            <div class="home-latest-team-head">
-                <p class="home-latest-team-head-text spoqa-medium">NEW TEAMS</p>
-            </div>
-            <div class="home-latest-team-table">
-                <div class="home-latest-team-table-item">
-                {% for project in projects %}
-                    <article class="home-latest-team-item">
-                        <img class="home-latest-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
 
-                        <div class="home-latest-team-item-text">
-                            <p class="home-latest-team-item-title spoqa-medium">{{project.title}}</p>
-                            <p class="home-latest-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
-                            <p class="home-latest-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
-                            <p class="home-latest-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
-                                {% if project.state == 1%}
-                                    (모집중)
-                                {% else %}
-                                    (모집완료)
-                                {% endif %}
-                            </p>
-                            <p class="home-latest-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
+    <div class="margin home-latest-info-wrap">
+        <div class="home-latest-info-wrap-container">
+            <div class="home-latest-info-container">
+                <section class="home-latest-team-container">
+                    <div class="home-latest-team-head">
+                        <p class="home-latest-team-head-text spoqa-medium">NEW TEAMS</p>
+                    </div>
+
+                    <div class="home-latest-team-table">
+                        <div class="home-latest-team-table-item">
+                            {% for project in projects %}
+                                <article class="home-latest-team-item">
+                                    <img class="home-latest-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
+
+                                    <div class="home-latest-team-item-text">
+                                        <p class="home-latest-team-item-title spoqa-medium">{{project.title}}</p>
+                                        
+                                        <p class="home-latest-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
+                                        
+                                        <p class="home-latest-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
+                                        
+                                        <p class="home-latest-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
+                                            {% if project.state == 1%}
+                                                (모집중)
+                                            {% else %}
+                                                (모집완료)
+                                            {% endif %}
+                                        </p>
+                                        
+                                        <p class="home-latest-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
+                                    </div>
+                                </article>
+                            {% endfor %}
                         </div>
-                        
-                    </article>
-                {% endfor %}
-                </div>
-            </div>
-        </section>
-        <section class="home-latest-member-container">
-            <div class="home-latest-member-head">
-                <p class="home-latest-member-head-text spoqa-medium">NEW MEMBERS</p>
-            </div>
-            <div class="home-latest-member-table">
-                <div class="home-latest-member-table-item">
-                {% for profile in profiles %}
-                    <article class="home-latest-member-item">
-                        <div class="home-latest-member-profile-container">
-                            <div class="home-latest-member-name-container">
-                                <img class="home-latest-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-                                <p class="spoqa-medium">{{profile.name}}</p>
-                            </div>
+                    </div>
+                </section>
+
+                <section class="home-latest-member-container">
+                    <div class="home-latest-member-head">
+                        <p class="home-latest-member-head-text spoqa-medium">NEW MEMBERS</p>
+                    </div>
+                    
+                    <div class="home-latest-member-table">
+                        <div class="home-latest-member-table-item">
+                        {% for profile in profiles %}
+                            <article class="home-latest-member-item">
+                                <div class="home-latest-member-profile-container">
+                                    <div class="home-latest-member-name-container">
+                                        <img class="home-latest-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+                                        <p class="spoqa-medium">{{profile.name}}</p>
+                                    </div>
+                                </div>
+
+                                <p>성격유형 : {{profile.mbti_id.mbti}}</p>
+                                <p>관심분야 : {{profile.field1_id.field1}}</p>
+                                <p>나이 : {% getAge profile.birthday %}</p>
+                                <p>직업 : {{ profile.job_id.job }}</p>
+                                <p>지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
+                            </article>
+                        {% endfor %}
                         </div>
-                        <p>성격유형 : {{profile.mbti_id.mbti}}</p>
-                        <p>관심분야 : {{profile.field1_id.field1}}</p>
-                        <p>나이 : {% getAge profile.birthday %}</p>
-                        <p>직업 : {{ profile.job_id.job }}</p>
-                        <p>지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
-                    </article>
-                {% endfor %}
-                {% for profile in profiles %}
-                    <article class="home-latest-member-item">
-                        <div class="home-latest-member-profile-container">
-                            <div class="home-latest-member-name-container">
-                                <img class="home-latest-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-                                <p class="spoqa-medium">{{profile.name}}</p>
-                            </div>
-                        </div>
-                        <p>성격유형 : {{profile.mbti_id.mbti}}</p>
-                        <p>관심분야 : {{profile.field1_id.field1}}</p>
-                        <p>나이 : {% getAge profile.birthday %}</p>
-                        <p>직업 : {{ profile.job_id.job }}</p>
-                        <p>지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
-                    </article>
-                {% endfor %}
-                </div>
+                    </div>
+                </section>
             </div>
-        </section>
+        </div>
     </div>
     {% include 'footer.html' %}
     <script type="text/javascript" src="{% static 'js/home.js' %}"></script>

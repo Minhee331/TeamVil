@@ -3,14 +3,12 @@
 <form method="POST" action="{% url 'signup_back' %}">
     {% csrf_token %}
     <br>
-  
     {% if error %}
         <p>{{error}}</p>
         <br>
     {% endif %}  
     <h1>기본정보</h1> 
-    <br> 
-    
+    <br>   
     <h3>아이디</h3>
     <input name="username" type="text">
     <br>

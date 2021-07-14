@@ -1,131 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
+    {% load static %}
+    {% load custom_tags %}
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <link rel="stylesheet" href="{% static 'css/team_detail.css' %}">
+    </head>
+    <body>
+        {% include 'navbar.html' %}
+        <div class="team_detail-container">
+            <div class="team_detail-name">
+                <header>
+                    <h1 class="team_detail-title">{{project.title}}</h1>
 
-{% load static %}
-{% load custom_tags %}
+                    <span id="team_detail-type">
+                        {% if project.type == 0 %}
+                        창업 | {{project.field1_id.field1}}
+                        {% elif project.type == 1 %}
+                        공모전 | {{project.field1_id.field1}}
+                        {% else %}
+                        프로젝트 | {{project.field1_id.field1}}
+                        {% endif %}
+                    </span>
+                    <p class="team_detail-leader">by {{profile.name}}</p>
+                </header>
+            </div>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'css/team_detail.css' %}">
-</head>
+            <div class="team_detail-info">
+                <div class="team_detail-desc">
+                    <p>{{project.desc}}</p>
+                </div>
+                <span>
+                    {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}} | {{ project.region2_id }} | 
+                    {% if project.state == 0 %}
+                        모집완료
+                    {% else %}
+                        모집 중
+                    {% endif %}
+                </span>
+            </div>
+            <div class="team_detail-content-container">
+                <div class="team_detail-content">
+                    <p class="team_detail-content-title">소개<p>
+                    <p class="team_detail-content-body">{{project.content}}</p>
+                </div>
+                <div class="team_detail-info-detail">
+                    <button type="button" class="team_detail-apply">지원하기</button>
+                    <span class="team_detail-info-detail-title">전체 팀 인원</span>
+                    <p class="team_detail-info-detail-body team_detail-info-detail-title-margin">
+                        {{project.mem_total}}명 중 {{project.mem_now}}명 모집 완료
+                    </p>
+                    <p class="team_detail-info-detail-title">
+                    모집 중인 직무 및 인원
+                    </p>
+                    <p class="team_detail-info-detail-body team_detail-info-detail-title-margin">
+                        {% for duty in duties %}
+                        {{duty.name}} | {{duty.now}} / {{duty.total}} 
+                        <br>
+                        {% endfor %}
+                    </p>
+                    <p class="team_detail-info-detail-title">직무 설명</p>
+                    {% for duty in duties %}
+                        <p class="team_detail-info-detail-body">
+                            {{duty.name}}
+                        </p>
 
-<body>
-
-{% include 'navbar.html' %}
-<div class="team-container">
-    <div class="team-name">
-        <header>
-            <h1 class="team-title">{{project.title}}</h1>
-            <span id="team-type">
-            {% if project.type == 0 %}
-            창업 | {{project.field1_id.field1}}
-            {% elif project.type == 1 %}
-            공모전 | {{project.field1_id.field1}}
-            {% else %}
-            프로젝트 | {{project.field1_id.field1}}
-            {% endif %}
-            </span>
-
-            <p class="team-leader">by {{profile.name}}</p>
-        </header>
-    </div>
-
-    <div class="team-info">
-        <div class="team-desc">
-            <p>
-            {{project.desc}}
-            </p>
+                        <p class="team_detail-info-detail-content"> 
+                            {{duty.desc}}
+                        </p>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="team_detail-info-etc">
+                <p>
+                    <span class="team_detail-info-etc-title">학교</span>
+                    <span class="team_detail-info-etc-body">
+                        {% if project.school != None %}
+                        {{project.school}}
+                        {% endif %}
+                    </span>
+                    <span class="team_detail-info-etc-body1">교내프로젝트</span>
+                </p>
+                <p>
+                    <span class="team_detail-info-etc-title">학력 제한</span>
+                    <span class="team_detail-info-etc-body">
+                        {% if project.education == None %}
+                        {{project.education_id.education}}
+                        {% endif %}
+                    </span>
+                </p>
+                <p>
+                    <span class="team_detail-info-etc-title">링크</span>
+                    <span class="team_detail-info-etc-body">
+                        {% if project.isLink %}
+                        {% for project_link in project_links %}
+                        {{project_link}}
+                        {% endfor %}
+                        {% endif %}
+                    </span>
+                </p>
+                <p>
+                    <span class="team_detail-info-etc-title">파일</span>
+                    <span class="team_detail-info-etc-body">
+                        {% if project.isFile %}
+                        {% for project_file in project_files %}
+                        {{project_file}}
+                        {% endfor %}
+                        {% endif %}
+                    </span>
+                </p>
+            </div>
         </div>
-        <span>{{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}} | {{ project.region2_id }} | 
-        {% if project.state == 0 %}
-            모집완료
-        {% else %}
-            모집 중
-        {% endif %}
-        </span>
-    </div>
-    <div class="team-content-container">
-        <div class="team-content">
-            <p class="team-content-title">소개<p>
-            <p class="team-content-body">
-            {{project.content}}
-            </p>
-        </div>
-
-        <div class="team-info-detail">
-            <button type="button" class="team-apply">지원하기</button>
-            <span class="team-info-detail-title">전체 팀 인원</span>
-            <p class="team-info-detail-body team-info-detail-title-margin">
-            {{project.mem_total}}명 중 {{project.mem_now}}명 모집 완료
-            </p>
-            <p class="team-info-detail-title">
-            모집 중인 직무 및 인원
-            </p>
-            <p class="team-info-detail-body team-info-detail-title-margin">
-            {% for duty in duties %}
-            {{duty.name}} | {{duty.now}} / {{duty.total}} 
-            <br>
-            {% endfor %}</p>
-            <p class="team-info-detail-title">직무 설명</p>
-            {% for duty in duties %}
-            <p class="team-info-detail-body">
-            {{duty.name}}
-            </p>
-            <p class="team-info-detail-content"> 
-            {{duty.desc}}
-            {% endfor %}
-            </p>
-        </div>
-    </div>
-    <div class="team-info-etc">
-        <p>
-        <span class="team-info-etc-title">학교</span>
-        <span class="team-info-etc-body">
-        {% if project.school != None %}
-        {{project.school}}
-        {% endif %}
-        </span>
-        <span class="team-info-etc-body1">교내프로젝트</span>
-        </p>
-        <p>
-        <span class="team-info-etc-title">학력 제한</span>
-        <span class="team-info-etc-body">
-        {% if project.education == None %}
-        {{project.education_id.education}}
-        {% endif %}
-        </span>
-        </p>
-        <p>
-        <span class="team-info-etc-title">링크</span>
-        <span class="team-info-etc-body">
-        {% if project.isLink %}
-        {% for project_link in project_links %}
-        {{project_link}}
-        {% endfor %}
-        {% endif %}
-        </span>
-        </p>
-        <p>
-        <span class="team-info-etc-title">파일</span>
-        <span class="team-info-etc-body">
-        {% if project.isFile %}
-        {% for project_file in project_files %}
-        {{project_file}}
-        {% endfor %}
-        {% endif %}
-        </span>
-        </p>
-    </div>
-
-
-
-</div>
-{% include 'footer.html' %}        
-
-
-</body>
+        {% include 'footer.html' %}        
+    </body>
 </html>

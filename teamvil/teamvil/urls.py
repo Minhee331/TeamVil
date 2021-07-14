@@ -23,6 +23,5 @@ urlpatterns = [
     path('home_back/', home.views.home_back, name='home_back'), 
     path('project/', include('project.urls')),
     path('member/', include('account.urls')),
-    path('account/', include('account.urls')),
-    # 이거 어카운트로 해야하는지 멤버로 해야하는지 모르겠어요
+    
 ]

@@ -1,4 +1,5 @@
 hr {
+    border: 0;
     margin: 15px 0;
 }
 
@@ -36,6 +37,7 @@ hr {
 .member_search-rec-member {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     flex-shrink: 0;
 }
 
@@ -63,37 +65,42 @@ hr {
 }
 
 /* filter */
-.team_search-filter-container {
-    width: 320px;
+.member_search-filter-container {
 }
 
-.team_search-filter-item-container {
+.member_search-filter-item-container {
     display: flex;
     flex-direction: column;
+    width: 200px;
 }
 
-.team_search-filter-active {
+.member_search-filter-item-container hr {
+    height: 1px;
+    background-color: black;
+}
+
+.member_search-filter-active {
     display: flex;
     justify-content: space-between;
 }
 
-.team_search-filter-title {
+.member_search-filter-title {
     margin-bottom: 10px;
 }
 
-.team_search-chevron {
+.member_search-chevron {
     width: 20px;
     height: 20px;
 }
 
-.team_search-filter-item-list {
+.member_search-filter-item-list {
     display: flex;
     align-items: center;
     margin-bottom: 7px;
     font-size: 14px;
 }
 
-.team_search-filter-item-list input {
+.member_search-filter-item-list input {
     margin-right: 5px;
 }
 
@@ -123,6 +130,10 @@ hr {
     padding: 30px;
     margin-left: 20px;
     margin-bottom: 20px;
+}   
+
+.member_search-member-item hr {
+    border: 1px solid #ebebeb;
 }
 
 .member_search-member-profile-container {
@@ -144,6 +155,8 @@ hr {
     border-radius: 75px;
     margin-right: 15px;
 }
+
+/* none */
 
 .search {
     display: block;
