@@ -21,4 +21,5 @@
 210714 유림 | member_search | member_search.html에 get방식에서 post방식으로 수정, view search함수 오류 수정 
 210715 자운 | team_new_back | DB데이터 받아와서 html 출력하도록 수정
 210715 유림 | team_search | team_search.html에 검색박스 생성, view추가 및 url 연결
+210715 건영 | mypage_project, mypage_profile | mypage_project.html생성, mypage_profile생성 , view추가 및 url연결
 
