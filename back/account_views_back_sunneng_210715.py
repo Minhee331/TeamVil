@@ -6,7 +6,6 @@ from django.contrib import auth
 from .models import Profile
 from django.conf import settings
 from django.db.models import Q
-from project.models import *
 
 # Create your views here.
 
@@ -136,20 +135,4 @@ def search(request):
         )
         return render(request,'member_search.html',{'profiles':post, "field1s":field1, "mbtis" : mbti, 
                                                     "region2s": region2, "terms": term, "jobs": job, "profiles_reg":profiles_reg})  
-
-def mypage_profile_back(request, user_id):
-    profile = Profile.objects.get(id = user_id)
-    carrers = User_carrer.objects.filter(user_id = profile.user_id)
-    user_links = User_link.objects.filter(user_id = profile.user_id)
-    user_files = User_file.objects.filter(user_id = profile.user_id)
-    # user_reviews = User_file.objects.filter(to_user_id = profile.to_user_id)
-    return render(request, "mypage_profile_back.html", {"profile":profile, "carrers":carrers,
-                "user_links": user_links, "user_files": user_files})
-
-def mypage_project_back(request,project_id,user_id): 
-    project = Member.objects.filter(id=project_id)
-    project = Member.objects.get(id= user_id)
-    return render(request, "mypage_project_back.html", {'project':project})
-    
-    
  

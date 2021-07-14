@@ -10,6 +10,9 @@ urlpatterns = [
     path('signup_back/', views.signup_back, name="signup_back"),
     path('login_back/', views.login_back, name="login_back"),
     path('logout_back/',views.logout_back, name="logout_back"),
+    path('search/', views.search, name="search"),
+    path('mypage_profile_back/<int:user_id>/', views.mypage_profile_back, name="mypage_profile_back"),
+     path('mypage_project_back/<int:user_id>/<int:project_id>/', views.mypage_project_back, name="mypage_project_back"),
    
     
 

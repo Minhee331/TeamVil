@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>{{project.title}}</h1>
+    <p>
+        {% if project.type == 0 %}
+            창업 | {{project.field1_id.field1}}
+        {% elif project.type == 1 %}
+            공모전 | {{project.field1_id.field1}}
+        {% else %}
+            프로젝트 | {{project.field1_id.field1}}
+        {% endif %}
+    </p>
+    <p>by {{profile.name}}</p>
+    <p>{{project.desc}}</p>
+    <p>{{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}} | {{ project.region2_id }} | 
+        {% if project.state == 0 %}
+            모집완료
+        {% else %}
+            모집 중
+        {% endif %}
+    </p>
+    <p>소개: {{project.content}}</p>
+    {% if project.school != None %}
+        <p>학교: {{project.school}}</p>
+    {% endif %}
+    {% if project.education == None %}
+        <p>학력제한: {{project.education_id.education}}</p>
+    {% endif %}
+    {% if project.isLink %}
+        {% for project_link in project_links %}
+        <p>링크: {{project_link}}</p>
+        {% endfor %}
+    {% endif %}
+    {% if project.isFile %}
+        {% for project_file in project_files %}
+            <p>링크: {{project_file}}</p>
+        {% endfor %}
+    {% endif %}
+    <p>전체 팀 인원: {{project.mem_total}} 중 {{project.mem_now}} 모집 완료</p>
+    <p>모집 중인 직무 및 인원: <br>
+        {% for duty in duties %}
+            {{duty.name}} | {{duty.now}} / {{duty.total}} 
+            <br>
+        {% endfor %}
+    </p>
+    <p>직무 설명 : <br>
+        {% for duty in duties %}
+            {{duty.name}}
+            <br>
+            {{duty.desc}}
+        {% endfor %}
+    </p>
+</body>
+</html>

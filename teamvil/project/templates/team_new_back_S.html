@@ -23,6 +23,9 @@
                 <textarea name="body" cols="100" rows="3" placeholder="ex)환경보호를 위한 공유 서비스를 만들고자 시작한 프로젝트 입니다."></textarea>
                 <br>
                 <br>
+                {% for field1_id in field1 %}
+                <input type="radio" id="{{ field1.id }}" name="field1">{{ field1_id.field1 }}
+                {% endfor %}
                 <h4>분야</h4>
                 <br>
                 <br>
