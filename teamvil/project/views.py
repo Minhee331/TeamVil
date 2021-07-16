@@ -2,10 +2,11 @@ from django.shortcuts import redirect, render
 from .models import *
 from home.models import *
 from account.models import *
-# from django.contrib.auth.models import User
-# from django.contrib import auth
-from django.utils import timezone
+from django.contrib.auth.models import User
+from django.contrib import auth
 from django.db.models import Q
+import json
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
@@ -29,6 +30,16 @@ def team_search(request):
     return render(request, "team_search.html", {'projects':projects, "field1s":field1, "mbtis" : mbti, 
                                                     "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg})
 
+def team_search_back_min(request):
+    projects = Project.objects.all()
+    projects_reg = Project.objects.all().order_by('id')[:4]
+    field1 = Field1.objects.all() # 대분야 (ex IT)
+    mbti = Mbti.objects.all()
+    region2 = Region2.objects.all() # ~시 (서울만 ~구)
+    term = Term.objects.all()
+    job = Job.objects.all()
+    return render(request, "team_search_back_min.html", {'projects':projects, "field1s":field1, "mbtis" : mbti, 
+                                                    "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg})
 
 def team_search_back(request):
     projects = Project.objects.all()
@@ -49,35 +60,90 @@ def team_detail_back(request, project_id):
     duties = Duty.objects.filter(project_id = project_id)
     return render(request, "team_detail_back.html", {'project':project, 'profile':profile, 
                 "project_links":project_links, "project_files":project_files, "duties": duties})
-
+# S타입 팀만들기 html렌더링
 def team_new_back_S(request):
     field1 = Field1.objects.all()
+    region1 = Region1.objects.all()
     region2 = Region2.objects.all()
-    return render(request, 'team_new_back_S.html')
-
+    education = Education.objects.all()
+    return render(request, 'team_new_back_S.html', {"field1s":field1, "region1s": region1, "region2s": region2, 
+                "educations":education })
+# C타입 팀만들기 html렌더링
 def team_new_back_C(request):
-    return render(request, 'team_new_back_C.html')
-
+    field1 = Field1.objects.all()
+    region1 = Region1.objects.all()
+    region2 = Region2.objects.all()
+    education = Education.objects.all()
+    return render(request, 'team_new_back_C.html', {"field1s":field1, "region1s": region1, "region2s": region2,
+                "educations":education })
+# P타입 팀만들기 html렌더링
 def team_new_back_P(request):
-    return render(request, 'team_new_back_P.html')
-
+    field1 = Field1.objects.all()
+    region1 = Region1.objects.all()
+    region2 = Region2.objects.all()
+    education = Education.objects.all()
+    return render(request, 'team_new_back_P.html', {"field1s":field1, "region1s": region1, "region2s": region2,
+                "educations":education })
+# S타입 팀 만들기
+@csrf_exempt
 def team_create_back_S(request):
-    project = Project()
-    project.user_id = request.user
-    project.use = 0
-    project.isEnd = 0
-    project.type = 0
-    project.title = request.GET['title']
-    project.desc = request.GET['desc']
-    project.field1_id = 1
-    project.field2_id = request.GET['field2_id']
-    # project.mem_total = ?
-    # project.mem_duty_name = request.GET['mem_duty_name']
-    # project.mem_duty = 
-    project.mem_now = request.GET['field2_id']
-    project.save()
-    return redirect('/team_detail/' + str(project.id))
+    if request.method == "POST":  
+        title = request.POST['title']
+        desc = request.POST['desc']
+        field1_id = int(request.POST['field1'])
+        field2 = request.POST['field2']
+        region1_id = int(request.POST['region1'])
+        region2_id = int(request.POST['region2'])
+        mem_total = request.POST['mem_total']
+        mem_now = request.POST['mem_now']
+        duty_name = request.POST['duty_name']
+        total = request.POST['total']
+        duty_desc = request.POST['duty_desc']
+        content = request.POST['content']
+        start_date = request.POST['start_date']
+        end_date = request.POST['end_date']
+        education = int(request.POST['education'])
+        project_link = request.POST['project_link']
+        project_file = request.POST['project_file'] # 수정필요 file 받아오는 방법 따로 있음. 안들어감
+        project = Project()
+        project.user_id = request.user
+        project.type = 0
+        project.title = title
+        project.desc = desc
+        project.field1_id = Field1.objects.get(id=field1_id)
+        project.field2 = field2
+        project.region1_id = Region1.objects.get(id=region1_id)
+        project.region2_id = Region2.objects.get(id=region2_id)
+        project.mem_total = mem_total #프로젝트 총 인원
+        project.mem_now = mem_now #모집된 직무 총 인원
+        project.start_date = start_date
+        project.end_date = end_date
+        project.content = content
+        project.education_id = Education.objects.get(id=education)
+        project.save()
+        if(project_link!=""): # 여러개 입력 가능해지면 수정 필요
+            project.isLink = 1
+            link = Project_link()
+            link.project_id = project
+            link.link = project_link
+            link.save()
+        if(project_file!=""): # 여러개 입력 가능해지면 수정 필요
+            project.isFile = 1
+            file = Project_file()
+            file.project_id = project
+            file.file = project_file
+            file.save()
+        duty = Duty() # 수정 필요. css 작업 완료되면 for 문으로 바꾸고 여러 duty 저장할 수 있도록
+        duty.project_id = project
+        duty.total = total
+        duty.desc = duty_desc
+        duty.name = duty_name
+        duty.save()
+        project.mem_total = total # 수정 필요 duty 테이블 다 저장하면서 total 누적 시켜야함
+        project.save()
+        return redirect('/project/team_detail/' + str(project.id))
 
+# C타입 팀 만들기
 def team_create_back_C(request):
     project = Project()
     project.user_id = request.user
@@ -85,7 +151,7 @@ def team_create_back_C(request):
     project.type = 1
     project.save()
     return redirect('/team_detail/' + str(project.id))
-
+# P타입 팀 만들기
 def team_create_back_P(request):
     project = Project()
     project.user_id = request.user
@@ -93,26 +159,22 @@ def team_create_back_P(request):
     project.type = 2
     project.save()
     return redirect('/team_detail/' + str(project.id))
-
+# 팀 찾기 > 검색 함수
 def searchTeam(request):
-    post = Project.objects.all().order_by('id')
-    project_reg = Project.objects.all().order_by('id')[:4]
-    field1 = Field1.objects.all() # 대분야 (ex IT)
-    mbti = Mbti.objects.all()
-    region2 = Region2.objects.all() # ~시 (서울만 ~구)
-    term = Term.objects.all()
-    job = Job.objects.all()
-    search = request.POST.get('examine')
-    if search:
-        post = post.filter(
-            Q(title__icontains = search)
-            #Q(mbti_id__icontains = search)|
-            #Q(field1_id__icontains = search)|
-            #Q(type__icontains = search)|
-            #Q(job_id__icontains = search)|
-            #Q(region1_id__icontains = search)|
-        )
-    return render(request,'team_search.html',{'projects':post, "field1s":field1, "mbtis" : mbti, 
-                                                    "region2s": region2, "terms": term, "jobs": job, "profiles_reg":project_reg})  
+    obj = json.loads(request.body)
+    value = obj['value']
+    projects = Project.objects.filter(Q(title__icontains = value) | Q(region1_id__region1__icontains=value) | Q(region2_id__region2__icontains=value)
+                                    | Q(content__icontains = value) | Q(school__icontains = value) | Q(desc__icontains = value))
+    return render(request,'team_list_form.html',{'projects':projects})  
  
-
+# 팀 찾기 > 세부 필터링 함수
+def filterTeam(request):
+    obj = json.loads(request.body)
+    field1 = obj['field1']
+    region = obj['region']
+    state = obj['state']
+    if field1[0]=='all':field1=list(Field1.objects.values_list('id', flat=True))
+    if region[0]=='all':region=list(Region2.objects.values_list('id', flat=True))
+    if state[0]=='all':state=[0, 1]
+    projects = Project.objects.filter(field1_id__id__in=field1,region2_id__id__in=region,state__in=state).order_by('id')
+    return render(request, "team_list_form.html", {'projects':projects})

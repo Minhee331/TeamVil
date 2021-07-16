@@ -1,7 +1,9 @@
 hr {
     margin: 10px 0px;
 }
-
+label{
+    cursor: pointer;
+}
 .team_search-category-container {
     margin-top: 40px;
 }

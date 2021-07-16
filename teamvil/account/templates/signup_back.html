@@ -1,6 +1,6 @@
 
 {% block content %}
-<form method="POST" action="{% url 'signup_back' %}">
+<form method="POST" action="{% url 'signup' %}">
     {% csrf_token %}
     <br>
     {% if error %}
@@ -12,7 +12,7 @@
     <input name="username" type="text">
     <br>
     <h3>비밀번호</h3>
-    <input name="password" type="text">
+    <input name="password" type="password">
     <br>
     <h3>비밀번호 확인</h3>
     <input  name="passwordCheck" type="password">

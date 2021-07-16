@@ -38,66 +38,6 @@
         </div>
     </section>
 
-<!--검색 박스-->
-<section class="member_search-search-box">
-    <form method="post" action= "{% url 'search' %}">
-        {% csrf_token %}
-        <input type="search" placeholder="검색어를 입력하세요." name = "examine" value ="{{search}}">
-        <button type = "submit">검색</button> 
-    </form>
-</section>
-
-{% block content %} 
-{% for post in post.all %}
-    {% for profile in profiles %}
-        <main class="member_search-member-container">
-            <a href="{% url 'member_detail' profile.id %}">
-                <article class="member_search-member-item">
-                    <!-- <p>
-                        {% if profile.state == 1 %}
-                            팀 찾는 중
-                        {% elif profile.state == 2 %}
-                            휴식 `
-                        {% else %}
-                            팀 참여 중
-                        {% endif %}
-                    </p> -->
-
-                    <div class="member_search-member-profile-container">
-                        <div class="member_search-member-name-container">
-                            <img class="member_search-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-                            <p class="spoqa-bold">{{post.name}}</p>
-                        </div>
-
-                        <p class="spoqa-medium">MBTI : {{post.mbti_id.mbti}}</p>
-                    </div>
-
-                    <p class="spoqa-medium">관심분야 : {{post.field1_id.field1}}</p>
-                    <p class="spoqa-medium">선호 프로젝트 : 
-                        {% if post.type == 0 %}
-                            창업
-                        {% elif post.type == 1 %}
-                            공모전
-                        {% else %}
-                            프로젝트
-                        {% endif %}
-                    </p>
-                    <p class="spoqa-medium">선호 기간 : </p>
-
-                    <hr>
-
-                    <p class="spoqa-regular">나이 : {% getAge post.birthday %}</p>
-                    <p class="spoqa-regular">직업 : {{ post.job_id.job }}</p>
-                    <p class="spoqa-regular">지역 : {{ post.region1_id.region1 }} {{ post.region2_id.region2 }}</p>
-                </article>
-            </a>
-        </main>
-    {% endfor %}        
-{% endfor %}
-{% endblock %}
-
-<!---->
-
     <section class="member_search-main-container margin">
         <aside class="member_search-filter-container">
             <div class="member_search-filter-item-container">
@@ -109,10 +49,18 @@
                 </div>
 
                 <div class="active" id="field1">
+                    <div class="member_search-filter-item-list spoqa-light">
+                        <label>
+                            <input type="checkbox" value='all' class="field1" data="field1_all" checked>
+                            <span>전체</span>
+                        </label>
+                    </div>
                     {% for field1 in field1s %}
                         <div class="member_search-filter-item-list spoqa-light">
-                            <input type="checkbox" value='{{field1.id}}' class="field1">
-                            <span>{{field1.field1}}</span>
+                            <label>
+                                <input type="checkbox" value='{{field1.id}}' class="field1">
+                                <span>{{field1.field1}}</span>
+                            </label>
                         </div>
                     {% endfor %}
                 </div>
@@ -127,10 +75,18 @@
                 </div>
         
                 <div class="hidden" id="mbti">
+                    <div class="member_search-filter-item-list spoqa-light">
+                        <label>
+                            <input type="checkbox" value='all' class="mbti" data="mbti_all" checked>
+                            <span>전체</span>
+                        </label>
+                    </div>
                     {% for mbti in mbtis %}
                         <div class="member_search-filter-item-list spoqa-light">
-                            <input type="checkbox" value='{{mbti.id}}' class="mbti">
-                            <span>{{mbti.mbti}}</span>
+                            <label>
+                                <input type="checkbox" value='{{mbti.id}}' class="mbti">
+                                <span>{{mbti.mbti}}</span>
+                            </label>
                         </div>
                     {% endfor %}
                 </div>
@@ -145,10 +101,18 @@
                 </div>
 
                 <div class="hidden" id="region">
+                    <div class="member_search-filter-item-list spoqa-light">
+                        <label>
+                            <input type="checkbox" value='all' class="region2" data="region2_all" checked>
+                            <span>전체</span>
+                        </label>
+                    </div>
                     {% for region2 in region2s %}
                         <div class="member_search-filter-item-list spoqa-light">
-                            <input type="checkbox" value='{{region2.id}}' class="region2">
-                            <span>{{region2.region1_id.region1}} {{region2.region2}}</span>
+                            <label>
+                                <input type="checkbox" value='{{region2.id}}' class="region2">
+                                <span>{{region2.region1_id.region1}} {{region2.region2}}</span>
+                            </label>
                         </div>
                     {% endfor %}
                 </div>
@@ -163,10 +127,18 @@
                 </div>
 
                 <div class="hidden" id="term">
+                    <div class="member_search-filter-item-list spoqa-light">
+                        <label>
+                            <input type="checkbox" value='all' class="term" data="term_all" checked>
+                            <span>전체</span>
+                        </label>
+                    </div>
                     {% for term in terms %}
                         <div class="member_search-filter-item-list spoqa-light">
-                            <input type="checkbox" value='{{term.id}}' class="term">
-                            <span>{{term.term}}</span>
+                            <label>
+                                <input type="checkbox" value='{{term.id}}' class="term">
+                                <span>{{term.term}}</span>
+                            </label>
                         </div>
                     {% endfor %}
                 </div>
@@ -182,18 +154,30 @@
 
                 <div class="hidden" id="state">
                     <div class="member_search-filter-item-list spoqa-light">
-                        <input type="checkbox" value='1' class="state">
-                        <span>팀 찾는 중</span>
+                        <label>
+                            <input type="checkbox" value='all' class="state" data="state_all" checked>
+                            <span>전체</span>
+                        </label>
+                    </div>
+                    <div class="member_search-filter-item-list spoqa-light">
+                        <label>
+                            <input type="checkbox" value='1' class="state">
+                            <span>팀 찾는 중</span>
+                        </label>
                     </div>
 
                     <div class="member_search-filter-item-list spoqa-light">
-                        <input type="checkbox" value='2' class="state">
-                        <span>휴식 중</span>
+                        <label>
+                            <input type="checkbox" value='2' class="state">
+                            <span>휴식 중</span>
+                        </label>
                     </div>
 
                     <div class="member_search-filter-item-list spoqa-light">
-                        <input type="checkbox" value='0' class="state">
-                        <span>팀 참여 중</span>
+                        <label>
+                            <input type="checkbox" value='0' class="state">
+                            <span>팀 참여 중</span>
+                        </label>
                     </div>
                 </div>
 
@@ -207,18 +191,26 @@
                 </div>
 
                 <div class="hidden" id="job">
+                    <div class="member_search-filter-item-list spoqa-light">
+                        <label>
+                            <input type="checkbox" value='all' class="job" data="job_all" checked>
+                            <span>전체</span>
+                        </label>
+                    </div>
                     {% for job in jobs %}
                     <div class="member_search-filter-item-list spoqa-light">
-                        <input type="checkbox" value='{{job.id}}' class="job">
-                        <span>{{job.job}}</span>
+                        <label>
+                            <input type="checkbox" value='{{job.id}}' class="job">
+                            <span>{{job.job}}</span>
+                        </label>
                     </div>
                     {% endfor %}
                 </div>
             </div>
 
-            <!-- <a class="a-search" href="{% url 'member_search' %}">
-                <button class="search spoqa-medium">검색</button>
-            </a> -->
+            <a class="a-search">
+                <button class="search member_filter spoqa-medium">검색</button>
+            </a>
         </aside>
 
         <main class="member_search-member-container">
@@ -274,33 +266,82 @@
     $(document).ready(function(){
         $(".drop_btn").on("click", function(){ 
             var className = $(this).attr("value");
-            console.log(className);
-
             let currentClass = document.getElementById(className);
-            
             if ($(currentClass).is('.hidden')){
                 $(currentClass).removeClass('hidden');
                 $(currentClass).addClass('active');
-                console.log("123");
             } else{
                 $(currentClass).removeClass('active');
                 $(currentClass).addClass('hidden');
-                console.log("456");
             }
         }); 
+        $('.field1, .mbti, .region2, .term, .state, .job').on("change",  function(){ 
+            if($(this).val()=='all'&& $(this).is(":checked")){
+                $("."+$(this).attr('class')).prop("checked", false);
+                $(this).prop("checked", true)
+            }else{
+                $("input[data='"+$(this).attr('class')+"_all']").prop("checked", false);
+            }
+            if($("."+$(this).attr('class')+":checked").length ==0){
+                $("input[data='"+$(this).attr('class')+"_all']").prop("checked", true);
+            }
+        });
+        $(".member_filter").on("click", function(){ 
+            let field1_checked = $("#field1 input:checked");
+            let mbti_checked = $("#mbti input:checked");
+            let region_checked = $("#region input:checked");
+            let term_checked = $("#term input:checked");
+            let state_checked = $("#state input:checked");
+            let job_checked = $("#job input:checked");
+            let field1_list = []
+            let mbti_list = []
+            let region_list = []
+            let term_list = []
+            let state_list = []
+            let job_list = []
+            for(let i=0; i<field1_checked.length; i++){
+                field1_list.push($(field1_checked[i]).val());
+            }
+            for(let i=0; i<mbti_checked.length; i++){
+                mbti_list.push($(mbti_checked[i]).val());
+            }
+            for(let i=0; i<region_checked.length; i++){
+                region_list.push($(region_checked[i]).val());
+            }
+            for(let i=0; i<term_checked.length; i++){
+                term_list.push($(term_checked[i]).val());
+            }
+            for(let i=0; i<state_checked.length; i++){
+                state_list.push($(state_checked[i]).val());
+            }
+            for(let i=0; i<job_checked.length; i++){
+                job_list.push($(job_checked[i]).val());
+            }
+            data = {
+                'field1': field1_list,
+                'mbti': mbti_list,
+                'region' : region_list,
+                'term' : term_list,
+                'state' : state_list,
+                'job' : job_list
+            }
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url: "{% url 'filterMember'%}",
+                data: JSON.stringify(data),
+                success: function(res) {
+                    $('.member_search-member-container').html(res);
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                }
+            });
+        });
     });
-    // function drop(){
-    //     let className = $(this).val();
-    //     console.log(className);
-    //     let currentClass = document.getElementById(className);
-    //     if(currentClass.style.display === "none"){
-    //         currentClass.style.display = "block";
-
-
-    //     } else{
-    //         currentClass.style.display = "none";
-    //     }
-    // }
 </script>
 
 </html>

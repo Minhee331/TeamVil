@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 from home.models import Field1, Region1, Region2, Education
 from project.models import Project
 
@@ -44,10 +45,11 @@ class Profile(models.Model):
     isFile = models.IntegerField()
     isCarrer = models.IntegerField()
     pr = models.TextField(null=True)
-    register = models.DateTimeField()
-    photo = models.FileField()
+    register = models.DateTimeField(default=timezone.now)
+    photo = models.FileField(null=True)
     isReview = models.IntegerField()
     view_cnt = models.IntegerField(default=0)
+    submit = models.IntegerField(default=0)
     def __str__(self):
         return self.name
 
@@ -64,7 +66,7 @@ class User_file(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="user_id")
     file = models.FileField()
     def __str__(self):
-        return self.file
+        return self.file.url
 
 class User_carrer(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="user_id")
@@ -82,7 +84,7 @@ class User_review(models.Model):
     total  = models.FloatField()
     question1 = models.IntegerField()
     def __str__(self):
-        return self.total
+        return str(self.total)
 
 class Message(models.Model):
     from_user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="from_user_id", related_name="message_from_user_id")

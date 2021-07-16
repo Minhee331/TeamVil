@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Project(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.PROTECT, db_column="user_id")
-    use = models.IntegerField()
-    isEnd = models.IntegerField()
+    use = models.IntegerField(default=0)
+    isEnd = models.IntegerField(default=0)
     type = models.IntegerField()
     title = models.CharField(max_length=100)
     desc = models.CharField(max_length=100)
@@ -15,14 +15,14 @@ class Project(models.Model):
     region2_id = models.ForeignKey('home.Region2', on_delete = models.CASCADE, db_column="region2_id")
     mem_total = models.IntegerField()
     mem_now = models.IntegerField()
-    mem_duty = models.IntegerField()
+    mem_duty = models.IntegerField(default=0)
     start_date = models.DateField()
     end_date = models.DateField()
-    state = models.IntegerField()
-    school = models.CharField(max_length=45, blank=True)
+    state = models.IntegerField(default=1)
+    school = models.CharField(max_length=45, null=True)
     content = models.TextField()
-    isLink = models.IntegerField()
-    isFile = models.IntegerField()
+    isLink = models.IntegerField(default=0)
+    isFile = models.IntegerField(default=0)
     education_id = models.ForeignKey('home.Education', on_delete = models.CASCADE, db_column="education_id", null=True)
     view_cnt = models.IntegerField(default=0)
     def __str__(self):
@@ -39,12 +39,12 @@ class Project_file(models.Model):
     project_id = models.ForeignKey(Project, on_delete = models.CASCADE, db_column="project_id")
     file = models.FileField()
     def __str__(self):
-        return self.file
+        return self.file.url
 
 class Duty(models.Model):
     project_id = models.ForeignKey(Project, on_delete = models.CASCADE, db_column="project_id")
     total = models.IntegerField()
-    now = models.IntegerField()
+    now = models.IntegerField(default=0)
     desc = models.TextField()
     name = models.CharField(max_length=45)
     def __str__(self):

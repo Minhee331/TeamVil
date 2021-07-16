@@ -7,14 +7,11 @@ urlpatterns = [
     path('member_search/', views.member_search, name = "member_search"),
     path('member_search_back/', views.member_search_back, name = "member_search_back"),
     path('member_detail_back/<int:profile_id>', views.member_detail_back, name = "member_detail_back"),
-    path('signup_back/', views.signup_back, name="signup_back"),
-    path('login_back/', views.login_back, name="login_back"),
-    path('logout_back/',views.logout_back, name="logout_back"),
-    path('search/', views.search, name="search"),
-    path('mypage_profile_back/<int:user_id>/', views.mypage_profile_back, name="mypage_profile_back"),
-     path('mypage_project_back/<int:user_id>/<int:project_id>/', views.mypage_project_back, name="mypage_project_back"),
-   
-    
-
-
+    path('signup_back/', views.signup, name="signup"),
+    path('login_back/', views.login, name="login"),
+    path('logout_back/',views.logout_back, name="logout"),
+    path('mypage_profile_back', views.mypage_profile, name="mypage_profile"),
+    path('mypage_project_back', views.mypage_project, name="mypage_project"),
+    path('searchMember/', views.searchMember, name="searchMember"),
+    path('filterMember/', views.filterMember, name="filterMember"),
 ]

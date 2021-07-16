@@ -1,8 +1,8 @@
-
+{% load static %}
 {% for project in projects %}
     <a href="{% url 'team_detail' project.id %}">
         <article class="team_search-team-item">
-           
+            <img class="team_search-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
 
             <div class="team_search-team-item-text">
                 <p class="team_search-team-item-title spoqa-medium">{{project.title}}</p>
@@ -21,4 +21,3 @@
         </article>
     </a>
 {% endfor %}
-<!-- 좋아요와 스크랩은 html에 아직 넣지 않았습니다. -->

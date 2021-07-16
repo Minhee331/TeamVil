@@ -7,69 +7,115 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
     </head>
+    
     <body>
-
+       
         <div class='container'>
+            
             <h4>프로젝트 종류</h4>
                 <button type="button" name="type" onClick="location.href='../team_new_back_S'">S 스타트업</button>
                 <button type="button" name="type" onClick="location.href='../team_new_back_C'">C 공모전/대외활동</button>
                 <button type="button" name="type" onClick="location.href='../team_new_back_P'">P 기타 프로젝트</button>
-            <form action="{% url 'team_create_back_S' %}" method="GET">
+            
+            <form action="{% url 'team_create_back_S' %}" method="POST">
+                {% csrf_token %}
                 <h4>프로젝트 명 S</h4>
-                <input type="text" name="title" placeholder="ex)팀원 모집 플랫폼 팀빌">
-                <br>
-                <br>
+                    <input type="text" name="title" placeholder="ex)팀원 모집 플랫폼 팀빌">
+                    <br>
+                    <br>
+                
                 <h4>프로젝트 목적&의지</h4>
-                <textarea name="body" cols="100" rows="3" placeholder="ex)환경보호를 위한 공유 서비스를 만들고자 시작한 프로젝트 입니다."></textarea>
-                <br>
-                <br>
-                {% for field1_id in field1 %}
-                <input type="radio" id="{{ field1.id }}" name="field1">{{ field1_id.field1 }}
-                {% endfor %}
+                    <textarea name="desc" cols="100" rows="3" placeholder="ex)환경보호를 위한 공유 서비스를 만들고자 시작한 프로젝트 입니다."></textarea>
+                    <br>
+                    <br>
+                
                 <h4>분야</h4>
-                <br>
-                <br>
+                    {% for field1 in field1s %}
+                    <input type="radio" name="field1" value="{{ field1.id }}">{{ field1.field1 }}
+                    {% endfor %}
+                    <br>
+                    <br>
+
                 <h4>세부분야</h4>
-                <input type="text" name="field2" placeholder="ex)웹페이지 개발">
-                <br>
-                <br>
+                    <input type="text" name="field2" placeholder="ex)웹페이지 개발">
+                    <br>
+                    <br>
+
                 <h4>지역</h4>
-                <br>
-                <br>
+                    <select name="region1" required>
+                        {% for region1 in region1s %}
+                        <option value="{{ region1.id }}">{{ region1.region1 }}</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <select name="region2" required>
+                        {% for region2 in region2s %}
+                        <option value="{{ region2.id }}">{{ region2.region2 }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <br>      
+
                 <h4>전체 팀 인원</h4>
-                <br>
-                <br>
-                <h4>모집 인원</h4>
-                <br>
-                <br>
+                    <input type="number" min="0" name="mem_total" placeholder="전체 팀 인원">
+                    <br>
+                    <br>
+        
+                <h4>현재 팀 인원</h4>
+                    <input type="number" min="0" name="mem_now" placeholder="현재 팀 인원">    
+                    <br>
+                    <br>
+                
+                
+                <input type="text" name="duty_name" placeholder="ex)프론트">
+                <input type="number" name="total" min="0" placeholder="직무 total">  
                 <h4>직무소개 및 구하는 직무의 이상팀원?</h4>
-                <br>
-                <br>
+                    <textarea name="duty_desc" cols="100" rows="3"></textarea>
+                    <br>
+                    <br>
+
                 <h4>대표사진</h4>
-                <br>
-                <br>
+                    <!-- 프로젝트 모델에 photo없어서 넣어줘야됨 -->
+                    <br>
+                    <br>
+
                 <h4>프로젝트 소개</h4>
-                <textarea name="body" cols="100" rows="10" placeholder="자유롭게 프로젝트를 소개해주세요!"></textarea>
-                <br>
-                <br>
+                    <textarea name="content" cols="100" rows="10" placeholder="자유롭게 프로젝트를 소개해주세요!"></textarea>
+                    <br>
+                    <br>
+
                 <h4>프로젝트 기간</h4>
-                <br>
-                <br>
+                    <input type='date' name="start_date"> ~ <input type='date' name="end_date">
+                    <br>
+                    <br>
+
                 <h4>(선택)학교</h4>
+                    <!-- 학교 DB 만들어 받아와주기 필요. 보류 -->
                 <br>
                 <br>
+
                 <h4>(선택)학력제한</h4>
+                <select name="education">
+                    {% for education in educations %}
+                    <option value="{{ education.id }}">{{ education.education }}</option>
+                    {% endfor %}
+                </select>
                 <br>
                 <br>
+
                 <h4>(선택)링크</h4>
+                <input type="url" name="project_link">
                 <br>
                 <br>
+
                 <h4>(선택)파일</h4>
+                <input type="file" name="project_file">
+                <br>
                 <br>
                 <br>
                 <input type="submit" value="등록하기">
+
             </form>
         </div>
-
     </body>
 </html>

@@ -14,4 +14,5 @@ urlpatterns = [
     path('team_create_back_C/', views.team_create_back_C, name="team_create_back_C"),
     path('team_create_back_P/', views.team_create_back_P, name="team_create_back_P"),
     path('searchTeam/', views.searchTeam, name="searchTeam"),
+    path('filterTeam/', views.filterTeam, name="filterTeam"),
 ]
