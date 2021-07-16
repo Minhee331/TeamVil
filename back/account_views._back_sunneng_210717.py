@@ -9,7 +9,6 @@ from django.db.models import Q
 from project.models import *
 from home.models import *
 import json
-from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -178,54 +177,4 @@ def filterMember(request):
     profiles = Profile.objects.filter(field1_id__id__in=field1,mbti_id__id__in=mbti,region2_id__id__in=region,
                                     term_id__id__in=term, state__in=state, job_id__id__in=job).order_by('id')
     return render(request, "member_list_form.html", {'profiles':profiles})
-
-#마이페이지 프로필 수정 함수
-def mypage_modify_profile_edit(request):
-    user = request.user
-    profile = Profile.objects.get(user_id = user)
-    user_links = User_link.objects.filter(user_id = user)
-    user_files = User_file.objects.filter(user_id = user)
-    user_carrers = User_carrer.objects.filter(user_id = user)
-    return render(request, "mypage_modify_profile_back_sunneng.html", {"profile":profile, "user_links": user_links, "user_files": user_files , 
-                    "user_carrers":user_carrers})
-
-def mypage_modify_profile_update(request):
-    user = request.user
-    profile = Profile.objects.get(user_id = user)
-    profile.name = request.POST.get('name')
-    profile.job_id = request.POST.get('job_id')
-    profile.birthday = request.POST.get('birthday')
-    profile.region2_id = request.POST.get('region2_id')
-    profile.state = request.POST.get('state')
-    profile.field1_id = request.POST.get('field1_id')
-    profile.field2 = request.POST.get('field2')
-    profile.term_id = request.POST.get('term_id')
-    profile.mbti_id = request.POST.get('mbti_id')
-    profile.mbti_detail = request.POST.get('mbti_detail')
-    profile.openPhone = request.POST.get('openPhone')
-    profile.openEmail = request.POST.get('openEmail')
-    profile.pr = request.POST.get('pr')
-    user_links = User_link.objects.filter(user_id = user)
-    user_links.link = request.POST.get('link')
-    user_files = User_file.objects.filter(user_id = user)
-    user_files.file = request.POST.get('file')
-    user_carrers = User_carrer.objects.filter(user_id = user)
-    user_carrers.start_date = request.POST.get('start-date')
-    user_carrers.end_date = request.POST.get('end_date')
-    user_carrers.content = request.POST.get('content')
-    profile.save()
-    user_links.save()
-    user_files.save()
-    user_carrers.save()
-    return redirect('/member/mypage_modify_profile_back_sunneng/update' + str(profile.id))
-
-
-
-
-
-
-  
-
-
-
  

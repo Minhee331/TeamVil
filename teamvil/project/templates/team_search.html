@@ -41,36 +41,6 @@
         </div>
     </section>
 
-{% block content %}
-{% for post in post.all %}
-    {% for project in projects %}
-        <main class="team_search-team-container">    
-            <a href="{% url 'team_detail' project.id %}">
-                <article class="team_search-team-item">
-                    <img class="team_search-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                    <div class="team_search-team-item-text">
-                        <p class="team_search-team-item-title spoqa-medium">{{post.title}}</p>
-                        <p class="team_search-team-item-content spoqa-regular">분야 : {{post.field1_id.field1}}</p>
-                        <p class="team_search-team-item-content spoqa-regular">기간 : {{post.start_date|date:"Y-m-d"}} ~ {{post.end_date|date:"Y-m-d"}}</p>
-                        <p class="team_search-team-item-content spoqa-regular">모집인원 : {{post.mem_now}} / {{post.mem_duty}}
-                            {% if post.state == 1%}
-                                (모집중)
-                            {% else %}
-                                (모집완료)
-                            {% endif %}
-                        </p>
-                        <p class="team_search-team-item-content spoqa-regular">지역 : {{post.region1_id.region1}} {{post.region2_id.region2}}</p>
-                    </div>
-                </article>
-            </a>
-        </main>
-    {% endfor %}
-{% endfor %}
-{% endblock %}
-
-<!---->    
-
     <section class="team_search-main-container margin">
         <aside class="team_search-filter-container">
             <div class="team_search-filter-item-container">

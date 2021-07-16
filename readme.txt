@@ -48,3 +48,4 @@
 210716 건영 | mypage_project, mypage_profile | account view수정 및 url수정
 210715 민희 | team_search, member_search | 세부 필터링 기능 구현
 210716 백팀 | login, signup, mypage_profile, mypage_project, team_search, member_search | 해당 페이지 기능 구현함(QA시트 참조) 
+210717 건영 | mypage_modify_profile | account view생성 및 url생성 mypage_modify_profile_back_sunneng.html생성
