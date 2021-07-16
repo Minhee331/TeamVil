@@ -1,10 +1,32 @@
-210704 혜인 | member_deatil | 전반적인 css 수정 
+======================= 2021.06 =======================
+210628 백팀 | 세팅 | 프로젝트 생성
+210629 프롵 | 세팅 | win 가상환경 생성, templates, static, css 폴더 생성
+210629 백팀 | 세팅 | django 설치
+210630 혜인 | navbar | 네브바 관련 세팅
+210630 혜인 | navbar, footer | navbar.html, footer.html 작성
+======================= 2021.07 =======================
+210701 백팀 | DB | project, account, home DB 모델 생성
+210701 혜인 | navbar | navbar.css
+210701 자운 | footer | footer 완료
+210701 자운 | team_detail | teamdetail 페이지 중간저장
+210702 백팀 | team_search, member_search | 팀리스트, 팀원리스트 기능 구현 
+210702 혜인 | team_detail, member_detail | detail 페이지 수정
+210702 자운 | team_detail | team_detail | 페이지 수정 
+210702 백팀 | team_search, member_search | 팀 & 멤버 리스트 필터링 작업 진행 중
+210703 백팀 | team_detail | team_detail | 멤버 & 팀 디테일 데이터 가져옴
+210703 자운 | member_detail | 멤버 디테일 페이지중간수정
+210703 혜인 | team_search, member_search | 서치 페이지 작성
+210703 민희 | main | 메인페이지 슬라이드 작업
+210703 혜인 | base | font 추가
+210703 혜인 | base | font 수정
+210703 혜인 | team_search, member_search | search 페이지들 css 적용
+210704 백팀 | team_search, member_search | 팀 & 멤버 서치 페이지 추천 기능 구현
+210704 혜인 | team_search, member_search | search 페이지들 수정
+210704 자운 | team_detail, member_detail | 팀,멤버디테일 css완성
+210704 민희 | DB, main | 더미데이터 추가, 메인 페이지 좌측하단 신규팀, 우측하단 신규 멤버 html, css 작업
+210704 혜인 | member_search, team_search | 필터 수정 
 210704 민희 | DB | 더미데이터 추가 
-210704 자운 | member_search, team_search | 필터 수정 
 210704 혜인 | member_deatil | 전반적인 css 수정 
-210704 민희 | DB | 더미데이터 추가 
-210704 자운 | member_search, team_search | 필터 수정 
-210704 민희 | main | 좌측하단 신규팀, 우측하단 신규 멤버 html, css 작업
 210710 공통 | 서버 | 배포를 위한 세팅
 210712 자운 | team_new_back | html 생성 및 url 연결(임시로 네브바 커뮤니티와 연결)
 210712 건영 | login_back , signup_back | 로그인 과 회원가입 기능 구현 및 html생성과 views변경과 url 연결
@@ -22,4 +44,7 @@
 210715 자운 | team_new_back | DB데이터 받아와서 html 출력하도록 수정
 210715 유림 | team_search | team_search.html에 검색박스 생성, view추가 및 url 연결
 210715 건영 | mypage_project, mypage_profile | mypage_project.html생성, mypage_profile생성 , view추가 및 url연결
-
+210716 유림 | member_search_back | 드롭다운박스 생성, url 연결
+210716 건영 | mypage_project, mypage_profile | account view수정 및 url수정
+210715 민희 | team_search, member_search | 세부 필터링 기능 구현
+210716 백팀 | login, signup, mypage_profile, mypage_project, team_search, member_search | 해당 페이지 기능 구현함(QA시트 참조) 
