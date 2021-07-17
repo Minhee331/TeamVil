@@ -38,7 +38,7 @@
         </div>
     </section>
 
-    <section class="member_search-main-container margin">
+    <section class="member_search-container margin">
         <aside class="member_search-filter-container">
             <div class="member_search-filter-item-container">
                 <div class="member_search-filter-active">
@@ -213,49 +213,82 @@
             </a>
         </aside>
 
-        <main class="member_search-member-container">
-            {% for profile in profiles %}
-                <a href="{% url 'member_detail' profile.id %}">
-                    <article class="member_search-member-item">
-                        <!-- <p>
-                            {% if profile.state == 1 %}
-                                팀 찾는 중
-                            {% elif profile.state == 2 %}
-                                휴식 중
-                            {% else %}
-                                팀 참여 중
-                            {% endif %}
-                        </p> -->
+        <main>
+            <div class="member_search-member-select-container">
+                <div class="member_search-member-select-sort spoqa-regular">
+                    <a href="">최신순</a>
+                    <p>|</p>
+                    <a href="">인기순</a>
+                </div>
 
-                        <div class="member_search-member-profile-container">
-                            <div class="member_search-member-name-container">
-                                <img class="member_search-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-                                <p class="spoqa-bold">{{profile.name}}</p>
-                            </div>
+                <div class="member_search-member-select-right-container">
+                    <div class="member_search-search-container">
+                        <input class="member_search-member-select-search spoqa-light" type="text">
+                        <img class="member_search-search-button" src="{% static 'image/search.png' %}">
+                    </div>
 
-                            <p class="spoqa-medium">MBTI : {{profile.mbti_id.mbti}}</p>
+                    <div class="member_search-member-select-state spoqa-regular drop_btn" value="sort">
+                        <div class="member_search-select-state-button">
+                            <p>전체</p>
+                            <img class="member_search-chevron" src="{% static 'image/chevron-down.png' %}">
                         </div>
 
-                        <p class="spoqa-medium">관심분야 : {{profile.field1_id.field1}}</p>
-                        <p class="spoqa-medium">선호 프로젝트 : 
-                            {% if profile.type == 0 %}
-                                창업
-                            {% elif profile.type == 1 %}
-                                공모전
-                            {% else %}
-                                프로젝트
-                            {% endif %}
-                        </p>
-                        <p class="spoqa-medium">선호 기간 : </p>
+                        <div class="hidden float" id="sort">
+                            <div class="member_search-select-state-list">
+                                <a href="">전체</a>
+                                <a href="">팀 찾는 중</a>
+                                <a href="">휴식 중</a>
+                                <a href="">팀 참여 중</a>  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                        <hr>
+            <div class="member_search-member-container">
+                {% for profile in profiles %}
+                    <a href="{% url 'member_detail' profile.id %}">
+                        <article class="member_search-member-item">
+                            <!-- <p>
+                                {% if profile.state == 1 %}
+                                    팀 찾는 중
+                                {% elif profile.state == 2 %}
+                                    휴식 중
+                                {% else %}
+                                    팀 참여 중
+                                {% endif %}
+                            </p> -->
 
-                        <p class="spoqa-regular">나이 : {% getAge profile.birthday %}</p>
-                        <p class="spoqa-regular">직업 : {{ profile.job_id.job }}</p>
-                        <p class="spoqa-regular">지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
-                    </article>
-                </a>
-            {% endfor %}
+                            <div class="member_search-member-profile-container">
+                                <div class="member_search-member-name-container">
+                                    <img class="member_search-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+                                    <p class="spoqa-bold">{{profile.name}}</p>
+                                </div>
+
+                                <p class="spoqa-medium">MBTI : {{profile.mbti_id.mbti}}</p>
+                            </div>
+
+                            <p class="spoqa-medium">관심분야 : {{profile.field1_id.field1}}</p>
+                            <p class="spoqa-medium">선호 프로젝트 : 
+                                {% if profile.type == 0 %}
+                                    창업
+                                {% elif profile.type == 1 %}
+                                    공모전
+                                {% else %}
+                                    프로젝트
+                                {% endif %}
+                            </p>
+                            <p class="spoqa-medium">선호 기간 : </p>
+
+                            <hr>
+
+                            <p class="spoqa-regular">나이 : {% getAge profile.birthday %}</p>
+                            <p class="spoqa-regular">직업 : {{ profile.job_id.job }}</p>
+                            <p class="spoqa-regular">지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
+                        </article>
+                    </a>
+                {% endfor %}
+            </div>
         </main>
     </section>
 
@@ -274,7 +307,11 @@
                 $(currentClass).removeClass('active');
                 $(currentClass).addClass('hidden');
             }
-        }); 
+        });
+
+
+
+        // ??????
         $('.field1, .mbti, .region2, .term, .state, .job').on("change",  function(){ 
             if($(this).val()=='all'&& $(this).is(":checked")){
                 $("."+$(this).attr('class')).prop("checked", false);

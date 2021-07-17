@@ -53,21 +53,12 @@
       <option onclick="location.href='/member_state/{{state}}'" value="state_0">팀 참여중</option>
     </select>
 </form>
+
+
 <!--
 <div class="dropdown">
     <button onclick="Click()" class="button">====상태검색====</button>
     <div class="dropdown-content" id="drop-content">
-        <a hreaf='#'>팀 찾는중</a>
-        <a hreaf='#'>휴식중</a>
-        <a hreaf='#'>팀 참여중</a>
-    </div>
-</div>
--->
-<!--
-<div class="dropdown">
-    <button onclick="ClickState()" class="button">====검색====</button>
-    <div style="
-    display: none;" id="drop-content">
         <a hreaf='#'>팀 찾는중</a>
         <a hreaf='#'>휴식중</a>
         <a hreaf='#'>팀 참여중</a>
@@ -344,8 +335,27 @@
             var state = $('#member_search-state-box option:selected').val();
             alert(state);
         })
-
     });
+    
+// <form>
+//    <select id="member_search-state-box">
+//        <option value="state_1">팀 찾는중</option>
+//        <option value="state_2">휴식중</option>
+//        <option value="state_0">팀 참여중</option>
+//    </select>
+//</form> 
+
+
+
+
+
+
+
+
+
+
+
+
 
     // function drop(){
     //     let className = $(this).val();

@@ -42,19 +42,43 @@
                     <br>
 
                 <h4>지역</h4>
-                    <select name="region1" required>
+                    <select onchange="categoryChange(this)" name="region1" required>
                         {% for region1 in region1s %}
                         <option value="{{ region1.id }}">{{ region1.region1 }}</option>
                         {% endfor %}
                     </select>
                     
-                    <select name="region2" required>
+                    <select id="region2" name="region2" required>
                         {% for region2 in region2s %}
                         <option value="{{ region2.id }}">{{ region2.region2 }}</option>
                         {% endfor %}
                     </select>
                     <br>
-                    <br>      
+                    <br> 
+                    <script>
+                        function categoryChange(e) {
+                            let region22 = "{{region2s}}";
+                            let target = document.getElementById("region2");
+                            console.log(region22.split(','));
+                            console.log(e);
+                            if(e.value == "a") var a = region2;
+                            else if(e.value == "a") var a = region2;
+                            else if(e.value == "a") var a = region2;
+                        
+                            target.options.length = 0;
+                        
+                            for (x in d) {
+                                var opt = document.createElement("option");
+                                opt.value = d[x];
+                                opt.innerHTML = d[x];
+                                target.appendChild(opt);
+                            }	
+                        }
+                    </script> 
+                    
+                    
+
+
 
                 <h4>전체 팀 인원</h4>
                     <input type="number" min="0" name="mem_total" placeholder="전체 팀 인원">
@@ -96,6 +120,7 @@
 
                 <h4>(선택)학력제한</h4>
                 <select name="education">
+                    <option>선택안함</option>
                     {% for education in educations %}
                     <option value="{{ education.id }}">{{ education.education }}</option>
                     {% endfor %}

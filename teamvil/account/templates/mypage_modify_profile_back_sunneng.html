@@ -1,19 +1,94 @@
-<!-- {% block content %}
-<form method="POST" action="{% url 'mypage_modify_profile_update' %}">
+<!DOCTYPE html>
+{% load custom_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+{% block content %}
+<form method="POST" action="{% url 'mypage_modify_profile_update'  %}">
     {% csrf_token %}
     <h1>수정페이지</h1>
         <h4>이름:</h4>
-        <input type="text" name="name" value={{profile.name}}>
-        <br>
+        <input type="text" name="name" value={{profile.name}}>      
         <h4>직업:</h4>
-        <input type="int" name="job_id" value={{profile.job_id.job}}>
-        <h4>나이</h4>
-        <input type="int" name="job_id" value={%getAgeprofile.birthday%}>
-        <h4>본문:</h4>
-        <textarea name="body" cols="40" rows="10">{{blog.body}}</textarea>
+        <textarea name="job_id" cols="40" rows="10">{{profile.job_id.job}}</textarea>
+        <h4>나이:</h4> 
+        <textarea name="birthday" cols="40" rows="10">{% getAge profile.birthday %}</textarea>
+        <h4>지역:</h4> 
+        <textarea name="region1_id" cols="40" rows="10">{{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</textarea>
+        <h4>상태:</h4> 
+        <textarea name="state" cols="40" rows="10">
+          {% if profile.state == 1 %}
+            팀 찾는 중
+          {% elif profile.state == 2 %}
+              휴식 중
+          {% else %}
+              팀 참여 중
+          {% endif %}
+        </textarea>
+        <h4>관심분야:</h4> 
+        <textarea name="field1_id" cols="40" rows="10">{{profile.field1_id.field1}}</textarea>
+        <h4>관심분야_dettail:</h4> 
+        <textarea name="field2" cols="40" rows="10">{{profile.field2}}</textarea>
+        
+
+        
+        <h4>선호기간:</h4>
+        <textarea name="term_id" cols="40" rows="10">{{profile.term_id.term}}</textarea>
+        <h4>MBTI:</h4>
+        <textarea name="mbti_id" cols="40" rows="10">{{profile.mbti_id.mbti}}</textarea>
+        {% if profile.mbti_detail is not None %}
+        <p>성격유형_detail: {{profile.mbti_detail}}</p>
+        {% endif %}
+        {% if profile.open_phone %}
+        <h4>연락처:</h4>
+        <textarea name="body" cols="40" rows="10">
+        <p>{{profile.phone}}</p>
+        {% else %}
+        <p>전화번호: 비공개</p>
+        {% endif %}
+        {% if profile.open_email %}
+        <h4>이메일:</h4>
+        <textarea name="email" cols="40" rows="10">{{profile.email}}
+        <p>이메일: 비공개</p>
+        {% else %}
+        <p>email: 비공개</p>
+        {% endif %}
+        </textarea>
+        {% if profile.pr is not None %}
+        <h4>pr:</h4>
+        <textarea name="body" cols="40" rows="10">{{profile.pr}</textarea>
+        {% endif %}
+        {% if profile.isCarrer %}
+        <h4>경력:</h4>
+        <textarea name="body" cols="40" rows="10">
+          {% for user_carrer in user_carrers %}
+          <p>커리어:{{user_carrer.content}}</p>
+          <p>시작날짜:{{user_carrer.start_date}}</p>
+          <p>종료날짜:{{user_carrer.end_date}}</p><br>
+          {% endfor %} 
+        </textarea>
+        {% endif %}
+        {% if profile.isLink %}
+        <textarea name="body" cols="40" rows="10">
+          {% for user_link in user_links %}
+          <p>링크:{{user_link.link}}</p> <br>
+          {% endfor %}
+          </textarea>
+        {% endif %}
+        {% if profile.isFile %}
+        <textarea name="body" cols="40" rows="10">
+          {% for user_file in user_files %}
+          <p>파일:{{user_file.file}}</p> <br>
+          {% endfor %}
+        </textarea>
+        {% endif %}
         <br>
         <br>
-        <input type="submit" value="제출하기">
+        <input type="submit" value="수정하기">
 </form>
 {% endblock %}
-  -->
+  

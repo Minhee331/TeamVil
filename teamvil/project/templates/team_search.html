@@ -131,29 +131,60 @@
             </a>
         </aside>
 
-        <main class="team_search-team-container">
-            {% for project in projects %}
-                <a href="{% url 'team_detail' project.id %}">
-                    <article class="team_search-team-item">
-                        <img class="team_search-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
+        <main>
+            <div class="member_search-member-select-container">
+                <div class="member_search-member-select-sort spoqa-regular">
+                    <a href="">최신순</a>
+                    <p>|</p>
+                    <a href="">인기순</a>
+                </div>
 
-                        <div class="team_search-team-item-text">
-                            <p class="team_search-team-item-title spoqa-medium">{{project.title}}</p>
-                            <p class="team_search-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
-                            <p class="team_search-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
-                            <p class="team_search-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
-                                {% if project.state == 1%}
-                                    (모집중)
-                                {% else %}
-                                    (모집완료)
-                                {% endif %}
-                            </p>
-                            <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
+                <div class="member_search-member-select-right-container">
+                    <div class="member_search-search-container">
+                        <input class="member_search-member-select-search spoqa-light" type="text">
+                        <img class="member_search-search-button" src="{% static 'image/search.png' %}">
+                    </div>
+
+                    <div class="member_search-member-select-state spoqa-regular drop_btn" value="sort">
+                        <div class="member_search-select-state-button">
+                            <p>전체</p>
+                            <img class="member_search-chevron" src="{% static 'image/chevron-down.png' %}">
                         </div>
-                        
-                    </article>
-                </a>
-            {% endfor %}
+
+                        <div class="hidden float" id="sort">
+                            <div class="member_search-select-state-list">
+                                <a href="">전체</a>
+                                <a href="">모집중</a>
+                                <a href="">모집완료</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team_search-team-container">
+                {% for project in projects %}
+                    <a href="{% url 'team_detail' project.id %}">
+                        <article class="team_search-team-item">
+                            <img class="team_search-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
+
+                            <div class="team_search-team-item-text">
+                                <p class="team_search-team-item-title spoqa-medium">{{project.title}}</p>
+                                <p class="team_search-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
+                                <p class="team_search-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
+                                <p class="team_search-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
+                                    {% if project.state == 1%}
+                                        (모집중)
+                                    {% else %}
+                                        (모집완료)
+                                    {% endif %}
+                                </p>
+                                <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
+                            </div>
+                        </article>
+                    </a>
+                {% endfor %}
+            </div>
         </main>
     </section>
 

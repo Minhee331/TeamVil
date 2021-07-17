@@ -120,26 +120,26 @@ def logout_back(request):
     return redirect('/')
 
 # 팀원 찾기 > 검색 함수
-def searchMember(request):
-    post = Profile.objects.all().order_by('id')
-    profiles_reg = Profile.objects.all().order_by('id')[:4]
-    field1 = Field1.objects.all() # 대분야 (ex IT)
-    mbti = Mbti.objects.all()
-    region2 = Region2.objects.all() # ~시 (서울만 ~구)
-    term = Term.objects.all()
-    job = Job.objects.all()
-    search = request.POST.get('examine')
-    if search:
-        post = post.filter(
-            Q(name__icontains = search)
-            #Q(mbti_id__icontains = search)|
-            #Q(field1_id__icontains = search)|
-            #Q(type__icontains = search)|
-            #Q(job_id__icontains = search)|
-            #Q(region1_id__icontains = search)|
-        )
-        return render(request,'member_search.html',{'profiles':post, "field1s":field1, "mbtis" : mbti, 
-                                                    "region2s": region2, "terms": term, "jobs": job, "profiles_reg":profiles_reg})  
+# def searchMember(request):
+#     post = Profile.objects.all().order_by('id')
+#     profiles_reg = Profile.objects.all().order_by('id')[:4]
+#     field1 = Field1.objects.all() # 대분야 (ex IT)
+#     mbti = Mbti.objects.all()
+#     region2 = Region2.objects.all() # ~시 (서울만 ~구)
+#     term = Term.objects.all()
+#     job = Job.objects.all()
+#     search = request.POST.get('examine')
+#     if search:
+#         post = post.filter(
+#             Q(name__icontains = search)
+#             #Q(mbti_id__icontains = search)|
+#             #Q(field1_id__icontains = search)|
+#             #Q(type__icontains = search)|
+#             #Q(job_id__icontains = search)|
+#             #Q(region1_id__icontains = search)|
+#         )
+#         return render(request,'member_search.html',{'profiles':post, "field1s":field1, "mbtis" : mbti, 
+#                                                     "region2s": region2, "terms": term, "jobs": job, "profiles_reg":profiles_reg})  
 
 # 마이페이지 프로필 함수
 def mypage_profile(request):
@@ -159,7 +159,15 @@ def mypage_project(request):
     likes = Like.objects.filter(to_user_id =user)
     scraps = Scrap.objects.filter(to_user_id =user)
     return render(request, "mypage_project_back.html", {'projects':projects, "likes": likes,"scrpas": scraps})
-    
+
+# 팀원 찾기 > 검색 함수
+def searchMember(request):
+    obj = json.loads(request.body)
+    value = obj['value']
+    profiles = Profile.objects.filter(Q(name__icontains = value)| Q(region1_id__region1__icontains = value) | Q(region2_id__region2__icontains = value)
+                                    | Q(job_id__job__icontains = value) | Q(mbti_id__mbti__icontains = value)| Q(pr__icontains = value))
+    return render(request,'member_list_form.html',{'profiles':profiles})
+
 # 팀원 찾기 > 세부 필터링 함수
 def filterMember(request):
     obj = json.loads(request.body)
@@ -193,24 +201,24 @@ def mypage_modify_profile_update(request):
     user = request.user
     profile = Profile.objects.get(user_id = user)
     profile.name = request.POST.get('name')
-    profile.job_id = request.POST.get('job_id')
+    profile.job_id = request.POST.get('job_id_id')
     profile.birthday = request.POST.get('birthday')
     profile.region2_id = request.POST.get('region2_id')
     profile.state = request.POST.get('state')
-    profile.field1_id = request.POST.get('field1_id')
+    profile.field1_id = request.POST.get('field1_id.field_id')
     profile.field2 = request.POST.get('field2')
-    profile.term_id = request.POST.get('term_id')
-    profile.mbti_id = request.POST.get('mbti_id')
+    profile.term_id = request.POST.get('term_id.term_id')
+    profile.mbti_id = request.POST.get('mbti_id.mbti_id')
     profile.mbti_detail = request.POST.get('mbti_detail')
-    profile.openPhone = request.POST.get('openPhone')
-    profile.openEmail = request.POST.get('openEmail')
+    # profile.openPhone = request.POST.get('openPhone')
+    # profile.openEmail = request.POST.get('openEmail')
     profile.pr = request.POST.get('pr')
     user_links = User_link.objects.filter(user_id = user)
     user_links.link = request.POST.get('link')
     user_files = User_file.objects.filter(user_id = user)
     user_files.file = request.POST.get('file')
     user_carrers = User_carrer.objects.filter(user_id = user)
-    user_carrers.start_date = request.POST.get('start-date')
+    user_carrers.start_date = request.POST.get('start_date')
     user_carrers.end_date = request.POST.get('end_date')
     user_carrers.content = request.POST.get('content')
     profile.save()
