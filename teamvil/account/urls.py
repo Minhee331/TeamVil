@@ -16,5 +16,6 @@ urlpatterns = [
     path('filterMember/', views.filterMember, name="filterMember"),
     path('mypage_modify_profile_back_sunneng', views.mypage_modify_profile_edit, name="mypage_modify_profile_edit"),
     path('mypage_modify_profile_back_sunneng/update', views.mypage_modify_profile_update, name="mypage_modify_profile_update"),
+    path('mypage', views.mypage, name = 'mypage')
     #path('member_state/<int:state_id>', views.member_state, name ="member_state")
 ]

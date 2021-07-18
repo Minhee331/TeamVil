@@ -11,8 +11,6 @@ from home.models import *
 import json
 from django.views.decorators.csrf import csrf_exempt
 
-# Create your views here.
-
 def member_search(request):
     profiles = Profile.objects.all()
     profiles_reg = Profile.objects.all().order_by('id')[:4]
@@ -227,13 +225,12 @@ def mypage_modify_profile_update(request):
     user_carrers.save()
     return redirect('/member/mypage_modify_profile_back_sunneng/update' + str(profile.id))
 
-
-
-
-
-
-  
-
-
-
- 
+def mypage(request):
+    user = request.user
+    profile = Profile.objects.get(user_id = user)
+    user_links = User_link.objects.filter(user_id = user)
+    user_files = User_file.objects.filter(user_id = user)
+    user_reviews = User_review.objects.filter(to_user_id = user)
+    user_carrers = User_carrer.objects.filter(user_id = user)
+    return render(request, "mypage.html", {"profile":profile, "user_links": user_links, "user_files": user_files , 
+                "user_reviews": user_reviews, "user_carrers":user_carrers})

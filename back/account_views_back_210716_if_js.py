@@ -141,7 +141,8 @@ def mypage_project(request):
 def searchMember(request):
     obj = json.loads(request.body)
     value = obj['value']
-    profiles = Profile.objects.filter(Q(name__icontains = value))
+    profiles = Profile.objects.filter(Q(name__icontains = value)| Q(region1_id__region1__icontains = value) | Q(region2_id__region2__icontains = value)
+                                    | Q(mbti_id__mbti__icontains = value)| Q(job_id__job__icontains = value) | Q(pr__icontains = value))
     return render(request,'member_list_form.html',{'profiles':profiles})
     
     # post = Profile.objects.all().order_by('id')

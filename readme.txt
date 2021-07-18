@@ -49,3 +49,9 @@
 210715 민희 | team_search, member_search | 세부 필터링 기능 구현
 210716 백팀 | login, signup, mypage_profile, mypage_project, team_search, member_search | 해당 페이지 기능 구현함(QA시트 참조) 
 210717 건영 | mypage_modify_profile | account view생성 및 url생성 mypage_modify_profile_back_sunneng.html생성
+210717 유림 | member_search_back | member서치기능 js로 연결, views생성 및 url연결
+210717 자운 | team_new_back | region1 select 후 region2 select 바뀌도록 수정중
+210718 건영 | mypage_modify_profile | account view수정 및 url생성 mypage_modify_profile_back_sunneng.html수정
+210718 혜인 | team_search, member_search | 정렬, 검색, 상태 드롭다운 css, js 완료
+210719 민희 | mypage | mypage css 작업 진행중
+210719 자운 | team_search_back_cloud | team_search_back_cloud 최신순 필터링 수정중

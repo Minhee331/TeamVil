@@ -1,0 +1,142 @@
+.mypage-flex-container{
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+.mypage-fix-width-container{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+/* 마이페이지 좌측 메뉴 영역 */
+.mypage-menu-wrap-container{
+    display: flex;
+    justify-content: center;
+    width: 20vw;
+    min-width: 250px;
+    height: 1000px;
+    border-right: 1px solid #EBEBEB;
+}
+.mypage-menu-container{
+    width: 15vw;
+    min-width: 190px;
+    height: 1000px;
+}
+.mypage-menu-item{
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-bottom: 1px solid #EBEBEB;
+}
+.active-menu{
+    color: #0F59FF;
+}
+.mypage-menu-item-text{
+    text-align: center;
+    font-size: 17px;
+    cursor: pointer;
+    padding: 15px 0;
+}
+/* 마이페이지 우측 영역 */
+.mypage-info-wrap-container{
+    width: 60vw;
+    min-width: 800px;
+    height: 1000px;
+}
+.mypage-info-item-wrap-container{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    border-bottom: 1px solid #EBEBEB;
+}
+.mypage-profile-item-container{
+    display: flex;
+    justify-content: space-between;
+    width: 600px;
+    height: 500px;
+}
+/* .mypage-profile-box-item{
+    width: 275px;
+    height: 500px;
+    background-color: cornflowerblue;
+} */
+.mypage-profile-left-box-item{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 280px;
+    height: 500px;
+    border: 1px solid #ebebeb;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.mypage-profile-img {
+    width: 156.6675px;
+    height: 151.92px;
+    margin: 55px auto;
+}
+.mypage-profile-line { 
+    width: 70%;
+    border: 1px solid #EBEBEB;
+    align-self: center;
+}
+
+.mypage-profile-info-name-text {
+    text-align: center;
+    font-size: 20px;
+    padding: 18px 0;
+}
+
+.mypage-profile-info-wrap {
+    padding-bottom: 16px;
+}
+
+.mypage-profile-info-title-text{
+    display: inline-block;
+    font-size: 16px;
+    margin-left: 50px;
+    margin-right: 15px;
+}
+.mypage-profile-info-content-text{
+    display: inline-block;
+    font-size: 14px;
+}
+
+.mypage-profile-right-box-item {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 280px;
+    height: 500px;
+    border: 1px solid #0F4C81;
+    background-color: #0F4C81;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.member_detail-profile-more {
+    padding: 47.475px 35px;
+}
+
+.member_detail-profile-more p {
+    padding: 10px 14.5px;
+}
+
+.member_detail-profile-more-title {
+    display: inline-block;
+    /* width: 63px; */
+    font-size: 14.24px;
+    /* font-weight: bold; */
+    padding-right: 14.24px;
+}
+
+.member_detail-profile-more-line {
+    margin: 5px auto;
+    width: 100%;
+}
+
+
+.member_detail-profile-more-body {
+    font-size: 12.66px;
+}

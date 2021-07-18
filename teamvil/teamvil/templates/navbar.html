@@ -12,7 +12,7 @@
     </div>
 
     <ul class="navbar-my-container spoqa-regular">
-        <li class="navbar-my-item"><a href="{% url 'mypage_profile' %}">마이페이지</a></li>
+        <li class="navbar-my-item"><a href="{% url 'mypage' %}">마이페이지</a></li>
 
         {% if user.is_authenticated %}
             <li class="navbar-my-item"><a href="{% url 'logout' %}">로그아웃</a></li>

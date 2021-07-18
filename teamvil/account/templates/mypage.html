@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+{% load custom_tags %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mypage.css' %}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="mypage-flex-container margin">
+        <div class="mypage-fix-width-container">
+            <div class="mypage-menu-wrap-container">
+                <div class="mypage-menu-container">
+                    <div class="mypage-menu-item">
+                        <p class="mypage-menu-item-text active-menu spoqa-light">프로필</p>
+                    </div>
+
+                    <div class="mypage-menu-item">
+                        <p class="mypage-menu-item-text spoqa-light">프로필 수정하기</p>
+                    </div>
+
+                    <div class="mypage-menu-item">
+                        <p class="mypage-menu-item-text spoqa-light">프로젝트</p>
+                    </div>
+
+                    <div class="mypage-menu-item">
+                        <p class="mypage-menu-item-text spoqa-light">좋아요</p>
+                    </div>
+
+                    <div class="mypage-menu-item">
+                        <p class="mypage-menu-item-text spoqa-light">스크랩</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mypage-info-wrap-container">
+                <div class="mypage-info-item-wrap-container">
+                    <div class="mypage-profile-item-container">
+                        <div class="mypage-profile-left-box-item">
+                            <img src="{% static 'image/profile.jpeg' %}" class="mypage-profile-img">
+        
+                            <hr class="mypage-profile-line">
+        
+                            <div class="mypage-profile-info">
+                                <p class="mypage-profile-info-name-text spoqa-light">{{profile.name}}</p>
+                                
+                                <div class="mypage-profile-info-wrap">
+                                    <p class="mypage-profile-info-title-text spoqa-light">직업</p>
+                                    <p class="mypage-profile-info-content-text spoqa-thin">{{profile.job_id.job}}</p>
+                                </div>
+
+                                <div class="mypage-profile-info-wrap">
+                                    <p class="mypage-profile-info-title-text spoqa-light">나이</p>
+                                    <p class="mypage-profile-info-content-text spoqa-thin">{% getAge profile.birthday %}세</p>
+                                </div>
+
+                                <div class="mypage-profile-info-wrap">
+                                    <p class="mypage-profile-info-title-text spoqa-light">지역</p>
+                                    <p class="mypage-profile-info-content-text spoqa-thin">{{profile.region1_id.region1}}{{profile.region2_id.region2}}</p>
+                                </div>
+
+                                <div class="mypage-profile-info-wrap">
+                                    <p class="mypage-profile-info-title-text spoqa-light">상태</p>
+                                    <p class="mypage-profile-info-content-text spoqa-thin">
+                                        {% if profile.state == 1 %}
+                                            팀 찾는 중
+                                        {% elif profile.state == 2 %}
+                                            휴식 중
+                                        {% else %}
+                                            팀 참여 중
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mypage-profile-right-box-item">
+                            <div class="member_detail-profile-more">
+                                <p>
+                                    <span class="member_detail-profile-more-title spoqa-regular">관심 분야</span>
+                                    <span class="member_detail-profile-more-body spoca-light">{{profile.field1_id.field1}}</span>
+                                </p>
+        
+                                <p>
+                                    <span class="member_detail-profile-more-title spoqa-regular">기간</span>
+                                    <span class="member_detail-profile-more-body spoca-light">{{profile.term_id.term}}</span>
+                                </p>
+        
+                                <hr class="member_detail-profile-more-line">
+        
+                                <p>
+                                    <span class="member_detail-profile-more-title spoqa-regular">MBTI</span>
+                                    <span class="member_detail-profile-more-body spoca-light">{{profile.mbti_id.mbti}}</span>
+                                </p>
+        
+                                {% if profile.mbti_detail == None %}
+                                    <p class="member_detail-profile-body spoca-light">{{profile.mbti_detail}}</p>
+                                {% endif %}
+        
+                                <hr class="member_detail-profile-more-line">
+        
+                                <p>
+                                    <span class="member_detail-profile-more-title spoqa-regular">연락처</span>
+                                    <span class="member_detail-profile-body spoca-light">
+                                        {% if profile.open_phone %}
+                                        <span>{{profile.phone}}</span>
+                                        {% else %}
+                                        <span>비공개</span>
+                                        {% endif %}
+                                    </span>
+                                </p>
+                                <p>
+                                    <span class="member_detail-profile-more-title spoqa-regular">이메일</span>
+                                    <span class="member_detail-profile-body spoca-light">
+                                        {% if profile.open_email %}
+                                        <span>{{profile.email}}</span>
+                                        {% else %}
+                                        <span>비공개</span>
+                                        {% endif %}
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+</body>
+</html>
