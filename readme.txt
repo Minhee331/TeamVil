@@ -55,3 +55,6 @@
 210718 혜인 | team_search, member_search | 정렬, 검색, 상태 드롭다운 css, js 완료
 210719 민희 | mypage | mypage css 작업 진행중
 210719 자운 | team_search_back_cloud | team_search_back_cloud 최신순 필터링 수정중
+210719 유림 | member_list_form, team_list_form | 검색 결과 없을 시 코드 추가, views.py 수정
+210719 민희 | mypage | 마이페이지 프로필, 프로젝트 css 작업 
+210719 자운 | team_search_back_cloud,member_search_back_cloud | 최신순 필터링 수정진행

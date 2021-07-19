@@ -1,3 +1,6 @@
+*{
+    box-sizing: border-box;
+}
 .mypage-flex-container{
     display: flex;
     justify-content: center;
@@ -9,19 +12,18 @@
     justify-content: space-between;
     width: 100%;
 }
+
 /* 마이페이지 좌측 메뉴 영역 */
 .mypage-menu-wrap-container{
     display: flex;
     justify-content: center;
     width: 20vw;
     min-width: 250px;
-    height: 1000px;
     border-right: 1px solid #EBEBEB;
 }
 .mypage-menu-container{
     width: 15vw;
     min-width: 190px;
-    height: 1000px;
 }
 .mypage-menu-item{
     width: 100%;
@@ -40,37 +42,36 @@
     cursor: pointer;
     padding: 15px 0;
 }
-/* 마이페이지 우측 영역 */
+
+/* 마이페이지 우측 영역 (공통) */
 .mypage-info-wrap-container{
     width: 60vw;
     min-width: 800px;
-    height: 1000px;
 }
+
+/* 마이페이지 우측 영역 (프로필) */
 .mypage-info-item-wrap-container{
     display: flex;
     justify-content: center;
     width: 100%;
     border-bottom: 1px solid #EBEBEB;
+    padding-bottom: 70px;
 }
-.mypage-profile-item-container{
+.mypage-profile-row-item-container{
     display: flex;
     justify-content: space-between;
     width: 600px;
-    height: 500px;
 }
-/* .mypage-profile-box-item{
-    width: 275px;
-    height: 500px;
-    background-color: cornflowerblue;
-} */
-.mypage-profile-left-box-item{
+.mypage-profile-box-item{
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
     width: 280px;
     height: 500px;
-    border: 1px solid #ebebeb;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.mypage-profile-left-box-item{
+    border: 1px solid #ebebeb;
 }
 .mypage-profile-img {
     width: 156.6675px;
@@ -80,7 +81,7 @@
 .mypage-profile-line { 
     width: 70%;
     border: 1px solid #EBEBEB;
-    align-self: center;
+    margin: 0 auto;
 }
 
 .mypage-profile-info-name-text {
@@ -105,38 +106,126 @@
 }
 
 .mypage-profile-right-box-item {
-    display: flex;
-    justify-content: flex-start;
-    flex-direction: column;
-    width: 280px;
-    height: 500px;
     border: 1px solid #0F4C81;
     background-color: #0F4C81;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-.member_detail-profile-more {
-    padding: 47.475px 35px;
+.mypage-profile-right-box-item-wrap {
+    padding: 55px 0;
 }
 
-.member_detail-profile-more p {
-    padding: 10px 14.5px;
+.text-color-white{
+    color: #fff;
 }
-
-.member_detail-profile-more-title {
-    display: inline-block;
-    /* width: 63px; */
-    font-size: 14.24px;
-    /* font-weight: bold; */
-    padding-right: 14.24px;
+.line-margin{
+    margin-bottom: 25px;
 }
-
-.member_detail-profile-more-line {
-    margin: 5px auto;
+.mypage-profile-mbti-detail-box{
+    width: 180px;
+    margin: 0 auto;
+    line-height: 25px;
+    margin-bottom: 5px;
+    text-align: justify;
+}
+.mypage-profile-detail-info-wrap{
+    padding-top: 50px;
     width: 100%;
 }
+.mypage-profile-detail-info-title-text{
+    font-size: 18px;
+    margin: 10px 0;
+}
+.mypage-profile-detail-info-content-text{
+    margin: 0 15px;
+    font-size: 15px;
+    line-height: 30px;
+    text-align: justify;
+}
+.mypage-profile-column-item-container{
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+}
+.mypage-profile-detail-info-content2-text{
+    margin: 0 15px;
+    font-size: 15px;
+    line-height: 50px;
+}
 
-
-.member_detail-profile-more-body {
-    font-size: 12.66px;
+/* 마이페이지 우측 영역 (프로젝트) */
+.mypage-dropdown-item-wrap-container{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+.mypage-dropdown-item-wrap{
+    display: flex;
+    justify-content: flex-end;
+    width: 50vw;
+    min-width: 660px;
+    max-width: 700px;
+}
+.mypage-project-select-state-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80px;
+    height: 30px;
+    border: 1px solid #1b1b1b;
+    border-radius: 1px;
+    padding: 0 10px;
+}
+.mypage-project-select-state-button p {
+    font-size: 13px;
+}
+.mypage-project-select-state-list {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #1b1b1b;
+    border-top: none;
+    padding: 0 10px;
+    padding-top: 10px;
+    width: 80px;
+    background-color: #ffffff;
+}
+.mypage-project-select-state-list a {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+.float {
+    position: absolute;
+}
+.mypage-project-item-wrap-container{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 50vw;
+    min-width: 660px;
+    max-width: 700px;
+}
+.mypage-project-team-item {
+    width: 324.985px;
+    height: 371.8875px;
+    border: 1px solid #D7D7D7;
+    border-radius: 1px;
+    margin-bottom: 60px;
+}
+.mypage-project-team-image {
+    width: 324.985px;
+    height: 212.055px;
+    border-radius: 1px;
+}
+.mypage-project-team-item-text {
+    padding: 10px 20px;
+    line-height: 25px;
+}
+.mypage-project-team-item-title {
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+.mypage-project-team-item-content {
+    font-size: 12px;
 }

@@ -6,6 +6,7 @@ urlpatterns = [
     path('member_detail/<int:profile_id>', views.member_detail, name = "member_detail"),
     path('member_search/', views.member_search, name = "member_search"),
     path('member_search_back/', views.member_search_back, name = "member_search_back"),
+    path('member_search_back_cloud/', views.member_search_back_cloud, name = "member_search_back_cloud"),
     path('member_detail_back/<int:profile_id>', views.member_detail_back, name = "member_detail_back"),
     path('signup_back/', views.signup, name="signup"),
     path('login_back/', views.login, name="login"),
@@ -16,6 +17,8 @@ urlpatterns = [
     path('filterMember/', views.filterMember, name="filterMember"),
     path('mypage_modify_profile_back_sunneng', views.mypage_modify_profile_edit, name="mypage_modify_profile_edit"),
     path('mypage_modify_profile_back_sunneng/update', views.mypage_modify_profile_update, name="mypage_modify_profile_update"),
-    path('mypage', views.mypage, name = 'mypage')
+    path('mypage', views.mypage, name = 'mypage'),
+    path('mypage_profile', views.mypage_profile, name = 'mypage_profile'),
+    path('mypage_project', views.mypage_project, name = 'mypage_project')
     #path('member_state/<int:state_id>', views.member_state, name ="member_state")
 ]

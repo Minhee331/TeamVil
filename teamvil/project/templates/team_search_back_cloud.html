@@ -134,7 +134,7 @@
         <main>
             <div class="member_search-member-select-container">
                 <div class="member_search-member-select-sort spoqa-regular">
-                    <a class="최신순" href="">최신순</a>
+                    <a class="member_search-member-select-latest" href="#">최신순</a>
                     <p>|</p>
                     <a href="">인기순</a>
                 </div>
@@ -253,6 +253,21 @@
                 }
             });
         });
+        //최신순 필터링
+        $('.member_search-member-select-latest').on("click", function(e){ 
+            e.preventDefault();
+            $.ajax({
+                type: "POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url: "{% url 'latestTeam' %}",
+                success: function(res) {
+                    $('.team_search-team-container').html(res);
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                }
     });
 </script>
 </html>

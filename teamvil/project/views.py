@@ -1,3 +1,4 @@
+from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 from .models import *
 from home.models import *
@@ -174,9 +175,12 @@ def team_create_back_P(request):
 def searchTeam(request):
     obj = json.loads(request.body)
     value = obj['value']
-    projects = Project.objects.filter(Q(title__icontains = value) | Q(region1_id__region1__icontains=value) | Q(region2_id__region2__icontains=value)
-                                    | Q(content__icontains = value) | Q(school__icontains = value) | Q(desc__icontains = value))
-    return render(request,'team_list_form.html',{'projects':projects})  
+    if value:
+        projects = Project.objects.filter(Q(title__icontains = value) | Q(region1_id__region1__icontains=value) | Q(region2_id__region2__icontains=value)
+                                        | Q(content__icontains = value) | Q(school__icontains = value) | Q(desc__icontains = value))
+        return render(request,'team_list_form.html',{'projects':projects})
+    else:
+        return render(request,'team_list_form.html')  
  
 # 팀 찾기 > 세부 필터링 함수
 def filterTeam(request):
@@ -188,4 +192,17 @@ def filterTeam(request):
     if region[0]=='all':region=list(Region2.objects.values_list('id', flat=True))
     if state[0]=='all':state=[0, 1]
     projects = Project.objects.filter(field1_id__id__in=field1,region2_id__id__in=region,state__in=state).order_by('id')
+    return render(request, "team_list_form.html", {'projects':projects})
+
+# 좋아요 카운팅 함수
+def like(request):
+    user = request.user
+    project_id = Project.objects.get(id = project_id)
+    if Like.objects.filter(user= user, project_id= project_id).exists():
+        Like.objects.filter(user= user, project_id= project_id).delete()
+        like_count = Like.objects.filter(project_id=project_id).count()
+        return render(request,"team_search_back.html", {'like_count':like_count})
+
+def latestTeam(request):
+    projects = Project.objects.all().order_by('-register')
     return render(request, "team_list_form.html", {'projects':projects})

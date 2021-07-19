@@ -1,7 +1,7 @@
 {% load static %}
 {% load custom_tags %}
 {% if not profiles %} 
-    <h1>검색 결과가 없습니다</h1>
+    <h1>검색 결과가 없습니다.</h1>
 {% else %}
     {% for profile in profiles %}
         <a href="{% url 'member_detail' profile.id %}">

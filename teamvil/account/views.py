@@ -34,6 +34,18 @@ def member_search_back(request):
     return render(request, "member_search_back.html", {'profiles':profiles, "field1s":field1, "mbtis" : mbti, 
                                                     "region2s": region2, "terms": term, "jobs": job, "profiles_reg":profiles_reg})
 
+
+def member_search_back_cloud(request):
+    profiles = Profile.objects.all()
+    profiles_reg = Profile.objects.all().order_by('id')[:4]
+    field1 = Field1.objects.all() # 대분야 (ex IT)
+    mbti = Mbti.objects.all()
+    region2 = Region2.objects.all() # ~시 (서울만 ~구)
+    term = Term.objects.all()
+    job = Job.objects.all()
+    return render(request, "member_search_back_cloud.html", {'profiles':profiles, "field1s":field1, "mbtis" : mbti, 
+                                                    "region2s": region2, "terms": term, "jobs": job, "profiles_reg":profiles_reg})
+
 def member_detail(request, profile_id):
     profile = Profile.objects.get(id = profile_id)
     carrers = User_carrer.objects.filter(user_id = profile.user_id)
@@ -140,31 +152,26 @@ def logout_back(request):
 #                                                     "region2s": region2, "terms": term, "jobs": job, "profiles_reg":profiles_reg})  
 
 # 마이페이지 프로필 함수
-def mypage_profile(request):
-    user = request.user
-    profile = Profile.objects.get(user_id = user)
-    user_links = User_link.objects.filter(user_id = user)
-    user_files = User_file.objects.filter(user_id = user)
-    user_reviews = User_review.objects.filter(to_user_id = user)
-    user_carrers = User_carrer.objects.filter(user_id = user)
-    return render(request, "mypage_profile_back.html", {"profile":profile, "user_links": user_links, "user_files": user_files , 
-                "user_reviews": user_reviews, "user_carrers":user_carrers})
-
-# 마이페이지 프로젝트 함수
-def mypage_project(request):
-    user = request.user
-    projects = Project.objects.filter(user_id=user)
-    likes = Like.objects.filter(to_user_id =user)
-    scraps = Scrap.objects.filter(to_user_id =user)
-    return render(request, "mypage_project_back.html", {'projects':projects, "likes": likes,"scrpas": scraps})
+# def mypage_profile(request):
+#     user = request.user
+#     profile = Profile.objects.get(user_id = user)
+#     user_links = User_link.objects.filter(user_id = user)
+#     user_files = User_file.objects.filter(user_id = user)
+#     user_reviews = User_review.objects.filter(to_user_id = user)
+#     user_carrers = User_carrer.objects.filter(user_id = user)
+#     return render(request, "mypage_profile_back.html", {"profile":profile, "user_links": user_links, "user_files": user_files , 
+#                 "user_reviews": user_reviews, "user_carrers":user_carrers})
 
 # 팀원 찾기 > 검색 함수
 def searchMember(request):
     obj = json.loads(request.body)
     value = obj['value']
-    profiles = Profile.objects.filter(Q(name__icontains = value)| Q(region1_id__region1__icontains = value) | Q(region2_id__region2__icontains = value)
-                                    | Q(job_id__job__icontains = value) | Q(mbti_id__mbti__icontains = value)| Q(pr__icontains = value))
-    return render(request,'member_list_form.html',{'profiles':profiles})
+    if value:
+        profiles = Profile.objects.filter(Q(name__icontains = value)| Q(region1_id__region1__icontains = value) | Q(region2_id__region2__icontains = value)
+                                        | Q(job_id__job__icontains = value) | Q(mbti_id__mbti__icontains = value)| Q(pr__icontains = value))
+        return render(request,'member_list_form.html',{'profiles':profiles})
+    else:
+        return render(request, 'member_list_form.html')
 
 # 팀원 찾기 > 세부 필터링 함수
 def filterMember(request):
@@ -189,12 +196,13 @@ def filterMember(request):
 def mypage_modify_profile_edit(request):
     user = request.user
     profile = Profile.objects.get(user_id = user)
+    field1 = Field1.objects.all()
     user_links = User_link.objects.filter(user_id = user)
     user_files = User_file.objects.filter(user_id = user)
     user_carrers = User_carrer.objects.filter(user_id = user)
-    return render(request, "mypage_modify_profile_back_sunneng.html", {"profile":profile, "user_links": user_links, "user_files": user_files , 
+    return render(request, "mypage_modify_profile_back_sunneng.html", {"field1":field1,"profile":profile, "user_links": user_links, "user_files": user_files , 
                     "user_carrers":user_carrers})
-
+#마이페이지 프로필 update 함수
 def mypage_modify_profile_update(request):
     user = request.user
     profile = Profile.objects.get(user_id = user)
@@ -203,7 +211,8 @@ def mypage_modify_profile_update(request):
     profile.birthday = request.POST.get('birthday')
     profile.region2_id = request.POST.get('region2_id')
     profile.state = request.POST.get('state')
-    profile.field1_id = request.POST.get('field1_id.field_id')
+    field1s = Field1.objects.all()
+    profile.field1_id = request.POST.get('profile.field1.field1')
     profile.field2 = request.POST.get('field2')
     profile.term_id = request.POST.get('term_id.term_id')
     profile.mbti_id = request.POST.get('mbti_id.mbti_id')
@@ -223,14 +232,35 @@ def mypage_modify_profile_update(request):
     user_links.save()
     user_files.save()
     user_carrers.save()
-    return redirect('/member/mypage_modify_profile_back_sunneng/update' + str(profile.id))
+    return render(request,'/member/mypage_modify_profile_back_sunneng/update' + str(profile.id),{"field1s":field1s})
 
+# 마이페이지 함수
 def mypage(request):
+    return render(request, "mypage.html")
+
+# 마이페이지 프로필 메뉴 함수 
+def mypage_profile(request):
     user = request.user
     profile = Profile.objects.get(user_id = user)
     user_links = User_link.objects.filter(user_id = user)
     user_files = User_file.objects.filter(user_id = user)
     user_reviews = User_review.objects.filter(to_user_id = user)
     user_carrers = User_carrer.objects.filter(user_id = user)
-    return render(request, "mypage.html", {"profile":profile, "user_links": user_links, "user_files": user_files , 
+    return render(request, "mypage_profile.html", {"profile":profile, "user_links": user_links, "user_files": user_files , 
                 "user_reviews": user_reviews, "user_carrers":user_carrers})
+
+# 마이페이지 프로젝트 함수
+def mypage_project(request):
+    user = request.user
+    projects = Project.objects.filter(user_id=user)
+    likes = Like.objects.filter(to_user_id =user)
+    scraps = Scrap.objects.filter(to_user_id =user)
+    return render(request, "mypage_project.html", {'projects':projects, "likes": likes,"scrpas": scraps})
+
+
+#좋아요 카운팅 함수
+def like(request):
+    user = request.user
+    profile = Profile.objects.get(user_id = user)
+    like_to_user_id = Like.objects.get('to_user_id') #좋아요 당하는 사람
+    like_from_user_id = Like.objects.get('from_user_id')  #나(좋아요를 누르는 사람) -> 이게 user가 되나?

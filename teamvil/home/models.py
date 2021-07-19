@@ -30,7 +30,7 @@ class Like(models.Model):
     com_id = models.ForeignKey(Com, on_delete = models.CASCADE, db_column="com_id", null=True)
     info_id = models.ForeignKey(Info, on_delete = models.CASCADE, db_column="info_id", null=True)
     from_user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="from_user_id", related_name="like_from_user_id")
-    to_user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="to_user_id", related_name="like_to_user_id")
+    to_user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="to_user_id", related_name="like_to_user_id", null=True)
 
 class Scrap(models.Model):
     type = models.IntegerField()

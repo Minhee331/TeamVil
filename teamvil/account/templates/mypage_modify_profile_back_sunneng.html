@@ -1,5 +1,6 @@
-<!DOCTYPE html>
 {% load custom_tags %}
+{% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -14,34 +15,59 @@
         <h4>이름:</h4>
         <input type="text" name="name" value={{profile.name}}>      
         <h4>직업:</h4>
-        <textarea name="job_id" cols="40" rows="10">{{profile.job_id.job}}</textarea>
+        <input type="int" name="job_id" value={{profile.job_id.job}}>
         <h4>나이:</h4> 
-        <textarea name="birthday" cols="40" rows="10">{% getAge profile.birthday %}</textarea>
+        <input type='date' name="birthday" value=getAge{{profile.birthday}}>
+       
+        
         <h4>지역:</h4> 
-        <textarea name="region1_id" cols="40" rows="10">{{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</textarea>
+        <input type="int" name="region2" value={{profile.region2_id.region2}}>
         <h4>상태:</h4> 
-        <textarea name="state" cols="40" rows="10">
-          {% if profile.state == 1 %}
-            팀 찾는 중
-          {% elif profile.state == 2 %}
-              휴식 중
-          {% else %}
-              팀 참여 중
-          {% endif %}
+        <select name="state" id={{state}}>
+          <option value="0">팀 참여중</option>
+          <option value="1">팀 찾는중</option>
+          <option value="2">휴식중</option>
+        </select>
+         
         </textarea>
         <h4>관심분야:</h4> 
-        <textarea name="field1_id" cols="40" rows="10">{{profile.field1_id.field1}}</textarea>
-        <h4>관심분야_dettail:</h4> 
-        <textarea name="field2" cols="40" rows="10">{{profile.field2}}</textarea>
-        
+        <select name="field1_id" id={{profile.field1_id.field1}}>
+          <option value="0">영상/UCC/사진</option>
+          <option value="1">웹/모바일/IT</option>
+          <option value="2">디자인/캐릭터/웹툰</option>
+          <option value="3">게임/소프트웨어</option>
+          <option value="4">과학/공학</option>
+          <option value="5">문학/글/시나리오</option>
+          <option value="6">건축/건설/인테리어</option>
+          <option value="7">예체능/미술/음악</option>
+          <option value="8">대외활동/서포터즈</option>
+        </select> 
 
-        
-        <h4>선호기간:</h4>
-        <textarea name="term_id" cols="40" rows="10">{{profile.term_id.term}}</textarea>
+        <h4>관심분야_detail:</h4> 
+        <input type="int" name="field2" value={{profile.field2}}>
+        <h4>선호기간:</h4> 
+        <input type="int" name="term_id" value={{profile.term_id.term}}>
         <h4>MBTI:</h4>
-        <textarea name="mbti_id" cols="40" rows="10">{{profile.mbti_id.mbti}}</textarea>
+        <select name="mbti_id" id={{profile.mbti_id.mbti}}>
+          <option value="1">ESFP</option>
+          <option value="2">ESTP</option>
+          <option value="3">ISFP</option>
+          <option value="4">ISTP</option>
+          <option value="5">ESFJ</option>
+          <option value="6">ESTJ</option>
+          <option value="7">ISFJ</option>
+          <option value="8">ISTJ</option>
+          <option value="9">ENFP</option>
+          <option value="10">ENFJ</option>
+          <option value="11">INFP</option>
+          <option value="12">INFJ</option>
+          <option value="13">ENTP</option>
+          <option value="14">ENTJ</option>
+          <option value="15">INTP</option>
+          <option value="16">INTJ</option>
+          </select>
         {% if profile.mbti_detail is not None %}
-        <p>성격유형_detail: {{profile.mbti_detail}}</p>
+        <input type="text" name="mbti_detail" value={{profile.mbti_detail}}>
         {% endif %}
         {% if profile.open_phone %}
         <h4>연락처:</h4>
@@ -72,6 +98,7 @@
           {% endfor %} 
         </textarea>
         {% endif %}
+        <h4>경력:</h4>
         {% if profile.isLink %}
         <textarea name="body" cols="40" rows="10">
           {% for user_link in user_links %}
@@ -79,6 +106,7 @@
           {% endfor %}
           </textarea>
         {% endif %}
+        <h4>파일:</h4>
         {% if profile.isFile %}
         <textarea name="body" cols="40" rows="10">
           {% for user_file in user_files %}
