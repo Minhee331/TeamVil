@@ -16,8 +16,8 @@
         <input type="text" name="name" value={{profile.name}}>      
         <h4>직업:</h4>
         <input type="int" name="job_id" value={{profile.job_id.job}}>
-        <h4>나이:</h4> 
-        <input type='date' name="birthday" value=getAge{{profile.birthday}}>
+        <h4>생년월일:</h4> 
+        <input type='date' name="birthday" value='2021-01-07'>
        
         
         <h4>지역:</h4> 
@@ -28,11 +28,14 @@
           <option value="1">팀 찾는중</option>
           <option value="2">휴식중</option>
         </select>
-         
         </textarea>
-        <h4>관심분야:</h4> 
-        <select name="field1_id" id={{profile.field1_id.field1}}>
-          <option value="0">영상/UCC/사진</option>
+        <select name="field1_id">
+          {% for field in field1 %}
+          <option {% if field == profile.field1_id %} selected {% endif %} value={{field.id}}>{{field.field1}}</option>
+          {% endfor %}
+        </select>
+        <!-- <select name="field1_id" id={{profile.field1_id.field1}}> -->
+          <!-- <option value="0">영상/UCC/사진</option>
           <option value="1">웹/모바일/IT</option>
           <option value="2">디자인/캐릭터/웹툰</option>
           <option value="3">게임/소프트웨어</option>
@@ -40,13 +43,13 @@
           <option value="5">문학/글/시나리오</option>
           <option value="6">건축/건설/인테리어</option>
           <option value="7">예체능/미술/음악</option>
-          <option value="8">대외활동/서포터즈</option>
-        </select> 
+          <option value="8">대외활동/서포터즈</option> -->
+        <!-- </select>  -->
 
         <h4>관심분야_detail:</h4> 
         <input type="int" name="field2" value={{profile.field2}}>
         <h4>선호기간:</h4> 
-        <input type="int" name="term_id" value={{profile.term_id.term}}>
+        <input type="int" name="term_id" value={{profile.term_id.term}}{{profile.term_id.term_type}}>
         <h4>MBTI:</h4>
         <select name="mbti_id" id={{profile.mbti_id.mbti}}>
           <option value="1">ESFP</option>

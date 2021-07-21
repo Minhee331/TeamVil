@@ -34,7 +34,7 @@ def member_search_back(request):
     return render(request, "member_search_back.html", {'profiles':profiles, "field1s":field1, "mbtis" : mbti, 
                                                     "region2s": region2, "terms": term, "jobs": job, "profiles_reg":profiles_reg})
 
-
+#팀원찾기페이지 - 클라우드
 def member_search_back_cloud(request):
     profiles = Profile.objects.all()
     profiles_reg = Profile.objects.all().order_by('id')[:4]
@@ -71,19 +71,22 @@ def signup(request):
         name = request.POST['name']
         phone = request.POST['phone']
         if not (username and password and passwordCheck and name and phone) :
-            return render(request, 'signup_back.html', {'error':"모든 값을 입력해주세요."})
+            return render(request, 'signup.html', {'error':"모든 값을 입력해주세요."})
         elif User.objects.filter(username=username).exists():
-            return render(request, 'signup_back.html', {'error':"이미 존재하는 아이디입니다."})
+            return render(request, 'signup.html', {'error':"이미 존재하는 아이디입니다."})
         elif Profile.objects.filter(phone = phone).exists():
-            return render(request, "signup_back.html", {'error': '이미 등록된 연락처입니다.'})
+            return render(request, "signup.html", {'error': '이미 등록된 연락처입니다.'})
         elif password != passwordCheck :
-            return render(request, "signup_back.html", {'error': '비밀번호가 일치하지 않습니다.'})     
+            return render(request, "signup.html", {'error': '비밀번호가 일치하지 않습니다.'})     
         else:
             user = User.objects.create_user(username=request.POST["username"], password=request.POST["password"])
             profile = Profile()
             profile.user_id = user
             profile.name = name
-            profile.mbti_id = Mbti.objects.get(id=1) # 추후 수정 필요
+            mbti = Mbti.objects.get(id=1)
+            profile.mbti_id =  mbti# 추후 수정 필요
+            mbti.mbti_cnt = mbti.mbti_cnt + 1
+            mbti.save()
             profile.email = "email" # 추후 수정 필요
             profile.phone =  phone
             profile.birthday = "2021-07-10" # 추후 수정 필요
@@ -105,7 +108,7 @@ def signup(request):
             auth.login(request, user)
             return redirect('/')
     else :
-        return render(request, 'signup_back.html')
+        return render(request, 'signup.html')
         
 # 로그인 함수
 def login(request):
@@ -120,9 +123,74 @@ def login(request):
                 settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
             return redirect('/')
         else:
-            return render(request, 'login_back.html',{'error':"사용자 이름 혹은 패스워드가 일치하지 않습니다."})
+            return render(request, 'login.html',{'error':"사용자 이름 혹은 패스워드가 일치하지 않습니다."})
     else:
-        return render(request, 'login_back.html')
+        return render(request, 'login.html')
+
+# # 회원가입 함수
+# def signup(request):
+#     if request.method == "POST":   
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         passwordCheck = request.POST['passwordCheck']
+#         name = request.POST['name']
+#         phone = request.POST['phone']
+#         if not (username and password and passwordCheck and name and phone) :
+#             return render(request, 'signup_back.html', {'error':"모든 값을 입력해주세요."})
+#         elif User.objects.filter(username=username).exists():
+#             return render(request, 'signup_back.html', {'error':"이미 존재하는 아이디입니다."})
+#         elif Profile.objects.filter(phone = phone).exists():
+#             return render(request, "signup_back.html", {'error': '이미 등록된 연락처입니다.'})
+#         elif password != passwordCheck :
+#             return render(request, "signup_back.html", {'error': '비밀번호가 일치하지 않습니다.'})     
+#         else:
+#             user = User.objects.create_user(username=request.POST["username"], password=request.POST["password"])
+#             profile = Profile()
+#             profile.user_id = user
+#             profile.name = name
+#             mbti = Mbti.objects.get(id=1)
+#             profile.mbti_id =  mbti# 추후 수정 필요
+#             mbti.mbti_cnt = mbti.mbti_cnt + 1
+#             mbti.save()
+#             profile.email = "email" # 추후 수정 필요
+#             profile.phone =  phone
+#             profile.birthday = "2021-07-10" # 추후 수정 필요
+#             profile.region1_id = Region1.objects.get(id=1) # 추후 수정 필요
+#             profile.region2_id = Region2.objects.get(id=1) # 추후 수정 필요
+#             profile.openPhone = 0
+#             profile.openEmail = 0 
+#             profile.term_id =  Term.objects.get(id=1) # 추후 수정 필요
+#             profile.field1_id = Field1.objects.get(id=1) # 추후 수정 필요
+#             profile.field2 = "Field2" # 추후 수정 필요
+#             profile.state = 1 
+#             profile.job_id =  Job.objects.get(id=1) # 추후 수정 필요
+#             profile.isLink = 0
+#             profile.isFile =0
+#             profile.isCarrer = 0 
+#             profile.photo = "Photo" # 추후 수정 필요
+#             profile.isReview = 0
+#             profile.save()
+#             auth.login(request, user)
+#             return redirect('/')
+#     else :
+#         return render(request, 'signup_back.html')
+        
+# # 로그인 함수
+# def login(request):
+#     if request.method == "POST":
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         user = auth.authenticate(request, username=username, password=password)
+#         if user is not None:
+#             auth.login(request, user)
+#             remember_session = request.POST.get('remember_session', False)
+#             if remember_session:
+#                 settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+#             return redirect('/')
+#         else:
+#             return render(request, 'login_back.html',{'error':"사용자 이름 혹은 패스워드가 일치하지 않습니다."})
+#     else:
+#         return render(request, 'login_back.html')
 
 # 로그아웃 함수
 def logout_back(request):
@@ -206,13 +274,19 @@ def mypage_modify_profile_edit(request):
 def mypage_modify_profile_update(request):
     user = request.user
     profile = Profile.objects.get(user_id = user)
-    profile.name = request.POST.get('name')
-    profile.job_id = request.POST.get('job_id_id')
+    save_mbti_id = profile.mbti_id.id
+    save_mbti = Mbti.objects.get(id=save_mbti_id)
+    save_mbti.mbti_cnt = save_mbti.mbti_cnt -1
+    save_mbti.save()
+    name = request.POST.get('name')
+    profile.name = name
+    profile.job_id = request.POST.get('job_id')
     profile.birthday = request.POST.get('birthday')
     profile.region2_id = request.POST.get('region2_id')
     profile.state = request.POST.get('state')
     field1s = Field1.objects.all()
-    profile.field1_id = request.POST.get('profile.field1.field1')
+    field1 = Field1.objects.get(id=request.POST.get('profile.field1.field1'))
+    profile.field1_id = field1
     profile.field2 = request.POST.get('field2')
     profile.term_id = request.POST.get('term_id.term_id')
     profile.mbti_id = request.POST.get('mbti_id.mbti_id')
@@ -257,6 +331,10 @@ def mypage_project(request):
     scraps = Scrap.objects.filter(to_user_id =user)
     return render(request, "mypage_project.html", {'projects':projects, "likes": likes,"scrpas": scraps})
 
+# 마이페이지 프로필 수정 페이지 함수
+def mypage_modify_profile(request):
+    return render(request, "mypage_modify_profile.html")
+
 
 #좋아요 카운팅 함수
 def like(request):
@@ -264,3 +342,8 @@ def like(request):
     profile = Profile.objects.get(user_id = user)
     like_to_user_id = Like.objects.get('to_user_id') #좋아요 당하는 사람
     like_from_user_id = Like.objects.get('from_user_id')  #나(좋아요를 누르는 사람) -> 이게 user가 되나?
+
+# 팀원 찾기 최신순 정렬 함수
+def latestMember(request):
+    profiles = Profile.objects.all().order_by('-register')
+    return render(request, "member_list_form.html", {'profiles':profiles})

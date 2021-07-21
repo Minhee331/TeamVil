@@ -6,6 +6,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     </head>
     
     <body>
@@ -17,7 +18,7 @@
                 <button type="button" name="type" onClick="location.href='../team_new_back_C'">C 공모전/대외활동</button>
                 <button type="button" name="type" onClick="location.href='../team_new_back_P'">P 기타 프로젝트</button>
             
-            <form action="{% url 'team_create_back_S' %}" method="POST">
+            <form action="{% url 'team_create_back_S' %}" method="POST" enctype ="multipart/form-data">
                 {% csrf_token %}
                 <h4>프로젝트 명 S</h4>
                     <input type="text" name="title" placeholder="ex)팀원 모집 플랫폼 팀빌">
@@ -42,7 +43,7 @@
                     <br>
 
                 <h4>지역</h4>
-                    <select onchange="categoryChange(this)" name="region1" required>
+                    <select id = "region1" onchange="categoryChange(this)" name="region1" required>
                         {% for region1 in region1s %}
                         <option value="{{ region1.id }}">{{ region1.region1 }}</option>
                         {% endfor %}
@@ -50,29 +51,35 @@
                     
                     <select id="region2" name="region2" required>
                         {% for region2 in region2s %}
-                        <option value="{{ region2.id }}">{{ region2.region2 }}</option>
+                        <option value="{{ region2.id }}" class = "{{ region2 }}">{{ region2.region2 }}</option>
                         {% endfor %}
                     </select>
                     <br>
                     <br> 
                     <script>
                         function categoryChange(e) {
-                            let region22 = "{{region2s}}";
-                            let target = document.getElementById("region2");
-                            console.log(region22.split(','));
-                            console.log(e);
-                            if(e.value == "a") var a = region2;
-                            else if(e.value == "a") var a = region2;
-                            else if(e.value == "a") var a = region2;
+                            var sel = document.getElementById("region1");
+                            var val = sel.options[sel.selectedIndex].text;
+                            var c = document.getElementsByClassName(val);
+                            for (var i = 0; i < c.length; i++) {
+                                c[i].classList.hide()
+                            }
+                            // let region22 = "{{region2s}}";
+                            // let target = document.getElementById("region2");
+                            // console.log(region22.split(','));
+                            // console.log(e);
+                            // if(e.value == "a") var a = region2;
+                            // else if(e.value == "a") var a = region2;
+                            // else if(e.value == "a") var a = region2;
                         
-                            target.options.length = 0;
+                            // target.options.length = 0;
                         
-                            for (x in d) {
-                                var opt = document.createElement("option");
-                                opt.value = d[x];
-                                opt.innerHTML = d[x];
-                                target.appendChild(opt);
-                            }	
+                            // for (x in d) {
+                            //     var opt = document.createElement("option");
+                            //     opt.value = d[x];
+                            //     opt.innerHTML = d[x];
+                            //     target.appendChild(opt);
+                            // }	
                         }
                     </script> 
                     
@@ -129,12 +136,12 @@
                 <br>
 
                 <h4>(선택)링크</h4>
-                <input type="url" name="project_link">
+                <input type="text" name="project_link">
                 <br>
                 <br>
 
                 <h4>(선택)파일</h4>
-                <input type="file" name="project_file">
+                <input type="file" name="project_file" multiple>
                 <br>
                 <br>
                 <br>

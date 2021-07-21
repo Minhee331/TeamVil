@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/team_form.css' %}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+        <form action="" id="formContainer">
+            <div>
+                <p>질문 추가</p>
+
+                <input type="button" value="단답형" name="" onclick="addQuestion()">
+                <input type="button" value="서술형" name="" onclick="addQuestion()">
+                <input type="button" value="객관식" name="" onclick="addSelectQuestion()">
+            </div>
+
+            <div class="" id="questions">
+
+            </div>
+        </form>
+    
+    {% include 'footer.html' %}
+</body>
+
+<script>
+    function addQuestion() {
+        var newQuestionBox = document.createElement("div");
+        // newQuestionDiv.setAttribute("class", "team_new-task");
+
+        var newNumDiv = document.createElement("div");
+        var newNum = document.createElement("p");
+        var newNumText = document.createTextNode("1");
+        newNum.appendChild(newNumText);
+        newNumDiv.appendChild(newNum);
+        newQuestionBox.appendChild(newNumDiv);
+
+        var newQuestionDiv = document.createElement("div");
+        var newQuestionInput = document.createElement("input");
+        newQuestionInput.setAttribute("placeholder", "질문을 입력하세요.");
+        newQuestionDiv.appendChild(newQuestionInput);
+        var newQuestionEssBtn = document.createElement("input");
+        newQuestionEssBtn.setAttribute("type", "radio");
+        newQuestionEssBtn.setAttribute("name", "select");
+        newQuestionDiv.appendChild(newQuestionEssBtn);
+        var newQuestionEssTextP = document.createElement("p");
+        var newQuestionEssText = document.createTextNode("필수");
+        newQuestionEssTextP.appendChild(newQuestionEssText);
+        newQuestionDiv.appendChild(newQuestionEssTextP);
+        var newQuestionSelBtn = document.createElement("input");
+        newQuestionSelBtn.setAttribute("type", "radio");
+        newQuestionSelBtn.setAttribute("name", "select");
+        newQuestionDiv.appendChild(newQuestionSelBtn);
+        var newQuestionSelTextP = document.createElement("p");
+        var newQuestionSelText = document.createTextNode("선택");
+        newQuestionSelTextP.appendChild(newQuestionSelText);
+        newQuestionDiv.appendChild(newQuestionSelTextP);
+        newQuestionBox.appendChild(newQuestionDiv);
+
+        var taskContainer = document.getElementById('formContainer');
+        taskContainer.appendChild(newQuestionBox);
+    }
+
+    function addSelectQuestion() {
+        var newQuestionBox = document.createElement("div");
+        // newQuestionDiv.setAttribute("class", "team_new-task");
+
+        var newNumDiv = document.createElement("div");
+        var newNum = document.createElement("p");
+        var newNumText = document.createTextNode("1");
+        newNum.appendChild(newNumText);
+        newNumDiv.appendChild(newNum);
+        newQuestionBox.appendChild(newNumDiv);
+
+        var newQuestionDiv = document.createElement("div");
+        var newQuestionInput = document.createElement("input");
+        newQuestionInput.setAttribute("placeholder", "질문을 입력하세요.");
+        newQuestionDiv.appendChild(newQuestionInput);
+        var newQuestionEssBtn = document.createElement("input");
+        newQuestionEssBtn.setAttribute("type", "radio");
+        newQuestionEssBtn.setAttribute("name", "select");
+        newQuestionDiv.appendChild(newQuestionEssBtn);
+        var newQuestionEssTextP = document.createElement("p");
+        var newQuestionEssText = document.createTextNode("필수");
+        newQuestionEssTextP.appendChild(newQuestionEssText);
+        newQuestionDiv.appendChild(newQuestionEssTextP);
+        var newQuestionSelBtn = document.createElement("input");
+        newQuestionSelBtn.setAttribute("type", "radio");
+        newQuestionSelBtn.setAttribute("name", "select");
+        newQuestionDiv.appendChild(newQuestionSelBtn);
+        var newQuestionSelTextP = document.createElement("p");
+        var newQuestionSelText = document.createTextNode("선택");
+        newQuestionSelTextP.appendChild(newQuestionSelText);
+        newQuestionDiv.appendChild(newQuestionSelTextP);
+        newQuestionBox.appendChild(newQuestionDiv);
+
+        var taskContainer = document.getElementById('formContainer');
+        taskContainer.appendChild(newQuestionBox);
+    }
+
+    // function delTask(child) {
+    //     var parent = child.parentNode;
+    //     parent.parentNode.removeChild(parent);
+    // }
+</script>
+</html>

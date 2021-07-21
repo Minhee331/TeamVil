@@ -1,0 +1,75 @@
+/* all */
+.team_new-main-container {
+    margin: 50px 400px;
+}
+
+.team_new-items {
+    margin-bottom: 50px;
+}
+
+.team_new-items-title-container {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.team_new-input-long {
+    width: 100%;
+    height: 25px;
+    border: 1px solid #ebebeb;
+}
+
+.team_new-input-mid {
+    width: 50%;
+    height: 25px;
+    border: 1px solid #ebebeb;
+}
+
+.team_new-input-mid-short {
+    width: 25%;
+    height: 25px;
+    border: 1px solid #ebebeb;
+}
+
+.team_new-input-short {
+    width: 40px;
+    height: 25px;
+    border: 1px solid #ebebeb;
+}
+
+/* upper-category */
+.team_new-upper-category-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.team_new-upper-category-item {
+    display: flex;
+    border: 1px solid #0F59FF;
+}
+
+/* category */
+.team_new-category-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    border: 1px solid #ebebeb;
+}
+
+.team_new-category-item {
+    display: flex;
+}
+
+/* mem-num */
+.team_new-mem-num-container {
+    display: flex;
+}
+
+/* task */
+.team_new-task-container {
+    /* display: flex; */
+}
+
+.team_new-task {
+    display: flex;
+    margin-bottom: 10px;
+}

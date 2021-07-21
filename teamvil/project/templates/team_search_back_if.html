@@ -194,8 +194,6 @@
                                 {% endif %}
                             </p>
                             <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
-                            <button class = "like_submit_delete hidden" value="{{project.id}}">좋아요</button>
-                            <button class = "like_submit" value="{{project.id}}">좋아요 전</button>                        
                         </div>
                         
                     </article>
@@ -218,9 +216,9 @@
                                 {% endif %}
                             </p>
                             <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
-                        <button class = "like_submit_delete hidden" value="{{project.id}}">좋아요</button>
-                        <button class = "like_submit" value="{{project.id}}">좋아요 전</button>
                         </div>
+                        <button class = "like_submit_delete hidden" value="{{project_id}}">좋아요</button>
+                        <button class = "like_submit" value="{{project_id}}">좋아요 전</button>
                     </article>
                 </a>
             {% endfor %}
@@ -269,33 +267,33 @@
                     alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                 }
             });
-        });
+        }); 
         //좋아요함수
         $('like_submit').on("click", function(){
             // var like = $(this).attr('value')
             // $(this).val()
             var like = {
-                'value': $(this).val()
+                'value': $(this).val() //클릭하는 것의 project.id를 value로 받음
             }
             $.ajax({
                 type:"POST",
                 headers:{
                     'X-CSRFToken' : '{{csrf_token}}'
                 },
-                url:"{% url 'like' %}",
+                url:"{% url 'likecnt_if' %}",
                 data :JSON.stringify(like),
                 success: function(response) {
                     $('.like_submit_delete').removeClass('hidden')
                     $('.like_submit').addClass('hidden')
-                },
-                error:function(request,status,error){
-                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                    alert("로그인하세요.")
-                    
                 }
-            }); 
-        });
-    });   
+            }) 
+
+            }
+        })
+    });
+
+
+
     // function drop(){
     //     let className = $(this).val();
     //     console.log(className);

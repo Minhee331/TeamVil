@@ -17,4 +17,10 @@ urlpatterns = [
     path('searchTeam/', views.searchTeam, name="searchTeam"),
     path('filterTeam/', views.filterTeam, name="filterTeam"),
     path('latestTeam/', views.latestTeam, name="latestTeam"),
+    path('like/',views.like, name="like"),
+
+
+    # kay
+    path('team_new/', views.team_new, name = "team_new"),
+    path('team_form/', views.team_form, name = "team_form"),
 ]

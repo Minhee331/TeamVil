@@ -116,8 +116,13 @@ def team_create_back_S(request):
         end_date = request.POST['end_date']
         education = int(request.POST['education'])
         project_link = request.POST['project_link']
-        project_file = request.POST['project_file'] # 수정필요 file 받아오는 방법 따로 있음. 안들어감
+        
+        # project_file = request.FILES['project_file'] # 수정필요 file 받아오는 방법 따로 있음. 안들어감
+        # project_file = Project_file()
+        # project_file.file = project_file
+
         project = Project()
+        
         project.user_id = request.user
         project.type = 0
         project.title = title
@@ -133,18 +138,7 @@ def team_create_back_S(request):
         project.content = content
         project.education_id = Education.objects.get(id=education)
         project.save()
-        if(project_link!=""): # 여러개 입력 가능해지면 수정 필요
-            project.isLink = 1
-            link = Project_link()
-            link.project_id = project
-            link.link = project_link
-            link.save()
-        if(project_file!=""): # 여러개 입력 가능해지면 수정 필요
-            project.isFile = 1
-            file = Project_file()
-            file.project_id = project
-            file.file = project_file
-            file.save()
+        
         duty = Duty() # 수정 필요. css 작업 완료되면 for 문으로 바꾸고 여러 duty 저장할 수 있도록
         duty.project_id = project
         duty.total = total
@@ -152,7 +146,29 @@ def team_create_back_S(request):
         duty.name = duty_name
         duty.save()
         project.mem_total = total # 수정 필요 duty 테이블 다 저장하면서 total 누적 시켜야함
+        #input file 받아오기
         project.save()
+        for file in request.FILES.getlist('project_file'):
+            project_file = Project_file()
+            project_file.project_id = project
+            project_file.file = file
+            project_file.save()
+
+        if(project_link!=""): # 여러개 입력 가능해지면 수정 필요
+            project.isLink = 1
+            link = Project_link()
+            link.project_id = project
+            link.link = project_link
+            link.save()
+        # if(project_file!=""): # 여러개 입력 가능해지면 수정 필요
+        #     project.isFile = 1
+        #     file = Project_file()
+        #     file.project_id = project
+        #     file.file = project_file
+        #     file.save()
+
+        
+
         return redirect('/project/team_detail/' + str(project.id))
 
 # C타입 팀 만들기
@@ -195,14 +211,39 @@ def filterTeam(request):
     return render(request, "team_list_form.html", {'projects':projects})
 
 # 좋아요 카운팅 함수
-def like(request):
-    user = request.user
-    project_id = Project.objects.get(id = project_id)
-    if Like.objects.filter(user= user, project_id= project_id).exists():
-        Like.objects.filter(user= user, project_id= project_id).delete()
-        like_count = Like.objects.filter(project_id=project_id).count()
-        return render(request,"team_search_back.html", {'like_count':like_count})
+# def like(request):
+#     user = request.user
+#     project_id = Project.objects.get(id = project_id)
+#     if Like.objects.filter(user= user, project_id= project_id).exists():
+#         Like.objects.filter(user= user, project_id= project_id).delete()
+#         like_count = Like.objects.filter(project_id=project_id).count()
+#         return render(request,"team_search_back.html", {'like_count':like_count})
+#좋아요 카운팅 함수 /일반버전
+def likecnt_if(request,project_id):
+    project = Project.objects.get(id=project_id)
+    like_count = Like.objects.filter(project_id = project).count() #like모델의 project_id랑 project모델의 project(앞에서 id별로 가져오기로함)
+    return render(request,"team_search_back.html", {'like_count':like_count})
 
+#좋아요 만들어지는 함수 create
+def like(request):
+    like=Like()
+    obj = json.loads(request.body) #받아온 data를 풀어주기 
+    project_id = Project.objects.get(id=obj['{{project_id}}'])
+    like.type = 0
+    like.project_id = project_id 
+    like.save()
+    return render(request,'team_search_back.html')
+
+# 팀찾기 최신순 정렬 함수 // Project 모델에 register가 없어요
 def latestTeam(request):
     projects = Project.objects.all().order_by('-register')
     return render(request, "team_list_form.html", {'projects':projects})
+
+
+# kay
+def team_new(request):
+    field1 = Field1.objects.all()
+    return render(request, "team_new.html", {"field1s":field1})
+
+def team_form(request):
+    return render(request, "team_form.html")

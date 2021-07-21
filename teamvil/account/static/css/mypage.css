@@ -229,3 +229,28 @@
 .mypage-project-team-item-content {
     font-size: 12px;
 }
+
+/* 마이페이지 우측 영역 (프로필 수정하기) */
+.mypage-profile-modify-item-container{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 800px;
+}
+.mypage-profile-modify-element-wrap{
+    width: 100%;
+    display: flex;
+}
+.mypage-modify-title-text{
+    font-size: 17px;
+    padding: 20px 0;
+    margin-left: 30px;
+    width: 10vw;
+    min-width: 100px;
+    max-width: 145px;
+}
+.mypage-modify-unmodifiable-text{
+    font-size: 15px;
+    padding-top: 20px;
+    width: 100%;
+}

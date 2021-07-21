@@ -81,7 +81,7 @@
                     <span class="team_detail-info-etc-title">학교</span>
                     <span class="team_detail-info-etc-body">
                         {% if project.school != None %}
-                        {{project.school}}
+                            {{project.school}}
                         {% endif %}
                     </span>
                     <span class="team_detail-info-etc-body1">교내프로젝트</span>
@@ -90,7 +90,7 @@
                     <span class="team_detail-info-etc-title">학력 제한</span>
                     <span class="team_detail-info-etc-body">
                         {% if project.education == None %}
-                        {{project.education_id.education}}
+                            {{project.education_id.education}}
                         {% endif %}
                     </span>
                 </p>
@@ -98,9 +98,9 @@
                     <span class="team_detail-info-etc-title">링크</span>
                     <span class="team_detail-info-etc-body">
                         {% if project.isLink %}
-                        {% for project_link in project_links %}
-                        {{project_link}}
-                        {% endfor %}
+                            {% for project_link in project_links %}
+                                {{project_link}}
+                            {% endfor %}
                         {% endif %}
                     </span>
                 </p>
@@ -108,9 +108,9 @@
                     <span class="team_detail-info-etc-title">파일</span>
                     <span class="team_detail-info-etc-body">
                         {% if project.isFile %}
-                        {% for project_file in project_files %}
-                        {{project_file}}
-                        {% endfor %}
+                            {% for project_file in project_files %}
+                                {{project_file}}
+                            {% endfor %}
                         {% endif %}
                     </span>
                 </p>

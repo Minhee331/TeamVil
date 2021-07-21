@@ -216,7 +216,7 @@
         <main>
             <div class="member_search-member-select-container">
                 <div class="member_search-member-select-sort spoqa-regular">
-                    <a class="member_search-member-select-latest2" href="#" >최신순</a>
+                    <a class="member_search-member-select-latest" href="#" >최신순</a>
                     <p>|</p>
                     <a href="">인기순</a>
                 </div>
@@ -378,21 +378,29 @@
                 }
             });
         });
+        
         //최신순 필터링
-        $('.member_search-member-select-latest2').on("click", function(){ 
+        $('.member_search-member-select-latest').on("click", function(event){ 
             event.preventDefault();
+            data = {
+                'project': {{profiles_json}}
+            }
+            console.log(data);
             $.ajax({
                 type: "POST",
                 headers:{
                     'X-CSRFToken' : '{{csrf_token}}'
                 },
                 url: "{% url 'latestMember' %}",
+                data: JSON.stringify(data),
                 success: function(res) {
-                    $('.team_search-team-container').html(res);
+                    $('.member_search-member-container').html(res);
                 },
                 error:function(request,status,error){
                     alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                 }
+            });
+        });
     });
 </script>
 

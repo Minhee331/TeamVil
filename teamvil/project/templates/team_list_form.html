@@ -1,5 +1,5 @@
 {% load static %}
-{% if not profiles %} 
+{% if not projects %} 
     <h1>검색 결과가 없습니다</h1>
 {% else %} 
     {% for project in projects %}
@@ -20,7 +20,8 @@
                     </p>
                     <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
                 </div>
-                
+                <button class = "like_submit_delete hidden" value="{{project.id}}">좋아요</button>
+                <button class = "like_submit" value="{{project.id}}">좋아요 전</button>  
             </article>
         </a>
     {% endfor %}

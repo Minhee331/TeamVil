@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/team_new.css' %}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <form class="team_new-main-container" action="">
+        <div class="team_new-items">
+            <div class="team_new-items-title-container">
+                <p class="team_new-items-essential">*</p>
+                <p class="team_new-items-title">프로젝트 종류</p>
+            </div>
+
+            <div class="team_new-upper-category-container">
+                <div class="team_new-upper-category-item">
+                    <h6>S</h6>
+                    <p>스타트업(창업)</p>
+                </div>
+    
+                <div class="team_new-upper-category-item">
+                    <h6>C</h6>
+                    <p>공모전/대외활동</p>
+                </div>
+    
+                <div class="team_new-upper-category-item">
+                    <h6>P</h6>
+                    <p>기타 프로젝트</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="team_new-items">
+            <div class="team_new-items-title-container">
+                <p class="team_new-items-essential">*</p>
+                <p class="team_new-items-title">프로젝트 명</p>
+            </div>
+
+            <input class="team_new-input-long" type="text" name="" id="">
+        </div>
+
+        <div class="team_new-items">
+            <div class="team_new-items-title-container">
+                <p class="team_new-items-essential">*</p>
+                <p class="team_new-items-title">프로젝트 목적</p>
+            </div>
+
+            <input class="team_new-input-long" type="text" name="" id="">
+        </div>
+
+        <div class="team_new-items">
+            <div class="team_new-items-title-container">
+                <p class="team_new-items-essential">*</p>
+                <p class="team_new-items-title">분야</p>
+            </div>
+
+            <div class="team_new-category-container">
+                {% for field1 in field1s %}
+                    <div class="team_new-category-item">
+                        <input class="team_new-radio" type="radio" name="category">
+                        <p class="team_new-radio-name">{{field1.field1}}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="team_new-items">
+            <div class="team_new-items-title-container">
+                <p class="team_new-items-essential">*</p>
+                <p class="team_new-items-title">세부 분야</p>
+            </div>
+
+            <input class="team_new-input-mid" type="text" name="" id="">
+        </div>
+
+        <div class="team_new-items">
+            <div class="team_new-items-title-container">
+                <p class="team_new-items-essential">*</p>
+                <p class="team_new-items-title">지역</p>
+            </div>
+
+            <input class="team_new-search" type="text" name="" id="">
+        </div>
+
+        <div class="team_new-items">
+            <div class="team_new-items-title-container">
+                <p class="team_new-items-essential">*</p>
+                <p class="team_new-items-title">전체 팀 인원</p>
+            </div>
+
+            <div class="team_new-mem-num-container">
+                <input class="team_new-input-short" type="text" name="" id="">
+                <p>/</p>
+                <input class="team_new-input-short" type="text" name="" id="">
+            </div>
+        </div>
+
+        <div class="team_new-items">
+            <div class="team_new-items-title-container">
+                <p class="team_new-items-essential">*</p>
+                <p class="team_new-items-title">모집 인원</p>
+            </div>
+
+            <div class="team_new-task-container" id="taskContainer">
+                <div class="team_new-task">
+                    <input class="team_new-input-mid-short" type="text" name="" id="task" placeholder="직무">
+                    <p>/</p>
+                    <input class="team_new-input-short" type="text" name="" id="num" placeholder="인원">
+                    <input type="button" value="추가" onclick="addTask()">
+                </div>
+            </div>
+        </div>
+
+        <div class="team_new-items">
+            <div class="team_new-items-title-container">
+                <p class="team_new-items-essential">*</p>
+                <p class="team_new-items-title">직무 설명</p>
+            </div>
+
+            <input class="team_new-input-long" type="text" name="" id="">
+        </div>
+
+        <div class="team_new-items">
+            <div class="team_new-items-title-container">
+                <p class="team_new-items-essential">*</p>
+                <p class="team_new-items-title">대표 사진</p>
+                <input type="button" value="사진 등록">
+            </div>
+
+            <img src="" alt="">
+        </div>
+
+        <div class="team_new-items">
+            <div class="team_new-items-title-container">
+                <p class="team_new-items-essential">*</p>
+                <p class="team_new-items-title">프로젝트 소개</p>
+            </div>
+
+            <input class="team_new-input-long" type="text" name="" id="">
+        </div>
+
+        <div class="team_new-items">
+            <div class="team_new-items-title-container">
+                <p class="team_new-items-essential">*</p>
+                <p class="team_new-items-title">진행 기간</p>
+            </div>
+
+            <input class="team_new-input-date" type="date" name="" id="">
+        </div>
+
+        <div class="team_new-items">
+            <div class="team_new-items-title-container">
+                <p class="team_new-items-title">학교</p>
+            </div>
+
+            <input class="team_new-search" type="text" name="" id="">
+        </div>
+
+        <div class="team_new-items">
+            <div class="team_new-items-title-container">
+                <p class="team_new-items-title">학력 제한</p>
+            </div>
+
+            
+        </div>
+
+        <div class="team_new-items">
+            <div class="team_new-items-title-container">
+                <p class="team_new-items-title">링크</p>
+            </div>
+
+            <input class="team_new-input-long" type="text" name="" id="">
+        </div>
+
+        <div class="team_new-items">
+            <div class="team_new-items-title-container">
+                <p class="team_new-items-title">파일</p>
+            </div>
+
+            <input class="team_new-file" type="file" name="" id="">
+        </div>
+    </form>
+
+    {% include 'footer.html' %}
+</body>
+
+<script>
+    function addTask() { //innetHTML
+        var task = document.getElementById('task').value;
+        var num = document.getElementById('num').value;
+
+        var newTaskDiv = document.createElement("div");
+        newTaskDiv.setAttribute("class", "team_new-task");
+
+        var newTask = document.createElement("p");
+        // newTask.setAttribute("class", "team_new-input-short");
+        var newTaskName = document.createTextNode(task);
+        newTask.appendChild(newTaskName);
+        newTaskDiv.appendChild(newTask);
+
+        var newSlash = document.createElement("p");
+        var newSlashText = document.createTextNode("/");
+        newSlash.appendChild(newSlashText);
+        newTaskDiv.appendChild(newSlash);
+
+        var newNum = document.createElement("p");
+        // newNum.setAttribute("class", "team_new-input-short");
+        var newNumName = document.createTextNode(num);
+        newNum.appendChild(newNumName);
+        newTaskDiv.appendChild(newNum);
+
+        var newBtn = document.createElement("input");
+        newBtn.setAttribute("type", "button");
+        newBtn.setAttribute("value", "삭제");
+        newBtn.setAttribute("onclick", "delTask(this)");
+        newTaskDiv.appendChild(newBtn);
+
+        var taskContainer = document.getElementById('taskContainer');
+        taskContainer.appendChild(newTaskDiv);
+
+        document.getElementById("task").value ='';
+        document.getElementById("num").value ='';
+    }
+
+    function delTask(child) {
+        var parent = child.parentNode;
+        parent.parentNode.removeChild(parent);
+    }
+</script>
+
+</html>

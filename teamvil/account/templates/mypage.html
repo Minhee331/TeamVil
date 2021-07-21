@@ -22,7 +22,7 @@
                     </div>
 
                     <div class="mypage-menu-item">
-                        <p class="mypage-menu-item-text spoqa-light" page-type="edit">프로필 수정하기</p>
+                        <p class="mypage-menu-item-text spoqa-light" page-type="modify">프로필 수정하기</p>
                     </div>
 
                     <div class="mypage-menu-item">
@@ -57,6 +57,9 @@
                 break;
             case 'project':
                 url = "{% url 'mypage_project'%}"
+                break;
+            case 'modify':
+                url = "{% url 'mypage_modify_profile'%}"
                 break;
         }
         $.ajax({

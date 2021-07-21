@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    {% load static %}
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <link rel="stylesheet" href="{% static 'css/login.css' %}">
+        <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+    </head>
+
+    <body>
+
+        {% include 'navbar.html' %}
+
+            {% block content %}
+
+                <form class="login-container" method="POST" action="{% url 'login' %}">
+
+                    {% csrf_token %}
+
+                    <p class="login-title">Login</p>
+                    <p class="login-more-title">다른 서비스로 로그인</p>
+
+                    <div class="login-icon-container">
+                        <a href=""><span class="iconify" data-icon="vs:naver-square" data-inline="false"></span></a>
+                        <a href=""><span class="iconify" data-icon="akar-icons:instagram-fill" data-inline="false"></span></a>
+                        <a href=""><span class="iconify" data-icon="akar-icons:facebook-fill" data-inline="false"></span></a>
+                        <a href=""><span class="iconify" data-icon="akar-icons:google-fill" data-inline="false"></span></a>
+                        <a href=""><span class="iconify" data-icon="akar-icons:github-fill" data-inline="false"></span></a>
+                    </div>
+
+                    <div class="login-line-container">
+                        <hr>
+                        <p class="login-line-or">또는</p>
+                        <hr>
+                    </div>
+
+                    {% if error %}
+                        <p class="login-error">{{error}}</p>
+                    {% endif %} 
+
+                    <div class="login-box-container">
+                        <input class="login-box" name="username" type="text" placeholder="ID">
+                        
+                        <input class="login-box" name="password" type="password" placeholder="PW">
+                    
+                        <input class="login-submit" type="submit" value="로그인">
+                    </div>
+
+                    <div class="login-more-container">
+                        <label class="login-keep"><input type="checkbox" name="remember_session" checked>로그인 상태 유지</label>
+                        <!-- 라벨로 감싸서 전체선택 가능하게 할건지? -->
+                        <a href="">비밀번호 재설정</a>
+                        <hr class="login-hr">
+                        <a href="{% url 'signup'  %}">회원가입</a>  
+                    </div>    
+
+                </form>
+
+        {% endblock %}
+
+        {% include 'footer.html' %} 
+
+    </body> 
+
+</html>
+
+
