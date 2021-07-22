@@ -294,6 +294,8 @@
                         <p class="spoqa-regular">지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
                     </article>
                 </a>
+                <button class = "like_submit_delete hidden" value="{{profile.user_id.id}}">좋아요</button>
+                <button class = "like_submit" value="{{profile.user_id.id}}">좋아요 전</button>   
             {% endfor %}
         </main>
     </section>
@@ -340,10 +342,53 @@
                 }
             });
         });
-        $("#member_search-state-box").on("click", function() {
-            var state = $('#member_search-state-box option:selected').val();
-            alert(state);
-        })
+        //줗아요함수
+        $('.like_submit').on("click", function(){
+            var memlike = {
+                'value': $(this).val()
+            }
+            $.ajax({
+                type:"POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url:"{% url 'likes' %}",
+                data :JSON.stringify(memlike),
+                success: function(res) {
+                        $('.like_submit_delete').removeClass('hidden');
+                        $('.like_submit').addClass('hidden');
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    alert("로그인하세요.");
+                    
+                }
+            }); 
+        });
+        //좋아요 취소 함수 
+        $('.like_submit_delete').on("click", function(){ //좋아요를 누르면 ~
+            var memlike = {
+                'value': $(this).val()
+            }
+            console.log(like)
+            $.ajax({
+                type:"POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url:"{% url 'likecancels' %}",
+                data :JSON.stringify(memlike),
+                success: function(res) {
+                        $('.like_submit').removeClass('hidden'); //좋아요 전이 켜지고
+                        $('.like_submit_delete').addClass('hidden'); //좋아요는 hidden 처리 된다.
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    alert("로그인하세요.");
+                    
+                }
+            }); 
+        });
 
     });
 

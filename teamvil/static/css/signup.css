@@ -1,0 +1,93 @@
+.signup-container {
+    display: grid;
+    justify-content: center;
+    margin: 50px 0px; /*원래 100px인데 50정도가 더 이쁜거같아요*/
+}
+
+.signup-error {
+    font-size: 19.78px;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 400;
+    margin-bottom: 30px;
+    color: red;
+}
+
+.signup-basic {
+    font-size: 19.78px;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 400;
+}
+
+.signup-personal {
+    font-size: 19.78px;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 400;
+    margin-top: 42px;
+}
+
+.signup-box {
+    height: 20.6px;
+    width: 464.6px;
+    margin-top: 17.4px;
+    padding: 17.4px;
+    font-size: 14.24px;
+    border: 1px solid #ebebeb;
+    border-radius: 1px;
+    /* color: placeholder랑 색 다르게 주는게 좋지 않을까요? */
+}
+
+.signup-phone-container {
+    display: flex;
+    margin: 17.4px 0px;
+}
+
+.signup-phone-box {
+    height: 20.6px;
+    width: 336.7px;
+    margin-right: 13.92px;
+    padding: 17.4px;
+    font-size: 14.24px;
+    border: 1px solid #ebebeb;
+    border-radius: 1px;
+}
+
+.signup-phone-identify {
+    height: 57.4px;
+    width: 114px;
+    background-color: #0F59FF;
+    border: 1px solid #0F59FF;
+    border-radius: 1px;
+    color: #ffffff;
+}
+
+.signup-phone-identify:hover {
+    background-color: #ffffff;
+    color: #0f59ff; 
+    cursor: pointer; 
+}
+
+.signup-submit {
+    height: 55.39px;
+    width: 501.38px;
+    margin-top: 42px;
+    background-color: #0F59FF;
+    border: 1px solid #0F59FF;
+    border-radius: 1px;
+    color: #ffffff;
+}
+
+.signup-submit:hover {
+    background-color: #ffffff;
+    color: #0f59ff; 
+    cursor: pointer; 
+}
+
+::placeholder {
+    color: #1b1b1b; /*이색 너무 진한거같아요*/
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 300;
+    font-size: 14.24px;
+  }
+
+
+

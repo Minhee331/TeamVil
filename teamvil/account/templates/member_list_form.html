@@ -1,5 +1,9 @@
 {% load static %}
 {% load custom_tags %}
+<head>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+
 {% if not profiles %} 
     <h1>검색 결과가 없습니다</h1>
 {% else %}
@@ -44,5 +48,36 @@
                 <p class="spoqa-regular">지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
             </article>
         </a>
+        <button class = "like_submit_delete hidden" value="{{profile.id}}">좋아요</button>
+        <button class = "like_submit" value="{{profile.id}}">좋아요 전</button>   
     {% endfor %}
 {% endif %}
+
+<script>
+    $(document).ready(function(){
+        $('.like_submit').on("click", function(){
+            var memlike = {
+                'value': $(this).val()
+            }
+            $.ajax({
+                type:"POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url:"{% url 'likes' %}",
+                data :JSON.stringify(memlike),
+                success: function(res) {
+                    if ($('.like_submit_delete').is('.hidden')){
+                        $('.like_submit_delete').removeClass('hidden');
+                        $('.like_submit').addClass('hidden');
+                    }
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    alert("로그인하세요.");
+                    
+                }
+            }); 
+        }); 
+    }
+</script>

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 # Create your models here.
 class Project(models.Model):
@@ -25,6 +26,7 @@ class Project(models.Model):
     isFile = models.IntegerField(default=0)
     education_id = models.ForeignKey('home.Education', on_delete = models.CASCADE, db_column="education_id", null=True)
     view_cnt = models.IntegerField(default=0)
+    register = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return self.title
 

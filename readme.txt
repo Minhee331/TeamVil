@@ -57,4 +57,18 @@
 210719 자운 | team_search_back_cloud | team_search_back_cloud 최신순 필터링 수정중
 210719 유림 | member_list_form, team_list_form | 검색 결과 없을 시 코드 추가, views.py 수정
 210719 민희 | mypage | 마이페이지 프로필, 프로젝트 css 작업 
-210719 자운 | team_search_back_cloud,member_search_back_cloud | 최신순 필터링 수정진행
+210719 자운 | team_search_back_cloud, member_search_back_cloud | 최신순 필터링 수정진행
+210720 자운 | team_search_back_cloud, member_search_back_cloud | 최신순 필터링 구현(member만 완료)
+210720 유림 | team_search_back_if | 좋아요 기능 구현 (js이전단계), views 및 url 연결
+210721 혜인 | team_new, team_form | 해당 페이지 html, css 생성 및 작성
+210721 민희 | mypage_project | 프로젝트 css 작업
+210721 자운 | signup, login | html, css 생성 및 작업 완료
+210721 유림 | team_search_back, team_list_form | 좋아요 기능 구현 js 완성, view 좋아요 함수 완성 및 url 연결 , team_list_form 수정
+210722 프롵 | mypage_project | 에러 수정
+210722 유림 | member_search_back, member_list_form | 좋아요 기능 구현 js 완성, view 좋아요 함수, url 연결 , member_list_form 수정
+210722 건영 | mypage_modify_profile | account view수정 
+210722 자운 | project models.py | Project 모델에 register추가, member_search, team_search 페이지 최신순으로 정렬
+210723 유림 | team_search_back | 좋아요 취소 기능 구현 js 완성, view 좋아요 취소 함수 완성 및 url 연결 
+210723 민희 | mypage_project | 프로젝트 css 작업
+210723 자운 | team_new_back_S, views.py, team_application | 학력 선택안함 추가, is file 입력 추가, team_application html 및 css 생성
+210723 건영 | mypage_modify_profile, account.views.py,  | modify.html 수정 및 account.views 수정,url수정

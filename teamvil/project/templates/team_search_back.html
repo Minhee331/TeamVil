@@ -193,13 +193,12 @@
                                     (모집완료)
                                 {% endif %}
                             </p>
-                            <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
-                            <button class = "like_submit_delete hidden" value="{{project.id}}">좋아요</button>
-                            <button class = "like_submit" value="{{project.id}}">좋아요 전</button>                        
-                        </div>
-                        
+                            <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>                     
+                        </div>   
                     </article>
                 </a>
+                <button class = "like_submit_delete hidden" value="{{project.id}}">좋아요</button>
+                <button class = "like_submit" value="{{project.id}}">좋아요 전</button>   
             {% endfor %}
             {% for project in projects %}
                 <a href="{% url 'team_detail' project.id %}">
@@ -218,11 +217,11 @@
                                 {% endif %}
                             </p>
                             <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
-                        <button class = "like_submit_delete hidden" value="{{project.id}}">좋아요</button>
-                        <button class = "like_submit" value="{{project.id}}">좋아요 전</button>
                         </div>
                     </article>
                 </a>
+                <button class = "like_submit_delete hidden" value="{{project.id}}">좋아요</button>
+                <button class = "like_submit" value="{{project.id}}">좋아요 전</button>   
             {% endfor %}
         </main>
     </section>
@@ -271,12 +270,11 @@
             });
         });
         //좋아요함수
-        $('like_submit').on("click", function(){
-            // var like = $(this).attr('value')
-            // $(this).val()
+        $('.like_submit').on("click", function(){ //좋아요 전을 누르면 ~
             var like = {
                 'value': $(this).val()
             }
+            console.log(like)
             $.ajax({
                 type:"POST",
                 headers:{
@@ -284,13 +282,37 @@
                 },
                 url:"{% url 'like' %}",
                 data :JSON.stringify(like),
-                success: function(response) {
-                    $('.like_submit_delete').removeClass('hidden')
-                    $('.like_submit').addClass('hidden')
+                success: function(res) {
+                        $('.like_submit_delete').removeClass('hidden'); //좋아요가 켜지고 like_submit_delete 
+                        $('.like_submit').addClass('hidden'); //좋아요 전은 hidden 처리 된다. like_submit hidden
                 },
                 error:function(request,status,error){
                     alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                    alert("로그인하세요.")
+                    alert("로그인하세요.");
+                    
+                }
+            }); 
+        });
+        //좋아요 취소 함수 
+        $('.like_submit_delete').on("click", function(){ //좋아요를 누르면 ~
+            var like = {
+                'value': $(this).val()
+            }
+            console.log(like)
+            $.ajax({
+                type:"POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url:"{% url 'likecancel' %}",
+                data :JSON.stringify(like),
+                success: function(res) {
+                        $('.like_submit').removeClass('hidden'); //좋아요 전이 켜지고
+                        $('.like_submit_delete').addClass('hidden'); //좋아요는 hidden 처리 된다.
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    alert("로그인하세요.");
                     
                 }
             }); 

@@ -21,7 +21,7 @@ def team_detail(request, project_id):
                 "project_links":project_links, "project_files":project_files, "duties": duties})
 
 def team_search(request):
-    projects = Project.objects.all()
+    projects = Project.objects.all().order_by('-register')
     projects_reg = Project.objects.all().order_by('id')[:4]
     field1 = Field1.objects.all() # 대분야 (ex IT)
     mbti = Mbti.objects.all()
@@ -32,7 +32,7 @@ def team_search(request):
                                                     "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg})
 
 def team_search_back_min(request):
-    projects = Project.objects.all()
+    projects = Project.objects.all().order_by('-register')
     projects_reg = Project.objects.all().order_by('id')[:4]
     field1 = Field1.objects.all() # 대분야 (ex IT)
     mbti = Mbti.objects.all()
@@ -43,8 +43,8 @@ def team_search_back_min(request):
                                                     "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg})
 
 def team_search_back_cloud(request):
-    projects = Project.objects.all()
-    projects_reg = Project.objects.all().order_by('id')[:4]
+    projects = Project.objects.all().order_by('-register')
+    projects_reg = Project.objects.all().order_by('-id')[:4]
     field1 = Field1.objects.all() # 대분야 (ex IT)
     mbti = Mbti.objects.all()
     region2 = Region2.objects.all() # ~시 (서울만 ~구)
@@ -54,7 +54,7 @@ def team_search_back_cloud(request):
                                                     "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg})
 
 def team_search_back(request):
-    projects = Project.objects.all()
+    projects = Project.objects.all().order_by('-register')
     projects_reg = Project.objects.all().order_by('id')[:4]
     field1 = Field1.objects.all() # 대분야 (ex IT)
     mbti = Mbti.objects.all()
@@ -115,14 +115,10 @@ def team_create_back_S(request):
         start_date = request.POST['start_date']
         end_date = request.POST['end_date']
         education = int(request.POST['education'])
-        project_link = request.POST['project_link']
-        
-        # project_file = request.FILES['project_file'] # 수정필요 file 받아오는 방법 따로 있음. 안들어감
-        # project_file = Project_file()
-        # project_file.file = project_file
-
+        project_link = request.POST['project_link'] 
         project = Project()
-        
+        if(request.FILES.getlist('project_file')): 
+            project.isfile = 1
         project.user_id = request.user
         project.type = 0
         project.title = title
@@ -136,9 +132,9 @@ def team_create_back_S(request):
         project.start_date = start_date
         project.end_date = end_date
         project.content = content
-        project.education_id = Education.objects.get(id=education)
+        if(education!=0):
+            project.education_id = Education.objects.get(id=education) #되긴하는데 이게 맞는건가...?
         project.save()
-        
         duty = Duty() # 수정 필요. css 작업 완료되면 for 문으로 바꾸고 여러 duty 저장할 수 있도록
         duty.project_id = project
         duty.total = total
@@ -148,27 +144,19 @@ def team_create_back_S(request):
         project.mem_total = total # 수정 필요 duty 테이블 다 저장하면서 total 누적 시켜야함
         #input file 받아오기
         project.save()
-        for file in request.FILES.getlist('project_file'):
+        for files in request.FILES.getlist('project_file'):
             project_file = Project_file()
             project_file.project_id = project
-            project_file.file = file
+            project_file.file = files
             project_file.save()
-
+            project.isFile = 1
+            project.save() 
         if(project_link!=""): # 여러개 입력 가능해지면 수정 필요
             project.isLink = 1
             link = Project_link()
             link.project_id = project
             link.link = project_link
             link.save()
-        # if(project_file!=""): # 여러개 입력 가능해지면 수정 필요
-        #     project.isFile = 1
-        #     file = Project_file()
-        #     file.project_id = project
-        #     file.file = project_file
-        #     file.save()
-
-        
-
         return redirect('/project/team_detail/' + str(project.id))
 
 # C타입 팀 만들기
@@ -210,35 +198,33 @@ def filterTeam(request):
     projects = Project.objects.filter(field1_id__id__in=field1,region2_id__id__in=region,state__in=state).order_by('id')
     return render(request, "team_list_form.html", {'projects':projects})
 
-# 좋아요 카운팅 함수
-# def like(request):
-#     user = request.user
-#     project_id = Project.objects.get(id = project_id)
-#     if Like.objects.filter(user= user, project_id= project_id).exists():
-#         Like.objects.filter(user= user, project_id= project_id).delete()
-#         like_count = Like.objects.filter(project_id=project_id).count()
-#         return render(request,"team_search_back.html", {'like_count':like_count})
-#좋아요 카운팅 함수 /일반버전
-def likecnt_if(request,project_id):
-    project = Project.objects.get(id=project_id)
-    like_count = Like.objects.filter(project_id = project).count() #like모델의 project_id랑 project모델의 project(앞에서 id별로 가져오기로함)
-    return render(request,"team_search_back.html", {'like_count':like_count})
-
 #좋아요 만들어지는 함수 create
 def like(request):
-    like=Like()
     obj = json.loads(request.body) #받아온 data를 풀어주기 
-    project_id = Project.objects.get(id=obj['{{project_id}}'])
-    like.type = 0
+    like=Like()
+    project_id = Project.objects.get(id=obj['value'])
+    like.type = int(0)
     like.project_id = project_id 
+    like.from_user_id = request.user
     like.save()
     return render(request,'team_search_back.html')
 
-# 팀찾기 최신순 정렬 함수 // Project 모델에 register가 없어요
+#좋아요 취소 함수
+def likecancel(request):
+    obj = json.loads(request.body) #받아온 data를 풀어주기  project_id를 가져올것
+    project_id = Project.objects.get(id=obj['value'])
+    Like.objects.filter(project_id = project_id).delete() #like모델에 저장된 project_id랑 좋아요를 다시 클릭해서 얻어온 
+    return render(request,'team_search_back.html')
+
+
+# 팀찾기 최신순 정렬 함수
 def latestTeam(request):
     projects = Project.objects.all().order_by('-register')
     return render(request, "team_list_form.html", {'projects':projects})
 
+# 지원서 열람 페이지 html 렌더링
+def team_application(request):
+    return render(request, "team_application.html")
 
 # kay
 def team_new(request):
@@ -247,3 +233,4 @@ def team_new(request):
 
 def team_form(request):
     return render(request, "team_form.html")
+

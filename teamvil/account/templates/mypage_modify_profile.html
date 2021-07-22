@@ -1,3 +1,4 @@
+{% load static %}
 <div class="mypage-info-item-wrap-container">
     <div class="mypage-profile-modify-item-container">
         <div class="mypage-profile-modify-element-wrap">
@@ -7,14 +8,199 @@
 
         <div class="mypage-profile-modify-element-wrap">
             <p class="mypage-modify-title-text spoqa-regular">직업</p>
-            <select name="" id="" class="">
-                <option value="">대학생</option>
-            </select>
-            <p class="mypage-modify-unmodifiable-text spoqa-light">이혜인</p>
+            
+            <div class="mypage-modify-dropdown-item-wrap">
+                <div class="mypage-modify-select-state spoqa-regular drop_btn" value="job">
+                    <div class="mypage-modify-select-state-button job col_10">
+                        <p class="spoqa-light">대학생</p>
+                        <img class="mypage-modify-triangle" src="{% static 'image/triangle.png' %}">
+                    </div>
+        
+                    <div class="hidden float" id="job">
+                        <div class="mypage-modify-select-list col_10">
+                            <a class="select-job-item spoqa-light">대학생</a>
+                            <a class="select-job-item spoqa-light">무직</a>
+                            <a class="select-job-item spoqa-light">회사원</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
-        <!-- <p class="mypage-modify-title-text spoqa-regular">직업</p>
-        <p class="mypage-modify-unmodifiable-text spoqa-light">이혜인</p> -->
+        <div class="mypage-profile-modify-element-wrap">
+            <p class="mypage-modify-title-text spoqa-regular">나이</p>
+            <p class="mypage-modify-unmodifiable-text spoqa-light">24세</p>
+        </div>
+
+        <div class="mypage-profile-modify-element-wrap">
+            <p class="mypage-modify-title-text spoqa-regular">직업</p>
+            
+            <div class="mypage-modify-dropdown-item-wrap">
+                <div class="mypage-modify-select-state spoqa-regular drop_btn" value="region">
+                    <div class="mypage-modify-select-state-button region col_15">
+                        <p class="spoqa-light">경기도 고양시</p>
+                        <img class="mypage-modify-triangle" src="{% static 'image/triangle.png' %}">
+                    </div>
+        
+                    <div class="hidden float" id="region">
+                        <div class="mypage-modify-select-list col_15">
+                            <a class="select-region-item spoqa-light">경기도 고양시</a>
+                            <a class="select-region-item spoqa-light">경기도 용인시</a>
+                            <a class="select-region-item spoqa-light">경기도 김포시</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mypage-profile-modify-element-wrap">
+            <p class="mypage-modify-title-text spoqa-regular">상태</p>
+            
+            <div class="mypage-modify-dropdown-item-wrap">
+                <div class="mypage-modify-select-state spoqa-regular drop_btn" value="state">
+                    <div class="mypage-modify-select-state-button state col_15">
+                        <p class="spoqa-light">팀 찾는 중</p>
+                        <img class="mypage-modify-triangle" src="{% static 'image/triangle.png' %}">
+                    </div>
+        
+                    <div class="hidden float" id="state">
+                        <div class="mypage-modify-select-list col_15">
+                            <a class="select-state-item spoqa-light">팀 찾는 중</a>
+                            <a class="select-state-item spoqa-light">팀 참여중</a>
+                            <a class="select-state-item spoqa-light">휴식중</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mypage-profile-modify-element-wrap">
+            <p class="mypage-modify-title-text spoqa-regular">관심 분야</p>
+            
+            <div class="mypage-modify-dropdown-item-wrap">
+                <div class="mypage-modify-select-state spoqa-regular drop_btn" value="field1">
+                    <div class="mypage-modify-select-state-button field1 col_15">
+                        <p class="spoqa-light">UX/UI</p>
+                        <img class="mypage-modify-triangle" src="{% static 'image/triangle.png' %}">
+                    </div>
+        
+                    <div class="hidden float" id="field1">
+                        <div class="mypage-modify-select-list col_15">
+                            <a class="select-field1-item spoqa-light">UX/UI</a>
+                            <a class="select-field1-item spoqa-light">건축</a>
+                            <a class="select-field1-item spoqa-light">게임</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mypage-profile-modify-element-wrap">
+            <p class="mypage-modify-title-text spoqa-regular"></p>
+            
+            <div class="mypage-modify-input-wrap">
+                <input type="text" class="mypage-modify-input col_15 spoqa-light" placeholder="세부 분야">
+            </div>
+        </div>
+
+        <div class="mypage-profile-modify-element-wrap">
+            <p class="mypage-modify-title-text spoqa-regular">선호 기간</p>
+            
+            <div class="mypage-modify-dropdown-item-wrap">
+                <div class="mypage-modify-select-state spoqa-regular drop_btn" value="term">
+                    <div class="mypage-modify-select-state-button term col_17">
+                        <p class="spoqa-light">1개월 | 단기</p>
+                        <img class="mypage-modify-triangle" src="{% static 'image/triangle.png' %}">
+                    </div>
+        
+                    <div class="hidden float" id="term">
+                        <div class="mypage-modify-select-list col_17">
+                            <a class="select-term-item spoqa-light">1개월 | 단기</a>
+                            <a class="select-term-item spoqa-light">6개월 | 장기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mypage-profile-modify-element-wrap">
+            <p class="mypage-modify-title-text spoqa-regular">MBTI</p>
+            
+            <div class="mypage-modify-dropdown-item-wrap">
+                <div class="mypage-modify-select-state spoqa-regular drop_btn" value="mbti">
+                    <div class="mypage-modify-select-state-button mbti col_15">
+                        <p class="spoqa-light">ISTJ</p>
+                        <img class="mypage-modify-triangle" src="{% static 'image/triangle.png' %}">
+                    </div>
+        
+                    <div class="hidden float" id="mbti">
+                        <div class="mypage-modify-select-list col_15">
+                            <a class="select-mbti-item spoqa-light">ISTJ</a>
+                            <a class="select-mbti-item spoqa-light">ENTP</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mypage-profile-modify-element-wrap">
+            <p class="mypage-modify-title-text spoqa-regular"></p>
+            
+            <div class="mypage-modify-input-wrap">
+                <input type="text" class="mypage-modify-input col_60 spoqa-light" placeholder="자신의 성격에 대해 상세히 적어보세요.">
+            </div>
+        </div>
+
+        <div class="mypage-profile-modify-element-wrap">
+            <p class="mypage-modify-title-text spoqa-regular">연락처</p>
+            
+            <div class="mypage-modify-row-wrap">
+                <div class="mypage-modify-input-wrap">
+                <input type="text" class="mypage-modify-input col_12 spoqa-light" placeholder="010-1234-0000">
+                </div>
+                <input type="checkbox" id="switch" class="checkbox"/>
+                <label for="switch" class="toggle"><p>OFF    ON</p></label>
+            </div>
+        </div>
     </div>
-    
 </div>
+<script>
+    $(document).ready(function(){
+        // 드롭다운 열고 닫는 함수
+        $(".drop_btn").on("click", function(){ 
+            let className = $(this).attr("value");
+            let currentClass = document.getElementById(className);
+            if ($(currentClass).is('.hidden')){
+                $(currentClass).removeClass('hidden');
+                $(currentClass).addClass('active');
+            } else{
+                $(currentClass).removeClass('active');
+                $(currentClass).addClass('hidden');
+            }
+        }); 
+        // job 선택 시
+        $('.select-job-item').on("click", function(){
+            $('.mypage-modify-select-state-button.job p').text($(this).text());
+        }); 
+        // 지역 선택 시
+        $('.select-region-item').on("click", function(){
+            $('.mypage-modify-select-state-button.region p').text($(this).text());
+        }); 
+        // 상태 선택 시
+        $('.select-state-item').on("click", function(){
+            $('.mypage-modify-select-state-button.state p').text($(this).text());
+        }); 
+        // 관심분야 선택 시
+        $('.select-field1-item').on("click", function(){
+            $('.mypage-modify-select-state-button.field1 p').text($(this).text());
+        }); 
+        // 선호기간 선택 시
+        $('.select-term-item').on("click", function(){
+            $('.mypage-modify-select-state-button.term p').text($(this).text());
+        }); 
+        // mbti 선택 시
+        $('.select-mbti-item').on("click", function(){
+            $('.mypage-modify-select-state-button.mbti p').text($(this).text());
+        }); 
+    });
+</script>

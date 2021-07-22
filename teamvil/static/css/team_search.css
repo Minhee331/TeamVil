@@ -1,7 +1,9 @@
 hr {
     margin: 10px 0px;
 }
-
+label{
+    cursor: pointer;
+}
 .team_search-category-container {
     margin-top: 40px;
 }
@@ -66,7 +68,6 @@ hr {
     margin-bottom: 100px;
 }
 
-/*  */
 
 .team_search-main-container {
     display: flex;
@@ -75,13 +76,14 @@ hr {
     margin-bottom: 100px;
 }
 
+/* filter */
 .team_search-filter-container {
-    width: 320px;
 }
 
 .team_search-filter-item-container {
     display: flex;
     flex-direction: column;
+    width: 200px;
 }
 
 .team_search-filter-active {
@@ -109,12 +111,108 @@ hr {
     margin-right: 5px;
 }
 
+/* select */
+.member_search-member-select-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.member_search-member-select-sort {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.member_search-member-select-sort a {
+    font-size: 12px;
+}
+
+.member_search-member-select-sort p {
+    font-size: 12px;
+    margin: 0 8px;
+}
+
+.member_search-member-select-right-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.member_search-search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right: 20px;
+    width: 200px;
+    height: 30px;
+    border: 1px solid #0f59ff;
+    border-radius: 1px;
+}
+
+.member_search-member-select-search {
+    display: block;
+    border: none;
+    margin-left: 10px;
+    font-size: 12px;
+    width: 160px;
+}
+
+.member_search-member-select-search:focus {
+    outline: none;
+}
+
+.member_search-search-button {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.member_search-member-select-state {
+    
+}
+
+.member_search-select-state-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80px;
+    height: 30px;
+    border: 1px solid #1b1b1b;
+    border-radius: 1px;
+    padding: 0 10px;
+}
+
+.member_search-select-state-button p {
+    font-size: 13px;
+}
+
+.member_search-select-state-list {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #1b1b1b;
+    border-top: none;
+    padding: 0 10px;
+    padding-top: 10px;
+    width: 80px;
+    background-color: #ffffff;
+}
+
+.member_search-select-state-list a {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+.float {
+    position: absolute;
+}
+
 /* team */
 .team_search-team-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    width: 1700px;
+    width: 1030px;
 }
 
 .team_search-team-item {
@@ -122,7 +220,7 @@ hr {
     height: 371.8875px;
     border: 1px solid #D7D7D7;
     border-radius: 1px;
-    margin-left: 31.65px;
+    /* margin-left: 31.65px; */
     margin-bottom: 20px;
 }
 

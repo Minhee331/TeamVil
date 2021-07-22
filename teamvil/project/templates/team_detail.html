@@ -49,7 +49,7 @@
                     <p class="team_detail-content-body">{{project.content}}</p>
                 </div>
                 <div class="team_detail-info-detail">
-                    <button type="button" class="team_detail-apply">지원하기</button>
+                    <a href="{% url 'team_application'  %}"><button type="button" class="team_detail-apply">지원하기</button></a>
                     <span class="team_detail-info-detail-title">전체 팀 인원</span>
                     <p class="team_detail-info-detail-body team_detail-info-detail-title-margin">
                         {{project.mem_total}}명 중 {{project.mem_now}}명 모집 완료

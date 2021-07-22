@@ -170,7 +170,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 80px;
+    width: 100px;
     height: 30px;
     border: 1px solid #1b1b1b;
     border-radius: 1px;
@@ -186,7 +186,7 @@
     border-top: none;
     padding: 0 10px;
     padding-top: 10px;
-    width: 80px;
+    width: 100px;
     background-color: #ffffff;
 }
 .mypage-project-select-state-list a {
@@ -242,7 +242,7 @@
     display: flex;
 }
 .mypage-modify-title-text{
-    font-size: 17px;
+    font-size: 16px;
     padding: 20px 0;
     margin-left: 30px;
     width: 10vw;
@@ -250,7 +250,118 @@
     max-width: 145px;
 }
 .mypage-modify-unmodifiable-text{
-    font-size: 15px;
+    font-size: 13px;
     padding-top: 20px;
     width: 100%;
+    padding-left: 10px;
+}
+.mypage-modify-dropdown-item-wrap{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+.mypage-modify-select-state-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 30px;
+    border: 1px solid #ebebeb;
+    border-radius: 1px;
+    padding: 0 10px;
+}
+.mypage-modify-select-state-button p {
+    font-size: 13px;
+}
+.mypage-modify-select-list {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ebebeb;
+    border-top: none;
+    padding: 0 10px;
+    padding-top: 10px;
+    background-color: #ffffff;
+}
+.mypage-modify-select-list a {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+.mypage-modify-triangle{
+    width: 15px;
+}
+.col_10{
+    width: 100px;
+}
+.col_12{
+    width: 120px;
+}
+.col_15{
+    width: 150px;
+}
+.col_17{
+    width: 170px;
+}
+.col_60{
+    width: 600px;
+}
+.mypage-modify-input-wrap{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.mypage-modify-input{
+    height: 30px;
+    border: 1px solid #ebebeb;
+    border-radius: 1px;
+    padding: 0 10px;
+}
+/* switch start */
+.toggle {
+    position : relative ;
+    display : inline-block;
+    width : 100px;
+    height : 52px;
+    background-color: red;
+    border-radius: 30px;
+    border: 2px solid gray;
+}
+       
+/* After slide changes */
+.toggle:after {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: gray;
+    top: 1px;
+    left: 1px;
+    transition:  all 0.5s;
+}
+       
+/* Toggle text */
+p {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+       
+/* Checkbox checked effect */
+.checkbox:checked + .toggle::after {
+    left : 49px;
+}
+       
+/* Checkbox checked toggle label bg color */
+.checkbox:checked + .toggle {
+    background-color: green;
+}
+       
+/* Checkbox vanished */
+.checkbox {
+    display : none;
+}
+/* switch-end */
+.mypage-modify-row-wrap{
+    display: flex;
 }

@@ -9,9 +9,9 @@
 
             <div class="hidden float" id="sort">
                 <div class="mypage-project-select-state-list">
-                    <a href="">전체</a>
-                    <a href="">모집중</a>
-                    <a href="">모집완료</a>
+                    <a class="select-state-item">전체</a>
+                    <a class="select-state-item">모집중</a>
+                    <a class="select-state-item">모집완료</a>
                 </div>
             </div>
         </div>
@@ -50,7 +50,6 @@
         $(".drop_btn").on("click", function(){ 
             let className = $(this).attr("value");
             let currentClass = document.getElementById(className);
-            
             if ($(currentClass).is('.hidden')){
                 $(currentClass).removeClass('hidden');
                 $(currentClass).addClass('active');
@@ -59,5 +58,9 @@
                 $(currentClass).addClass('hidden');
             }
         }); 
+
+        $('.select-state-item').on("click", function(){
+            $('.mypage-project-select-state-button p').text($(this).text());
+         }); 
     });
 </script>

@@ -12,8 +12,8 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 
 def member_search(request):
-    profiles = Profile.objects.all()
-    profiles_reg = Profile.objects.all().order_by('id')[:4]
+    profiles = Profile.objects.all().order_by('-register')
+    profiles_reg = Profile.objects.all().order_by('-id')[:4]
     field1 = Field1.objects.all() # 대분야 (ex IT)
     mbti = Mbti.objects.all()
     region2 = Region2.objects.all() # ~시 (서울만 ~구)
@@ -24,7 +24,7 @@ def member_search(request):
 
 
 def member_search_back(request):
-    profiles = Profile.objects.all()
+    profiles = Profile.objects.all().order_by('-register')
     profiles_reg = Profile.objects.all().order_by('id')[:4]
     field1 = Field1.objects.all() # 대분야 (ex IT)
     mbti = Mbti.objects.all()
@@ -36,7 +36,7 @@ def member_search_back(request):
 
 #팀원찾기페이지 - 클라우드
 def member_search_back_cloud(request):
-    profiles = Profile.objects.all()
+    profiles = Profile.objects.all().order_by('-register')
     profiles_reg = Profile.objects.all().order_by('id')[:4]
     field1 = Field1.objects.all() # 대분야 (ex IT)
     mbti = Mbti.objects.all()
@@ -265,11 +265,15 @@ def mypage_modify_profile_edit(request):
     user = request.user
     profile = Profile.objects.get(user_id = user)
     field1 = Field1.objects.all()
+    mbti = Mbti.objects.all()
+    job = Job.objects.all()
+    region1 =Region1.objects.all()
+    region2 =Region2.objects.all()
+    term =Term.objects.all()
     user_links = User_link.objects.filter(user_id = user)
     user_files = User_file.objects.filter(user_id = user)
     user_carrers = User_carrer.objects.filter(user_id = user)
-    return render(request, "mypage_modify_profile_back_sunneng.html", {"field1":field1,"profile":profile, "user_links": user_links, "user_files": user_files , 
-                    "user_carrers":user_carrers})
+    return render(request, "mypage_modify_profile_back_sunneng.html", {"term":term,"region2":region2,"region1":region1,"mbti":mbti,"job":job,"field1":field1,"profile":profile, "user_links": user_links, "user_files": user_files ,  "user_carrers":user_carrers})
 #마이페이지 프로필 update 함수
 def mypage_modify_profile_update(request):
     user = request.user
@@ -280,33 +284,52 @@ def mypage_modify_profile_update(request):
     save_mbti.save()
     name = request.POST.get('name')
     profile.name = name
-    profile.job_id = request.POST.get('job_id')
-    profile.birthday = request.POST.get('birthday')
-    profile.region2_id = request.POST.get('region2_id')
+    jobs = Job.objects.all()
+    job = Job.objects.get(id=request.POST.get('job_id'))
+    profile.job_id = job
+    birthday = request.POST.get('birthday')
+    profile.birthday = birthday
+    region1s = Region1.objects.all()
+    region1 = Region1.objects.get(id=request.POST.get('region1_id'))
+    profile.region1_id = region1
+    region2s = Region2.objects.all()
+    region2 = Region2.objects.get(id=request.POST.get('region2_id'))
+    profile.region2_id = region2
     profile.state = request.POST.get('state')
     field1s = Field1.objects.all()
-    field1 = Field1.objects.get(id=request.POST.get('profile.field1.field1'))
+    field1 = Field1.objects.get(id=request.POST.get('field1_id'))
     profile.field1_id = field1
     profile.field2 = request.POST.get('field2')
-    profile.term_id = request.POST.get('term_id.term_id')
-    profile.mbti_id = request.POST.get('mbti_id.mbti_id')
+    terms = Term.objects.all()
+    term = Term.objects.get(id=request.POST.get('term_id'))
+    profile.term_id = term  
+    mbtis = Mbti.objects.all()
+    mbti = Mbti.objects.get(id=request.POST.get('mbti_id'))
+    profile.mbti_id =mbti
+    mbti.mbti_cnt = mbti.mbti_cnt + 1
+    mbti.save()
     profile.mbti_detail = request.POST.get('mbti_detail')
-    # profile.openPhone = request.POST.get('openPhone')
-    # profile.openEmail = request.POST.get('openEmail')
     profile.pr = request.POST.get('pr')
     user_links = User_link.objects.filter(user_id = user)
     user_links.link = request.POST.get('link')
-    user_files = User_file.objects.filter(user_id = user)
-    user_files.file = request.POST.get('file')
+    if(request.FILES.getlist('user_files')): 
+            profile.isfile = 1
+    
+    # user_files = User_file.objects.filter(user_id = user)
+    # user_files.file = request.FILES.getlist('file')
     user_carrers = User_carrer.objects.filter(user_id = user)
     user_carrers.start_date = request.POST.get('start_date')
     user_carrers.end_date = request.POST.get('end_date')
     user_carrers.content = request.POST.get('content')
     profile.save()
-    user_links.save()
-    user_files.save()
-    user_carrers.save()
-    return render(request,'/member/mypage_modify_profile_back_sunneng/update' + str(profile.id),{"field1s":field1s})
+    for files in request.FILES.getlist('user_files'):
+        user_files = User_file()
+        user_files.profile_id = profile
+        user_files.file = files
+        user_files.save()
+        profile.isFile = 1
+        profile.save() 
+    return render(request,"mypage_profile.html",{"region1s":region1s,"mbtis":mbtis,"terms":terms,"region2s":region2s,"jobs":jobs,"field1s":field1s})
 
 # 마이페이지 함수
 def mypage(request):
@@ -336,12 +359,18 @@ def mypage_modify_profile(request):
     return render(request, "mypage_modify_profile.html")
 
 
-#좋아요 카운팅 함수
+#좋아요 만들어지는 함수 create
 def like(request):
-    user = request.user
-    profile = Profile.objects.get(user_id = user)
-    like_to_user_id = Like.objects.get('to_user_id') #좋아요 당하는 사람
-    like_from_user_id = Like.objects.get('from_user_id')  #나(좋아요를 누르는 사람) -> 이게 user가 되나?
+    obj = json.loads(request.body) #받아온 data를 풀어주기 
+    like=Like()
+    to_user_id = Profile.objects.get(id=obj['value'])
+    like.type = int(1)
+    # like.to_user_id = to_user_id  
+    # 오류가 뜨는데 어떻게 고쳐야 될지 모르겠다..
+    # #ValueError: Cannot assign "<Profile: 조자운>": "Like.to_user_id" must be a "User" instance.
+    like.from_user_id = request.user
+    like.save()
+    return render(request,'member_search_back.html')
 
 # 팀원 찾기 최신순 정렬 함수
 def latestMember(request):

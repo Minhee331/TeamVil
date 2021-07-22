@@ -1,0 +1,116 @@
+.login-container {
+    display: grid;
+    justify-content: center;
+    margin: 100px 0px; /*원래 150px입니다*/
+}
+
+.login-title {
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 700;
+    font-size: 43.5px;
+    color: #0F59FF;
+    text-align: center;
+}
+
+.login-more-title {
+    margin: 28.5px 0px;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 400;
+    font-size: 15.8px;
+    text-align: center;
+}
+
+.login-icon-container{
+    display: flex;
+    justify-content: center;
+}
+
+.iconify {
+    margin: 7px 15px;
+    width: 15px;
+    height: 15px;
+}
+
+.login-line-container {
+    display: flex;
+}
+
+hr {
+    margin: 15px 0;
+    height: 1px;
+    width: 198.6px;
+    background-color: #ebebeb;
+    border: 0;
+}
+
+.login-line-or {
+    margin: 4.54px 18.2px;
+    padding: 2px 0;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 400;
+    font-size: 11.9px;
+}
+
+.login-error {
+    font-size: 25px;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 400;
+    margin: 30px 0;
+    color: red;
+}
+
+.login-box-container {
+    display: grid;
+    justify-content: center;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 300;
+    font-size: 15.8px;
+}
+
+.login-box {
+    height: 7.9px;
+    width: 323.2px;
+    margin-top: 23.7px;
+    padding: 17.4px;
+    border: 1px solid #ebebeb;
+    border-radius: 1px;
+}
+
+.login-submit {
+    justify-self: center;
+    height: 38px;
+    width: 231px;
+    margin-top: 31.65px;
+    background-color: #0F59FF;
+    border: 1px solid #0F59FF;
+    border-radius: 1px;
+    color: #ffffff;
+}
+
+.login-submit:hover {
+    background-color: #ffffff;
+    color: #0f59ff; 
+    cursor: pointer; 
+}
+
+.login-more-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 28.5px;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 300;
+    font-size: 15.8px;
+}
+
+.login-keep {
+    margin-right: 92px; 
+}
+
+
+.login-hr {
+    margin: 3px 7px;
+    height: 16px;
+    width: 1px;
+    background-color: #000000;
+    border: 0;
+}

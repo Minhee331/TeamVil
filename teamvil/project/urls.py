@@ -18,7 +18,8 @@ urlpatterns = [
     path('filterTeam/', views.filterTeam, name="filterTeam"),
     path('latestTeam/', views.latestTeam, name="latestTeam"),
     path('like/',views.like, name="like"),
-
+    path('likecancel/',views.likecancel, name = "likecancel"),
+    path('team_application/',views.team_application, name = "team_application"),
 
     # kay
     path('team_new/', views.team_new, name = "team_new"),
