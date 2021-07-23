@@ -61,6 +61,12 @@
             case 'modify':
                 url = "{% url 'mypage_modify_profile'%}"
                 break;
+            case 'like':
+                url = "{% url 'mypage_like'%}"
+                break;
+            case 'scrap':
+                url = "{% url 'mypage_scrap'%}"
+                break;
         }
         $.ajax({
             type: "GET",

@@ -44,7 +44,7 @@ def team_search_back_min(request):
 
 def team_search_back_cloud(request):
     projects = Project.objects.all().order_by('-register')
-    projects_reg = Project.objects.all().order_by('-id')[:4]
+    projects_reg = Project.objects.all().order_by('id')[:4]
     field1 = Field1.objects.all() # 대분야 (ex IT)
     mbti = Mbti.objects.all()
     region2 = Region2.objects.all() # ~시 (서울만 ~구)
@@ -133,7 +133,7 @@ def team_create_back_S(request):
         project.end_date = end_date
         project.content = content
         if(education!=0):
-            project.education_id = Education.objects.get(id=education) #되긴하는데 이게 맞는건가...?
+            project.education_id = Education.objects.get(id=education)
         project.save()
         duty = Duty() # 수정 필요. css 작업 완료되면 for 문으로 바꾸고 여러 duty 저장할 수 있도록
         duty.project_id = project
@@ -207,13 +207,13 @@ def like(request):
     like.project_id = project_id 
     like.from_user_id = request.user
     like.save()
-    return render(request,'team_search_back.html')
+    return render(request,'team_search_back.html') #team_list에도 적용이 되야된다
 
 #좋아요 취소 함수
 def likecancel(request):
     obj = json.loads(request.body) #받아온 data를 풀어주기  project_id를 가져올것
     project_id = Project.objects.get(id=obj['value'])
-    Like.objects.filter(project_id = project_id).delete() #like모델에 저장된 project_id랑 좋아요를 다시 클릭해서 얻어온 
+    Like.objects.get(project_id = project_id, from_user_id = request.user).delete() #like모델에 저장된 project_id랑 좋아요를 다시 클릭해서 얻어온 
     return render(request,'team_search_back.html')
 
 

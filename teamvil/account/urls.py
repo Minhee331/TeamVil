@@ -24,7 +24,10 @@ urlpatterns = [
     path('mypage_profile', views.mypage_profile, name = 'mypage_profile'),
     path('mypage_project', views.mypage_project, name = 'mypage_project'),
     path('mypage_modify_profile', views.mypage_modify_profile, name = 'mypage_modify_profile'),
-    path('like/', views.like, name="likes")
+    path('mypage_like', views.mypage_like, name = 'mypage_like'),
+    path('mypage_scrap', views.mypage_scrap, name = 'mypage_scrap'),
+    path('like/', views.likes, name="likes"),
+    path('likecancel/',views.likecancels, name="likecancels"),
     
     #path('member_state/<int:state_id>', views.member_state, name ="member_state")
 ]

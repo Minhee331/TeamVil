@@ -1,0 +1,63 @@
+{% load static %}
+{% load custom_tags %}
+<div class="mypage-info-type-wrap-container">
+    <div class="mypage-project-item-wrap-container">
+        <p class="spoqa-light mypage-like-type-text">Team</p>
+    </div>
+</div>
+<div class="mypage-info-item-wrap-container">
+    <div class="mypage-project-item-wrap-container">
+        {% for project in projects %}
+            
+            <article class="mypage-project-team-item">
+                <img class="mypage-project-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
+
+                <div class="mypage-project-team-item-text">
+                    <p class="mypage-project-team-item-title spoqa-medium">{{project.title}}</p>
+                    
+                    <p class="mypage-project-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
+                    
+                    <p class="mypage-project-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
+                    
+                    <p class="mypage-project-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
+                        {% if project.state == 1%}
+                            (모집중)
+                        {% else %}
+                            (모집완료)
+                        {% endif %}
+                    </p>
+                    
+                    <p class="mypage-project-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+</div>
+<div class="mypage-info-type-wrap-container">
+    <div class="mypage-project-item-wrap-container">
+        <p class="spoqa-light mypage-like-member-text">Member</p>
+    </div>
+</div>
+<div class="mypage-info-item-wrap-container">
+    <div class="mypage-like-member-table">
+        <div class="mypage-like-member-table-item">
+        {% for profile in profiles %}
+            <article class="mypage-like-member-item">
+                <div class="mypage-like-member-profile-container">
+                    <div class="mypage-like-member-name-container">
+                        <img class="mypage-like-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+                        <p class="spoqa-medium">{{profile.name}}</p>
+                    </div>
+                </div>
+
+                <p class="mypage-like-member-normal-text spoqa-regular">성격유형 : {{profile.mbti_id.mbti}}</p>
+                <p class="mypage-like-member-normal-text spoqa-regular">관심분야 : {{profile.field1_id.field1}}</p>
+                <hr>
+                <p class="mypage-like-member-normal-text spoqa-regular">나이 : {% getAge profile.birthday %}</p>
+                <p class="mypage-like-member-normal-text spoqa-regular">직업 : {{ profile.job_id.job }}</p>
+                <p class="mypage-like-member-normal-text spoqa-regular">지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
+            </article>
+        {% endfor %}
+        </div>
+    </div>
+</div>

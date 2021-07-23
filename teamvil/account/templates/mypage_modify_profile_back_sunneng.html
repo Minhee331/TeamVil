@@ -10,9 +10,9 @@
 </head>
 <body>
   {% block content %}
-  {% if profile.submit==0 %}
   <form method="POST" action="{% url 'mypage_modify_profile_update'  %}" enctype ="multipart/form-data">
     {% csrf_token %} 
+      {% if profile.submit %}
       <h2>이름:</h2>
         <input type="text" name="name" value={{profile.name}}>    
       <h2>직업:</h2>
@@ -35,10 +35,10 @@
           {% endfor %}
         </select>
       <h2>상태:</h2> 
-        <select name="state" id={{profile.state}}>
-          <option value="0">팀 참여중</option>
-          <option value="1">팀 찾는중</option>
-          <option value="2">휴식중</option>
+        <select name="state">
+          <option {% if profile.state == 0 %} selected {% endif %} value="0">팀 참여중</option>
+          <option {% if profile.state == 1 %} selected {% endif %} value="1">팀 찾는중</option>
+          <option {% if profile.state == 2 %} selected {% endif %} value="2">휴식중</option>
         </select>
       <h2>관심분야:</h2>
         <select name="field1_id">
@@ -47,11 +47,11 @@
           {% endfor %}
         </select>
       <h2>관심분야_detail:</h2> 
-        <input type="int" name="field2" value={{profile.field2}} multiple>
+        <input type="int" name="field2" value={{profile.field2}}>
       <h2>선호기간:</h2> 
         <select name="term_id">
           {% for term in term %}
-          <option {% if term == profile.term_id %} selected {% endif %} value={{term.id}}>{{term.term}}</option>
+          <option {% if term == profile.term_id %} selected {% endif %} value={{term.id}}>{{term.term}} | {% if term.term_type %} 장기 {% else %} 단기 {% endif %}</option>
           {% endfor %}
         </select>
       <h2>MBTI:</h2>
@@ -86,7 +86,10 @@
           <p>파일:{{user_file.file}}</p> <br>
           {% endfor %}
         <br>
-      <input type="submit" value="수정하기"> }
+      {% else %}
+      111
+      {% endif %}
+      <input type="submit" value="수정하기"> 
   </form>
   {% endblock %}
 </body>

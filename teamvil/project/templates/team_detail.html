@@ -84,7 +84,9 @@
                             {{project.school}}
                         {% endif %}
                     </span>
-                    <span class="team_detail-info-etc-body1">교내프로젝트</span>
+                    {% if project.school != None %}
+                        <span class="team_detail-info-etc-body1">교내프로젝트</span>
+                    {% endif %}
                 </p>
                 <p>
                     <span class="team_detail-info-etc-title">학력 제한</span>

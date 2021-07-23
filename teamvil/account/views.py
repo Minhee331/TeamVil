@@ -274,62 +274,59 @@ def mypage_modify_profile_edit(request):
     user_files = User_file.objects.filter(user_id = user)
     user_carrers = User_carrer.objects.filter(user_id = user)
     return render(request, "mypage_modify_profile_back_sunneng.html", {"term":term,"region2":region2,"region1":region1,"mbti":mbti,"job":job,"field1":field1,"profile":profile, "user_links": user_links, "user_files": user_files ,  "user_carrers":user_carrers})
+
 #마이페이지 프로필 update 함수
 def mypage_modify_profile_update(request):
     user = request.user
+    name = request.POST.get('name')
+    job = Job.objects.get(id=request.POST.get('job_id'))
+    birthday = request.POST.get('birthday')
+    region1 = Region1.objects.get(id=request.POST.get('region1_id'))
+    region2 = Region2.objects.get(id=request.POST.get('region2_id'))
+    state = request.POST.get('state')
+    field1 = Field1.objects.get(id=request.POST.get('field1_id'))
+    field2 = request.POST.get('field2')
+    term = Term.objects.get(id=request.POST.get('term_id'))
+    mbti = Mbti.objects.get(id=request.POST.get('mbti_id'))
+    mbti_detail = request.POST.get('mbti_detail')
+    pr = request.POST.get('pr')
     profile = Profile.objects.get(user_id = user)
     save_mbti_id = profile.mbti_id.id
     save_mbti = Mbti.objects.get(id=save_mbti_id)
     save_mbti.mbti_cnt = save_mbti.mbti_cnt -1
     save_mbti.save()
-    name = request.POST.get('name')
     profile.name = name
-    jobs = Job.objects.all()
-    job = Job.objects.get(id=request.POST.get('job_id'))
     profile.job_id = job
-    birthday = request.POST.get('birthday')
     profile.birthday = birthday
-    region1s = Region1.objects.all()
-    region1 = Region1.objects.get(id=request.POST.get('region1_id'))
     profile.region1_id = region1
-    region2s = Region2.objects.all()
-    region2 = Region2.objects.get(id=request.POST.get('region2_id'))
     profile.region2_id = region2
-    profile.state = request.POST.get('state')
-    field1s = Field1.objects.all()
-    field1 = Field1.objects.get(id=request.POST.get('field1_id'))
+    profile.state = state
     profile.field1_id = field1
-    profile.field2 = request.POST.get('field2')
-    terms = Term.objects.all()
-    term = Term.objects.get(id=request.POST.get('term_id'))
+    profile.field2 = field2
     profile.term_id = term  
-    mbtis = Mbti.objects.all()
-    mbti = Mbti.objects.get(id=request.POST.get('mbti_id'))
     profile.mbti_id =mbti
     mbti.mbti_cnt = mbti.mbti_cnt + 1
     mbti.save()
-    profile.mbti_detail = request.POST.get('mbti_detail')
-    profile.pr = request.POST.get('pr')
-    user_links = User_link.objects.filter(user_id = user)
-    user_links.link = request.POST.get('link')
-    if(request.FILES.getlist('user_files')): 
-            profile.isfile = 1
-    
-    # user_files = User_file.objects.filter(user_id = user)
-    # user_files.file = request.FILES.getlist('file')
-    user_carrers = User_carrer.objects.filter(user_id = user)
-    user_carrers.start_date = request.POST.get('start_date')
-    user_carrers.end_date = request.POST.get('end_date')
-    user_carrers.content = request.POST.get('content')
+    profile.mbti_detail = mbti_detail
+    profile.pr = pr
+    # user_links = User_link.objects.filter(user_id = user) # 링크 여러개 수정할 수 있도록
+    # user_links.link = request.POST.get('link')
+    # if(request.FILES.getlist('user_files')): 
+    #         profile.isfile = 1
+    # user_carrers = User_carrer.objects.filter(user_id = user) # 커리어 여러개 수정할 수 있도록
+    # user_carrers.start_date = request.POST.get('start_date')
+    # user_carrers.end_date = request.POST.get('end_date')
+    # user_carrers.content = request.POST.get('content')
+    profile.submit = 1
     profile.save()
-    for files in request.FILES.getlist('user_files'):
-        user_files = User_file()
-        user_files.profile_id = profile
-        user_files.file = files
-        user_files.save()
-        profile.isFile = 1
-        profile.save() 
-    return render(request,"mypage_profile.html",{"region1s":region1s,"mbtis":mbtis,"terms":terms,"region2s":region2s,"jobs":jobs,"field1s":field1s})
+    # for files in request.FILES.getlist('user_files'): # 파일 여러개 수정할 수 있도록
+    #     user_files = User_file()
+    #     user_files.profile_id = profile
+    #     user_files.file = files
+    #     user_files.save()
+    #     profile.isFile = 1
+    #     profile.save() 
+    return redirect('/member/mypage')
 
 # 마이페이지 함수
 def mypage(request):
@@ -356,20 +353,53 @@ def mypage_project(request):
 
 # 마이페이지 프로필 수정 페이지 함수
 def mypage_modify_profile(request):
-    return render(request, "mypage_modify_profile.html")
+    user = request.user
+    profile = Profile.objects.get(user_id = user)
+    user_links = User_link.objects.filter(user_id = user)
+    user_files = User_file.objects.filter(user_id = user)
+    user_reviews = User_review.objects.filter(to_user_id = user)
+    user_carrers = User_carrer.objects.filter(user_id = user)
+    return render(request, "mypage_modify_profile.html", {"profile":profile, "user_links": user_links, "user_files": user_files , 
+                "user_reviews": user_reviews, "user_carrers":user_carrers})
+
+# 마이페이지 좋아요 페이지 함수
+def mypage_like(request):
+    user = request.user
+    projects = Project.objects.filter(user_id=user)
+    likes = Like.objects.filter(to_user_id =user)
+    scraps = Scrap.objects.filter(to_user_id =user)
+    profiles = Profile.objects.all().order_by('-id')[:4]
+    return render(request, "mypage_like.html", {'projects':projects, "likes": likes,"scrpas": scraps, "profiles":profiles})
+
+# 마이페이지 스크랩 페이지 함수
+def mypage_scrap(request):
+    user = request.user
+    projects = Project.objects.filter(user_id=user)
+    likes = Like.objects.filter(to_user_id =user)
+    scraps = Scrap.objects.filter(to_user_id =user)
+    profiles = Profile.objects.all().order_by('-id')[:4]
+    return render(request, "mypage_like.html", {'projects':projects, "likes": likes,"scrpas": scraps, "profiles":profiles})
 
 
 #좋아요 만들어지는 함수 create
-def like(request):
+def likes(request):
     obj = json.loads(request.body) #받아온 data를 풀어주기 
     like=Like()
-    to_user_id = Profile.objects.get(id=obj['value'])
+    to_user_id = User.objects.get(id=obj['value']) # Profile.objects.get(id=obj['value']) #profile.user_id.id
     like.type = int(1)
-    # like.to_user_id = to_user_id  
+    like.to_user_id = to_user_id  
     # 오류가 뜨는데 어떻게 고쳐야 될지 모르겠다..
     # #ValueError: Cannot assign "<Profile: 조자운>": "Like.to_user_id" must be a "User" instance.
     like.from_user_id = request.user
     like.save()
+    return render(request,'member_search_back.html')
+
+#좋아요 취소 함수
+def likecancels(request):
+    #profile.user_id.id
+    obj = json.loads(request.body) #받아온 data를 풀어주기  project_id를 가져올것
+    to_user_id = User.objects.get(id=obj['value'])
+    Like.objects.get(to_user_id = to_user_id, from_user_id = request.user).delete() #like모델에 저장된 project_id랑 좋아요를 다시 클릭해서 얻어온 프로파일.user_id.id
     return render(request,'member_search_back.html')
 
 # 팀원 찾기 최신순 정렬 함수

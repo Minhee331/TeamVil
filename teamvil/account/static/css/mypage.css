@@ -319,23 +319,24 @@
 }
 /* switch start */
 .toggle {
-    position : relative ;
-    display : inline-block;
-    width : 100px;
-    height : 52px;
-    background-color: red;
+    position: relative;
+    display: inline-block;
+    width: 90px;
+    height: 30px;
+    background-color: #fff;
     border-radius: 30px;
-    border: 2px solid gray;
+    border: 1.5px solid #ebebeb;
+    margin: 0 20px;
 }
        
 /* After slide changes */
 .toggle:after {
     content: '';
     position: absolute;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: gray;
+    width: 43px;
+    height: 25px;
+    border-radius: 20px;
+    background-color: #ebebeb;
     top: 1px;
     left: 1px;
     transition:  all 0.5s;
@@ -349,12 +350,12 @@ p {
        
 /* Checkbox checked effect */
 .checkbox:checked + .toggle::after {
-    left : 49px;
+    left : 43px;
 }
        
 /* Checkbox checked toggle label bg color */
 .checkbox:checked + .toggle {
-    background-color: green;
+    background-color: #0f59ff;
 }
        
 /* Checkbox vanished */
@@ -364,4 +365,90 @@ p {
 /* switch-end */
 .mypage-modify-row-wrap{
     display: flex;
+    width: 100%;
+}
+.mypage-modify-input-switch-wrap{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.public{  
+    float: left;
+    margin-left: 7px;
+    margin-top: 5px;
+    font-size: 13px;
+    color: #ebebeb;
+}
+.private{
+    font-size: 13px;
+    float: right;
+    margin-right: 7px;
+    margin-top: 5px;
+    color: #ebebeb;
+}
+/* 좋아요 */
+.mypage-like-type-text{
+    font-size: 18px;
+    border-bottom: 1px solid #EBEBEB;
+    width: 100%;
+}
+.mypage-info-type-wrap-container{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-bottom: 30px;
+}
+.mypage-like-member-table-item{
+    /* display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; */
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 50vw;
+    min-width: 660px;
+    max-width: 700px;
+}
+
+
+.mypage-like-member-item {
+    display: inline-table;
+    width: 324.985px;
+    height: 290px;
+    border: 1px solid #D7D7D7;
+    border-radius: 1px;
+    padding: 27px;
+    margin-bottom: 20px;
+}
+
+.mypage-like-member-profile-container {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.mypage-like-member-name-container {
+    display: flex;
+    align-items: center;
+}
+
+.mypage-like-member-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 75px;
+    margin-right: 15px;
+}
+.mypage-like-member-normal-text{
+    font-size: 12px;
+    line-height: 25px;
+}
+.mypage-like-member-item > hr{
+    /* padding: 20px 0; */
+    margin: 20px 0;
+    border: 1px solid #ebebeb;
+}
+.mypage-like-member-text{
+    font-size: 18px;
+    border-bottom: 1px solid #EBEBEB;
+    width: 100%;
+    padding-top: 50px;
 }

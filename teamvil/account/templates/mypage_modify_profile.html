@@ -155,13 +155,74 @@
             <p class="mypage-modify-title-text spoqa-regular">연락처</p>
             
             <div class="mypage-modify-row-wrap">
-                <div class="mypage-modify-input-wrap">
-                <input type="text" class="mypage-modify-input col_12 spoqa-light" placeholder="010-1234-0000">
+                <div class="mypage-modify-input-switch-wrap">
+                    <input type="text" class="mypage-modify-input col_12 spoqa-light" placeholder="010-1234-0000">
                 </div>
-                <input type="checkbox" id="switch" class="checkbox"/>
-                <label for="switch" class="toggle"><p>OFF    ON</p></label>
+
+                <div class="mypage-modify-input-switch-wrap">
+                    <input type="checkbox" id="switch" class="checkbox"/>
+
+                    <label for="switch" class="toggle">
+                        <p class="spoqa-light public">공개</p>
+                        <p class="spoqa-light private">비공개</p>
+                    </label>
+                </div>
             </div>
         </div>
+
+        <div class="mypage-profile-modify-element-wrap">
+            <p class="mypage-modify-title-text spoqa-regular">이메일</p>
+            
+            <div class="mypage-modify-row-wrap">
+                <div class="mypage-modify-input-switch-wrap">
+                    <input type="text" class="mypage-modify-input col_15 spoqa-light" placeholder="1234@likelion.org">
+                </div>
+
+                <div class="mypage-modify-input-switch-wrap">
+                    <input type="checkbox" id="switch" class="checkbox"/>
+
+                    <label for="switch" class="toggle">
+                        <p class="spoqa-light public">공개</p>
+                        <p class="spoqa-light private">비공개</p>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mypage-info-item-wrap-container">
+    <div class="mypage-profile-column-item-container">
+        <div class="mypage-profile-detail-info-wrap">
+            <p class="mypage-profile-detail-info-title-text spoqa-regular">PR</p>
+            <p class="mypage-profile-detail-info-content-text  spoqa-light">{{profile.pr}}</p>
+        </div>
+
+        {% if profile.isCarrer %}
+            <div class="mypage-profile-detail-info-wrap">
+                <p class="mypage-profile-detail-info-title-text spoqa-regular">경력</p>
+                    {% for user_carrer in user_carrers %}
+                        <p class="mypage-profile-detail-info-content2-text spoqa-light">{{user_carrer.start_date}}~{{user_carrer.end_date}}&nbsp;&nbsp;&nbsp;{{user_carrer.content}}</p>
+                    {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if profile.isLink %}
+            <div class="mypage-profile-detail-info-wrap">
+                <p class="mypage-profile-detail-info-title-text spoqa-regular">링크</p>
+                    {% for user_link in user_links %}
+                        <p class="mypage-profile-detail-info-content2-text spoqa-light">{{user_link.link}}</p>
+                    {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if profile.isFile %}
+            <div class="mypage-profile-detail-info-wrap">
+                <p class="mypage-profile-detail-info-title-text spoqa-regular">파일</p>
+                    {% for user_file in user_files %}
+                        <p class="mypage-profile-detail-info-content2-text spoqa-light">{{user_file.file.name}}</p>
+                    {% endfor %}
+            </div>
+        {% endif %}
     </div>
 </div>
 <script>
@@ -202,5 +263,6 @@
         $('.select-mbti-item').on("click", function(){
             $('.mypage-modify-select-state-button.mbti p').text($(this).text());
         }); 
+        
     });
 </script>

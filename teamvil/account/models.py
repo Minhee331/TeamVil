@@ -19,7 +19,7 @@ class Job(models.Model):
 
 class Term(models.Model):
     term = models.CharField(max_length=20)
-    term_type = models.CharField(max_length=10)
+    term_type = models.IntegerField()
     def __str__(self):
         return self.term
 
@@ -81,8 +81,7 @@ class User_review(models.Model):
     to_user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="to_user_id", related_name="review_to_user_id")
     project_id = models.ForeignKey(Project, on_delete = models.CASCADE, db_column="project_id")
     content = models.TextField()
-    total  = models.FloatField()
-    question1 = models.IntegerField()
+    total  = models.FloatField() # 0~5까지 0.5단위로
     def __str__(self):
         return str(self.total)
 
