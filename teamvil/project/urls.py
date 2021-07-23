@@ -20,6 +20,7 @@ urlpatterns = [
     path('like/',views.like, name="like"),
     path('likecancel/',views.likecancel, name = "likecancel"),
     path('team_application/',views.team_application, name = "team_application"),
+    path('team_review/<int:project_id>', views.team_review, name = "team_review"),
 
     # kay
     path('team_new/', views.team_new, name = "team_new"),

@@ -25,10 +25,13 @@
     justify-content: center;
 }
 
+.login-icon-container a{
+    margin: 9px 15px;
+}
+
 .iconify {
-    margin: 7px 15px;
-    width: 15px;
-    height: 15px;
+    width: 28px;
+    height: 28px;
 }
 
 .login-line-container {
@@ -52,9 +55,10 @@ hr {
 }
 
 .login-error {
-    font-size: 25px;
+    font-size: 20px;
     font-family: 'Spoqa Han Sans Neo', 'sans-serif';
     font-weight: 400;
+    text-align: center;
     margin: 30px 0;
     color: red;
 }

@@ -10,23 +10,24 @@
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/team_form.css' %}">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 <body>
     {% include 'navbar.html' %}
 
-        <form action="" id="formContainer">
-            <div>
-                <p>질문 추가</p>
+    <form class="team_form-main-container" action="" id="formContainer">
+        <div class="team_form-menu-container spoqa-regular">
+            <p>질문 추가</p>
 
-                <input type="button" value="단답형" name="" onclick="addQuestion()">
-                <input type="button" value="서술형" name="" onclick="addQuestion()">
-                <input type="button" value="객관식" name="" onclick="addSelectQuestion()">
-            </div>
+            <input type="button" value="단답형" name="" onclick="addQuestion()">
+            <input type="button" value="서술형" name="" onclick="addQuestion()">
+            <input type="button" value="객관식" name="" onclick="addSelectQuestion()">
+        </div>
 
-            <div class="" id="questions">
+        <div class="team_form-question-container" id="questions">
 
-            </div>
-        </form>
+        </div>
+    </form>
     
     {% include 'footer.html' %}
 </body>
@@ -34,9 +35,10 @@
 <script>
     function addQuestion() {
         var newQuestionBox = document.createElement("div");
-        // newQuestionDiv.setAttribute("class", "team_new-task");
+        newQuestionBox.setAttribute("class", "team_form-question-item-box");
 
         var newNumDiv = document.createElement("div");
+        newNumDiv.setAttribute("class", "team_form-question-num spoqa-regular");
         var newNum = document.createElement("p");
         var newNumText = document.createTextNode("1");
         newNum.appendChild(newNumText);
@@ -44,36 +46,49 @@
         newQuestionBox.appendChild(newNumDiv);
 
         var newQuestionDiv = document.createElement("div");
+        newQuestionDiv.setAttribute("class", "team_form-question-item");
         var newQuestionInput = document.createElement("input");
         newQuestionInput.setAttribute("placeholder", "질문을 입력하세요.");
+        newQuestionInput.setAttribute("class", "team_form-question-input");
         newQuestionDiv.appendChild(newQuestionInput);
-        var newQuestionEssBtn = document.createElement("input");
-        newQuestionEssBtn.setAttribute("type", "radio");
-        newQuestionEssBtn.setAttribute("name", "select");
-        newQuestionDiv.appendChild(newQuestionEssBtn);
-        var newQuestionEssTextP = document.createElement("p");
-        var newQuestionEssText = document.createTextNode("필수");
-        newQuestionEssTextP.appendChild(newQuestionEssText);
-        newQuestionDiv.appendChild(newQuestionEssTextP);
-        var newQuestionSelBtn = document.createElement("input");
-        newQuestionSelBtn.setAttribute("type", "radio");
-        newQuestionSelBtn.setAttribute("name", "select");
-        newQuestionDiv.appendChild(newQuestionSelBtn);
-        var newQuestionSelTextP = document.createElement("p");
-        var newQuestionSelText = document.createTextNode("선택");
-        newQuestionSelTextP.appendChild(newQuestionSelText);
-        newQuestionDiv.appendChild(newQuestionSelTextP);
+        var newToggleDiv = document.createElement("div");
+        newToggleDiv.setAttribute("class", "toggleBG");
+        var newToggleBtn = document.createElement("input");
+        newToggleBtn.setAttribute("type", "button");
+        newToggleBtn.setAttribute("class", "toggleFG");
+        newToggleDiv.appendChild(newToggleBtn);
+        var newToggleDescDiv = document.createElement("div");
+        newToggleDescDiv.setAttribute("class", "desc");
+        var newToggleDescEss = document.createElement("p");
+        newToggleDescEss.setAttribute("class", "essential");
+        var newToggleDescEssText = document.createTextNode("필수");
+        newToggleDescEss.appendChild(newToggleDescEssText);
+        newToggleDescDiv.appendChild(newToggleDescEss);
+        var newToggleDescSel = document.createElement("p");
+        newToggleDescSel.setAttribute("class", "selective");
+        var newToggleDescSelText = document.createTextNode("선택");
+        newToggleDescSel.appendChild(newToggleDescSelText);
+        newToggleDescDiv.appendChild(newToggleDescSel);
+        newToggleDiv.appendChild(newToggleDescDiv);
+        newQuestionDiv.appendChild(newToggleDiv);
         newQuestionBox.appendChild(newQuestionDiv);
 
-        var taskContainer = document.getElementById('formContainer');
+        var xBtn = document.createElement("img");
+        xBtn.setAttribute("class", "team_form-x-btn");
+        xBtn.setAttribute("src", "{% static 'image/x-button.png' %}");
+        xBtn.setAttribute("onclick", "delQuestion(this)");
+        newQuestionBox.appendChild(xBtn);
+
+        var taskContainer = document.getElementById('questions');
         taskContainer.appendChild(newQuestionBox);
     }
 
     function addSelectQuestion() {
         var newQuestionBox = document.createElement("div");
-        // newQuestionDiv.setAttribute("class", "team_new-task");
+        newQuestionBox.setAttribute("class", "team_form-question-item-box");
 
         var newNumDiv = document.createElement("div");
+        newNumDiv.setAttribute("class", "team_form-question-num spoqa-regular");
         var newNum = document.createElement("p");
         var newNumText = document.createTextNode("1");
         newNum.appendChild(newNumText);
@@ -81,34 +96,153 @@
         newQuestionBox.appendChild(newNumDiv);
 
         var newQuestionDiv = document.createElement("div");
+        newQuestionDiv.setAttribute("class", "team_form-sel-question-item");
+        // input
         var newQuestionInput = document.createElement("input");
         newQuestionInput.setAttribute("placeholder", "질문을 입력하세요.");
+        newQuestionInput.setAttribute("class", "team_form-question-input");
         newQuestionDiv.appendChild(newQuestionInput);
-        var newQuestionEssBtn = document.createElement("input");
-        newQuestionEssBtn.setAttribute("type", "radio");
-        newQuestionEssBtn.setAttribute("name", "select");
-        newQuestionDiv.appendChild(newQuestionEssBtn);
-        var newQuestionEssTextP = document.createElement("p");
-        var newQuestionEssText = document.createTextNode("필수");
-        newQuestionEssTextP.appendChild(newQuestionEssText);
-        newQuestionDiv.appendChild(newQuestionEssTextP);
-        var newQuestionSelBtn = document.createElement("input");
-        newQuestionSelBtn.setAttribute("type", "radio");
-        newQuestionSelBtn.setAttribute("name", "select");
-        newQuestionDiv.appendChild(newQuestionSelBtn);
-        var newQuestionSelTextP = document.createElement("p");
-        var newQuestionSelText = document.createTextNode("선택");
-        newQuestionSelTextP.appendChild(newQuestionSelText);
-        newQuestionDiv.appendChild(newQuestionSelTextP);
+        // toggle
+        var newToggleDiv = document.createElement("div");
+        newToggleDiv.setAttribute("class", "toggleBG");
+        var newToggleBtn = document.createElement("input");
+        newToggleBtn.setAttribute("type", "button");
+        newToggleBtn.setAttribute("class", "toggleFG");
+        newToggleDiv.appendChild(newToggleBtn);
+        var newToggleDescDiv = document.createElement("div");
+        newToggleDescDiv.setAttribute("class", "desc");
+        var newToggleDescEss = document.createElement("p");
+        newToggleDescEss.setAttribute("class", "essential");
+        var newToggleDescEssText = document.createTextNode("필수");
+        newToggleDescEss.appendChild(newToggleDescEssText);
+        newToggleDescDiv.appendChild(newToggleDescEss);
+        var newToggleDescSel = document.createElement("p");
+        newToggleDescSel.setAttribute("class", "selective");
+        var newToggleDescSelText = document.createTextNode("선택");
+        newToggleDescSel.appendChild(newToggleDescSelText);
+        newToggleDescDiv.appendChild(newToggleDescSel);
+        newToggleDiv.appendChild(newToggleDescDiv);
+        newQuestionDiv.appendChild(newToggleDiv);
+        // extra
+        var newExtraDiv = document.createElement("div");
+        newExtraDiv.setAttribute("class", "team_form-extra-container");
+        // 선택지 개수
+        var newSelectOptionDiv = document.createElement("div");
+        newSelectOptionDiv.setAttribute("class", "member_search-member-select-state spoqa-regular drop_btn");
+        newSelectOptionDiv.setAttribute("value", "sort");
+        var newSelectOptionBtnDiv = document.createElement("div");
+        newSelectOptionBtnDiv.setAttribute("class", "member_search-select-state-button");
+        var newSelectOptionBtn = document.createElement("p");
+        var newSelectOptionBtnText = document.createTextNode("2개");
+        newSelectOptionBtn.appendChild(newSelectOptionBtnText);
+        newSelectOptionBtnDiv.appendChild(newSelectOptionBtn);
+        var newSelectOptionChev = document.createElement("img");
+        newSelectOptionChev.setAttribute("class", "member_search-chevron");
+        newSelectOptionChev.setAttribute("src", "{% static 'image/chevron-down.png' %}");
+        newSelectOptionBtnDiv.appendChild(newSelectOptionChev);
+        newSelectOptionDiv.appendChild(newSelectOptionBtnDiv);
+        var newSelectOptionListDiv = document.createElement("div");
+        newSelectOptionListDiv.setAttribute("class", "hidden float");
+        newSelectOptionListDiv.setAttribute("id", "sort");
+        var newSelectOptionList = document.createElement("div");
+        newSelectOptionList.setAttribute("class", "member_search-select-state-list");
+        var newSelectOption1 = document.createElement("a");
+        var newSelectOptionText1 = document.createTextNode("2개");
+        newSelectOption1.appendChild(newSelectOptionText1);
+        newSelectOptionList.appendChild(newSelectOption1);
+        var newSelectOption2 = document.createElement("a");
+        var newSelectOptionText2 = document.createTextNode("3개");
+        newSelectOption2.appendChild(newSelectOptionText2);
+        newSelectOptionList.appendChild(newSelectOption2);
+        var newSelectOption3 = document.createElement("a");
+        var newSelectOptionText3 = document.createTextNode("4개");
+        newSelectOption3.appendChild(newSelectOptionText3);
+        newSelectOptionList.appendChild(newSelectOption3);
+        var newSelectOption4 = document.createElement("a");
+        var newSelectOptionText4 = document.createTextNode("5개");
+        newSelectOption4.appendChild(newSelectOptionText4);
+        newSelectOptionList.appendChild(newSelectOption4);
+        newSelectOptionListDiv.appendChild(newSelectOptionList);
+        newSelectOptionDiv.appendChild(newSelectOptionListDiv);
+        newExtraDiv.appendChild(newSelectOptionDiv);
+        // checkbox
+        var newCheckboxDiv = document.createElement("div");
+        newCheckboxDiv.setAttribute("class", "team_form-checkbox-container");
+        var newCheckbox = document.createElement("input");
+        newCheckbox.setAttribute("type", "checkbox");
+        newCheckboxDiv.appendChild(newCheckbox);
+        var newCheckboxDesc = document.createElement("p");
+        newCheckboxDesc.setAttribute("class", "spoqa-regular");
+        var newCheckboxDescText = document.createTextNode("복수 선택 가능");
+        newCheckboxDesc.appendChild(newCheckboxDescText);
+        newCheckboxDiv.appendChild(newCheckboxDesc);
+        newExtraDiv.appendChild(newCheckboxDiv);
+        newQuestionDiv.appendChild(newExtraDiv);
+        // 선택지
+        var newOptionDiv = document.createElement("div");
+        newOptionDiv.setAttribute("class", "team_form-option-container");
+        var newOption = document.createElement("input");
+        newOption.setAttribute("placeholder", "선택지를 입력하세요.");
+        newOptionDiv.appendChild(newOption);
+        newQuestionDiv.appendChild(newOption);
+        // append
         newQuestionBox.appendChild(newQuestionDiv);
 
-        var taskContainer = document.getElementById('formContainer');
+        var xBtn = document.createElement("img");
+        xBtn.setAttribute("class", "team_form-x-btn");
+        xBtn.setAttribute("src", "{% static 'image/x-button.png' %}");
+        xBtn.setAttribute("onclick", "delQuestion(this)");
+        newQuestionBox.appendChild(xBtn);
+
+        var taskContainer = document.getElementById('questions');
         taskContainer.appendChild(newQuestionBox);
     }
 
-    // function delTask(child) {
-    //     var parent = child.parentNode;
-    //     parent.parentNode.removeChild(parent);
-    // }
+    function delQuestion(child) {
+        var parent = child.parentNode;
+        parent.parentNode.removeChild(parent);
+    }
+
+    // dropdown
+    $(document).on("click", ".drop_btn", function(e){
+        let className = $(this).attr("value");
+        let currentClass = document.getElementById(className);
+        
+        if ($(currentClass).is('.hidden')){
+            $(currentClass).removeClass('hidden');
+            $(currentClass).addClass('active');
+        } else{
+            $(currentClass).removeClass('active');
+            $(currentClass).addClass('hidden');
+        }
+    }); 
+
+    // toggle
+    $(document).on('click', '.toggleBG', function () {
+        var toggleBG = $(this);
+        var toggleFG = $(this).find('.toggleFG');
+        var left = toggleFG.css('left');
+        if(left == '40px') {
+            toggleBG.css('background', '#ebebeb');
+            toggleActionStart(toggleFG, 'TO_LEFT');
+        }else if(left == '0px') {
+            toggleActionStart(toggleFG, 'TO_RIGHT');
+        }
+    });
+
+    function toggleActionStart(toggleBtn, LR) {
+        var intervalID = setInterval(
+            function() {
+                var left = parseInt(toggleBtn.css('left'));
+                left += (LR == 'TO_RIGHT') ? 5 : -5;
+                if(left >= 0 && left <= 40) {
+                    left += 'px';
+                    toggleBtn.css('left', left);
+                }
+            }, 10);
+        setTimeout(function(){
+            clearInterval(intervalID);
+        }, 201);
+    }
 </script>
 </html>

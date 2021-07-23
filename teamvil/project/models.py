@@ -57,14 +57,16 @@ class Member(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="user_id")
     project_id = models.ForeignKey(Project, on_delete = models.CASCADE, db_column="project_id")
     duty_id = models.ForeignKey(Duty, on_delete = models.CASCADE, db_column="duty_id")
+    register_state = models.IntegerField(default=0) #null값 주거나 default 주거나 해야되는데 어케할까요?
     def __str__(self):
         return self.project_id.title + " " + self.duty_id.name
 
 class Question(models.Model):
     project_id = models.ForeignKey('project.Project', on_delete = models.CASCADE, db_column="project_id")
     type = models.IntegerField() # 0: 객관식 1: 단답 2: 주관
+    isRequired = models.IntegerField() # 0: 필수 아님 1 : 필수
     content = models.CharField(max_length=200)
-    choice_cnt = models.IntegerField()
+    choice_cnt = models.IntegerField(null=True)
     choice1 = models.CharField(max_length=100)
     choice2 = models.CharField(max_length=100)
     choice3 = models.CharField(max_length=100, null=True)

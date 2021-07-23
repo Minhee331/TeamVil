@@ -226,6 +226,20 @@ def latestTeam(request):
 def team_application(request):
     return render(request, "team_application.html")
 
+# 팀원 리뷰 페이지 html 렌더링
+def team_review(request, project_id):
+    project = Project.objects.get(id=project_id)
+    members = Member.objects.filter(project_id=project_id, register_state=1)
+    print(members)
+    profiles = Profile.objects.get(user_id=members.user_id)
+    duties = Duty.objects.filter()
+    return render(request, "team_review.html",  {'project':project, 'profiles':profiles, 'duties':duties,
+                "members":members})
+
+
+# total = request.POST['total']
+# User_review.total = total
+
 # kay
 def team_new(request):
     field1 = Field1.objects.all()

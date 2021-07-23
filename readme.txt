@@ -69,6 +69,10 @@
 210722 건영 | mypage_modify_profile | account view수정 
 210722 자운 | project models.py | Project 모델에 register추가, member_search, team_search 페이지 최신순으로 정렬
 210723 유림 | team_search_back | 좋아요 취소 기능 구현 js 완성, view 좋아요 취소 함수 완성 및 url 연결 
-210723 민희 | mypage_project | 프로젝트 css 작업
+210723 민희 | mypage_modify_profile | 프로필 수정하기 css 작업
 210723 자운 | team_new_back_S, views.py, team_application | 학력 선택안함 추가, is file 입력 추가, team_application html 및 css 생성
 210723 건영 | mypage_modify_profile, account.views.py,  | modify.html 수정 및 account.views 수정,url수정
+210723 민희 | mypage_modify_profile, mypage_scrap, mypage_like | 프로필 수정하기, 스크랩, 좋아요 css 작업
+210723 백팀 | DB, 좋아요, 프로필 수정 | Question, Apply_form, Answer, Application 모델 추가, 좋아요 오류 수정, 프로필 오류 수정
+210723 혜인 | team_new | html, css, js 수정
+210723 자운 | team_review, member DB |  html 및 css 생성, DB register_state추가 project views 추가/수정
