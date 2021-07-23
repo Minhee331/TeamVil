@@ -76,3 +76,4 @@
 210723 백팀 | DB, 좋아요, 프로필 수정 | Question, Apply_form, Answer, Application 모델 추가, 좋아요 오류 수정, 프로필 오류 수정
 210723 혜인 | team_new | html, css, js 수정
 210723 자운 | team_review, member DB |  html 및 css 생성, DB register_state추가 project views 추가/수정
+210724 혜인 | team_new, team_form, team_search, member_search | team_search 최상단 필터, 팀 만들기 버튼, 좋아요-스크랩 버튼 추가, 나머지 페이지 html, css, js 수정

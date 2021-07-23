@@ -27,6 +27,11 @@
         <div class="team_form-question-container" id="questions">
 
         </div>
+
+        <div class="team_form-btn-container">
+            <a href="{% url 'team_new' %}"><input class="spoqa-regular" type="button" value="이전으로"></a>
+            <a><button class="spoqa-regular" type="submit">제출하기</button></a>
+        </div>
     </form>
     
     {% include 'footer.html' %}
@@ -95,6 +100,8 @@
         newNumDiv.appendChild(newNum);
         newQuestionBox.appendChild(newNumDiv);
 
+        var newQuestionCon = document.createElement("div");
+        newQuestionCon.setAttribute("class", "team_form-sel-question-container");
         var newQuestionDiv = document.createElement("div");
         newQuestionDiv.setAttribute("class", "team_form-sel-question-item");
         // input
@@ -178,15 +185,19 @@
         newCheckboxDiv.appendChild(newCheckboxDesc);
         newExtraDiv.appendChild(newCheckboxDiv);
         newQuestionDiv.appendChild(newExtraDiv);
-        // 선택지
+        // option
         var newOptionDiv = document.createElement("div");
         newOptionDiv.setAttribute("class", "team_form-option-container");
-        var newOption = document.createElement("input");
-        newOption.setAttribute("placeholder", "선택지를 입력하세요.");
-        newOptionDiv.appendChild(newOption);
-        newQuestionDiv.appendChild(newOption);
+        var newOption1 = document.createElement("input");
+        newOption1.setAttribute("placeholder", "선택지를 입력하세요.");
+        newOptionDiv.appendChild(newOption1);
+        var newOption2 = document.createElement("input");
+        newOption2.setAttribute("placeholder", "선택지를 입력하세요.");
+        newOptionDiv.appendChild(newOption2);
         // append
-        newQuestionBox.appendChild(newQuestionDiv);
+        newQuestionCon.appendChild(newQuestionDiv);
+        newQuestionCon.appendChild(newOptionDiv);
+        newQuestionBox.appendChild(newQuestionCon);
 
         var xBtn = document.createElement("img");
         xBtn.setAttribute("class", "team_form-x-btn");
