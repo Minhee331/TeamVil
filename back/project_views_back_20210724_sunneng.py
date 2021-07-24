@@ -228,22 +228,21 @@ def team_application(request):
     return render(request, "team_application.html")
 
 # 팀원 리뷰 페이지 html 렌더링
-def team_review(request, project_id, ):
+def team_review(request, project_id):
     project = Project.objects.get(id=project_id)
     print(project)
     members = Member.objects.filter(project_id=project_id, register_state=1)
     print(members)
-    member_user_ids = [member.user_id for member in members]
-    print(member_user_ids)
-    profiles = Profile.objects.filter(user_id__in=member_user_ids)
-    print(profiles)
-
+    # profiles = []
+    # for member in members:
+    #     profiles.append(Profile.objects.filter(user_id__in=member.id)
+    # print("profiles")
+    # profiles = Profile.objects.all()
     # profiles = Profile.objects.filter(user_id__in=members.user_id)
-    # print(profiles)
-    duties = Duty.objects.filter()
-    return render(request, "team_review.html", {'project':project, 'profiles':profiles, 'duties':duties,
-                "members":members})
-
+    # # print(profiles)
+    # duties = Duty.objects.filter()
+    # return render(request, "team_review.html",  {'project':project, 'profiles':profiles, 'duties':duties,
+    #             "members":members})
 # total = request.POST['total']
 # User_review.total = total
 
@@ -273,43 +272,4 @@ def team_new(request):
 
 def team_form(request):
     return render(request, "team_form.html")
-
-# 단답식 폼
-@csrf_exempt
-def  short_answer(request):
-     if request.method == "POST":  
-        question =Question.objects.all()
-        choice_cnt= request.POST.get(int)
-        question.type =int(0) #if question type이 0일떄
-        content = request.POST['content']
-        choice1 = request.POST['choice1']
-        choice2 = request.POST['choice2']
-        choice3 = request.POST['choice3']
-        choice4 = request.POST['choice4']
-        choice5 = request.POST['choice5']
-        # if 
-        question.content=content
-        question.choice_cnt=int(5)
-        choice1=choice1
-        choice2=choice2
-        choice3=choice3
-        choice4=choice4
-        choice5=choice5
-        choice_text = request.POST.get('choice_text')
-        # question=Question.objects.get(id=request.POST.get('question_id'))
-        question.choice1=choice1
-        question.choice2=choice2
-        question.choice3=choice3
-        question.choice4=choice4
-        question.choice5=choice5
-        question.save()
-        answer = Answer.objects.all()
-        answer.question_id=question
-        answer.type =int(0)
-        answer.choice_answer =int()
-        answer.choice_text =choice_text
-  
-     return render(request, "team_apply_form_back.html",)
-
-
 

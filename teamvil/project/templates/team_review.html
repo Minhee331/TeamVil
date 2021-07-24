@@ -18,17 +18,31 @@
 
             <div class="team_review-container">
                 <h1 class="team_review-title">{{project.title}}</h1>
-                <p>- 팀원 평가 -</p>
+                <p class="team_review-list">- 팀원 평가 -</p>
             </div>
 
 
-            <!-- {% for profile in profiles %}
-                {{ profile.user_id }}
-            {% endfor %} -->
-
-            <form action="{% url '' %}" method="POST" enctype ="multipart/form-data">
+            <form class="team_review-box-container" method="POST" action="{% url 'team_review_form' %}">
+                    
+                {% csrf_token %}
+                    
+                    <!-- {% if error %}
+                        
+                        <p class="team_review-error">{{error}}</p>
+                
+                    {% endif %} -->
+                    <!-- <option value="{{ education.id }}">{{ education.education }}</option> -->
+                    {% for member in members %}
+                    <div>
+                        {{ member.user_id}}
+                    </div>
+                    
+                    <input class="team_review-box" name="team_review-content" type="text" placeholder="팀원평가">
+                    {% endfor %}
+                    
+                    <div><input class="team_review-submit" type="submit" value="등록하기"></div> 
+                       
             </form>
-
         
         {% include 'footer.html' %} 
 

@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 
 class Com(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="user_id")
-    title = models.CharField(max_length=100)
     update_date = models.DateTimeField(auto_now=True)
     write_date = models.DateTimeField(auto_now_add= True)
     content = models.TextField()

@@ -1,4 +1,3 @@
-from typing import Text
 from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 from .models import *
@@ -228,42 +227,50 @@ def team_application(request):
     return render(request, "team_application.html")
 
 # 팀원 리뷰 페이지 html 렌더링
-def team_review(request, project_id, ):
+def team_review(request, project_id):
     project = Project.objects.get(id=project_id)
     print(project)
     members = Member.objects.filter(project_id=project_id, register_state=1)
     print(members)
-    member_user_ids = [member.user_id for member in members]
-    print(member_user_ids)
-    profiles = Profile.objects.filter(user_id__in=member_user_ids)
-    print(profiles)
-
+    profiles = Profile.objects.all()
     # profiles = Profile.objects.filter(user_id__in=members.user_id)
     # print(profiles)
     duties = Duty.objects.filter()
-    return render(request, "team_review.html", {'project':project, 'profiles':profiles, 'duties':duties,
+    return render(request, "team_review.html",  {'project':project, 'profiles':profiles, 'duties':duties,
                 "members":members})
-
 # total = request.POST['total']
 # User_review.total = total
 
 # 팀원 리뷰 입력 함수
 @csrf_exempt
 def team_review_form(request):
-    # project = Project.objects.get()
     if request.method == "POST": 
         total = request.POST['total']
         content = request.POST['content']
-        to_user_id = request.POST['to_user_id']
-        user_review = User_review()
-        user_review.from_user_id = request.user
-        user_review.to_user_id = to_user_id
-        user_review.project_id = request.project_id
-        user_review.total = total
-        user_review.content = content
-        user_review.save()
-        return redirect('/project/team_detail/' + str(project.id))
-
+        
+        project = Project()
+        project.user_id = request.user
+        project.type = 0
+        project.title = title
+        project.desc = desc
+        project.field1_id = Field1.objects.get(id=field1_id)
+        project.field2 = field2
+        project.region1_id = Region1.objects.get(id=region1_id)
+        project.region2_id = Region2.objects.get(id=region2_id)
+        project.mem_total = mem_total #프로젝트 총 인원
+        project.mem_now = mem_now #모집된 직무 총 인원
+        project.start_date = start_date
+        project.end_date = end_date
+        project.content = content
+        project.save()
+        duty = Duty() # 수정 필요. css 작업 완료되면 for 문으로 바꾸고 여러 duty 저장할 수 있도록
+        duty.project_id = project
+        duty.total = total
+        duty.save()
+        project.mem_total = total # 수정 필요 duty 테이블 다 저장하면서 total 누적 시켜야함
+        #input file 받아오기
+        project.save()
+        return redirect('/project/team_review/' + str(project.id))
 
 
 # kay
@@ -273,43 +280,4 @@ def team_new(request):
 
 def team_form(request):
     return render(request, "team_form.html")
-
-# 단답식 폼
-@csrf_exempt
-def  short_answer(request):
-     if request.method == "POST":  
-        question =Question.objects.all()
-        choice_cnt= request.POST.get(int)
-        question.type =int(0) #if question type이 0일떄
-        content = request.POST['content']
-        choice1 = request.POST['choice1']
-        choice2 = request.POST['choice2']
-        choice3 = request.POST['choice3']
-        choice4 = request.POST['choice4']
-        choice5 = request.POST['choice5']
-        # if 
-        question.content=content
-        question.choice_cnt=int(5)
-        choice1=choice1
-        choice2=choice2
-        choice3=choice3
-        choice4=choice4
-        choice5=choice5
-        choice_text = request.POST.get('choice_text')
-        # question=Question.objects.get(id=request.POST.get('question_id'))
-        question.choice1=choice1
-        question.choice2=choice2
-        question.choice3=choice3
-        question.choice4=choice4
-        question.choice5=choice5
-        question.save()
-        answer = Answer.objects.all()
-        answer.question_id=question
-        answer.type =int(0)
-        answer.choice_answer =int()
-        answer.choice_text =choice_text
-  
-     return render(request, "team_apply_form_back.html",)
-
-
 
