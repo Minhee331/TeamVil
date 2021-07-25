@@ -206,6 +206,11 @@ hr {
     margin-right: 15px;
 }
 
+.member_search-member-bottom-container {
+    display: flex;
+    justify-content: space-between;
+}
+
 /* none */
 
 .search {
@@ -227,4 +232,26 @@ hr {
     border: 2px solid #ffffff;
     color: #ffffff;
     cursor: pointer;
+}
+
+/* like-scrap */
+.team_search-like-scrap-container {
+    display: flex;
+    /* margin-right: 20px; */
+    /* margin-bottom: 15px; */
+    align-self: flex-end;
+}
+
+.team_search-like-scrap-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+}
+
+.team_search-like-scrap-item img {
+    width: 11px;
+    height: 11px;
+    margin-right: 4px;
+    margin-left: 10px;
 }

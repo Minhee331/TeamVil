@@ -287,21 +287,16 @@ def  short_answer(request):
         choice3 = request.POST['choice3']
         choice4 = request.POST['choice4']
         choice5 = request.POST['choice5']
-        # if 
+        question.isRequired=0
         question.content=content
         question.choice_cnt=int(5)
-        choice1=choice1
-        choice2=choice2
-        choice3=choice3
-        choice4=choice4
-        choice5=choice5
-        choice_text = request.POST.get('choice_text')
-        # question=Question.objects.get(id=request.POST.get('question_id'))
         question.choice1=choice1
         question.choice2=choice2
         question.choice3=choice3
         question.choice4=choice4
         question.choice5=choice5
+        choice_text = request.POST.get('choice_text')
+        # question=Question.objects.get(id=request.POST.get('question_id'))
         question.save()
         answer = Answer.objects.all()
         answer.question_id=question

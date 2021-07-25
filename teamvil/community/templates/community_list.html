@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-    <a href="{% url 'community_new' %}"><button>작성</button></a>
+    <button onclick="move()">작성</button>
     <main class="community_list-container">
         {% for community in community.all %}
                 <article class="community_list-item">
@@ -22,4 +22,9 @@
         {% endfor %}
     </main>
 </body>
+<script>
+    function move(){
+        location.href = "{% url 'community_new' %}";
+    }
+</script>
 </html>

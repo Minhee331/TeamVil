@@ -88,6 +88,7 @@
         taskContainer.appendChild(newQuestionBox);
     }
 
+    var call = 0;
     function addSelectQuestion() {
         var newQuestionBox = document.createElement("div");
         newQuestionBox.setAttribute("class", "team_form-question-item-box");
@@ -95,6 +96,8 @@
         var newNumDiv = document.createElement("div");
         newNumDiv.setAttribute("class", "team_form-question-num spoqa-regular");
         var newNum = document.createElement("p");
+        var oldNumParentNode = document.getElementById("questions").lastChild.childNodes;
+        var
         var newNumText = document.createTextNode("1");
         newNum.appendChild(newNumText);
         newNumDiv.appendChild(newNum);
@@ -133,10 +136,10 @@
         // extra
         var newExtraDiv = document.createElement("div");
         newExtraDiv.setAttribute("class", "team_form-extra-container");
-        // 선택지 개수
+        // dropdown
         var newSelectOptionDiv = document.createElement("div");
         newSelectOptionDiv.setAttribute("class", "member_search-member-select-state spoqa-regular drop_btn");
-        newSelectOptionDiv.setAttribute("value", "sort");
+        newSelectOptionDiv.setAttribute("value", call);
         var newSelectOptionBtnDiv = document.createElement("div");
         newSelectOptionBtnDiv.setAttribute("class", "member_search-select-state-button");
         var newSelectOptionBtn = document.createElement("p");
@@ -150,7 +153,7 @@
         newSelectOptionDiv.appendChild(newSelectOptionBtnDiv);
         var newSelectOptionListDiv = document.createElement("div");
         newSelectOptionListDiv.setAttribute("class", "hidden float");
-        newSelectOptionListDiv.setAttribute("id", "sort");
+        newSelectOptionListDiv.setAttribute("id", call);
         var newSelectOptionList = document.createElement("div");
         newSelectOptionList.setAttribute("class", "member_search-select-state-list");
         var newSelectOption1 = document.createElement("a");
@@ -172,6 +175,7 @@
         newSelectOptionListDiv.appendChild(newSelectOptionList);
         newSelectOptionDiv.appendChild(newSelectOptionListDiv);
         newExtraDiv.appendChild(newSelectOptionDiv);
+        call++;
         // checkbox
         var newCheckboxDiv = document.createElement("div");
         newCheckboxDiv.setAttribute("class", "team_form-checkbox-container");

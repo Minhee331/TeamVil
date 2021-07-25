@@ -264,9 +264,23 @@
 
                             <hr>
 
-                            <p class="spoqa-regular">나이 : {% getAge profile.birthday %}</p>
-                            <p class="spoqa-regular">직업 : {{ profile.job_id.job }}</p>
-                            <p class="spoqa-regular">지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
+                            <div class="member_search-member-bottom-container">
+                                <p class="spoqa-regular">나이 : {% getAge profile.birthday %}</p>
+                                <p class="spoqa-regular">직업 : {{ profile.job_id.job }}</p>
+                                <p class="spoqa-regular">지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
+
+                                <div class="team_search-like-scrap-container spoqa-light">
+                                    <a href="" class="team_search-like-scrap-item">
+                                        <img src="{% static 'image/like-btn.png' %}" alt="">
+                                        <p>13</p>
+                                    </a>
+
+                                    <a href="" class="team_search-like-scrap-item">
+                                        <img src="{% static 'image/scrap-btn.png' %}" alt="">
+                                        <p>20</p>
+                                    </a>
+                                </div>
+                            </div>
                         </article>
                     </a>
                 {% endfor %}

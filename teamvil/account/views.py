@@ -62,6 +62,14 @@ def member_detail_back(request, profile_id):
     return render(request, "member_detail_back.html", {"profile":profile, "carrers":carrers,
                 "user_links": user_links, "user_files": user_files})
 
+def member_detail_back_min(request, profile_id):
+    profile = Profile.objects.get(id = profile_id)
+    carrers = User_carrer.objects.filter(user_id = profile.user_id)
+    user_links = User_link.objects.filter(user_id = profile.user_id)
+    user_files = User_file.objects.filter(user_id = profile.user_id)
+    return render(request, "member_detail_back_min.html", {"profile":profile, "carrers":carrers,
+                "user_links": user_links, "user_files": user_files})
+
 # 회원가입 함수
 def signup(request):
     if request.method == "POST":   

@@ -10,7 +10,7 @@ class Com(models.Model):
     view_cnt = models.IntegerField(default=0)
 
 class Comment(models.Model):
-    parent = models.IntegerField()
+    parent = models.IntegerField() #댓글 - 대댓글 , 대댓글 id의 번호를 가지고 온다. // c. comment_id = c.id // 부모댓글의 id 
     content = models.TextField()
     user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="user_id")
     com_id = models.ForeignKey(Com, on_delete = models.CASCADE, db_column="com_id")
