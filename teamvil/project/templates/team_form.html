@@ -45,8 +45,16 @@
         var newNumDiv = document.createElement("div");
         newNumDiv.setAttribute("class", "team_form-question-num spoqa-regular");
         var newNum = document.createElement("p");
-        var newNumText = document.createTextNode("1");
-        newNum.appendChild(newNumText);
+        var oldNum = document.getElementById("questions");
+        if (oldNum.childElementCount != 0) {
+            var oldNumText = document.getElementById("questions").lastChild.childNodes[0].childNodes[0].innerText * 1;
+            newNum.append(oldNumText + 1);
+            newNum.setAttribute("id", (oldNumText + 1));
+        } else {
+            newNum.append(1);
+            newNum.setAttribute("id", 1);
+        }
+        newNum.setAttribute("class", "pNode");
         newNumDiv.appendChild(newNum);
         newQuestionBox.appendChild(newNumDiv);
 
@@ -79,8 +87,9 @@
         newQuestionBox.appendChild(newQuestionDiv);
 
         var xBtn = document.createElement("img");
-        xBtn.setAttribute("class", "team_form-x-btn");
+        xBtn.setAttribute("class", "team_form-x-btn" );
         xBtn.setAttribute("src", "{% static 'image/x-button.png' %}");
+        xBtn.setAttribute("id", newNum.id);
         xBtn.setAttribute("onclick", "delQuestion(this)");
         newQuestionBox.appendChild(xBtn);
 
@@ -88,7 +97,7 @@
         taskContainer.appendChild(newQuestionBox);
     }
 
-    var call = 0;
+    var call = 1000;
     function addSelectQuestion() {
         var newQuestionBox = document.createElement("div");
         newQuestionBox.setAttribute("class", "team_form-question-item-box");
@@ -96,10 +105,16 @@
         var newNumDiv = document.createElement("div");
         newNumDiv.setAttribute("class", "team_form-question-num spoqa-regular");
         var newNum = document.createElement("p");
-        var oldNumParentNode = document.getElementById("questions").lastChild.childNodes;
-        var
-        var newNumText = document.createTextNode("1");
-        newNum.appendChild(newNumText);
+        var oldNum = document.getElementById("questions");
+        if (oldNum.childElementCount != 0) {
+            var oldNumText = document.getElementById("questions").lastChild.childNodes[0].childNodes[0].innerText * 1;
+            newNum.append(oldNumText + 1);
+            newNum.setAttribute("id", (oldNumText + 1));
+        } else {
+            newNum.append(1);
+            newNum.setAttribute("id", 1);
+        }
+        newNum.setAttribute("class", "pNode");
         newNumDiv.appendChild(newNum);
         newQuestionBox.appendChild(newNumDiv);
 
@@ -206,6 +221,7 @@
         var xBtn = document.createElement("img");
         xBtn.setAttribute("class", "team_form-x-btn");
         xBtn.setAttribute("src", "{% static 'image/x-button.png' %}");
+        xBtn.setAttribute("id", newNum.id);
         xBtn.setAttribute("onclick", "delQuestion(this)");
         newQuestionBox.appendChild(xBtn);
 
@@ -214,7 +230,17 @@
     }
 
     function delQuestion(child) {
+        // console.log(child.parentNode.childNodes)
         var parent = child.parentNode;
+        var pNodes = document.getElementsByClassName('pNode');
+        var thisNum;
+        for (i = (child.id * 1); i < pNodes.length; i++) {
+            thisNum = (pNodes[i].id * 1);
+            document.getElementById(thisNum).innerText = (thisNum - 1);
+            document.getElementById(thisNum).id = (thisNum - 1);
+            document.getElementById(thisNum).parentNode.childNodes[2].id = (thisNum - 1);
+        }
+        // parent.removeChild(parent)
         parent.parentNode.removeChild(parent);
     }
 

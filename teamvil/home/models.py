@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from community.models import Com, Info
+from django.utils import timezone
+
 
 # Create your models here.
 class Field1(models.Model):
@@ -47,3 +49,15 @@ class Noti(models.Model):
     content = models.CharField(max_length=300)
     send_date = models.DateTimeField(auto_now_add= True)
     url = models.CharField(max_length=100)
+
+class Alarm(models.Model):
+    type = models.IntegerField()
+    user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="user_id")
+    member_id = models.ForeignKey('project.Member', on_delete = models.CASCADE, db_column="member_id", null=True)
+    like_id = models.ForeignKey(Like, on_delete = models.CASCADE, db_column="like_id", null=True)
+    scrap_id = models.ForeignKey(Scrap, on_delete = models.CASCADE, db_column="scrap_id", null=True)
+    content = models.CharField(max_length=300)
+    url = models.CharField(max_length=200)
+    send_date = models.DateTimeField(default=timezone.now)
+    check_date = models.DateTimeField(null=True)
+    check = models.IntegerField(default=0)

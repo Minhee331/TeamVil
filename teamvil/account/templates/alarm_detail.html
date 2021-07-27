@@ -2,6 +2,7 @@
 <html lang="en">
 
     {% load static %}
+    {% load custom_tags %}
 
     <head>
         <meta charset="UTF-8">
@@ -9,17 +10,71 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        <link rel="stylesheet" href="{% static 'css/alam_detail.css' %}">
+        <link rel="stylesheet" href="{% static 'css/alarm_detail.css' %}">
     </head>
 
     <body>
         
         {% include 'navbar.html' %}
 
+        <div class="alarm_detail-container">
+
+            {% for alarm in alarms %}
+
+            <div class="alarm_detail-item">
+                
+                <span class="alarm_detail-title">  
+                    {% if alarm.type == 0 %}
+                    멤버 좋아요
+                    {% elif alarm.type == 1 %}
+                    프로젝트 좋아요
+                    {% elif alarm.type == 2 %}
+                    멤버 스크랩
+                    {% elif alarm.type == 3 %}
+                    프로젝트 스크랩
+                    {% elif alarm.type == 4 %}
+                    프로젝트 지원
+                    {% elif alarm.type == 5 %}
+                    프로젝트 승인
+                    {% elif alarm.type == 6 %}
+                    프로젝트 초대
+                    {% else %}
+                    프로젝트 거절
+                    {% endif %}
+                </span>
+
+                <span class="alarm_detail-content">
+                    {% if alarm.type == 0 %}
+                    <a href="{{alarm.url}}">"{{alarm.like_id.from_user_id}}"님이 당신을 좋아합니다.</a>
+                    {% elif alarm.type == 1 %}
+                    <a href="{{alarm.url}}">"{{alarm.like_id.from_user_id}}"님이 "{{alarm.like_id.project_id}}"프로젝트를 좋아합니다.</a>
+                    {% elif alarm.type == 2 %}
+                    <a href="{{alarm.url}}">"{{alarm.scrap_id.from_user_id}}"님이 당신을 좋아합니다.</a>
+                    {% elif alarm.type == 3 %}
+                    <a href="{{alarm.url}}">"{{alarm.scrap_id.from_user_id}}"님이 "{{alarm.scrap_id.project_id}}"프로젝트를 좋아합니다.</a>
+                    {% elif alarm.type == 4 %}
+                    <a href="{{alarm.url}}">"{{alarm.member_id.user_id}}"님이 "{{alarm.member_id.project_id}}"프로젝트 "{{alarm.member_id.duty_id}}"직무에 지원했습니다.</a>
+                    {% elif alarm.type == 5 %}
+                    <a href="{{alarm.url}}">"{{alarm.member_id.user_id}}"님이 "{{alarm.member_id.project_id}}"프로젝트 "{{alarm.member_id.duty_id}}"직무 지원을 승인했습니다.</a>
+                    {% elif alarm.type == 6 %}
+                    <a href="{{alarm.url}}">"{{alarm.member_id.user_id}}"님이 "{{alarm.member_id.project_id}}"프로젝트 "{{alarm.member_id.duty_id}}"직무에 초대했습니다.</a>
+                    {% else %}
+                    <a href="{{alarm.url}}">"{{alarm.member_id.user_id}}"님이 "{{alarm.member_id.project_id}}"프로젝트 "{{alarm.member_id.duty_id}}"직무 지원을 거절했습니다.</a>
+                    {% endif %}
+                </span>
+
+                <span class="alarm_detail-date">
+                    {% DateFormatDot alarm.send_date %}
+                </span>
+
+            </div>
             
+            <hr>
+            
+            {% endfor %}
 
+        </div>
 
-        
         {% include 'footer.html' %} 
 
     </body>

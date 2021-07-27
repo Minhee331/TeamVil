@@ -1,0 +1,39 @@
+.alarm_detail-container {
+    justify-content: center;
+    margin: 75px 200px;
+    min-width: 500px;
+}
+
+.alarm_detail-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.alarm_detail-title {
+    width: 110px;
+    text-align: center;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 300;
+    color: #0F59FF;
+    font-size: 14.24;
+}
+
+.alarm_detail-content {
+    text-align: center;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 300;
+    font-size: 14.24;
+}
+
+.alarm_detail-date {
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 300;
+    font-size: 14.24;
+}
+
+hr {
+    height: 1px;
+    background-color: #ebebeb;
+    border: 0;
+}

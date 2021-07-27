@@ -9,4 +9,5 @@ admin.site.register(Region2)
 admin.site.register(Like)
 admin.site.register(Scrap)
 admin.site.register(Noti)
+admin.site.register(Alarm)
 

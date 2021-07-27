@@ -1,0 +1,106 @@
+.info_detail-wrap-container{
+    display: flex;
+    justify-content: center;
+}
+.info_detail-wrap{
+    margin: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 70vw;
+    max-width: 990px;
+    min-width: 790px;
+}
+/* 상단 박스 */
+.info_detail-box-wrap{
+    display: flex;
+    width: 850px;
+    height: 370px;
+    border: 1px solid #ebebeb;
+    border-radius: 1px;
+}
+.info_detail-box-img-item{
+    width: 260px;
+    height: 370px;
+    border-radius: 1px 0 0 1px;
+}
+.info_detail-item-wrap{
+    display: flex;
+    flex-direction: column;
+    width: 590px;
+    padding: 60px 50px;
+}
+.info_detail-content-title-divide-wrap{
+    display: flex;
+    height: 60px;
+}
+.info_detail-title-text{
+    text-align: justify;
+    font-size: 22px;
+    line-height: 30px;
+}
+.info_detail-content-divide-wrap{
+    height: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.info_detail-box-line-wrap{
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+.info_detail-box-line{
+    border: 1px solid #ebebeb;
+    width: 100%;
+}
+.info_detail-content-content-divide-wrap{
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.info_detail-content-text{
+    font-size: 16px;
+}
+.info_detail-content-etc-divide-wrap{
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: 30px;
+}
+.info_detail-etc-text{
+    font-size: 20px;
+}
+/* 수평선 */
+.info_detail-line{
+    border: 1px solid #ebebeb;
+    margin: 40px -50px;
+}
+/* 하단 상세 설명 */
+.info_detail-detail-text{
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.info_detail-detail-img-wrap{
+    margin: 0 12px;
+}
+.info_detail-detail-img{
+    width: 100%;
+    width: 828px;
+}
+.info_detail-detail-text-inline-wrap{
+    margin: 40px 0;
+    display: flex;
+    align-items: flex-end;
+}
+.info_detail-link-text{
+    font-size: 16px;
+    margin-bottom: 20px;
+    margin-left: 30px;
+}
+
+/* 설명 */
+.info_detail-desc-text{
+    width: 100%;
+}

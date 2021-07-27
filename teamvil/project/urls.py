@@ -22,7 +22,8 @@ urlpatterns = [
     path('team_application/',views.team_application, name = "team_application"),
     path('team_review/<int:project_id>', views.team_review, name = "team_review"),
     path('team_review_form/', views.team_review_form, name="team_review_form"),
-    path('team_apply_form_back/',views.short_answer, name="biews.short_answer"),
+    path('team_apply_form_back/<int:project_id>',views.question_form, name="question_form"),
+    path('team_apply_back_sunneng/<int:project_id>',views.team_apply, name="team_apply"),
 
     # kay
     path('team_new/', views.team_new, name = "team_new"),

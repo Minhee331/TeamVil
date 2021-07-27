@@ -1,4 +1,5 @@
 from typing import Text
+from django.db.models.fields import DateTimeField
 from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 from .models import *
@@ -208,6 +209,9 @@ def like(request):
     like.project_id = project_id 
     like.from_user_id = request.user
     like.save()
+    # 알람객체 하나 만들고
+    # 저장
+    # 끝
     return render(request,'team_search_back.html') #team_list에도 적용이 되야된다
 
 #좋아요 취소 함수
@@ -228,42 +232,61 @@ def team_application(request):
     return render(request, "team_application.html")
 
 # 팀원 리뷰 페이지 html 렌더링
-def team_review(request, project_id, ):
+def team_review(request, project_id):
+    user = request.user
     project = Project.objects.get(id=project_id)
-    print(project)
-    members = Member.objects.filter(project_id=project_id, register_state=1)
-    print(members)
+    members = Member.objects.filter(~Q(user_id=user), project_id=project_id, register_state=1)
     member_user_ids = [member.user_id for member in members]
-    print(member_user_ids)
     profiles = Profile.objects.filter(user_id__in=member_user_ids)
-    print(profiles)
-
-    # profiles = Profile.objects.filter(user_id__in=members.user_id)
-    # print(profiles)
     duties = Duty.objects.filter()
     return render(request, "team_review.html", {'project':project, 'profiles':profiles, 'duties':duties,
                 "members":members})
 
-# total = request.POST['total']
-# User_review.total = total
-
 # 팀원 리뷰 입력 함수
 @csrf_exempt
 def team_review_form(request):
-    # project = Project.objects.get()
     if request.method == "POST": 
-        total = request.POST['total']
-        content = request.POST['content']
-        to_user_id = request.POST['to_user_id']
-        user_review = User_review()
-        user_review.from_user_id = request.user
-        user_review.to_user_id = to_user_id
-        user_review.project_id = request.project_id
-        user_review.total = total
-        user_review.content = content
-        user_review.save()
-        return redirect('/project/team_detail/' + str(project.id))
-
+        print(123)
+        obj = json.loads(request.body)
+        print(obj)
+        id_list = obj['id_list']
+        content_list = obj['content_list']
+        rating_list = obj['rating_list']
+        project_id = obj['project_id']
+        project = Project.objects.get(id = project_id)
+        for i in range(len(id_list)):
+            review = User_review()
+            to_user = Member.objects.get(id = id_list[i])
+            review.from_user_id = request.user
+            review.to_user_id = to_user.user_id
+            review.project_id = project
+            review.content =  content_list[i]
+            review.total = rating_list[i]
+            review.save()
+    # project = Project.objects.get()
+    # if request.method == "POST": 
+    #     total = request.POST['total']
+    #     content = request.POST['content']
+    #     to_user_id = request.POST['to_user_id']
+    #     user_review = User_review()
+    #     user_review.from_user_id = request.user
+    #     user_review.to_user_id = to_user_id
+    #     user_review.project_id = request.project_id
+    #     user_review.total = total
+    #     user_review.content = content
+    #     user_review.save()
+    # for total in request.POST.getlist('total'):
+    #     member_review = User_review()
+    #     member_review.project_id = project
+    #     member_review.total = total
+    #     member_review.save()
+    # for content in request.POST.getlist('content'):
+    #     member_review = User_review()
+    #     member_review.project_id = project
+    #     member_review.content = content
+    #     member_review.save()
+        return redirect('/project/team_detail/' + str(project_id))
+    # return ""
 
 
 # kay
@@ -274,37 +297,109 @@ def team_new(request):
 def team_form(request):
     return render(request, "team_form.html")
 
-# 단답식 폼
+# 지원서 작성 폼
 @csrf_exempt
-def  short_answer(request):
-     if request.method == "POST":  
-        question =Question.objects.all()
-        choice_cnt= request.POST.get(int)
-        question.type =int(0) #if question type이 0일떄
-        content = request.POST['content']
-        choice1 = request.POST['choice1']
-        choice2 = request.POST['choice2']
-        choice3 = request.POST['choice3']
-        choice4 = request.POST['choice4']
-        choice5 = request.POST['choice5']
-        question.isRequired=0
-        question.content=content
-        question.choice_cnt=int(5)
-        question.choice1=choice1
-        question.choice2=choice2
-        question.choice3=choice3
-        question.choice4=choice4
-        question.choice5=choice5
-        choice_text = request.POST.get('choice_text')
-        # question=Question.objects.get(id=request.POST.get('question_id'))
-        question.save()
-        answer = Answer.objects.all()
-        answer.question_id=question
-        answer.type =int(0)
-        answer.choice_answer =int()
-        answer.choice_text =choice_text
+def  question_form(request,project_id):
+    if request.method == "POST":
+        user = request.user
+        project = Project.objects.get(id = project_id)
+        q1 = Question()
+        q2 = Question()
+        q3 = Question()
+        type1= int(request.POST['q_type_1'])
+        type2= int(request.POST['q_type_2'])
+        type3= int(request.POST['q_type_3'])
+        if(type1 == 0):
+            q1.project_id = project
+            q1.type = 0
+            if(request.POST['isRequired_1']=='0'):
+                q1.isRequired = 0
+            else:
+                q1.isRequired = 1
+            content_1 = request.POST['content_1']
+            choice_cnt=request.POST['choice_cnt']
+            choice1 = request.POST['choice1']
+            choice2 = request.POST['choice2']
+            choice3 = request.POST['choice3']
+            choice4 = request.POST['choice4']
+            choice5 = request.POST['choice5'] 
+            q1.content=content_1
+            q1.choice_cnt=choice_cnt
+            q1.choice1=choice1
+            q1.choice2=choice2
+            q1.choice3=choice3
+            q1.choice4=choice4
+            q1.choice5=choice5
+            q1.save()
+        if(type2 == 1):
+            q2.project_id = project
+            q2.type = 1
+            if(request.POST['isRequired_2']=='0'):
+                q2.isRequired = 0
+            else:
+                q2.isRequired = 1
+            content_2 = request.POST['content_2']
+            q2.content=content_2
+            q2.save()
+        if(type3 == 2):
+            q3.project_id = project
+            q3.type = 2
+            if(request.POST['isRequired_3']=='0'):
+                q3.isRequired = 0
+            else:
+                q3.isRequired = 1
+            content_3 = request.POST['content_3']
+            q3.content=content_3
+            q3.save()           
+        apply_form =Apply_form()
+        user = request.user
+        apply_form.project_id =project
+        apply_form.user_id =user
+        apply_form.q1_id = q1
+        apply_form.q2_id = q2
+        apply_form.q3_id = q3
+        apply_form.save()
+        return redirect('/')
+    else:
+        return render(request,"team_apply_form_back.html",{"project_id":project_id})
+
+#팀지원서 양식 폼
+def team_apply(request,project_id):
+    project = Project.objects.get(id=project_id)
+    profile = Profile.objects.get(user_id = project.user_id)
+    duties = Duty.objects.filter(project_id = project_id)
+    question = Question.objects.filter(project_id = project)
+    q1 = Apply_form.objects.filter(q1_id=question)
+    q2 = Apply_form.objects.filter(q2_id=question)
+    q3 = Apply_form.objects.filter(q3_id=question)
+    for i in range(0, len(question)):
+        type=request.POST[question[i].type]
+        if(type ==0):
+            question.project_id = project
+            question[i].content = request.POST.get('q1.content')
+            question[i].isRequired = request.POST.get('q1.isRequired')
+            question[i].choice_cnt = request.POST.get('q1.choice_cnt')
+            question[i].choice1 = request.POST.get('q1.choice1')
+            question[i].choice2 = request.POST.get('q1.choice2')
+            question[i].choice3 = request.POST.get('q1.choice3')
+            question[i].choice4 = request.POST.get('q1.choice4')
+            question[i].choice_5 = request.POST.get('q1.choice5')
+        if(type == 1):
+            question.project_id = project
+            question[i].content = q2.content
+            question[i].isRequired = q2.isRequired
+        if(type == 2):
+            question.project_id = project
+            question[i].content = q3.content
+            question[i].isRequired = q3.isRequired
+    return render(request,"team_apply_back_back_sunneng.html",{"project_id":project_id,"project":project,"profile":profile,"duties":duties})
+   
+
+
   
-     return render(request, "team_apply_form_back.html",)
+
+
+
 
 
 

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/info.css' %}">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="info-wrap-container margin">
+        <div class="info-wrap">
+            <div class="width-width">
+                <a class="float-left" href="{% url 'register_info' %}"><input class="register_info-signup-submit-btn" type="submit" value="게시 요청"></a> 
+            </div>
+            <a href="{% url 'info_detail' %}">
+                <div class="info-content-box-wrap">
+                    <img class="info-img-item" src="{% static 'image/cloud.jpg' %}" alt="">
+                    <div class="info-content-item-wrap">
+                        <div class="info-content-title-divide-wrap">
+                            <p class="info-title-text spoqa-medium">2021 파스-타 기반 서비스 개발 및 아이디어 공모전</p>
+                        </div>
+                        <div class="info-content-content-divide-wrap">
+                            <p class="info-content-text spoqa-regular">주최 : 과학기술정보통신부</p>
+                            <p class="info-content-text spoqa-regular">장소 : 대한상공회의소</p>
+                        </div>
+                        <div class="info-content-etc-divide-wrap">
+                            <p class="info-etc-text spoqa-regular">조회 81</p>
+                            <p class="info-etc-text spoqa-medium">D - 81</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+
+            <div class="info-content-box-wrap">
+                <img class="info-img-item" src="{% static 'image/cloud.jpg' %}" alt="">
+                <div class="info-content-item-wrap">
+                    <div class="info-content-title-divide-wrap">
+                        <p class="info-title-text spoqa-medium">2021 파스-타 기반 서비스 개발 및 아이디어 공모전</p>
+                    </div>
+                    <div class="info-content-content-divide-wrap">
+                        <p class="info-content-text spoqa-regular">주최 : 과학기술정보통신부</p>
+                        <p class="info-content-text spoqa-regular">장소 : 대한상공회의소</p>
+                    </div>
+                    <div class="info-content-etc-divide-wrap">
+                        <p class="info-etc-text spoqa-regular">조회 81</p>
+                        <p class="info-etc-text spoqa-medium">D - 81</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-content-box-wrap">
+                <img class="info-img-item" src="{% static 'image/cloud.jpg' %}" alt="">
+                <div class="info-content-item-wrap">
+                    <div class="info-content-title-divide-wrap">
+                        <p class="info-title-text spoqa-medium">2021 파스-타 기반 서비스 개발 및 아이디어 공모전</p>
+                    </div>
+                    <div class="info-content-content-divide-wrap">
+                        <p class="info-content-text spoqa-regular">주최 : 과학기술정보통신부</p>
+                        <p class="info-content-text spoqa-regular">장소 : 대한상공회의소</p>
+                    </div>
+                    <div class="info-content-etc-divide-wrap">
+                        <p class="info-etc-text spoqa-regular">조회 81</p>
+                        <p class="info-etc-text spoqa-medium">D - 81</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-content-box-wrap">
+                <img class="info-img-item" src="{% static 'image/cloud.jpg' %}" alt="">
+                <div class="info-content-item-wrap">
+                    <div class="info-content-title-divide-wrap">
+                        <p class="info-title-text spoqa-medium">2021 파스-타 기반 서비스 개발 및 아이디어 공모전</p>
+                    </div>
+                    <div class="info-content-content-divide-wrap">
+                        <p class="info-content-text spoqa-regular">주최 : 과학기술정보통신부</p>
+                        <p class="info-content-text spoqa-regular">장소 : 대한상공회의소</p>
+                    </div>
+                    <div class="info-content-etc-divide-wrap">
+                        <p class="info-etc-text spoqa-regular">조회 81</p>
+                        <p class="info-etc-text spoqa-medium">D - 81</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-content-box-wrap">
+                <img class="info-img-item" src="{% static 'image/cloud.jpg' %}" alt="">
+                <div class="info-content-item-wrap">
+                    <div class="info-content-title-divide-wrap">
+                        <p class="info-title-text spoqa-medium">2021 파스-타 기반 서비스 개발 및 아이디어 공모전</p>
+                    </div>
+                    <div class="info-content-content-divide-wrap">
+                        <p class="info-content-text spoqa-regular">주최 : 과학기술정보통신부</p>
+                        <p class="info-content-text spoqa-regular">장소 : 대한상공회의소</p>
+                    </div>
+                    <div class="info-content-etc-divide-wrap">
+                        <p class="info-etc-text spoqa-regular">조회 81</p>
+                        <p class="info-etc-text spoqa-medium">D - 81</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-content-box-wrap">
+                <img class="info-img-item" src="{% static 'image/cloud.jpg' %}" alt="">
+                <div class="info-content-item-wrap">
+                    <div class="info-content-title-divide-wrap">
+                        <p class="info-title-text spoqa-medium">2021 파스-타 기반 서비스 개발 및 아이디어 공모전</p>
+                    </div>
+                    <div class="info-content-content-divide-wrap">
+                        <p class="info-content-text spoqa-regular">주최 : 과학기술정보통신부</p>
+                        <p class="info-content-text spoqa-regular">장소 : 대한상공회의소</p>
+                    </div>
+                    <div class="info-content-etc-divide-wrap">
+                        <p class="info-etc-text spoqa-regular">조회 81</p>
+                        <p class="info-etc-text spoqa-medium">D - 81</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-content-box-wrap">
+                <img class="info-img-item" src="{% static 'image/cloud.jpg' %}" alt="">
+                <div class="info-content-item-wrap">
+                    <div class="info-content-title-divide-wrap">
+                        <p class="info-title-text spoqa-medium">2021 파스-타 기반 서비스 개발 및 아이디어 공모전</p>
+                    </div>
+                    <div class="info-content-content-divide-wrap">
+                        <p class="info-content-text spoqa-regular">주최 : 과학기술정보통신부</p>
+                        <p class="info-content-text spoqa-regular">장소 : 대한상공회의소</p>
+                    </div>
+                    <div class="info-content-etc-divide-wrap">
+                        <p class="info-etc-text spoqa-regular">조회 81</p>
+                        <p class="info-etc-text spoqa-medium">D - 81</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="info-content-box-wrap">
+                <img class="info-img-item" src="{% static 'image/cloud.jpg' %}" alt="">
+                <div class="info-content-item-wrap">
+                    <div class="info-content-title-divide-wrap">
+                        <p class="info-title-text spoqa-medium">2021 파스-타 기반 서비스 개발 및 아이디어 공모전</p>
+                    </div>
+                    <div class="info-content-content-divide-wrap">
+                        <p class="info-content-text spoqa-regular">주최 : 과학기술정보통신부</p>
+                        <p class="info-content-text spoqa-regular">장소 : 대한상공회의소</p>
+                    </div>
+                    <div class="info-content-etc-divide-wrap">
+                        <p class="info-etc-text spoqa-regular">조회 81</p>
+                        <p class="info-etc-text spoqa-medium">D - 81</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+</body>
+
+<script>
+    
+</script>
+</html>

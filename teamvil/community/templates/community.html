@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/community.css' %}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+
+    <div class="community-box">
+        <section class="community-top-container spoqa-regular">
+            <button onclick="newCommunity()">글쓰기</button>
+        </section>
+
+        <main class="community-main-container">
+            <section class="community-item" onclick="openDetail()">
+                <div class="community-profile-container">
+                    <img class="community-profile-img" src="{% static 'image/cloud.jpg' %}" alt="">
+                    <p class="spoqa-regular">조자운</p>
+                </div>
+
+                <div class="community-content-container spoqa-light">
+                    <p class="community-content">소리다.이것은 방지하는 관현악이며, 부패를 듣는다. 인간에 우리는 풀밭에 관현악이며, 가진 이것을 피고, 원대하고, 충분히 때문이다. 기쁘며, 무엇이 주며, 그리하였는가? 심장은 실로 우리의 이상을 영락과 가지에 천하를 목숨을 교향악이다. 찾아다녀도, 심장의 더운지라 하여도 같이, 말이다. 살 더운지라 남는 붙잡아 것이다. 가슴이 산야에 피어나는 얼음이 간에 위하여서, 천하를 새 아름다우냐? 놀이 생생하며, 목숨이 전인 청춘은 그들은 이상의 있다. 열매를 그들의 간에 트고, 것이다. 없는 없으면, 때까지 피어나기 천고에 못하다 그러므로 품으며, 찬미를 위하여서.</p>
+                
+                    <div class="community-extra-container">
+                        <div class="community-datetime-container">
+                            <p>2021.07.21</p>
+                            <p>|</p>
+                            <p>21:45</p>
+                        </div>
+    
+                        <div class="community-comment-view-container">
+                            <div class="community-comment-view-item">
+                                <p>댓글</p>
+                                <p>7</p>
+                            </div>
+    
+                            <div class="community-comment-view-item">
+                                <p>조회</p>
+                                <p>7</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="community-item" onclick="openDetail()">
+                <div class="community-profile-container">
+                    <img class="community-profile-img" src="{% static 'image/cloud.jpg' %}" alt="">
+                    <p class="spoqa-regular">조자운</p>
+                </div>
+
+                <div class="community-content-container spoqa-light">
+                    <p class="community-content">소리다.이것은 방지하는 관현악이며, 부패를 듣는다. 인간에 우리는 풀밭에 관현악이며, 가진 이것을 피고, 원대하고, 충분히 때문이다. 기쁘며, 무엇이 주며, 그리하였는가? 심장은 실로 우리의 이상을 영락과 가지에 천하를 목숨을 교향악이다. 찾아다녀도, 심장의 더운지라 하여도 같이, 말이다. 살 더운지라 남는 붙잡아 것이다. 가슴이 산야에 피어나는 얼음이 간에 위하여서, 천하를 새 아름다우냐? 놀이 생생하며, 목숨이 전인 청춘은 그들은 이상의 있다. 열매를 그들의 간에 트고, 것이다. 없는 없으면, 때까지 피어나기 천고에 못하다 그러므로 품으며, 찬미를 위하여서.</p>
+                
+                    <div class="community-extra-container">
+                        <div class="community-datetime-container">
+                            <p>2021.07.21</p>
+                            <p>|</p>
+                            <p>21:45</p>
+                        </div>
+    
+                        <div class="community-comment-view-container">
+                            <div class="community-comment-view-item">
+                                <p>댓글</p>
+                                <p>7</p>
+                            </div>
+    
+                            <div class="community-comment-view-item">
+                                <p>조회</p>
+                                <p>7</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <section class="community-bottom-container">
+            <p>pagination</p>
+        </section>
+    </div>
+
+    <!-- write -->
+    <div id="write">
+        <div class="community-new-box">
+            <div class="community-close-btn">
+                <img src="{% static 'image/x-button.png' %}" onclick="closeNew()" alt="">
+            </div>
+
+            <div class="community-content-box">
+                <div class="community-profile-container">
+                    <img class="community-profile-img" src="{% static 'image/cloud.jpg' %}" alt="">
+                    <p class="spoqa-regular">조자운</p>
+                </div>
+
+                <textarea class="spoqa-light" name="" id=""></textarea>
+    
+                <div class="community-write-btn-container">
+                    <button class="spoqa-regular" onclick="closeNew()">글쓰기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- detail -->
+    <div id="detail">
+        <div class="community-detail-box">
+            <div class="community-close-btn">
+                <img src="{% static 'image/x-button.png' %}" onclick="closeDetail()" alt="">
+            </div>
+
+            <div class="community-item community-content-box">
+                <div class="community-profile-container">
+                    <img class="community-profile-img" src="{% static 'image/cloud.jpg' %}" alt="">
+                    <p class="spoqa-regular">조자운</p>
+                </div>
+
+                <div class="community-content-container spoqa-light">
+                    <p class="community-content">소리다.이것은 방지하는 관현악이며, 부패를 듣는다. 인간에 우리는 풀밭에 관현악이며, 가진 이것을 피고, 원대하고, 충분히 때문이다. 기쁘며, 무엇이 주며, 그리하였는가? 심장은 실로 우리의 이상을 영락과 가지에 천하를 목숨을 교향악이다. 찾아다녀도, 심장의 더운지라 하여도 같이, 말이다. 살 더운지라 남는 붙잡아 것이다. 가슴이 산야에 피어나는 얼음이 간에 위하여서, 천하를 새 아름다우냐? 놀이 생생하며, 목숨이 전인 청춘은 그들은 이상의 있다. 열매를 그들의 간에 트고, 것이다. 없는 없으면, 때까지 피어나기 천고에 못하다 그러므로 품으며, 찬미를 위하여서.</p>
+                
+                    <div class="community-extra-container">
+                        <div class="community-datetime-container">
+                            <p>2021.07.21</p>
+                            <p>|</p>
+                            <p>21:45</p>
+                        </div>
+    
+                        <div class="community-comment-view-container">
+                            <div class="community-comment-view-item">
+                                <p>댓글</p>
+                                <p>7</p>
+                            </div>
+    
+                            <div class="community-comment-view-item">
+                                <p>조회</p>
+                                <p>7</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="community-comment-input-container">
+                <textarea class="community-comment-input spoqa-light" type="text" id="comment"></textarea>
+                
+                <div class="community-write-btn-container">
+                    <input class="community-comment-btn spoqa-light" type="button" value="댓글 작성" onclick="addComment()">
+                </div>
+            </div>
+
+            <div class="community-comment-list">
+
+            </div>
+        </div>
+    </div>
+    
+    {% include 'footer.html' %}
+</body>
+
+<script>
+    function newCommunity() {
+        document.getElementById('write').style.display = 'flex';
+    }
+    
+    function closeNew() {
+        document.getElementById('write').style.display = 'none';
+    }
+
+    function openDetail() {
+        document.getElementById('detail').style.display = 'flex';
+    }
+
+    function closeDetail() {
+        document.getElementById('detail').style.display = 'none';
+    }
+
+    var commentId = 0;
+    function addComment() {
+        // document.body.classList.add("stop-scroll");
+        var list = document.getElementsByClassName('community-comment-list');
+        var comment = document.getElementById('comment').value;
+
+        var newCommentCon = document.createElement('div');
+        newCommentCon.setAttribute('class', 'community-content-item');
+
+        var newCommentProfileDiv = document.createElement('div');
+        newCommentProfileDiv.setAttribute('class', 'community-profile-container');
+        var newCommentProfileImg = document.createElement('img');
+        newCommentProfileImg.setAttribute('class', 'community-profile-img');
+        newCommentProfileImg.setAttribute('src', "{% static 'image/cloud.jpg' %}");
+        newCommentProfileDiv.appendChild(newCommentProfileImg);
+        var newCommentProfileName = document.createElement('p');
+        newCommentProfileName.setAttribute('class', 'spoqa-regular');
+        newCommentProfileName.setAttribute('id', 'replyName');
+        newCommentProfileName.append('조자운');
+        newCommentProfileDiv.appendChild(newCommentProfileName);
+        newCommentCon.appendChild(newCommentProfileDiv);
+
+        var newCommentDiv = document.createElement('div');
+        newCommentDiv.setAttribute('class', 'community-content-container spoqa-light');
+        var newComment = document.createElement('p');
+        newComment.setAttribute('class', 'community-comment-content');
+        newComment.append(comment);
+        newCommentDiv.appendChild(newComment);
+        // datetime
+        var newCommentDatetimeDiv = document.createElement('div');
+        newCommentDatetimeDiv.setAttribute('class', 'community-comment-datetime-container');
+        var newCommentDatetime1 = document.createElement('p');
+        newCommentDatetime1.append('2021.07.21');
+        newCommentDatetimeDiv.appendChild(newCommentDatetime1);
+        var newCommentDatetime2 = document.createElement('p');
+        newCommentDatetime2.append('|');
+        newCommentDatetimeDiv.appendChild(newCommentDatetime2);
+        var newCommentDatetime3 = document.createElement('p');
+        newCommentDatetime3.append('21:45');
+        newCommentDatetimeDiv.appendChild(newCommentDatetime3);
+        newCommentDiv.appendChild(newCommentDatetimeDiv);
+        newCommentCon.appendChild(newCommentDiv);
+
+        var newReplyCon = document.createElement('div');
+        newReplyCon.setAttribute('class', 'community-reply-list ' + commentId);
+        var newReplyDiv = document.createElement('div');
+        newReplyDiv.setAttribute('class', "community-reply-container");
+        var newReplyItems = document.createElement('div');
+        newReplyItems.setAttribute('class', "community-reply-item");
+        var newReplyImg = document.createElement('img');
+        newReplyImg.setAttribute('class', "community-reply-img");
+        newReplyImg.setAttribute('src', "{% static 'image/arrow-line.png' %}");
+        newReplyItems.appendChild(newReplyImg);
+        var newReplyInput = document.createElement('textarea');
+        newReplyInput.setAttribute('class', "community-comment-input spoqa-light");
+        newReplyInput.setAttribute('id', commentId);
+        newReplyItems.appendChild(newReplyInput);
+        newReplyDiv.appendChild(newReplyItems);
+        var newReplyBtnDiv = document.createElement('div');
+        newReplyBtnDiv.setAttribute('class', 'community-write-btn-container');
+        var newReplyBtn = document.createElement('input');
+        newReplyBtn.setAttribute('class', "community-comment-btn spoqa-light");
+        newReplyBtn.setAttribute('type', 'button');
+        newReplyBtn.setAttribute('value', '댓글 작성');
+        newReplyBtn.setAttribute('onClick', "addReply(" + newReplyInput.id + ")");
+        newReplyBtnDiv.appendChild(newReplyBtn);
+        newReplyDiv.appendChild(newReplyBtnDiv);
+        newReplyCon.appendChild(newReplyDiv);
+        newCommentCon.appendChild(newReplyCon);
+
+        list[0].appendChild(newCommentCon);
+        commentId++;
+        document.getElementById('comment').value = '';
+    }
+
+    function addReply(thisId) {
+        // document.body.classList.add("stop-scroll");
+        var replyList = document.getElementsByClassName(thisId);
+        var reply = document.getElementById(thisId).value;
+
+        var newReplyBox = document.createElement('div');
+        newReplyBox.setAttribute('class', "community-reply-box");
+
+        var newReplyImg = document.createElement('img');
+        newReplyImg.setAttribute('class', "community-reply-img");
+        newReplyImg.setAttribute('src', "{% static 'image/arrow-line.png' %}");
+        newReplyBox.appendChild(newReplyImg);
+
+        var newReplyCon = document.createElement('div');
+
+        var newReplyProfileDiv = document.createElement('div');
+        newReplyProfileDiv.setAttribute('class', 'community-profile-container');
+        var newReplyProfileImg = document.createElement('img');
+        newReplyProfileImg.setAttribute('class', 'community-profile-img');
+        newReplyProfileImg.setAttribute('src', "{% static 'image/cloud.jpg' %}");
+        newReplyProfileDiv.appendChild(newReplyProfileImg);
+        var newReplyProfileName = document.createElement('p');
+        newReplyProfileName.setAttribute('class', 'spoqa-regular');
+        newReplyProfileName.setAttribute('id', 'replyName');
+        newReplyProfileName.append('조자운');
+        newReplyProfileDiv.appendChild(newReplyProfileName);
+        newReplyCon.appendChild(newReplyProfileDiv);
+
+        var newReplyDiv = document.createElement('div');
+        newReplyDiv.setAttribute('class', 'community-content-container spoqa-light');
+        var newReply = document.createElement('p');
+        newReply.setAttribute('class', 'community-comment-content');
+        newReply.append(reply);
+        newReplyDiv.appendChild(newReply);
+        // datetime
+        var newCommentDatetimeDiv = document.createElement('div');
+        newCommentDatetimeDiv.setAttribute('class', 'community-comment-datetime-container');
+        var newCommentDatetime1 = document.createElement('p');
+        newCommentDatetime1.append('2021.07.21');
+        newCommentDatetimeDiv.appendChild(newCommentDatetime1);
+        var newCommentDatetime2 = document.createElement('p');
+        newCommentDatetime2.append('|');
+        newCommentDatetimeDiv.appendChild(newCommentDatetime2);
+        var newCommentDatetime3 = document.createElement('p');
+        newCommentDatetime3.append('21:45');
+        newCommentDatetimeDiv.appendChild(newCommentDatetime3);
+        newReplyDiv.appendChild(newCommentDatetimeDiv);
+        newReplyCon.appendChild(newReplyDiv);
+
+        newReplyBox.appendChild(newReplyCon);
+        replyList[0].appendChild(newReplyBox);
+
+        document.getElementById(thisId).value = '';
+    }
+</script>
+
+</html>

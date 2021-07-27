@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    {% load custom_tags %}
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <link rel="stylesheet" href="{% static 'css/team_detail.css' %}">
+    </head>
+    <body>
+        <form method="POST" action="{% url 'team_apply' project_id %}">
+        {% include 'navbar.html' %}
+        <div class="team_detail-container">
+            <div class="team_detail-name">
+                <header>
+                    <h1 class="team_detail-title">{{project.title}}</h1>
+
+                    <span id="team_detail-type">
+                        {% if project.type == 0 %}
+                        창업 | {{project.field1_id.field1}}
+                        {% elif project.type == 1 %}
+                        공모전 | {{project.field1_id.field1}}
+                        {% else %}
+                        프로젝트 | {{project.field1_id.field1}}
+                        {% endif %}
+                    </span>
+                    <p class="team_detail-leader">by {{profile.name}}</p>
+                </header>
+            </div>
+            <p>지원 분야 선택: <br>
+            {% for duty in duties %}
+                {{duty.name}} | {{duty.now}} / {{duty.total}} 
+                <br>
+            {% endfor %}
+            </p>
+            <br>
+            <br>
+            <p>본인 프로필 제공 동의 <input type="checkbox">(프로필 설정시 입력한 정보가 자동으로 제공됩니다!)</p>            
+            <p>{{question[i].type}}</p>     
+       
+                    </p>
+        </div>
+        </form>
+

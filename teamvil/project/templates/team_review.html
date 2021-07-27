@@ -10,6 +10,7 @@
         <title>Document</title>
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
         <link rel="stylesheet" href="{% static 'css/team_review.css' %}">
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     </head>
 
     <body>
@@ -17,35 +18,144 @@
         {% include 'navbar.html' %}
 
             <div class="team_review-container">
+
                 <h1 class="team_review-title">{{project.title}}</h1>
                 <p class="team_review-list">- 팀원 평가 -</p>
-            </div>
-
-
-            <form class="team_review-box-container" method="POST" action="{% url 'team_review_form' %}">
-                    
+            
                 {% csrf_token %}
                     
                     <!-- {% if error %}
-                        
                         <p class="team_review-error">{{error}}</p>
-                
                     {% endif %} -->
                     <!-- <option value="{{ education.id }}">{{ education.education }}</option> -->
-                    {% for member in members %}
-                    <div>
-                        {{ member.user_id}}
-                    </div>
                     
-                    <input class="team_review-box" name="team_review-content" type="text" placeholder="팀원평가">
-                    {% endfor %}
+
                     
-                    <div><input class="team_review-submit" type="submit" value="등록하기"></div> 
-                       
-            </form>
-        
+                  {% for member in members %}
+
+                  
+                  <div class="team_review-head">
+                      
+                      <span class="team_review-name">
+                        
+                        {% for profile in profiles %}    
+                          {% if member.user_id == profile.user_id %}
+                            <img src="{{profile.photo.url}}" alt="">  
+                            {{profile.photo}}    
+                            {{profile.name}}
+                          {% endif %}
+                        {% endfor %}
+          
+                      </span>
+
+                      <span class="star-input">
+                          <span class="input">
+                            <input type="text">
+                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p0.5" value="0.5"><label for="p0.5">0.5</label>
+                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p1" value="1"><label for="p1">1</label>
+                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p1.5" value="1.5"><label for="p1.5">1.5</label>
+                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p2" value="2"><label for="p2">2</label>
+                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p2.5" value="2.5"><label for="p2.5">2.5</label>
+                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p3" value="3"><label for="p3">3</label>
+                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p3.5" value="3.5"><label for="p3.5">3.5</label>
+                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p4" value="4"><label for="p4">4</label>
+                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p4.5" value="4.5"><label for="p4.5">4.5</label>
+                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p5" value="5"><label for="p5">5</label>
+                          </span>
+                          <output for="star-input" class="radio_{{member.id}}"><b>0</b>점</output>
+                      </span>
+
+                  </div>          
+
+                  <textarea class="team_review-box content_{{member.id}}" name="team_review-content"></textarea>
+
+                  {% endfor %}
+                    
+                  <input class="team_review-submit" type="button" value="등록하기">
+                   
+            </div>
+ 
+
         {% include 'footer.html' %} 
 
     </body>
+
+    <script>
+      $('.team_review-submit').on("click", function(){
+        var id_list = []  // 1, 4, 5
+        {% for member in members %}
+          id_list.push({{member.id}});
+        {% endfor %}
+        var content_list = [] // 1번 c, 2번 c, 3번 c
+        for(const item of id_list){
+          content_list.push($('.content_'+item).val());
+        }
+        var rating_list= []
+        for(const item of id_list){
+          rating_list.push($('.radio_'+item).val());
+        }
+        console.log(rating_list)
+        var data = {
+            'id_list' : id_list,
+            'content_list': content_list,
+            'rating_list': rating_list, 
+            'project_id' : {{project.id}}
+        }
+        $.ajax({
+            type: "POST",
+            headers: {
+                'X-CSRFToken' : '{{csrf_token}}'
+            },
+            url: "{% url 'team_review_form' %}",
+            data: JSON.stringify(data),
+            success: function(res) {
+                location.href = '/project/team_detail/' + '{{project.id}}'
+            },
+            error:function(request,status,error){
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+      });
+      var starRating = function(){
+        var $star = $(".star-input"),
+            $result = $star.find("output>b");
+        // 별점 영역 안에서 클릭됐을 때 / focus 클래스 추가 
+        $(document).on("focusin", ".star-input>.input", function(){
+          console.log(1);
+          $(this).addClass("focus");
+        })
+        // 별점 영역 안에서 클릭됐을 때 / 라디오 영역 바꿔줌
+        .on("change", ".star-input :radio", function(){
+          console.log(3);
+          $result.text($(this).next().text());
+        })
+        // 별점 영역 밖에서 클릭됐을 때 / 포커스 클래스 삭제 
+        .on("focusout", ".star-input>.input", function(){
+          var $this = $(this);
+          setTimeout(function(){
+            if($this.find(":focus").length === 0){
+              console.log(2);
+              $this.removeClass("focus");
+            }
+          }, 100);
+        })
+        // 호버링 시 실행되는 함수 / 마우스커서가 별점 안에 있을 떄
+        .on("mouseover", ".star-input label", function(){
+          console.log(4);
+          $result.text($(this).text());
+        })
+        // 호버링 시 실행되는 함수 / 마우스커서가 별점 밖에 있을 떄
+        .on("mouseleave", ".star-input>.input", function(){
+          console.log(5);
+          var $checked = $star.find(":checked");
+          if($checked.length === 0){
+            $result.text("0");
+          }else {
+            $result.text($checked.next().text());
+          }
+        });
+      };
+      starRating();
+    </script>
 
 </html>

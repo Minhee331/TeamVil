@@ -414,3 +414,13 @@ def likecancels(request):
 def latestMember(request):
     profiles = Profile.objects.all().order_by('-register')
     return render(request, "member_list_form.html", {'profiles':profiles})
+
+# 알람 페이지 html 렌더링
+def alarm_detail(request):
+    user = request.user
+    alarms = Alarm.objects.filter(user_id=user)
+    return render(request, "alarm_detail.html", {'alarms':alarms})
+
+# 메시지 페이지 로딩 함수
+def message(request):
+    return render(request, "message.html")

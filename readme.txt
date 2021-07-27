@@ -80,3 +80,7 @@
 210724 유림 | community_list,community_detail,community_new | 커뮤니티 리스트, 디테일, 작성 페이지 완료 , db연동, views와 url 연결 
 210724 자운 | project.views |  팀 리뷰 페이지 렌더링 함수 수정
 210724 건영 | project.views,team_apply_form | 객관식 views 생성,team_apply_form url 생성,team_apply_form.html생성
+210725 혜인 | team_search, member_search, team_form | search 페이지 좋아요-스크랩 버튼 추가 및 연결, team_form 페이지 dropdown 수정, 질문 번호 구현
+210726 건영 | team_apply_form,team_apply_back_sunneng | account views question_form수정+url수정,account views team_apply생성+url생성, team_apply_form수정,team_apply_back_sunneng생성
+210727 자운 | team_review, team_application |  팀 리뷰 페이지 수정, 팀 어플리케이션 페이지 CSS 진행부분까지 완성
+210727 건영 | team_apply_back_sunneng  | account views 수정

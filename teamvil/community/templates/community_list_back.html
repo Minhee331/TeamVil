@@ -12,7 +12,7 @@
         {% for community in community.all %}
                 <article class="community_list-item">
                     <h3>{{community.user_id}}</h3>
-                    <a href="{% url 'community_detail' community.id  %}">{{community.content}}</a>
+                    <a href="{% url 'community_detail_back' community.id  %}">{{community.content}}</a>
                     <p>조회수: {{community.view_cnt}}</p>
                     <p>수정된 날짜: {{community.update_date}}</p>
                     <p>업데이트 날짜: {{community.write_date}}</p>
@@ -24,7 +24,7 @@
 </body>
 <script>
     function move(){
-        location.href = "{% url 'community_new' %}";
+        location.href = "{% url 'community_new_back' %}";
     }
 </script>
 </html>

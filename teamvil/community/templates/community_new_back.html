@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+    <h1>커뮤니티 new 작성</h1>
+    <form>
+        <p class = 'user'>{{user}}</p>
+        <textarea class = 'content' placeholder="새로운 글을 작성해주세요!"></textarea>
+    </form>
+    <button class = "submit">완료</button>
+</body>
+<script>
+    $(document).ready(function(){
+        $(".submit").on("click", function() {
+            var content = {
+                'content' : $('.content').val()
+            }
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url: "{% url 'community_new_db_back' %}",
+                data: JSON.stringify(content),
+                success: function(res) {
+                    let url = "{% url 'community_list_back' %}";
+                    location.replace(url);
+                }
+            })
+        })
+    });
+</script>
+</html>

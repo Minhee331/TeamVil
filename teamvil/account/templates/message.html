@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/message.css' %}">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="message-wrap-container margin">
+        <div class="message-wrap">
+            <div class="message-list-wrap-container">
+                <div class="message-list-scroll">
+                    <div class="message-list-item">
+                        <img class="message-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+
+                        <p class="message-member-name-text spoqa-light color-blue">박민희</p>
+
+                        <p class="message-state-text spoqa-light">읽음</p>
+                    </div>
+                    <div class="message-list-item">
+                        <img class="message-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+
+                        <p class="message-member-name-text spoqa-light">박민희</p>
+
+                        <p class="message-state-text spoqa-light">읽음</p>
+                    </div>
+                    <div class="message-list-item">
+                        <img class="message-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+
+                        <p class="message-member-name-text spoqa-light">박민희</p>
+
+                        <p class="message-state-text spoqa-light">읽음</p>
+                    </div>
+                    <div class="message-list-item">
+                        <img class="message-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+
+                        <p class="message-member-name-text spoqa-light">박민희</p>
+
+                        <p class="message-state-text spoqa-light">읽음</p>
+                    </div>
+                    <div class="message-list-item">
+                        <img class="message-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+
+                        <p class="message-member-name-text spoqa-light">박민희</p>
+
+                        <p class="message-state-text spoqa-light">읽음</p>
+                    </div>
+                </div>
+            </div>
+            <div class="message-detail-wrap-container">
+                <div class="message-member-info-item">
+                    <img class="message-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+                    <p class="message-member-name-text spoqa-regular color-blue">박민희</p>
+                </div>
+                <div class="message-content-item">
+                    <div class="message-receive-content-item">
+                        <p class="message-receive-text spoqa-light">안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요</p>
+                    </div>
+                    <div class="message-send-content-item">
+                        <p class="message-receive-text spoqa-light">안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요</p>
+                    </div>
+                </div>
+                <div class="message-send-box-item">
+                    <input type="text" class="message-input spoqa-light">
+                    <input class="message-submit-btn" type="submit" value="전 송">  
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+</body>
+<script>
+</script>
+</html>

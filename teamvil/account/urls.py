@@ -28,6 +28,7 @@ urlpatterns = [
     path('mypage_scrap', views.mypage_scrap, name = 'mypage_scrap'),
     path('like/', views.likes, name="likes"),
     path('likecancel/',views.likecancels, name="likecancels"),
-    
+    path('alarm_detail/', views.alarm_detail, name = "alarm_detail"),
+    path('message/', views.message, name="message"),
     #path('member_state/<int:state_id>', views.member_state, name ="member_state")
 ]
