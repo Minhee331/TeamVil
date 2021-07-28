@@ -86,3 +86,4 @@
 210727 건영 | team_apply_back_sunneng  | account views 수정
 210728 자운 | account.views.py , project.views.py, base.css |  멤버/팀 좋아요 알람기능 추가, footer하단고정
 210728 유림 | community copy | community기능 합치기 (list 정렬, 글쓰기 기능)
+210728 건영 | project.views.py,team_apply_back_sunneng,team_answer_form_back_sunneng | team_apply 수정, team_apply_back_sunneng,,team_answer_form_back_sunneng.html생성및 url연결
