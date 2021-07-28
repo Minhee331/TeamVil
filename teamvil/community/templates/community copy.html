@@ -11,6 +11,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/community.css' %}">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 <body>
     {% include 'navbar.html' %}
@@ -67,14 +68,15 @@
             <div class="community-content-box">
                 <div class="community-profile-container">
                     <img class="community-profile-img" src="{% static 'image/cloud.jpg' %}" alt="">
-                    <p class="spoqa-regular">조자운</p>
+                    <p class="spoqa-regular">{{user}}</p>
                 </div>
 
-                <textarea class="spoqa-light" name="" id=""></textarea>
+                <textarea class="spoqa-light-content" placeholder="새로운 글을 작성해주세요!" name="" id=""></textarea>
     
                 <div class="community-write-btn-container">
-                    <button class="spoqa-regular" onclick="closeNew()">글쓰기</button>
-                </div>
+                    <button class="spoqa-regular-submit">완료</button>
+                </div> 
+                <!-- 위에 class 이름 수정함 -->
             </div>
         </div>
     </div>
@@ -89,17 +91,15 @@
             <div class="community-item community-content-box">
                 <div class="community-profile-container">
                     <img class="community-profile-img" src="{% static 'image/cloud.jpg' %}" alt="">
-                    <p class="spoqa-regular">조자운</p>
+                    <p class="spoqa-regular">{{communitys.user_id}}</p>
                 </div>
 
                 <div class="community-content-container spoqa-light">
-                    <p class="community-content">소리다.이것은 방지하는 관현악이며, 부패를 듣는다. 인간에 우리는 풀밭에 관현악이며, 가진 이것을 피고, 원대하고, 충분히 때문이다. 기쁘며, 무엇이 주며, 그리하였는가? 심장은 실로 우리의 이상을 영락과 가지에 천하를 목숨을 교향악이다. 찾아다녀도, 심장의 더운지라 하여도 같이, 말이다. 살 더운지라 남는 붙잡아 것이다. 가슴이 산야에 피어나는 얼음이 간에 위하여서, 천하를 새 아름다우냐? 놀이 생생하며, 목숨이 전인 청춘은 그들은 이상의 있다. 열매를 그들의 간에 트고, 것이다. 없는 없으면, 때까지 피어나기 천고에 못하다 그러므로 품으며, 찬미를 위하여서.</p>
+                    <p class="community-content">{{communitys.content}}</p>
                 
                     <div class="community-extra-container">
                         <div class="community-datetime-container">
-                            <p>2021.07.21</p>
-                            <p>|</p>
-                            <p>21:45</p>
+                            <p>{{communitys.write_date}}</p>
                         </div>
     
                         <div class="community-comment-view-container">
@@ -110,7 +110,7 @@
     
                             <div class="community-comment-view-item">
                                 <p>조회</p>
-                                <p>7</p>
+                                <p>{{communitys.view_cnt}}</p>
                             </div>
                         </div>
                     </div>
@@ -150,6 +150,27 @@
     function closeDetail() {
         document.getElementById('detail').style.display = 'none';
     }
+
+    $(document).ready(function(){
+        $(".spoqa-regular-submit").on("click", function() {
+            var content = {
+                'content' : $('.spoqa-light-content').val()
+            }
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url: "{% url 'community_new_db_back' %}",
+                data: JSON.stringify(content),
+                success: function(res) {
+                    let url = "{% url 'community_list_back' %}";
+                    location.replace(url);
+                }
+            })
+        })
+    });
+
 
     var commentId = 0;
     function addComment() {

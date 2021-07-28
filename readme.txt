@@ -84,3 +84,5 @@
 210726 건영 | team_apply_form,team_apply_back_sunneng | account views question_form수정+url수정,account views team_apply생성+url생성, team_apply_form수정,team_apply_back_sunneng생성
 210727 자운 | team_review, team_application |  팀 리뷰 페이지 수정, 팀 어플리케이션 페이지 CSS 진행부분까지 완성
 210727 건영 | team_apply_back_sunneng  | account views 수정
+210728 자운 | account.views.py , project.views.py, base.css |  멤버/팀 좋아요 알람기능 추가, footer하단고정
+210728 유림 | community copy | community기능 합치기 (list 정렬, 글쓰기 기능)

@@ -4,6 +4,8 @@
     {% load static %}
     {% load custom_tags %}
 
+
+
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,12 +14,12 @@
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
         <link rel="stylesheet" href="{% static 'css/alarm_detail.css' %}">
     </head>
-
+    
     <body>
-        
+
         {% include 'navbar.html' %}
 
-        <div class="alarm_detail-container">
+        <div class="alarm_detail-container content">
 
             {% for alarm in alarms %}
 
@@ -76,7 +78,6 @@
         </div>
 
         {% include 'footer.html' %} 
-
     </body>
 
 </html>

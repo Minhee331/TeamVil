@@ -395,11 +395,19 @@ def likes(request):
     like=Like()
     to_user_id = User.objects.get(id=obj['value']) # Profile.objects.get(id=obj['value']) #profile.user_id.id
     like.type = int(1)
-    like.to_user_id = to_user_id  
+    like.to_user_id = to_user_id
+    print(to_user_id)  
     # 오류가 뜨는데 어떻게 고쳐야 될지 모르겠다..
     # #ValueError: Cannot assign "<Profile: 조자운>": "Like.to_user_id" must be a "User" instance.
     like.from_user_id = request.user
     like.save()
+    #알람기능 추가
+    alarm=Alarm()
+    alarm.type = int(0)
+    alarm.user_id = to_user_id
+    alarm.like_id = like
+    alarm.url = '/member/member_detail/' + str(request.user.id)
+    alarm.save()
     return render(request,'member_search_back.html')
 
 #좋아요 취소 함수
@@ -418,7 +426,7 @@ def latestMember(request):
 # 알람 페이지 html 렌더링
 def alarm_detail(request):
     user = request.user
-    alarms = Alarm.objects.filter(user_id=user)
+    alarms = Alarm.objects.filter(user_id=user).order_by('-send_date')
     return render(request, "alarm_detail.html", {'alarms':alarms})
 
 # 메시지 페이지 로딩 함수

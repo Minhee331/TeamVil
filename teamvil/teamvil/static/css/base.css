@@ -16,6 +16,7 @@
     display: block;
 }
 
+
 /* Spoqa Han Sans Neo
     font-family: 'Spoqa Han Sans Neo', 'sans-serif';
     font-weight: 100 300 400 500 700 */
@@ -108,7 +109,7 @@ li a {
 /* footer */
 footer {
     padding: 0 161.415px;
-    display: block;
+    display: grid;
     color: #ffffff;
     background-color: #0f59ff;
 }
@@ -142,4 +143,15 @@ footer {
 
 .footer-copyright p {
     font-size: 15px;
+}
+
+/*footer 하단고정용*/
+body {
+    display: flex; 
+    min-height: 100vh; 
+    flex-direction: column;
+}
+
+.content  {
+    flex: 1;
 }

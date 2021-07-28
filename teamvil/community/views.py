@@ -13,8 +13,8 @@ def community_list_back(request):
     return render(request,'community copy.html', {'community':community})
 
 def community_detail_back(request, community_id):
-    community = Com.objects.get(id = community_id)
-    comments = Comment.objects.filter(com_id = community, parent = 0)
+    communitys = Com.objects.get(id = community_id)
+    comments = Comment.objects.filter(com_id = communitys, parent = 0)
     #대댓글
     replydict = {} #dict 형식
     for comment in comments:
@@ -24,11 +24,11 @@ def community_detail_back(request, community_id):
             replylist.append(reply) #하나하나 나온 reply를 replylist에 넣어줌
         replydict[str(comment.id)] = replylist  #딕셔너리 형태로, str(comment.id)가 key이고 replylist가 value;
     # replys = Comment.objects.filter(com_id = community, parent = comment_id) 
-    return render(request, 'community copy.html', {'community':community, "comments":comments, "replydict":replydict.items()})
+    return render(request, 'community copy.html', {'communitys':communitys, "comments":comments, "replydict":replydict.items()})
 
 def community_new_back(request):
     user = request.user
-    return render(request, 'community_new_back.html',{'user':user})
+    return render(request, 'community copy.html',{'user':user})
 
 def community_new_db_back(request):
     obj = json.loads(request.body)
@@ -36,7 +36,7 @@ def community_new_db_back(request):
     com.user_id = request.user
     com.content = obj['content']
     com.save()
-    return render(request, 'community_list_back.html')
+    return render(request, 'community copy.html')
 
 def comment(request):
     obj = json.loads(request.body)

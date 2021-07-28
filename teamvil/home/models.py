@@ -56,7 +56,6 @@ class Alarm(models.Model):
     member_id = models.ForeignKey('project.Member', on_delete = models.CASCADE, db_column="member_id", null=True)
     like_id = models.ForeignKey(Like, on_delete = models.CASCADE, db_column="like_id", null=True)
     scrap_id = models.ForeignKey(Scrap, on_delete = models.CASCADE, db_column="scrap_id", null=True)
-    content = models.CharField(max_length=300)
     url = models.CharField(max_length=200)
     send_date = models.DateTimeField(default=timezone.now)
     check_date = models.DateTimeField(null=True)
