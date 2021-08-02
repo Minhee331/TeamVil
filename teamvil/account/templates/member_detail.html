@@ -101,7 +101,7 @@
         </div>
 
         <button type="button" class="member_detail-invite">초대하기</button>
-        <button type="button" class="member_detail-message">메세지</button>
+        <a href="{% url 'message_room' profile.id %}"><button type="button" class="member_detail-message">메세지</button></a>
         <hr class="member_detail-profile-middleline">
 
         <div class="member_detail-profile-etc-container">

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 # Create your models here.
 
 class Com(models.Model):
@@ -20,16 +21,18 @@ class Comment(models.Model):
         return self.content
 
 class Info(models.Model):
+    state = models.IntegerField(default=0) # 0 게시 요청, 1 게시, 2 반려
     host = models.CharField(max_length=100)
+    email = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
-    location = models.CharField(max_length=200)
-    update_date = models.DateTimeField(auto_now=True)
-    write_date = models.DateTimeField(auto_now_add= True)
+    location = models.CharField(max_length=200, null=True)
+    update_date = models.DateTimeField(default=timezone.now)
+    write_date = models.DateTimeField(default=timezone.now)
     start_date = models.DateTimeField(null=True)
     end_date = models.DateTimeField(null=True)
     content = models.TextField()
-    isLink = models.IntegerField()
-    isFile = models.IntegerField()
+    isLink = models.IntegerField(default=0)
+    isFile = models.IntegerField(default=0)
     view_cnt = models.IntegerField(default=0)
 
 class Info_link(models.Model):

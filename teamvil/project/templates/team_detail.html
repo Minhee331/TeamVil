@@ -19,11 +19,11 @@
 
                     <span id="team_detail-type">
                         {% if project.type == 0 %}
-                        창업 | {{project.field1_id.field1}}
+                        창업<span class="team_detail-type-bar">|</span>{{project.field1_id.field1}}
                         {% elif project.type == 1 %}
-                        공모전 | {{project.field1_id.field1}}
+                        공모전<span class="team_detail-type-bar">|</span>{{project.field1_id.field1}}
                         {% else %}
-                        프로젝트 | {{project.field1_id.field1}}
+                        프로젝트<span class="team_detail-type-bar">|</span>{{project.field1_id.field1}}
                         {% endif %}
                     </span>
                     <p class="team_detail-leader">by {{profile.name}}</p>
@@ -34,23 +34,40 @@
                 <div class="team_detail-desc">
                     <p>{{project.desc}}</p>
                 </div>
-                <span>
-                    {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}} | {{ project.region2_id }} | 
+                <p class="team_detail-info-head">
+                    {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}
+                    <span>|</span>
+                    {{ project.region2_id }}
+                    <span>|</span>
                     {% if project.state == 0 %}
                         모집완료
                     {% else %}
                         모집 중
                     {% endif %}
-                </span>
+                </p>
             </div>
             <div class="team_detail-content-container">
                 <div class="team_detail-content">
                     <p class="team_detail-content-title">소개<p>
                     <p class="team_detail-content-body">{{project.content}}</p>
                 </div>
+                <hr>
                 <div class="team_detail-info-detail">
-                    <a href="{% url 'team_application'  %}"><button type="button" class="team_detail-apply">지원하기</button></a>
-                    <span class="team_detail-info-detail-title">전체 팀 인원</span>
+
+
+                    <div class="team_detail-info-detail-button-container">
+                        <span class="team_detail-info-detail-title">전체 팀 인원</span>
+                        <div>
+                            <a class="team_detail-apply-button" href="{% url 'team_application'  %}">
+                                <button type="button" class="team_detail-apply">수정하기</button>
+                            </a>
+                            <a class="team_detail-apply-button" href="{% url 'team_application'  %}">
+                                <button type="button" class="team_detail-apply">지원하기</button>
+                            </a>
+                        </div>
+                    </div>
+
+
                     <p class="team_detail-info-detail-body team_detail-info-detail-title-margin">
                         {{project.mem_total}}명 중 {{project.mem_now}}명 모집 완료
                     </p>

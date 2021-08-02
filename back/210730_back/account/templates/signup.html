@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    {% load static %}
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+    </head>
+
+    <body>
+
+        {% include 'navbar.html' %}
+
+            {% block content %}
+
+                <form class="signup-container" method="POST" action="{% url 'signup' %}">
+                    
+                    {% csrf_token %}
+                        
+                        {% if error %}
+                            
+                            <p class="signup-error">{{error}}</p>
+                    
+                        {% endif %}
+
+                        <p class="signup-basic">기본정보</p>
+                            <input class="signup-box" name="username" type="text" placeholder="아이디(4~12자 영문과 숫자)">
+                            <input class="signup-box" name="password" type="password" placeholder="비밀번호(10자 이상, 영문, 숫자,특수문자)">
+                            <input class="signup-box" name="passwordCheck" type="password" placeholder="비밀번호 확인">
+                        
+                        <p class="signup-personal">회원정보</p>
+                            <input class="signup-box" name="name" type="text" placeholder="이름 (한글 6자 이하)">
+                            <div class="signup-phone-container">
+                                <input class="signup-phone-box" name="phone" id="int" placeholder="휴대폰 번호(-없이 숫자만 입력)"> 
+                                <input class="signup-phone-identify" type="submit" value="본인인증">
+                            </div>
+                            <input class="signup-submit" type="submit" value="가입하기">      
+                </form>
+
+            {% endblock %}
+
+        {% include 'footer.html' %} 
+
+    </body> 
+
+</html>
+
+
+
+
+
+

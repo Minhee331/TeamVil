@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load custom_tags %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+    <main class="community_detail-container">
+        <h1>커뮤니티 디테일 페이지 </h1>
+        <h3>{{communitys.user_id}}</h3>
+        <p>{{communitys.content}}</p>
+        <p>조회수: {{communitys.view_cnt}}</p>
+        <p>수정된 날짜: {{communitys.update_date}}</p>
+        <p>업데이트 날짜: {{communitys.write_date}}</p>
+        <br>
+    </main>
+
+    <main class="comment-container">
+        <h3>댓글창</h3>
+        <div>
+            <p class = 'user'>{{user}}</p>
+            <textarea class = 'comment_content' placeholder="댓글을 적어주세요."></textarea>
+            <button class="comment_submit">댓글달기</button>
+        </div>
+        <h3>이미 적힌 댓글</h3>
+
+        <section class ="comment_re_box">
+            {% for comment in comments %}
+                <div>
+                    <p> 댓글러: {% Name comment.user_id.id %} </p>
+                    <p> 댓글 내용: {{comment.content}}</p>
+                    <!-- <p> 적힌댓글: {{comment.content}} {{comment.id}}</p> -->
+                    <!-- <input type="text" class="reply_content_{{comment.id}}"> -->
+                    <textarea class = "reply_content_{{comment.id}}" placeholder="대댓글을 적어주세요."></textarea>
+                    <button class = "reply_submit" parent = "{{comment.id}}">대댓글달기</button>
+                    <!-- <input type="button" class="reply_submit" parent="{{comment.id}}"value="대댓글달기"> -->
+                    <!-- 적힌댓글 -->
+                    <!-- 대댓글들 -->
+                    <section class = "reply_re_box_{{comment.id}}">
+                        {% for replylist,replies in replydict %}
+                            {% if comment.id|stringformat:"i" == replylist %} 
+                                {%for reply in replies %}
+                                    <p> >>>대댓글러: {% Name reply.user_id.id %} </p>
+                                    <p> >>>댓글 내용: {{reply.content}}</p>
+                                    <br>
+                                {% endfor %}
+                            {% endif %} 
+                        {% endfor %}
+                    </section>
+                    <!-- 대댓글적는란 -->
+                </div>
+            {% endfor %}
+        </section>
+        <!-- <section class = "reply_re_box">
+        </section> -->
+        <!-- 대댓글 -->
+        <!-- <div>
+            <p>{{user}}</p>
+            <textarea class = 'reply_content' placeholder="대댓글을 적어주세요."></textarea>
+            <button class="reply-submit">대댓글달기</button>
+        </div>
+        <section class ="reply_re_box"> -->
+            <!-- <button class="reply-submit_{{comment.id}} hidden">대댓글달기</button> -->
+        <!-- </section> -->
+    </main>
+    
+</body>
+<script>
+    $(document).ready(function(){
+        $(".comment_submit").on("click", function() {
+            var content = {
+                'comment_content' : $('.comment_content').val(),
+                'com_id' : '{{community.id}}',
+                'parent' : 0 
+            }
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url: "{% url 'comment' %}",
+                data: JSON.stringify(content),
+                success: function(res) {
+                    html_str =`<div>
+                                    <p>댓글러: ${res.user} </p>
+                                    <p>댓글내용: ${res.comment}</p>
+                                    <textarea class = "reply_content_${res.comment_id}" placeholder="대댓글을 적어주세요."></textarea>
+                                    <button class = "reply_submit" parent = "${res.comment_id}">대댓글달기</button>
+                                </div>`;
+                    $('.comment_re_box').append(html_str);
+                    console.log(res); //문제 1번 : 리로딩했을 때 뜨지 않음 , 문제2번 : 같은 user은 한개밖에 댓글을 작성하지 못함 
+                    // html_str = `<div>${res}</div>` '${res}'
+                    //console.log("보내기 성공");
+                }
+            })
+        })
+        $('.reply_submit').on("click",function(){
+            parent = $(this).attr('parent');
+            var content = { 
+                'reply_content' : $('.reply_content_'+parent).val(),
+                'com_id' : '{{community.id}}',
+                'parent' : parent,
+
+            }
+            $.ajax({
+                type: "POST",
+                headers: {
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url: "{% url 'reply' %}",
+                data: JSON.stringify(content),
+                success: function(res) {
+                    html_str =`<div>
+                        <p>>>>대댓글러: ${res.user} </p>
+                        <p>>>>댓글내용: ${res.comment}</p>
+                    </div>`;
+                    $('.reply_re_box_'+parent).append(html_str);
+                    //문제 1번 : 리로딩했을 때 뜨지 않음 , 문제2번 : 같은 user은 한개밖에 댓글을 작성하지 못함 
+                    // html_str = `<div>${res}</div>` '${res}'
+                    //console.log("보내기 성공");
+                }
+            })
+        })
+    });
+</script>
+</html>

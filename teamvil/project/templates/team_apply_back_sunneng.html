@@ -31,59 +31,61 @@
                     <p class="team_detail-leader">by {{profile.name}}</p>
                 </header>
             </div>
-            <p>지원 분야 선택: <br>
+            <p>지원 분야 선택 <br>
             {% for duty in duties %}
                 {{duty.name}} | {{duty.now}} / {{duty.total}} 
                 <br>
             {% endfor %}
             </p>
             <br>
-            <br>
             <p>본인 프로필 제공 동의 <input type="checkbox">(프로필 설정시 입력한 정보가 자동으로 제공됩니다!)</p>    
             <br>
-            {% for question in question %}
-                {% if question.type == 0 %}
-                    <p>Q.{{question.content}} 
-                        {% if question.isRequired == 1 %}
-                        (필수)
-                        {% elif question.isRequired == 0 %}
-                        (선택)</p>
-                        {% endif %}
-                    <p><input type="checkbox">{{question.choice1}}
-                        <br>
-                    <input type="checkbox">{{question.choice2}}
-                    <br>  
-                    <input type="checkbox">{{question.choice3}}
-                    <br>
-                    <input type="checkbox">{{question.choice4}}
-                    <br>
-                    <input type="checkbox">{{question.choice5}}
-                    </p>  
-                    <br>   
-                {% elif question.type == 1 %}    
-                    <p>Q.{{question.content}}
-                        {% if question.isRequired == 1 %}
-                        (필수)
-                        {% elif question.isRequired == 0 %}
-                        (선택)
-                        {% endif %} </p>
-                    <input type="text">
-                    <br>
-                {% elif question.type == 2 %}
-                    <p>Q.{{question.content}}
-                        {% if question.isRequired == 1 %}
-                        (필수)
-                        {% elif question.isRequired == 0 %}
-                        (선택)
-                        {% endif %}  </p>
-                    <textarea name="" cols="60" rows="5 "></textarea>
-                {% endif %}      
-        {% endfor %}   
+            <p>Q.프로젝트 리더가 묻습니다!</p>
             <br>
-            <br>     
-            <input type="submit" value="제출하기">    
-                
+            {% for questionlist,questions in questiondict %}
+                {% if question.id|stringformat:"i" == questionlist %}
+                    {%for question in questions %}
+                        {% if question.type == 0 %}
+                            <p>Q.{{question.content}}
+                              {% if question.isRequired == 1 %}
+                                 (필수)
+                              {% elif question.isRequired == 0 %}
+                                 (선택)
+                              {% endif %}</p>   
+                            <p><input type="checkbox">{{question.choice1}}</p>
+                            <p><input type="checkbox">{{question.choice2}}</p>
+                            <p><input type="checkbox">{{question.choice3}}</p>
+                            <p><input type="checkbox">{{question.choice4}}</p>
+                            <p><input type="checkbox">{{question.choice5}}</p>
+                        {% endif %}
+                        <br>
+                        {% if question.type == 1 %}
+                            <p>Q.{{question.content}}
+                               {% if question.isRequired == 1 %}
+                                 (필수)
+                               {% elif question.isRequired == 0 %}
+                                 (선택)
+                               {% endif %}</p>
+                            <input type="text">
+                        <br>
+                        {% endif %}
+                        {% if question.type == 2 %}
+                            <p>Q.{{question.content}}
+                               {% if question.isRequired == 1 %}
+                                  (필수)
+                               {% elif question.isRequired == 0 %}
+                                  (선택)
+                               {% endif %}</p>
+                            </p>
+                            <textarea name="" id="" cols="50" rows="2"></textarea>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+            <br>
+            <br>
+            <input type="submit" value="제출하기">
         </div>
-    </form>
+    </form> -->
     {% endblock %}
 

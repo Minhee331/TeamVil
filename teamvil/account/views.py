@@ -1,3 +1,4 @@
+from typing import ContextManager
 from django.shortcuts import render , redirect
 from .models import *
 import datetime
@@ -10,6 +11,7 @@ from project.models import *
 from home.models import *
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.http.response import JsonResponse
 
 def member_search(request):
     profiles = Profile.objects.all().order_by('-register')
@@ -388,25 +390,24 @@ def mypage_scrap(request):
     profiles = Profile.objects.all().order_by('-id')[:4]
     return render(request, "mypage_like.html", {'projects':projects, "likes": likes,"scrpas": scraps, "profiles":profiles})
 
-
 #좋아요 만들어지는 함수 create
 def likes(request):
     obj = json.loads(request.body) #받아온 data를 풀어주기 
     like=Like()
     to_user_id = User.objects.get(id=obj['value']) # Profile.objects.get(id=obj['value']) #profile.user_id.id
     like.type = int(1)
-    like.to_user_id = to_user_id
-    print(to_user_id)  
+    like.to_user_id = to_user_id 
     # 오류가 뜨는데 어떻게 고쳐야 될지 모르겠다..
     # #ValueError: Cannot assign "<Profile: 조자운>": "Like.to_user_id" must be a "User" instance.
     like.from_user_id = request.user
     like.save()
     #알람기능 추가
+    profile = Profile.objects.get(user_id=request.user)
     alarm=Alarm()
     alarm.type = int(0)
     alarm.user_id = to_user_id
     alarm.like_id = like
-    alarm.url = '/member/member_detail/' + str(request.user.id)
+    alarm.url = '/member/member_detail/' + str(profile.id)
     alarm.save()
     return render(request,'member_search_back.html')
 
@@ -426,9 +427,93 @@ def latestMember(request):
 # 알람 페이지 html 렌더링
 def alarm_detail(request):
     user = request.user
+    profiles = Profile.objects.all()
     alarms = Alarm.objects.filter(user_id=user).order_by('-send_date')
-    return render(request, "alarm_detail.html", {'alarms':alarms})
+    for alarm in alarms:
+        if alarm.check == 0:
+            alarm.check = int(1)
+            alarm.check_date = timezone.now()
+            alarm.save()
+    return render(request, "alarm_detail.html", {'alarms':alarms, 'profiles':profiles})
 
 # 메시지 페이지 로딩 함수
 def message(request):
-    return render(request, "message.html")
+    to_members = Message.objects.filter(from_user_id = request.user).values('to_user_id').distinct()
+    from_members = Message.objects.filter(to_user_id = request.user).values('from_user_id').distinct()
+    member_list = {}
+    for mem in to_members:
+        user = User.objects.get(id = mem['to_user_id'])
+        name = Profile.objects.get(user_id = user)
+        member_list[name.name] = user.id
+    for mem in from_members:
+        user = User.objects.get(id = mem['from_user_id'])
+        name = Profile.objects.get(user_id = user)
+        member_list[name.name] = user.id
+    return render(request, "message.html", {'member_list':member_list.items(), "select_member": 0})
+
+def load_message(request):
+    obj = json.loads(request.body)
+    user_id = obj['user_id']
+    me = request.user
+    message_list = Message.objects.filter(Q(from_user_id = me, to_user_id = user_id) | Q(from_user_id = user_id, to_user_id = me)).exclude(content = "").order_by('send_date')
+    # print(message_list)
+    return render(request, 'load_message.html', {"message_list":message_list})
+
+def send_message(request):
+    obj = json.loads(request.body)
+    to_user_id = obj['to_user_id']
+    to_user = User.objects.get(id = to_user_id)
+    content = obj['content']
+    Message.objects.create(to_user_id = to_user, from_user_id = request.user, content = content)
+    res = {
+        'to_user_id':to_user_id,
+        'content':content,
+    }
+    return JsonResponse(res)
+
+# 디테일 페이지 - 메시지
+def message_room(request, profile_id):
+    profile = Profile.objects.get(id=profile_id)
+    to_user = profile.user_id
+    from_user = request.user
+    msg = Message.objects.filter(Q(from_user_id = to_user, to_user_id = from_user) | Q(from_user_id = from_user, to_user_id = to_user))
+    if not msg:
+        Message.objects.create(to_user_id = to_user, from_user_id = from_user, content = "")
+    to_members = Message.objects.filter(from_user_id = request.user).values('to_user_id').distinct()
+    from_members = Message.objects.filter(to_user_id = request.user).values('from_user_id').distinct()
+    member_list = {}
+    for mem in to_members:
+        user = User.objects.get(id = mem['to_user_id'])
+        name = Profile.objects.get(user_id = user)
+        member_list[name.name] = user.id
+    for mem in from_members:
+        user = User.objects.get(id = mem['from_user_id'])
+        name = Profile.objects.get(user_id = user)
+        member_list[name.name] = user.id
+    return render(request, "message.html", {'member_list':member_list.items(), "select_member": profile})
+
+#스크랩 함수
+def scraps(request):
+    obj = json.loads(request.body)
+    scrap=Scrap()
+    to_user_id = User.objects.get(id=obj['value'])
+    scrap.type = int(1)
+    scrap.from_user_id = request.user
+    scrap.to_user_id = to_user_id 
+    scrap.save()
+    #알람기능 추가
+    profile = Profile.objects.get(user_id=request.user)
+    alarm=Alarm()
+    alarm.type = int(2)
+    alarm.user_id = to_user_id
+    alarm.scrap_id = scrap
+    alarm.url = '/member/member_detail/' + str(profile.id)
+    alarm.save()
+    return render(request,'member_search_back.html')
+
+#스크랩 취소 함수
+def scrapcancels(request):
+    obj = json.loads(request.body)
+    to_user_id = User.objects.get(id=obj['value'])
+    Scrap.objects.get(to_user_id = to_user_id, from_user_id = request.user).delete()
+    return render(request,'member_search_back.html')

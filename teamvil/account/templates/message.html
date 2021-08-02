@@ -16,59 +16,31 @@
         <div class="message-wrap">
             <div class="message-list-wrap-container">
                 <div class="message-list-scroll">
-                    <div class="message-list-item">
-                        <img class="message-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
 
-                        <p class="message-member-name-text spoqa-light color-blue">박민희</p>
+                    {% for name, user_id in member_list %}
+                        <div class="message-list-item" name = {{name}} user_id = {{user_id}}>
+                            <img class="message-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
 
-                        <p class="message-state-text spoqa-light">읽음</p>
-                    </div>
-                    <div class="message-list-item">
-                        <img class="message-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+                            <p class="message-member-name-text spoqa-light {{name}}" user_id = {{user_id}}>{{name}}</p>
 
-                        <p class="message-member-name-text spoqa-light">박민희</p>
-
-                        <p class="message-state-text spoqa-light">읽음</p>
-                    </div>
-                    <div class="message-list-item">
-                        <img class="message-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                        <p class="message-member-name-text spoqa-light">박민희</p>
-
-                        <p class="message-state-text spoqa-light">읽음</p>
-                    </div>
-                    <div class="message-list-item">
-                        <img class="message-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                        <p class="message-member-name-text spoqa-light">박민희</p>
-
-                        <p class="message-state-text spoqa-light">읽음</p>
-                    </div>
-                    <div class="message-list-item">
-                        <img class="message-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                        <p class="message-member-name-text spoqa-light">박민희</p>
-
-                        <p class="message-state-text spoqa-light">읽음</p>
-                    </div>
+                            <p class="message-state-text spoqa-light">읽음</p>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
             <div class="message-detail-wrap-container">
                 <div class="message-member-info-item">
                     <img class="message-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-                    <p class="message-member-name-text spoqa-regular color-blue">박민희</p>
+
+                    <p class="message-select-member-name-text spoqa-regular color-blue">박민희</p>
                 </div>
-                <div class="message-content-item">
-                    <div class="message-receive-content-item">
-                        <p class="message-receive-text spoqa-light">안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요</p>
-                    </div>
-                    <div class="message-send-content-item">
-                        <p class="message-receive-text spoqa-light">안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요</p>
-                    </div>
-                </div>
+
+                <div class="message-content-item"></div>
+
                 <div class="message-send-box-item">
-                    <input type="text" class="message-input spoqa-light">
-                    <input class="message-submit-btn" type="submit" value="전 송">  
+                    <textarea class="message-input spoqa-light"></textarea>
+
+                    <input class="message-submit-btn" type="submit" value="전송">  
                 </div>
             </div>
         </div>
@@ -76,5 +48,73 @@
     {% include 'footer.html' %}
 </body>
 <script>
+    var interval_list = []
+    $(".message-list-item").on("click", function(){ 
+        if(interval_list.length!=0){
+            clearInterval(interval_list[0]);
+            interval_list = []
+        }
+        $('.message-member-name-text').removeClass('color-blue');
+        $('.'+$(this).attr('name')).addClass('color-blue');
+        $('.message-select-member-name-text').text($('.message-member-name-text.color-blue').text())
+        var data = {
+            'user_id': $(this).attr('user_id')
+        }
+        // console.log(data);
+        function load_message() {
+            $.ajax({
+                type: "POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url: "{% url 'load_message' %}",
+                data: JSON.stringify(data),
+                success: function(res) {
+                    $('.message-content-item').html(res);
+                    // console.log(data)
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                }
+            })
+        };
+        load_message();
+        var interval = setInterval(load_message, 2000);
+        interval_list.push(interval)
+    });
+
+    $(".message-submit-btn").on("click", function(){ 
+        to_user_id = $($('.color-blue').parent()).attr('user_id');
+        content = $('.message-input').val();
+        if(content==""){
+            alert("전송안됨")
+        }else{
+            var data = {
+                'to_user_id' : to_user_id,
+                'content': content
+            }
+            // console.log(data);
+            $.ajax({
+                type: "POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url: "{% url 'send_message' %}",
+                data: JSON.stringify(data),
+                success: function(res) {
+                    // console.log(res);
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                }
+            });
+        }
+    });
+
+    if('{{select_member}}' == '0'){
+        $('.message-list-item').first().click();
+    }else{
+        $('.message-list-item[name={{select_member.name}}]').click();
+    }
 </script>
 </html>

@@ -1,0 +1,92 @@
+/* 등록요청 페이지 */
+.register_info-wrap-container{
+    display: flex;
+    justify-content: center;
+    margin: 100px 0;
+}
+.register_info_wrap{
+    display: flex;
+    flex-direction: column;
+    width: 60vw;
+    max-width: 900px;
+    min-width: 700px;
+}
+/* 등록 요청 텍스트*/
+.register_info-register-title-wrap{
+    margin-bottom: 50px;
+    width: 100%;
+}
+.register_info-register-title-text{
+    font-size: 20px;
+}
+/* 등록 콘텐츠 */
+.register_info-register-content-wrap{
+    width: 95%;
+    margin: 0 40px;
+}
+.register_info-register-content-item{
+    display: flex;
+    align-items: center;
+}
+.register_info-line{
+    margin-left: 4px;
+    border-left: 1px solid #ebebeb;
+}
+.col_4{
+    height: 40px;
+}
+.col_8{
+    height: 80px;
+}
+.row_30{
+    width: 300px;
+}
+.register_info-register-circle{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #0F59FF;
+}
+.register_info-title-wrap{
+    width: 80px;
+}
+.register_info-title-text {
+    margin-left: 15px;
+    font-size: 16px;
+}
+.register_info-input-item{
+    height: 25px;
+    border: 1px solid #ebebeb;
+    font-size: 16px;
+}
+.register_info-input-full-item{
+    margin-top: 15px;
+    margin-left: 15px;
+    height: 350px;
+    border: 1px solid #ebebeb;
+    font-size: 16px;
+    flex-grow:1;
+}
+.not-visible{
+    visibility: hidden;
+}
+.register_info-long-title-wrap {
+    width: 100px;
+}
+/* 요청하기 버튼 */
+.register_info-signup-submit-btn {
+    height: 30px;
+    width: 110px;
+    margin-top: 42px;
+    margin-left: auto;
+    background-color: #0F59FF;
+    border: 1px solid #0F59FF;
+    border-radius: 1px;
+    color: #ffffff;
+}
+
+.register_info-signup-submit-btn:hover {
+    background-color: #ffffff;
+    color: #0f59ff; 
+    cursor: pointer; 
+}

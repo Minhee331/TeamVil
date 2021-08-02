@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    {% load custom_tags %}
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <link rel="stylesheet" href="{% static 'css/team_detail.css' %}">
+    </head>
+    <body>
+    {% block content %}    
+    <form method="POST" action="{% url 'team_apply' project_id %}">
+        {% include 'navbar.html' %}
+        <div class="team_detail-container">
+            <div class="team_detail-name">
+                <header>
+                    <h1 class="team_detail-title">{{project.title}}</h1>
+
+                    <span id="team_detail-type">
+                        {% if project.type == 0 %}
+                        창업 | {{project.field1_id.field1}}
+                        {% elif project.type == 1 %}
+                        공모전 | {{project.field1_id.field1}}
+                        {% else %}
+                        프로젝트 | {{project.field1_id.field1}}
+                        {% endif %}
+                    </span>
+                    <p class="team_detail-leader">by {{profile.name}}</p>
+                </header>
+            </div>
+            <p>지원 분야 선택: <br>
+            {% for duty in duties %}
+                {{duty.name}} | {{duty.now}} / {{duty.total}} 
+                <br>
+            {% endfor %}
+            </p>
+            <br>
+            <br>
+            <p>본인 프로필 제공 동의 <input type="checkbox">(프로필 설정시 입력한 정보가 자동으로 제공됩니다!)</p>    
+            <br>
+            {% for question in question %}
+                {% if question.type == 0 %}
+                    <p>Q.{{question.content}} 
+                        {% if question.isRequired == 1 %}
+                        (필수)
+                        {% elif question.isRequired == 0 %}
+                        (선택)</p>
+                        {% endif %}
+                    <p><input type="checkbox">{{question.choice1}}
+                        <br>
+                    <input type="checkbox">{{question.choice2}}
+                    <br>  
+                    <input type="checkbox">{{question.choice3}}
+                    <br>
+                    <input type="checkbox">{{question.choice4}}
+                    <br>
+                    <input type="checkbox">{{question.choice5}}
+                    </p>  
+                    <br>   
+                {% elif question.type == 1 %}    
+                    <p>Q.{{question.content}}
+                        {% if question.isRequired == 1 %}
+                        (필수)
+                        {% elif question.isRequired == 0 %}
+                        (선택)
+                        {% endif %} </p>
+                    <input type="text">
+                    <br>
+                {% elif question.type == 2 %}
+                    <p>Q.{{question.content}}
+                        {% if question.isRequired == 1 %}
+                        (필수)
+                        {% elif question.isRequired == 0 %}
+                        (선택)
+                        {% endif %}  </p>
+                    <textarea name="" cols="60" rows="5 "></textarea>
+                {% endif %}      
+        {% endfor %}   
+            <br>
+            <br>     
+            <input type="submit" value="제출하기">    
+                
+        </div>
+    </form>
+    {% endblock %}
+

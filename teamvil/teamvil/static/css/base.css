@@ -108,41 +108,39 @@ li a {
 
 /* footer */
 footer {
-    padding: 0 161.415px;
-    display: grid;
+    padding: 20px 161.415px;
+    display: flex;
+    justify-content: space-between;
     color: #ffffff;
     background-color: #0f59ff;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 300;
+    min-width: 850px;
 }
 
-.footer-link {
-    padding-top: 26.9025px;
-    display: flex;
-    justify-content: flex-end;
+.footer-left {
+    padding: 20px 0;
 }
 
-.footer-link a {
+.footer-right a {
     color: #ffffff;
     font-size: 15px;
 }
 
-.footer-link p {
+.footer-right span {
     padding: 0 20px;
     font-size: 15px;
 }
 
-.footer-info p {
+.footer-left p {
     padding: 3px 0;
     font-size: 15px;
 }
 
-.footer-copyright {
-    display: flex;
-    justify-content: flex-end;
-    padding-bottom: 22.94625px;
-}
-
-.footer-copyright p {
+.footer-right p {
+    padding-top: 110px;
     font-size: 15px;
+    text-align: right;
 }
 
 /*footer 하단고정용*/

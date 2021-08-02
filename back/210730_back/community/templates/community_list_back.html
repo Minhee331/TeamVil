@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="move()">작성</button>
+    <main class="community_list-container">
+        {% for community in community.all %}
+                <article class="community_list-item">
+                    <h3>{{community.user_id}}</h3>
+                    <a href="{% url 'community_detail_back' community.id  %}">{{community.content}}</a>
+                    <p>조회수: {{community.view_cnt}}</p>
+                    <p>수정된 날짜: {{community.update_date}}</p>
+                    <p>업데이트 날짜: {{community.write_date}}</p>
+                    <br>
+                </article>
+            </a>
+        {% endfor %}
+    </main>
+</body>
+<script>
+    function move(){
+        location.href = "{% url 'community_new_back' %}";
+    }
+</script>
+</html>

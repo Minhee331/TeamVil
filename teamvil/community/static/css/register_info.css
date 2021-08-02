@@ -57,15 +57,19 @@
 .register_info-input-item{
     height: 25px;
     border: 1px solid #ebebeb;
-    font-size: 16px;
+    font-size: 13px;
+    padding: 0 10px;
 }
 .register_info-input-full-item{
     margin-top: 15px;
     margin-left: 15px;
     height: 350px;
     border: 1px solid #ebebeb;
-    font-size: 16px;
+    font-size: 13px;
     flex-grow:1;
+    padding: 10px 10px;
+    line-height: 20px;
+    resize: none;
 }
 .not-visible{
     visibility: hidden;

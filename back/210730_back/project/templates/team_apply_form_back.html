@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/team_form.css' %}">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+{% block content %}
+<form method="POST" action="{% url 'question_form' project_id %}">
+    <h4>질문:<input type="text" name="content" placeholder="객관식 질문을 선택하세요."></h4>  
+    <input type="number" max="5" name="choice_cnt" placeholder="질문개수를 선택하세요.">
+    <input type="hidden" name="q_type_1" value='0'>
+    <br>
+    <input type="radio" name="isRequired_1" value='1' checked>필수
+    <input type="radio" name="isRequired_1" value='0' >선택
+    <!-- <input name="isRequired_1" type="checkbox" value="1" onclick="oneCheckbox(this);">필수 <br />
+    <input name="isRequired_1" type="checkbox" value="0" onclick="oneCheckbox(this);">선택 <br /> -->
+    <br>
+    <input type="text" name="choice1" placeholder="민희">
+    <br>
+    <input type="text" name="choice2" placeholder="건영">
+    <br>    
+    <input type="text" name="choice3"placeholder="자운">
+    <br>
+    <input type="text" name="choice4" placeholder="유림">
+    <br>
+    <input type="text" name="choice5" placeholder="혜인">
+    <br>
+    <h4>단답형:<input type="text" name="content_2"></h4>
+    <input type="hidden" name="q_type_2" value='1'>
+    <input type="radio" name="isRequired_2" value='1' checked>필수
+    <input type="radio" name="isRequired_2" value='0' >선택
+    <!-- <input name="isRequired_2" type="checkbox" value="1" onclick="doOpenCheck(this);">필수 <br />
+    <input name="isRequired_2" type="checkbox" value="0" onclick="doOpenCheck(this);">선택 <br /> -->
+    <h4>서술형:<input type="text" name="content_3"></h4> 
+    <input type="hidden" name="q_type_3" value='2'>
+    <input type="radio" name="isRequired_3" value='1' checked>필수
+    <input type="radio" name="isRequired_3" value='0' >선택
+    <!-- <input name="isRequired_3" type="checkbox" value="1" onclick="doOpenCheck(this);">필수 <br />
+    <input name="isRequired_3" type="checkbox" value="0" onclick="doOpenCheck(this);">선택 <br /> -->
+    <input type="submit" value="제출하기"> 
+</form>
+{% endblock %}

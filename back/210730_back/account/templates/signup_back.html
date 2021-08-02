@@ -1,0 +1,29 @@
+
+{% block content %}
+<form method="POST" action="{% url 'signup' %}">
+    {% csrf_token %}
+    <br>
+    {% if error %}
+        <p>{{error}}</p>
+    {% endif %}  
+    <h1>기본정보</h1> 
+    <br>   
+    <h3>아이디</h3>
+    <input name="username" type="text">
+    <br>
+    <h3>비밀번호</h3>
+    <input name="password" type="password">
+    <br>
+    <h3>비밀번호 확인</h3>
+    <input  name="passwordCheck" type="password">
+    <br>
+    <h2>회원정보</h2>
+    <h5>이름</h5>
+    <input name="name" type="text">
+    <h6>휴대폰 번호</h6>
+    <input name="phone" id="int">
+    <input type="submit" value="본인인증">
+    <br>  
+    <input type="submit" value="가입하기">      
+</form>
+{% endblock %}

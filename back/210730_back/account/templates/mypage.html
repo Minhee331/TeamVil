@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+{% load custom_tags %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mypage.css' %}">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="mypage-flex-container margin">
+        <div class="mypage-fix-width-container">
+            <div class="mypage-menu-wrap-container">
+                <div class="mypage-menu-container">
+                    <div class="mypage-menu-item">
+                        <p class="mypage-menu-item-text active-menu spoqa-light" page-type="profile">프로필</p>
+                    </div>
+
+                    <div class="mypage-menu-item">
+                        <p class="mypage-menu-item-text spoqa-light" page-type="modify">프로필 수정하기</p>
+                    </div>
+
+                    <div class="mypage-menu-item">
+                        <p class="mypage-menu-item-text spoqa-light" page-type="project">프로젝트</p>
+                    </div>
+
+                    <div class="mypage-menu-item">
+                        <p class="mypage-menu-item-text spoqa-light" page-type="like">좋아요</p>
+                    </div>
+
+                    <div class="mypage-menu-item">
+                        <p class="mypage-menu-item-text spoqa-light" page-type="scrap">스크랩</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mypage-info-wrap-container">
+            </div>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+</body>
+<script>
+    $(".mypage-menu-item-text").on("click", function(){ 
+        var page_type = $(this).attr('page-type');
+        $('.mypage-menu-item-text.active-menu').removeClass('active-menu');
+        $(this).addClass('active-menu');
+        var url = "{% url 'mypage_profile'%}";
+        console.log(url);
+        switch(page_type){
+            case 'profile':
+                url = "{% url 'mypage_profile'%}"
+                break;
+            case 'project':
+                url = "{% url 'mypage_project'%}"
+                break;
+            case 'modify':
+                url = "{% url 'mypage_modify_profile'%}"
+                break;
+            case 'like':
+                url = "{% url 'mypage_like'%}"
+                break;
+            case 'scrap':
+                url = "{% url 'mypage_scrap'%}"
+                break;
+        }
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function(res) {
+                $('.mypage-info-wrap-container').html(res);
+                console.log(res);
+            },
+            error:function(request,status,error){
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+    });
+    $('.mypage-menu-item-text.active-menu').click();
+</script>
+</html>

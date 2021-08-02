@@ -1,0 +1,24 @@
+{% load static %}
+
+<nav class="navbar-nav-container">
+    <div class="navbar-left-container">
+        <a href="{% url 'home' %}"><img class="navbar-logo" src="{% static 'image/Logo.png' %}" alt=""></a>
+
+        <ul class="navbar-menu-container spoqa-regular">
+            <li class="navbar-menu-item"><a href="{% url 'team_search' %}">팀 찾기</a></li>
+            <li class="navbar-menu-item"><a href="{% url 'member_search' %}">팀원 찾기</a></li>
+            <li class="navbar-menu-item"><a href="{% url 'info' %}">정보 찾기</a></li>
+            <li class="navbar-menu-item"><a href="{% url 'community' %}">커뮤니티</a></li>
+        </ul>
+    </div>
+
+    <ul class="navbar-my-container spoqa-regular">
+        {% if user.is_authenticated %}
+            <li class="navbar-my-item"><a href="{% url 'mypage' %}">마이페이지</a></li>
+            <li class="navbar-my-item"><a href="{% url 'logout' %}">로그아웃</a></li>
+        {% else %}
+            <li class="navbar-my-item"><a href="{% url 'login' %}">로그인/</a><a href="{% url 'signup'  %}">회원가입</a></li>
+        {% endif %}
+    </ul>
+</nav>
+

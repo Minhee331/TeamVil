@@ -1,0 +1,195 @@
+{% load static %}
+{% load custom_tags %}
+
+<div class="community-detail-box">
+    <div class="community-close-btn">
+        <img src="/static/image/x-button.png" onclick="closeDetail()" alt="">
+    </div>
+
+    <div class="community-item community-content-box">
+        <div class="community-profile-container">
+            <img class="community-profile-img" src="/static/image/cloud.jpg" alt="">
+            <p class="spoqa-regular">{% Name communitys.user_id.id %}</p>
+        </div>
+
+        <div class="community-content-container spoqa-light">
+            <p class="community-content">{{communitys.content}}</p>
+        
+            <div class="community-extra-container">
+                <div class="community-datetime-container">
+                    <p>{% TimeFormat communitys.write_date %}</p>
+                    <p>|</p> 
+                    <p>{% HourFormat communitys.write_date %}</p>
+                </div>
+
+                <div class="community-comment-view-container">
+                    <div class="community-comment-view-item">
+                        <p>댓글</p>
+                        <p>7</p>
+                    </div>
+
+                    <div class="community-comment-view-item">
+                        <p>조회</p>
+                        <p>{{communitys.view_cnt}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="community-comment-input-container">
+        <textarea class="community-comment-input spoqa-light com_{{communitys.id}}" type="text" id="comment" spellcheck="false"></textarea>
+<!-- 상단 댓글 작성버튼 -->
+        <div class="community-write-btn-container">
+            <!-- <input class="community-comment-btn spoqa-light comment_submit" type="button" value="댓글 작성" onclick="addComment()"> -->
+            <input class="community-comment-btn spoqa-light comment_submit" com_id="{{communitys.id}}" type="button" value="댓글 작성"> 
+        </div>
+    </div>
+<!-- 첫번째 댓글 -->
+    <div class="community-comment-list">
+        {% for comment in comments %}
+        <div class="community-content-item">
+            <div class="community-profile-container">
+                <img class="community-profile-img" src="/static/image/cloud.jpg">
+                <p class="spoqa-regular" id="replyName">{% Name comment.user_id.id %}</p>
+            </div>
+            
+            <div class="community-content-container spoqa-light">
+                <p class="community-comment-content">{{comment.content}}</p>
+                <div class="community-comment-datetime-container">
+                    <p>2021.07.21</p>
+                    <p>|</p>
+                    <p>21:45</p>
+                </div>
+            </div>
+            <!-- 대댓글 작성 -->
+            <div class="community-reply-list_{{comment.id}}">
+                <div class="community-reply-container">
+                    <div class="community-reply-item">
+                        <img class="community-reply-img" src="/static/image/arrow-line.png"> 
+                        <textarea class="community-comment-input spoqa-light reply_{{communitys.id}} reply_content_{{comment.id}}"></textarea>
+                    </div>
+                    <!-- 대댓글 작성 버튼 -->
+                    <div class="community-write-btn-container">
+                        <!-- <input class="community-comment-btn spoqa-light" com_id="{{communitys.id}}" type="button" value="댓글 작성" onclick="addReply(0)"> -->
+                        <input class="community-comment-btn spoqa-light reply_submit" com_id="{{communitys.id}}" parent = "{{comment.id}}" type="button" value="댓글 작성">
+                    </div>
+                </div>
+                {% for replylist,replies in replydict %}
+                    {% if comment.id|stringformat:"i" == replylist %} 
+                        {%for reply in replies %}
+                            <div class="community-reply-box">
+                                <img class="community-reply-img" src="/static/image/arrow-line.png">
+                                <div>
+                                    <div class="community-profile-container">
+                                        <img class="community-profile-img" src="/static/image/cloud.jpg">
+                                        <p class="spoqa-regular" id="replyName">{% Name reply.user_id.id %}</p>
+                                    </div>
+                                    
+                                    <div class="community-content-container spoqa-light">
+                                        <p class="community-comment-content">{{reply.content}}</p>
+                                        
+                                        <div class="community-comment-datetime-container">
+                                            <p>2021.07.21</p>
+                                            <p>|</p>
+                                            <p>21:45</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %} 
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    $(".comment_submit").on("click", function() { 
+        var content = {
+            'comment_content' : $('.com_'+$(this).attr('com_id')).val(), 
+            'com_id' : $(this).attr('com_id'),
+            'parent' : 0 
+        }
+        $.ajax({
+            type: "POST",
+            headers: {
+                'X-CSRFToken' : '{{csrf_token}}'
+            },
+            url: "{% url 'comment' %}",
+            data: JSON.stringify(content),
+            success: function(res) {
+                html_str =`<div class="community-content-item">
+                            <div class="community-profile-container">
+                                <img class="community-profile-img" src="/static/image/cloud.jpg">
+                                <p class="spoqa-regular" id="replyName">${res.user}</p>
+                            </div>
+                            
+                            <div class="community-content-container spoqa-light">
+                                <p class="community-comment-content">${res.comment}</p>
+                                <div class="community-comment-datetime-container">
+                                    <p>2021.07.21</p>
+                                    <p>|</p>
+                                    <p>21:45</p>
+                                </div>
+                            </div>
+                            
+                            <div class="community-reply-list">
+                                <div class="community-reply-container">
+                                    <div class="community-reply-item">
+                                        <img class="community-reply-img" src="/static/image/arrow-line.png">
+                                        <textarea class="community-comment-input spoqa-light" id="0"></textarea>
+                                    </div>
+                                    
+                                    <div class="community-write-btn-container">
+                                        <input class="community-comment-btn spoqa-light" com_id="${res.com_id}" type="button" value="댓글 작성" onclick="addReply(0)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                $('.community-comment-list').append(html_str);
+            }
+        })
+    });
+    $('.reply_submit').on("click",function(){
+        parent = $(this).attr('parent');
+        var content = { 
+            'reply_content' : $('.reply_content_'+parent).val(),
+            'com_id' : $(this).attr('com_id'),
+            'parent' : parent,
+
+        }
+        $.ajax({
+            type: "POST",
+            headers: {
+                'X-CSRFToken' : '{{csrf_token}}'
+            },
+            url: "{% url 'reply' %}",
+            data: JSON.stringify(content),
+            success: function(res) {
+                html_str =`<div class="community-reply-box">
+                            <img class="community-reply-img" src="/static/image/arrow-line.png">
+                            <div>
+                                <div class="community-profile-container">
+                                    <img class="community-profile-img" src="/static/image/cloud.jpg">
+                                    <p class="spoqa-regular" id="replyName">${res.user}</p>
+                                </div>
+                                
+                                <div class="community-content-container spoqa-light">
+                                    <p class="community-comment-content">${res.comment}</p>
+                                    
+                                    <div class="community-comment-datetime-container">
+                                        <p>2021.07.21</p>
+                                        <p>|</p>
+                                        <p>21:45</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                $('.community-reply-list_'+parent).append(html_str);
+            }
+        })
+    })
+</script>

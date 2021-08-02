@@ -295,7 +295,9 @@
                     </article>
                 </a>
                 <button class = "like_submit_delete profile_{{profile.user_id.id}} hidden" value="{{profile.user_id.id}}">좋아요</button>
-                <button class = "like_submit profile_{{profile.user_id.id}}" value="{{profile.user_id.id}}">좋아요 전</button>   
+                <button class = "like_submit profile_{{profile.user_id.id}}" value="{{profile.user_id.id}}">좋아요 전</button>  
+                <button class = "scrap_submit_delete profile_{{profile.user_id.id}} hidden" value="{{profile.user_id.id}}">스크랩</button>
+                <button class = "scrap_submit profile_{{profile.user_id.id}}" value="{{profile.user_id.id}}">스크랩 전</button> 
             {% endfor %}
         </main>
     </section>
@@ -382,6 +384,54 @@
                 success: function(res) {
                         $('.like_submit.profile_'+user_id).removeClass('hidden'); //좋아요 전이 켜지고
                         $('.like_submit_delete.profile_'+user_id).addClass('hidden'); //좋아요는 hidden 처리 된다.
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    alert("로그인하세요.");
+                    
+                }
+            }); 
+        });
+        //스크랩 함수
+        $('.scrap_submit').on("click", function(){
+            user_id = $(this).val()
+            var memscrap = {
+                'value': user_id
+            }
+            $.ajax({
+                type:"POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url:"{% url 'scraps' %}",
+                data :JSON.stringify(memscrap),
+                success: function(res) {
+                        $('.scrap_submit_delete.profile_'+user_id).removeClass('hidden');
+                        $('.scrap_submit.profile_'+user_id).addClass('hidden');
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    alert("로그인하세요.");
+                    
+                }
+            }); 
+        });
+        //스크랩 취소 함수 
+        $('.scrap_submit_delete').on("click", function(){
+            user_id = $(this).val()
+            var memscrap = {
+                'value': user_id
+            }
+            $.ajax({
+                type:"POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url:"{% url 'scrapcancels' %}",
+                data :JSON.stringify(memscrap),
+                success: function(res) {
+                        $('.scrap_submit.profile_'+user_id).removeClass('hidden');
+                        $('.scrap_submit_delete.profile_'+user_id).addClass('hidden');
                 },
                 error:function(request,status,error){
                     alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);

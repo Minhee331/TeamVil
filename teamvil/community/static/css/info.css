@@ -9,11 +9,11 @@
     justify-content: space-between;
     width: 80vw;
     max-width: 1160px;
-    min-width: 1075px;
+    min-width: 1105px;
 }
 .info-content-box-wrap{
     width: 530px;
-    height: 240px;
+    height: 235px;
     margin: 14px 0;
     display: flex;
     border: 1px solid #ebebeb;
@@ -21,14 +21,14 @@
 }
 .info-img-item{
     width: 160px;
-    height: 240px;
+    height: 235px;
     border-radius: 1px 0 0 1px;
 }
 .info-content-item-wrap{
     display: flex;
     flex-direction: column;
     width: 370px;
-    padding: 40px 20px;
+    padding: 35px 20px;
 }
 .info-content-title-divide-wrap{
     height: 50px;
@@ -55,7 +55,7 @@
     height: 50px;
 }
 .info-etc-text{
-    font-size: 14px;
+    font-size: 13px;
 }
 /* 요청하기 버튼 */
 .register_info-signup-submit-btn {

@@ -87,3 +87,8 @@
 210728 자운 | account.views.py , project.views.py, base.css |  멤버/팀 좋아요 알람기능 추가, footer하단고정
 210728 유림 | community copy | community기능 합치기 (list 정렬, 글쓰기 기능)
 210728 건영 | project.views.py,team_apply_back_sunneng,team_answer_form_back_sunneng | team_apply 수정, team_apply_back_sunneng,,team_answer_form_back_sunneng.html생성및 url연결
+210729 유림 | community copy | community 기능 합치기 (댓글, 대댓글) 
+210729 자운 | team_detail.css, base.css |  팀디테일 CSS수정, footer반응형 수정
+210730 자운 | member_search_back, team_search_back |  멤버/팀 스크랩 기능 구현, 멤버/팀 스크랩 알람 기능 추가.
+210731 자운 | alarm_detail, views.py |  html 에 user_id 가 아닌 profile.name 으로 표시되도록 수정, 알람 url 연결 수정, 알람체크시 DB입력되도록 수정
+210731 건영 | project.views.py,team_apply_back_sunneng,team_answer_form_back_sunneng|  team_apply_back_sunneng html,views 수정 완료, team_answer_form_back_sunneng html수정 

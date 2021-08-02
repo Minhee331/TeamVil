@@ -1,0 +1,127 @@
+.message-wrap-container{
+    display: flex;
+    justify-content: center;
+}
+.message-wrap{
+    margin: 100px 0;
+    display: flex;
+    justify-content: space-between;
+    width: 90vw;
+    min-width: 900px;
+    max-width: 1600px;
+    height: 800px;
+}
+.message-list-wrap-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 18vw;
+    min-width: 250px;
+    max-width: 350px;
+    border-right: 1px solid #ebebeb;
+}
+.message-list-scroll{
+    height: 100%;
+    overflow-y: auto;
+}
+.message-list-item{
+    display: flex;
+    /* justify-content: flex-start; */
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+    border-bottom: 1px solid #ebebeb;
+}
+.message-member-image{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-left: 20px;
+    margin-right: 15px;
+}
+.message-member-name-text{
+    font-size: 18px;
+    margin-right: auto;
+}
+.message-state-text {
+    margin-top: 20px;
+    font-size: 12px;
+    margin-right: 20px;
+}
+.message-detail-wrap-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.message-member-info-item{
+    margin: 0 20px;
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #ebebeb;
+    border-bottom: 1px solid #ebebeb;
+}
+.color-blue{
+    color: #0f59ff;
+}
+.message-content-item{
+    height: 100%;
+}
+/* 보낸 메시지 */
+.message-content-item{
+    padding: 20px 0;
+    margin: 0 20px;
+    display: flex;
+    flex-direction: column;
+}
+.message-receive-content-item{
+    padding: 13px 10px;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ebebeb;
+    border-radius: 15px;
+}
+.message-receive-text{
+    font-size: 14px;
+}
+.message-send-content-item{
+    padding: 13px 10px;
+    margin-left: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #ebebeb;
+    border: 1px solid #ebebeb;
+    border-radius: 15px;
+}
+/* 메시지 전송 */
+.message-send-box-item{
+    height: 65px;
+    margin: 0 20px;
+    border-top: 1px solid #ebebeb;
+    display: flex;
+    align-items: flex-end;
+}
+.message-input{
+    width: 90%;
+    height: 32px;
+    border: 1px solid #ebebeb;
+    border-radius: 5px;
+}
+/* 전송 버튼 */
+.message-submit-btn {
+    height: 32px;
+    width: 80px;
+    margin-left: auto;
+    background-color: #0F59FF;
+    border: 1px solid #0F59FF;
+    border-radius: 5px;
+    color: #ffffff;
+}
+
+.message-submit-btn:hover {
+    background-color: #ffffff;
+    color: #0f59ff; 
+    cursor: pointer; 
+}

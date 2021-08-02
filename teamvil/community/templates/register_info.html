@@ -12,117 +12,134 @@
 </head>
 <body>
     {% include 'navbar.html' %}
-    <div class="register_info-wrap-container margin">
-        <div class="register_info_wrap margin">
-            <div class="register_info-register-title-wrap">
-                <p class="register_info-register-title-text spoqa-light">등록 요청</p>
+    <form method="POST" action="{% url 'register_info' %}" onsubmit="return registerSubmit();" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="register_info-wrap-container margin">
+            <div class="register_info_wrap margin">
+                <div class="register_info-register-title-wrap">
+                    <p class="register_info-register-title-text spoqa-light">등록 요청</p>
+                </div>
+                <div class="register_info-register-content-wrap">
+                    <div class="register_info-register-content-item">
+                        <div class="register_info-register-circle"></div>
+
+                        <div class="register_info-title-wrap">
+                            <p class="register_info-title-text spoqa-light">주관사*</p>
+                        </div>
+                        
+                        <input class="register_info-input-item spoqa-light row_30" name="host" type="text" required>
+                    </div>
+
+                    <div class="register_info-line col_4"></div>
+
+                    <div class="register_info-register-content-item">
+                        <div class="register_info-register-circle"></div>
+
+                        <div class="register_info-title-wrap">
+                            <p class="register_info-title-text spoqa-light">이메일*</p>
+                        </div>
+                        
+                        <input class="register_info-input-item spoqa-light row_30" type="email" name="email" required>
+                    </div>
+
+                    <div class="register_info-line col_4"></div>
+
+                    <div class="register_info-register-content-item">
+                        <div class="register_info-register-circle"></div>
+
+                        <div class="register_info-title-wrap">
+                            <p class="register_info-title-text spoqa-light">제목*</p>
+                        </div>
+                        
+                        <input class="register_info-input-item spoqa-light row_30" type="text" name="title" required>
+                    </div>
+
+                    <div class="register_info-line col_8"></div>
+
+                    <div class="register_info-register-content-item">
+                        <div class="register_info-register-circle"></div>
+
+                        <div class="register_info-title-wrap">
+                            <p class="register_info-title-text spoqa-light">내용*</p>
+                        </div>
+                    </div>
+
+                    <div class="register_info-register-content-item">
+                        <div class="register_info-register-circle not-visible"></div>
+                        
+                        <textarea class="register_info-input-full-item spoqa-light row_30" type="text" name="content" required></textarea>
+                    </div>
+                    
+                    <div class="col_8"></div>
+                    <div class="register_info-register-content-item">
+                        <div class="register_info-register-circle"></div>
+
+                        <div class="register_info-title-wrap">
+                            <p class="register_info-title-text spoqa-light">링크</p>
+                        </div>
+                        
+                        <input class="register_info-input-item spoqa-light row_30" type="text" name="link">
+                    </div>
+
+                    <div class="register_info-line col_4"></div>
+                    
+                    <div class="register_info-register-content-item">
+                        <div class="register_info-register-circle"></div>
+
+                        <div class="register_info-title-wrap">
+                            <p class="register_info-title-text spoqa-light">파일</p>
+                        </div>
+                        
+                        <input type="file" name="files" multiple>
+                    </div>
+
+                    <div class="col_8"></div>
+                    
+                    <div class="register_info-register-content-item">
+                        <div class="register_info-register-circle"></div>
+
+                        <div class="register_info-long-title-wrap">
+                            <p class="register_info-title-text spoqa-light">시작 날짜</p>
+                        </div>
+                        
+                        <input class="register_info-input-item spoqa-light" type="datetime-local" name="start_date">
+                    </div>
+
+                    <div class="register_info-line col_4"></div>
+
+                    <div class="register_info-register-content-item">
+                        <div class="register_info-register-circle"></div>
+
+                        <div class="register_info-long-title-wrap">
+                            <p class="register_info-title-text spoqa-light">종료 날짜</p>
+                        </div>
+                        
+                        <input class="register_info-input-item spoqa-light" type="datetime-local" name="end_date">
+                    </div>
+
+                    <div class="register_info-line col_4"></div>
+
+                    <div class="register_info-register-content-item">
+                        <div class="register_info-register-circle"></div>
+
+                        <div class="register_info-long-title-wrap">
+                            <p class="register_info-title-text spoqa-light">장소</p>
+                        </div>
+                        
+                        <input class="register_info-input-item spoqa-light row_30" type="text" name="location">
+                    </div>
+                </div>
+                <input class="register_info-signup-submit-btn" type="submit" value="요청하기">  
             </div>
-            <div class="register_info-register-content-wrap">
-                <div class="register_info-register-content-item">
-                    <div class="register_info-register-circle"></div>
-
-                    <div class="register_info-title-wrap">
-                        <p class="register_info-title-text spoqa-light">주관사</p>
-                    </div>
-                    
-                    <input class="register_info-input-item spoqa-light row_30" type="text">
-                </div>
-
-                <div class="register_info-line col_4"></div>
-
-                <div class="register_info-register-content-item">
-                    <div class="register_info-register-circle"></div>
-
-                    <div class="register_info-title-wrap">
-                        <p class="register_info-title-text spoqa-light">제목</p>
-                    </div>
-                    
-                    <input class="register_info-input-item spoqa-light row_30" type="text">
-                </div>
-
-                <div class="register_info-line col_8"></div>
-
-                <div class="register_info-register-content-item">
-                    <div class="register_info-register-circle"></div>
-
-                    <div class="register_info-title-wrap">
-                        <p class="register_info-title-text spoqa-light">내용</p>
-                    </div>
-                </div>
-
-                <div class="register_info-register-content-item">
-                    <div class="register_info-register-circle not-visible"></div>
-                    
-                    <input class="register_info-input-full-item spoqa-light row_30" type="text">
-                </div>
-                
-                <div class="col_8"></div>
-                <div class="register_info-register-content-item">
-                    <div class="register_info-register-circle"></div>
-
-                    <div class="register_info-title-wrap">
-                        <p class="register_info-title-text spoqa-light">링크</p>
-                    </div>
-                    
-                    <input class="register_info-input-item spoqa-light row_30" type="text">
-                </div>
-
-                <div class="register_info-line col_4"></div>
-                
-                <div class="register_info-register-content-item">
-                    <div class="register_info-register-circle"></div>
-
-                    <div class="register_info-title-wrap">
-                        <p class="register_info-title-text spoqa-light">파일</p>
-                    </div>
-                    
-                    <input type="file" multiple>
-                </div>
-
-                <div class="col_8"></div>
-                
-                <div class="register_info-register-content-item">
-                    <div class="register_info-register-circle"></div>
-
-                    <div class="register_info-long-title-wrap">
-                        <p class="register_info-title-text spoqa-light">시작 날짜</p>
-                    </div>
-                    
-                    <input class="register_info-input-item spoqa-light" type="datetime-local">
-                </div>
-
-                <div class="register_info-line col_4"></div>
-
-                <div class="register_info-register-content-item">
-                    <div class="register_info-register-circle"></div>
-
-                    <div class="register_info-long-title-wrap">
-                        <p class="register_info-title-text spoqa-light">종료 날짜</p>
-                    </div>
-                    
-                    <input class="register_info-input-item spoqa-light" type="datetime-local">
-                </div>
-
-                <div class="register_info-line col_4"></div>
-
-                <div class="register_info-register-content-item">
-                    <div class="register_info-register-circle"></div>
-
-                    <div class="register_info-long-title-wrap">
-                        <p class="register_info-title-text spoqa-light">장소</p>
-                    </div>
-                    
-                    <input class="register_info-input-item spoqa-light row_30" type="text">
-                </div>
-            </div>
-            <input class="register_info-signup-submit-btn" type="submit" value="요청하기">  
         </div>
-    </div>
-
+    </form>
     {% include 'footer.html' %}
 </body>
 
 <script>
-    
+    function registerSubmit(){
+        con = confirm("게시 요청이 접수되었습니다. 작성하신 메일로 2-3일 내에 게시 여부에 대해 연락드리겠습니다.");
+        return con;
+    };
 </script>
 </html>

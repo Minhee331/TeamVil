@@ -1,12 +1,13 @@
 .team_detail-container {
     margin: 0 118.6875px;
+    min-width: 800px;
     /* display: inline-grid; */
     /* grid-template-columns: repeat(auto-fit); */
 }
 
 
 .team_detail-name {
-    margin: 10.28625px 0 19.78125px;
+    margin: 11px 0;
     display: grid;
     justify-content: center;
     width: 100%;
@@ -30,7 +31,8 @@ header {
 .team_detail-title {
     padding: 10px 0;
     font-size: 25.32px;
-    font-weight: bold;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 500;
 }
 
 #team_detail-type {
@@ -39,6 +41,12 @@ header {
     height: 23px;
     left: 865px;
     top: 402px;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 300;
+}
+
+.team_detail-type-bar {
+    padding: 0 13px;
 }
 
 #team_detail-field1 {
@@ -52,10 +60,13 @@ header {
 .team_detail-leader {
     margin-top: 17.4075px;
     text-align: right;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 400;
 }
 
 .team_detail-info {
-    height: 185.94375px;
+    height: 70px;
+    padding: 55px 0;
     border-top: 1px #ebebeb solid;
     border-bottom: 1px #ebebeb solid;
     border-right: 0px;
@@ -63,20 +74,23 @@ header {
     text-align: center;
 }
 
-.team_detail-info p {
-    font-weight: 600;
-}
-
 .team_detail-desc {
-    padding: 50px 0;
-}
-
-.team_detail-desc p {
-    font-size: 19.78125px;
-}
-
-.team_detail-desc p{
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 400;
     font-size: 20px;
+    padding-bottom: 19px;
+    text-align: center;
+}
+
+.team_detail-info-head {
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 400;
+    font-size: 13px;
+    text-align: center;
+}
+
+.team_detail-info-head span {
+    padding: 0 7px;
 }
 
 .team_detail-content-container {
@@ -88,31 +102,50 @@ header {
 }
 
 .team_detail-content {
-    display: inline-grid;
     width: 871.16625px;
      
 }
 
 .team_detail-content-title {
-    margin-top: 30.0675px;
-    margin-bottom: 18.19875px;
+    margin-top: 30px;
+    margin-bottom: 20px;
     font-size: 18.99px;
-    font-weight: bold;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 500;
 }
 
 .team_detail-content-body {
-    border-top: 0;
-    border-bottom: 0;
-    border-right: 1px #ebebeb solid ;
-    border-left: 0;
-    padding-right:23.7375px;
-    margin-bottom: 59.34375px;
+    padding-right:40px;
+    margin-bottom: 30px;
+    line-height: 150%;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 300;
+    font-size: 15px;
+}
+
+hr {
+    margin: 22px 0;
+    width: 1px;
+    background-color: #ebebeb;
+    border: 0;
 }
 
 .team_detail-info-detail {
     display: inline-grid;
     width: 365.5575px;
-    margin-left: 40.35375px;
+    margin-left: 40px;
+    margin-bottom: 30px;
+}
+
+.team_detail-info-detail-button-container {
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-between;
+}
+
+.team_detail-apply-button {
+    margin-left: 10px;
+    justify-self: end;
 }
 
 .team_detail-apply {
@@ -133,14 +166,18 @@ header {
 }
 
 .team_detail-info-detail-title {
+    margin-right: 60px;
     font-size: 19px;
-    font-weight: bold;
     padding: 9px 0;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 500;
 }
 
 .team_detail-info-detail-body {
     font-size: 15px;
     padding: 2px 0;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 300;
 }
 
 .team_detail-info-detail-title-margin {
@@ -149,10 +186,13 @@ header {
 
 .team_detail-info-detail-content {
     margin-bottom: 15px;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 100;
+    font-size: 13px;
 }
 
 .team_detail-info-etc {
-    margin: 30px 0 45px;
+    margin: 30px 0;
 }
 
 .team_detail-info-etc p {
@@ -162,18 +202,25 @@ header {
 .team_detail-info-etc-title {
     display: inline-block;
     width: 83px;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 500;
     font-size: 19px;
-    font-weight: bold;
     padding-right: 10px;
 }
 
 .team_detail-info-etc-body {
     margin-left: 100px;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 300;
+    font-size: 15px;
 }
 
 .team_detail-info-etc-body1 {
     margin-left: 100px;
     color: #ff0000;
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 300;
+    font-size: 15px;
 }
 
 

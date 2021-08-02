@@ -210,11 +210,13 @@ def like(request):
     like.from_user_id = request.user
     like.save()
     #알람기능 추가
+    profile = Profile.objects.get(user_id=request.user)
     alarm=Alarm()
     alarm.type = int(1)
     alarm.user_id = project_id.user_id
     alarm.like_id = like
-    alarm.url = '/project/team_detail/' + str(project_id.id)
+    alarm.url = '/member/member_detail/' + str(profile.id)
+    # alarm.url = '/project/team_detail/' + str(project_id.id) #프로젝트 연결도 추가시켜주는게 좋을 것 같다.
     alarm.save()
     return render(request,'team_search_back.html') #team_list에도 적용이 되야된다
 
@@ -368,143 +370,102 @@ def  question_form(request,project_id):
     else:
         return render(request,"team_apply_form_back.html",{"project_id":project_id})
 
-    #     project = Project.objects.get(id = project_id)
-    #     question=Question()
-    #     for i in range(1,11):
-    #         type=int(request.POST['question_type_'+i])
-    #         if(type==0):
-    #             question.project_id = project
-    #             question.type = 0
-    #             if(request.POST['isRequired']=='0'):
-    #                 question.isRequired = 0
-    #             else:
-    #                 question.isRequired = 1
-    #             content = request.POST['content']
-    #             choice_cnt=request.POST['choice_cnt']
-    #             choice1 = request.POST['choice1']
-    #             choice2 = request.POST['choice2']
-    #             choice3 = request.POST['choice3']
-    #             choice4 = request.POST['choice4']
-    #             choice5 = request.POST['choice5'] 
-    #             question.content=content
-    #             question.choice_cnt=choice_cnt
-    #             question.choice1=choice1
-    #             question.choice2=choice2
-    #             question.choice3=choice3
-    #             question.choice4=choice4
-    #             question.choice5=choice5
-    #             question.save()
-    #         if(type==1):
-    #             question.project_id = project
-    #             question.type = 1
-    #             if(request.POST['isRequired']=='0'):
-    #                 question.isRequired = 0
-    #             else:
-    #                 question.isRequired = 1
-    #             content = request.POST['content']
-    #             question.content=content
-    #             question.save()
-    #         if(type == 2):
-    #             question.project_id = project
-    #             question.type = 2
-    #             if(request.POST['isRequired']=='0'):
-    #                 question.isRequired = 0
-    #             else:
-    #                 question.isRequired = 1
-    #             content = request.POST['content']
-    #             question.content=content
-    #             question.save()  
-    #     apply_form =Apply_form()
-    #     user = request.user
-    #     apply_form.project_id =project
-    #     apply_form.user_id =user
-    #     apply_form.question_id = question
-    #     apply_form.save()
-    #     return redirect('/')
+
+        
    
      
 
 #팀지원서 양식 폼
+@csrf_exempt
 def team_apply(request,project_id):
     project = Project.objects.get(id=project_id)
     profile = Profile.objects.get(user_id = project.user_id)
     duties = Duty.objects.filter(project_id = project_id)
     question = Question.objects.filter(project_id = project)
-    for i in range(0, len(question)):
-        type=question[i].type
-        if(type ==0):
-            question.project_id = project
-            question.content=question[i].content 
-            question.isRequired =question[i].isRequired 
-            question.choice_cnt=question[i].choice_cnt
-            question.choice1=question[i].choice1 
-            question.choice2=question[i].choice2 
-            question.choice3=question[i].choice3  
-            question.choice4=question[i].choice4 
-            question.choice5=question[i].choice5 
-        if(type == 1):
-            question.project_id = project
-            question.content=question[i].content
-            question.isRequired=question[i].isRequired 
-        if(type == 2):
-            question.project_id = project
-            question.content=question[i].content
-            question.isRequired=question[i].isRequired
-    return render(request,"team_apply_back_sunneng.html",{"question":question,"project_id":project_id,"project":project,"profile":profile,"duties":duties})
+    questiondict = {} 
+    for question in question:
+        questionlist = []
+        questions = Question.objects.filter(project_id = project)
+        for question in questions:
+            questionlist.append(question)
+        questiondict[str(question.id)] = questionlist
+    return render(request,"team_apply_back_sunneng.html",{"question":question,"project_id":project_id,"project":project,"profile":profile,"duties":duties,"questiondict":questiondict.items()})
+        # for i in range(0, len(question)):
+        #     type=question[i].type
+        #     if(type ==0):
+        #         question.project_id = project
+        #         question.content=question[i].content 
+        #         question.isRequired =question[i].isRequired 
+        #         question.choice_cnt=question[i].choice_cnt
+        #         question.choice1=question[i].choice1 
+        #         question.choice2=question[i].choice2 
+        #         question.choice3=question[i].choice3  
+        #         question.choice4=question[i].choice4 
+        #         question.choice5=question[i].choice5
+        #     if(type == 1):
+        #         question.project_id = project
+        #         question.content=question[i].content
+        #         question.isRequired=question[i].isRequired 
+        #     if(type == 2):
+        #         question.project_id = project
+        #         question.content=question[i].content
+        #         question.isRequired=question[i].isRequired
+        # return render(request,"team_apply_back_sunneng.html",{"question":question,"project_id":project_id,"project":project,"profile":profile,"duties":duties})
 
 
-# @csrf_exempt
-# def answer_form(request,project_id):
-#     if request.method == "POST":
-#         user = request.user
-#         project = Project.objects.get(id = project_id)
-#         question = Question.objects.filter(project_id = project)
-#         answer=Answer()
-#         for i in range(0, len(question)):
-#             type=question[i].type
-#             if(type ==0):
-#                 answer.project_id = project
-#                 answer.type=0
-#                 if(request.POST['isRequired']=='0'):
-#                     answer.isRequired = 0
-#                 else:
-#                     answer.isRequired = 1
-#                 answer.content=question[i].content
-#                 answer.choice1=question[i].choice1 
-#                 answer.choice2=question[i].choice2 
-#                 answer.choice3=question[i].choice3 
-#                 answer.choice4=question[i].choice4 
-#                 answer.choice5=question[i].choice5 
-#                 answer.save()
-#             if(type == 1):
-#                 answer.project_id = project
-#                 answer.type=1
-#                 if(request.POST['isRequired']=='0'):
-#                     answer.isRequired = 0
-#                 else:
-#                     answer.isRequired = 1
-#                 answer.content=question[i].content
-#                 answer.save()
-#             if(type == 2):
-#                 answer.project_id= project
-#                 answer.type=2
-#                 if(request.POST['isRequired']=='0'):
-#                     answer.isRequired = 0
-#                 else:
-#                     answer.isRequired = 1
-#                 content= request.POST['content']
-#                 answer.content=content
-#                 answer.save()
-#             application=Application()
-#             user = request.user
-#             application.project_id =project
-#             application.user_id =user
-#             application.answer_id =answer
-#             application.save()
-#             return redirect('/')
-#     else:
-#         return render(request,"team_answer_form_back_sunneng.html",{"project_id":project_id})
 
+@csrf_exempt
+def answer_form(request,project_id):
+    if request.method == "POST":
+        obj = json.loads(request.body)
+        q1 = obj['0', 'choice_answer', 'choice_text']
+        q2 = obj['short']
+        q3 = obj['long']
+        project = Project.objects.get(id=project_id)
+        question = Question.objects.filter(project_id = project)
+        answer = Answer()
+        answer.q1=q1
+        answer.q1=q2
+        answer.q1=q3
+        answer.save()
+            #이 다음부터는 아직 못채우겠어요...
+        return redirect('/project/team_answer_form_back_sunneng/' + str(project_id))
+        
+        
+        
+    
+
+        
+
+
+
+#스크랩 함수
+def scrap(request):
+    obj = json.loads(request.body)
+    scrap=Scrap()
+    project_id = Project.objects.get(id=obj['value'])
+    scrap.type = int(0)
+    scrap.project_id = project_id
+    scrap.from_user_id = request.user
+    scrap.save()
+    #알람기능 추가
+    profile = Profile.objects.get(user_id=request.user)
+    alarm=Alarm()
+    alarm.type = int(3)
+    alarm.user_id = project_id.user_id
+    alarm.scrap_id = scrap
+    alarm.url = '/member/member_detail/' + str(profile.id)
+    # alarm.url = '/project/team_detail/' + str(project_id.id) #프로젝트 연결도 추가시켜주는게 좋을 것 같다.
+    alarm.save()
+    return render(request,'team_search_back.html')
+
+
+#스크랩 취소 함수
+def scrapcancel(request):
+    obj = json.loads(request.body)
+    project_id = Project.objects.get(id=obj['value'])
+    Scrap.objects.get(project_id = project_id, from_user_id = request.user).delete()
+    return render(request,'team_search_back.html')
 
 
 

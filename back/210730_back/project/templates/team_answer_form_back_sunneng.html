@@ -1,0 +1,38 @@
+{% for question in question %}
+{% if question.type == 0 %}
+    <p>Q.{{question.content}} 
+        {% if question.isRequired == 1 %}
+        (필수)
+        {% elif question.isRequired == 0 %}
+        (선택)</p>
+        {% endif %}
+    <p><input type="checkbox">{{question.choice1}}
+        <br>
+    <input type="checkbox">{{question.choice2}}
+    <br>  
+    <input type="checkbox">{{question.choice3}}
+    <br>
+    <input type="checkbox">{{question.choice4}}
+    <br>
+    <input type="checkbox">{{question.choice5}}
+    </p>  
+    <br>   
+{% elif question.type == 1 %}    
+    <p>Q.{{question.content}}
+        {% if question.isRequired == 1 %}
+        (필수)
+        {% elif question.isRequired == 0 %}
+        (선택)
+        {% endif %} </p>
+    <input type="text">
+    <br>
+{% elif question.type == 2 %}
+    <p>Q.{{question.content}}
+        {% if question.isRequired == 1 %}
+        (필수)
+        {% elif question.isRequired == 0 %}
+        (선택)
+        {% endif %}  </p>
+    <textarea name="" cols="60" rows="5 "></textarea>
+{% endif %}      
+{% endfor %}   

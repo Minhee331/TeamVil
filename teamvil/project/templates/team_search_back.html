@@ -198,7 +198,9 @@
                     </article>
                 </a>
                 <button class = "like_submit_delete project_{{project.id}} hidden" value="{{project.id}}">좋아요</button>
-                <button class = "like_submit project_{{project.id}}" value="{{project.id}}">좋아요 전</button>   
+                <button class = "like_submit project_{{project.id}}" value="{{project.id}}">좋아요 전</button> 
+                <button class = "scrap_submit_delete project_{{project.id}} hidden" value="{{project.id}}">스크랩</button>
+                <button class = "scrap_submit project_{{project.id}}" value="{{project.id}}">스크랩 전</button>     
             {% endfor %}
             {% for project in projects %}
                 <a href="{% url 'team_detail' project.id %}">
@@ -222,6 +224,8 @@
                 </a>
                 <button class = "like_submit_delete project_{{project.id}} hidden" value="{{project.id}}">좋아요</button>
                 <button class = "like_submit project_{{project.id}}" value="{{project.id}}">좋아요 전</button>   
+                <button class = "scrap_submit_delete project_{{project.id}} hidden" value="{{project.id}}">스크랩</button>
+                <button class = "scrap_submit project_{{project.id}}" value="{{project.id}}">스크랩 전</button>   
             {% endfor %}
         </main>
     </section>
@@ -316,6 +320,54 @@
                     alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                     alert("로그인하세요.");
                     
+                }
+            }); 
+        });
+        //스크랩 함수
+        $('.scrap_submit').on("click", function(){
+            project_id = $(this).val(); 
+            var scrap = {
+                'value': project_id
+            }
+            $.ajax({
+                type:"POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url:"{% url 'scrap' %}",
+                data :JSON.stringify(scrap),
+                success: function(res) {
+                        $('.scrap_submit_delete.project_'+project_id).removeClass('hidden');
+                        $('.scrap_submit.project_'+project_id).addClass('hidden');
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    alert("로그인하세요.");
+                    
+                }
+            }); 
+        });
+        //스크랩 취소 함수 
+        $('.scrap_submit_delete').on("click", function(){
+            project_id = $(this).val(); 
+            var scrap = {
+                'value': project_id
+            }
+            console.log(scrap)
+            $.ajax({
+                type:"POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url:"{% url 'scrapcancel' %}",
+                data :JSON.stringify(scrap),
+                success: function(res) {
+                        $('.scrap_submit.project_'+project_id).removeClass('hidden');
+                        $('.scrap_submit_delete.project_'+project_id).addClass('hidden');
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    alert("로그인하세요.");
                 }
             }); 
         });

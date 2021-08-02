@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load custom_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>이름: {{profile.name}}</p>
+    <p>직업: {{profile.job_id.job}}</p>
+    <p>나이: {% getAge profile.birthday %}</p>
+    <p>지역: {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
+    <p>상태: 
+        {% if profile.state == 1 %}
+            팀 찾는 중
+        {% elif profile.state == 2 %}
+            휴식 중
+        {% else %}
+            팀 참여 중
+        {% endif %}
+    </p>
+    <p>관심분야: {{profile.field1_id.field1}}</p>
+    <p>기간: {{profile.term_id.term}}</p>
+    <p>성격유형: {{profile.mbti_id.mbti}}</p>
+    {% if profile.mbti_detail is not None %}
+        <p>성격유형_detail: {{profile.mbti_detail}}</p>
+    {% endif %}
+    {% if profile.open_phone %}
+        <p>전화번호: {{profile.phone}}</p>
+    {% else %}
+        <p>전화번호: 비공개</p>
+    {% endif %}
+    {% if profile.open_email %}
+        <p>email: {{profile.email}}</p>
+    {% else %}
+        <p>email: 비공개</p>
+    {% endif %}
+    {% if profile.pr is not None %}
+        <p>pr: {{profile.pr}}</p>
+    {% endif %}
+    {% if profile.isLink %}
+        {% for user_link in user_links %}
+            <p>링크:{{user_link.link}}</p> <br>
+        {% endfor %}
+    {% endif %}
+    {% if profile.isFile %}
+        {% for user_file in user_files %}
+            <p>파일:{{user_file.file}}</p> <br>
+        {% endfor %}
+    {% endif %}
+    {% if profile.isCarrer %}
+        {% for user_carrer in user_carrers %}
+            <p>커리어:{{user_carrer.content}}</p>
+            <p>시작날짜:{{user_carrer.start_date}}</p>
+            <p>종료날짜:{{user_carrer.end_date}}</p><br>
+        {% endfor %}
+    {% endif %}
+    {% if profile.isReview %}
+        {% for user_review in user_reviews %}
+            <p>리뷰:{{user_review.content}}</p>
+            <p>리뷰:{{user_review.total}}</p><br>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

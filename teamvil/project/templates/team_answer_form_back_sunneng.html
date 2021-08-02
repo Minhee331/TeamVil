@@ -1,38 +1,99 @@
-{% for question in question %}
-{% if question.type == 0 %}
-    <p>Q.{{question.content}} 
-        {% if question.isRequired == 1 %}
-        (필수)
-        {% elif question.isRequired == 0 %}
-        (선택)</p>
-        {% endif %}
-    <p><input type="checkbox">{{question.choice1}}
-        <br>
-    <input type="checkbox">{{question.choice2}}
-    <br>  
-    <input type="checkbox">{{question.choice3}}
-    <br>
-    <input type="checkbox">{{question.choice4}}
-    <br>
-    <input type="checkbox">{{question.choice5}}
-    </p>  
-    <br>   
-{% elif question.type == 1 %}    
-    <p>Q.{{question.content}}
-        {% if question.isRequired == 1 %}
-        (필수)
-        {% elif question.isRequired == 0 %}
-        (선택)
-        {% endif %} </p>
-    <input type="text">
-    <br>
-{% elif question.type == 2 %}
-    <p>Q.{{question.content}}
-        {% if question.isRequired == 1 %}
-        (필수)
-        {% elif question.isRequired == 0 %}
-        (선택)
-        {% endif %}  </p>
-    <textarea name="" cols="60" rows="5 "></textarea>
-{% endif %}      
-{% endfor %}   
+안녕
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/team_form.css' %}">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+{% for questionlist,questions in questiondict %}
+    {% if question.id|stringformat:"i" == questionlist %}
+        {%for question in questions %}
+            {% if question.type == 0 %}
+                <p>Q.{{question.content}}
+                    {% if question.isRequired == 1 %}
+                        (필수)
+                    {% elif question.isRequired == 0 %}
+                        (선택)
+                    {% endif %}</p>   
+                <p><input type="checkbox">{{question.choice1}}</p>
+                <p><input type="checkbox">{{question.choice2}}</p>
+                <p><input type="checkbox">{{question.choice3}}</p>
+                <p><input type="checkbox">{{question.choice4}}</p>
+                <p><input type="checkbox">{{question.choice5}}</p>
+                <input class="q1" type="text" name="choice_text" value="{{q1.id}}">
+                <input class="q1" type="number" name="choice_answer" value="{{q1.id}}"> #value값 q.id인지 q1.id인지 모르겠어용 ㅠㅠ
+            {% endif %}
+            <br>
+            {% if question.type == 1 %}
+                <p>Q.{{question.content}}
+                {% if question.isRequired == 1 %}
+                    (필수)
+                {% elif question.isRequired == 0 %}
+                    (선택)
+                {% endif %}</p>
+                <input class="q2" type="text" name="short_answer" value="{{q2.id}}"> 
+            {% endif %}
+            <br>
+            {% if question.type == 2 %}
+                <p>Q.{{question.content}}
+                {% if question.isRequired == 1 %}
+                    (필수)
+                {% elif question.isRequired == 0 %}
+                    (선택)
+                {% endif %}</p>
+                <input class="q3" type="text" name="long_answer" value="{{q3.id}}">
+            {% endif %}           
+</body>
+<script>
+q1_question_id = $(".q1").val();
+q2_question_id = $(".q2").val();
+q3_question_id = $(".q3").val();
+long = $('.long_answer').val();
+short = $('.short_answer').val();
+choice_answer = $('.choice_answer').val();
+choice_text = $('.choice_text').val();
+var data = {
+    'q1': [0, choice_answer, choice_text],
+    'q2': [1, short],
+    'q3': [2, long]
+    }
+$.ajax({
+    type: "POST",
+    headers: {
+        'X-CSRFToken' : '{{csrf_token}}'
+    },
+    url: "{% url 'answer_form' %}",
+    data: JSON.stringify(data),
+    success: function(res) {
+        location.href = '/project/team_detail/' + '{{project.id}}'
+    },
+    error:function(request,status,error){
+        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+    }
+});
+
+</script>
+
+
+
+
+
+
+
+
+
+
+<!-- // var data = {
+    //     '(question_id)1': [0(타입), choice_answer(선택한답), choice_text(선택한 선지)],
+    //     '(question_id)2': [1(타입), short(선택한 선지)"],
+    //     '(question_id)3': [2(타입), long(선택한답)]
+// } -->

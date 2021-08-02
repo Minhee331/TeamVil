@@ -13,6 +13,7 @@
         <title>Document</title>
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
         <link rel="stylesheet" href="{% static 'css/alarm_detail.css' %}">
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     </head>
     
     <body>
@@ -22,9 +23,8 @@
         <div class="alarm_detail-container content">
 
             {% for alarm in alarms %}
-
             <div class="alarm_detail-item">
-                
+
                 <span class="alarm_detail-title">  
                     {% if alarm.type == 0 %}
                     멤버 좋아요
@@ -47,21 +47,61 @@
 
                 <span class="alarm_detail-content">
                     {% if alarm.type == 0 %}
-                    <a href="{{alarm.url}}">"{{alarm.like_id.from_user_id}}"님이 당신을 좋아합니다.</a>
+                        {% for profile in profiles %}
+                            {% if alarm.like_id.from_user_id == profile.user_id %}
+                            <a class="alarm_detail-url alarm_{{alarm.id}}" value="{{alarm.id}}" href="{{alarm.url}}">"{{profile}}"님이 당신을 좋아합니다.</a>
+                            {% endif %}
+                        {% endfor %}
+
                     {% elif alarm.type == 1 %}
-                    <a href="{{alarm.url}}">"{{alarm.like_id.from_user_id}}"님이 "{{alarm.like_id.project_id}}"프로젝트를 좋아합니다.</a>
+                        {% for profile in profiles %}
+                            {% if alarm.like_id.from_user_id == profile.user_id %}
+                            <a href="{{alarm.url}}">"{{profile}}"님이 "{{alarm.like_id.project_id}}"프로젝트를 좋아합니다.</a>
+                            {% endif %}
+                        {% endfor %}    
+
                     {% elif alarm.type == 2 %}
-                    <a href="{{alarm.url}}">"{{alarm.scrap_id.from_user_id}}"님이 당신을 좋아합니다.</a>
+                        {% for profile in profiles %}
+                            {% if alarm.scrap_id.from_user_id == profile.user_id %}
+                            <a href="{{alarm.url}}">"{{profile}}"님이 당신을 스크랩 했습니다.</a>
+                            {% endif %}
+                        {% endfor %} 
+
                     {% elif alarm.type == 3 %}
-                    <a href="{{alarm.url}}">"{{alarm.scrap_id.from_user_id}}"님이 "{{alarm.scrap_id.project_id}}"프로젝트를 좋아합니다.</a>
+                        {% for profile in profiles %}
+                            {% if alarm.scrap_id.from_user_id == profile.user_id %}
+                            <a href="{{alarm.url}}">"{{profile}}"님이 "{{alarm.scrap_id.project_id}}"프로젝트를 스크랩 했습니다.</a>
+                            {% endif %}
+                        {% endfor %} 
+
                     {% elif alarm.type == 4 %}
-                    <a href="{{alarm.url}}">"{{alarm.member_id.user_id}}"님이 "{{alarm.member_id.project_id}}"프로젝트 "{{alarm.member_id.duty_id}}"직무에 지원했습니다.</a>
+                        {% for profile in profiles %}
+                            {% if alarm.member_id.user_id == profile.user_id %}
+                            <a href="{{alarm.url}}">"{{profile}}"님이 "{{alarm.member_id.project_id}}"프로젝트 "{{alarm.member_id.duty_id}}"직무에 지원했습니다.</a>
+                            {% endif %}
+                        {% endfor %} 
+
                     {% elif alarm.type == 5 %}
-                    <a href="{{alarm.url}}">"{{alarm.member_id.user_id}}"님이 "{{alarm.member_id.project_id}}"프로젝트 "{{alarm.member_id.duty_id}}"직무 지원을 승인했습니다.</a>
+                        {% for profile in profiles %}
+                            {% if alarm.member_id.user_id == profile.user_id %}
+                            <a href="{{alarm.url}}">"{{profile}}"님이 "{{alarm.member_id.project_id}}"프로젝트 "{{alarm.member_id.duty_id}}"직무 지원을 승인했습니다.</a>
+                            {% endif %}
+                        {% endfor %} 
+
                     {% elif alarm.type == 6 %}
-                    <a href="{{alarm.url}}">"{{alarm.member_id.user_id}}"님이 "{{alarm.member_id.project_id}}"프로젝트 "{{alarm.member_id.duty_id}}"직무에 초대했습니다.</a>
+                        {% for profile in profiles %}
+                            {% if alarm.member_id.user_id == profile.user_id %}
+                            <a href="{{alarm.url}}">"{{profile}}"님이 "{{alarm.member_id.project_id}}"프로젝트 "{{alarm.member_id.duty_id}}"직무에 초대했습니다.</a>
+                            {% endif %}
+                        {% endfor %} 
+
                     {% else %}
-                    <a href="{{alarm.url}}">"{{alarm.member_id.user_id}}"님이 "{{alarm.member_id.project_id}}"프로젝트 "{{alarm.member_id.duty_id}}"직무 지원을 거절했습니다.</a>
+                        {% for profile in profiles %}
+                            {% if alarm.member_id.user_id == profile.user_id %}
+                            <a href="{{alarm.url}}">"{{profile}}"님이 "{{alarm.member_id.project_id}}"프로젝트 "{{alarm.member_id.duty_id}}"직무 지원을 거절했습니다.</a>
+                            {% endif %}
+                        {% endfor %}
+                        
                     {% endif %}
                 </span>
 

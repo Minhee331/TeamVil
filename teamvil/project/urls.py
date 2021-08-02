@@ -19,12 +19,14 @@ urlpatterns = [
     path('latestTeam/', views.latestTeam, name="latestTeam"),
     path('like/',views.like, name="like"),
     path('likecancel/',views.likecancel, name = "likecancel"),
+    path('scrap/', views.scrap, name="scrap"),
+    path('scrapcancels/',views.scrapcancel, name="scrapcancel"),
     path('team_application/',views.team_application, name = "team_application"),
     path('team_review/<int:project_id>', views.team_review, name = "team_review"),
     path('team_review_form/', views.team_review_form, name="team_review_form"),
     path('team_apply_form_back/<int:project_id>',views.question_form, name="question_form"),
     path('team_apply_back_sunneng/<int:project_id>',views.team_apply, name="team_apply"),
-    path('team_answer_form_back_sunneng/<int:project_id>',views.answer_form, name="answer_form"),
+    # path('team_answer_form_back_sunneng/<int:question_id>',views.answer_form, name="answer_form"), 
 
     # kay
     path('team_new/', views.team_new, name = "team_new"),

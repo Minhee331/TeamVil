@@ -88,5 +88,5 @@ class User_review(models.Model):
 class Message(models.Model):
     from_user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="from_user_id", related_name="message_from_user_id")
     to_user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="to_user_id", related_name="message_to_user_id")
-    send_date = models.DateTimeField(auto_now_add= True)
+    send_date = models.DateTimeField(default=timezone.now)
     content = models.CharField(max_length=1000)

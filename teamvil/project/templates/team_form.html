@@ -158,6 +158,7 @@
         var newSelectOptionBtnDiv = document.createElement("div");
         newSelectOptionBtnDiv.setAttribute("class", "member_search-select-state-button");
         var newSelectOptionBtn = document.createElement("p");
+        newSelectOptionBtn.setAttribute("class", "team_form-drop-select");
         var newSelectOptionBtnText = document.createTextNode("2개");
         newSelectOptionBtn.appendChild(newSelectOptionBtnText);
         newSelectOptionBtnDiv.appendChild(newSelectOptionBtn);
@@ -175,18 +176,26 @@
         var newSelectOptionText1 = document.createTextNode("2개");
         newSelectOption1.appendChild(newSelectOptionText1);
         newSelectOptionList.appendChild(newSelectOption1);
+        newSelectOption1.setAttribute("id", "2개");
+        newSelectOption1.setAttribute("onclick", "changeDrop2(this)");
         var newSelectOption2 = document.createElement("a");
         var newSelectOptionText2 = document.createTextNode("3개");
         newSelectOption2.appendChild(newSelectOptionText2);
         newSelectOptionList.appendChild(newSelectOption2);
+        newSelectOption2.setAttribute("id", "3개");
+        newSelectOption2.setAttribute("onclick", "changeDrop3(this)");
         var newSelectOption3 = document.createElement("a");
         var newSelectOptionText3 = document.createTextNode("4개");
         newSelectOption3.appendChild(newSelectOptionText3);
         newSelectOptionList.appendChild(newSelectOption3);
+        newSelectOption3.setAttribute("id", "4개");
+        newSelectOption3.setAttribute("onclick", "changeDrop4(this)");
         var newSelectOption4 = document.createElement("a");
         var newSelectOptionText4 = document.createTextNode("5개");
         newSelectOption4.appendChild(newSelectOptionText4);
         newSelectOptionList.appendChild(newSelectOption4);
+        newSelectOption4.setAttribute("id", "5개");
+        newSelectOption4.setAttribute("onclick", "changeDrop5(this)");
         newSelectOptionListDiv.appendChild(newSelectOptionList);
         newSelectOptionDiv.appendChild(newSelectOptionListDiv);
         newExtraDiv.appendChild(newSelectOptionDiv);
@@ -256,7 +265,35 @@
             $(currentClass).removeClass('active');
             $(currentClass).addClass('hidden');
         }
-    }); 
+    });
+
+    function changeDrop2(thisOption) {
+        let current = document.getElementsByClassName('team_form-drop-select');
+        let change = document.getElementById('2개');
+
+        thisOption.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].innerText = "2개";
+    }
+
+    function changeDrop3() {
+        let current = document.getElementsByClassName('team_form-drop-select');
+        let change = document.getElementById('3개');
+
+        thisOption.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].innerText = "3개";
+    }
+
+    function changeDrop4() {
+        let current = document.getElementsByClassName('team_form-drop-select');
+        let change = document.getElementById('4개');
+
+        thisOption.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].innerText = change.id;
+    }
+
+    function changeDrop5() {
+        let current = document.getElementsByClassName('team_form-drop-select');
+        let change = document.getElementById('5개');
+
+        thisOption.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].innerText = change.id;
+    }
 
     // toggle
     $(document).on('click', '.toggleBG', function () {
