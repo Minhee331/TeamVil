@@ -14,8 +14,6 @@
     </head>
     <body>
         {% include 'navbar.html' %}
-        <!-- <a href="//www.career.go.kr/cnet/openapi/getOpenApi?apiKey=d0c42cdd7e8461cfb295b56acc8bdc54&svcType=api&svcCode=SCHOOL&contentType=json&gubun=elem_list&searchSchulNm=고림">ㅇㅇㅇ</a> -->
-        <!-- <iframe src="//www.career.go.kr/cnet/iframe/School.do?apiKey=d0c42cdd7e8461cfb295b56acc8bdc54&gubun=high_list" scrolling="no" name="ce" width="1000" height="1080" frameborder="0" style="border-width:0px;border-color:white; border-style:solid;"> </iframe> -->
 
         <div class="member_detail-all">
             <div class="member_detail-container">
@@ -144,10 +142,6 @@
         </div>
 
 
-        
-        
-        
-        
         <hr class="member_detail-profile-middleline">
 
         <div class="member_detail-profile-etc-container">
@@ -156,80 +150,60 @@
             </div>
         </div>
 
-
-        <div id="chart-container">
-
-        <div id="chart">
-
-        </div>
-
         <script>
-            var colors = [
-            '#008FFB',
-            '#00E396',
-            '#FEB019',
-            '#FF4560',
-            '#775DD0',
-            ]
-        </script>
-
-
-        <script>
-            var review_list = {{user_review}};
             var options = {
-            series: [{
-            data: review_list
-            }],
-            chart: {
-            height: 350,
-            type: 'bar',
-            events: {
-                click: function(chart, w, e) {
-                // console.log(chart, w, e)
+                series: [{
+                data: [21, 22, 10, 28, 16, 21, 13, 30]
+              }],
+                chart: {
+                height: 350,
+                type: 'bar',
+                events: {
+                  click: function(chart, w, e) {
+                    // console.log(chart, w, e)
+                  }
                 }
-            }
-            },
-            colors: colors,
-            plotOptions: {
-            bar: {
-                columnWidth: '45%',
-                distributed: true,
-            }
-            },
-            dataLabels: {
-            enabled: false
-            },
-            legend: {
-            show: false
-            },
-            xaxis: {
-            categories: [
-                '1점',
-                '2점',
-                '3점',
-                '4점',
-                '5점',
-            ],
-            labels: {
-                style: {
-                colors: colors,
-                fontSize: '12px'
+              },
+              colors: colors,
+              plotOptions: {
+                bar: {
+                  columnWidth: '45%',
+                  distributed: true,
                 }
-            }
-            },
-            yaxis: {
-                show: true,
-                tickAmount: 1,
-                opposite: false,
-                minwidth: 1,
-            }
-            };
-
-            var chart = new ApexCharts(document.querySelector("#chart"), options);
-            chart.render();
+              },
+              dataLabels: {
+                enabled: false
+              },
+              legend: {
+                show: false
+              },
+              xaxis: {
+                categories: [
+                  ['John', 'Doe'],
+                  ['Joe', 'Smith'],
+                  ['Jake', 'Williams'],
+                  'Amber',
+                  ['Peter', 'Brown'],
+                  ['Mary', 'Evans'],
+                  ['David', 'Wilson'],
+                  ['Lily', 'Roberts'], 
+                ],
+                labels: {
+                  style: {
+                    colors: colors,
+                    fontSize: '12px'
+                  }
+                }
+              }
+              };
+      
+              var chart = new ApexCharts(document.querySelector("#chart"), options);
+              chart.render();
         </script>
 
-        </div>
+
+
+
 
 
         {% include 'footer.html' %}  

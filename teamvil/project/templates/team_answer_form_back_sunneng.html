@@ -29,8 +29,8 @@
                 <p><input type="checkbox">{{question.choice3}}</p>
                 <p><input type="checkbox">{{question.choice4}}</p>
                 <p><input type="checkbox">{{question.choice5}}</p>
-                <input class="q1" type="text" name="choice_text" value="{{q1.id}}">
-                <input class="q1" type="number" name="choice_answer" value="{{q1.id}}"> #value값 q.id인지 q1.id인지 모르겠어용 ㅠㅠ
+                <input class="q1" type="text" name="choice_text" value="{{q.id}}">
+                <input class="q1" type="number" name="choice_answer" value="{{q.id}}"> #value값 q.id인지 q1.id인지 모르겠어용 ㅠㅠ
             {% endif %}
             <br>
             {% if question.type == 1 %}
@@ -40,7 +40,7 @@
                 {% elif question.isRequired == 0 %}
                     (선택)
                 {% endif %}</p>
-                <input class="q2" type="text" name="short_answer" value="{{q2.id}}"> 
+                <input class="q2" q_id = {{question.id}} type="text" name="short_answer"> 
             {% endif %}
             <br>
             {% if question.type == 2 %}
@@ -50,21 +50,21 @@
                 {% elif question.isRequired == 0 %}
                     (선택)
                 {% endif %}</p>
-                <input class="q3" type="text" name="long_answer" value="{{q3.id}}">
+                <input class="q3" q_id = {{question.id}} type="text" name="long_answer">
             {% endif %}           
 </body>
 <script>
-q1_question_id = $(".q1").val();
+q1_question_id = $(".q1").attr('q_id');
 q2_question_id = $(".q2").val();
 q3_question_id = $(".q3").val();
-long = $('.long_answer').val();
-short = $('.short_answer').val();
+long = $('.q3[name=long_answer]').val();
+short = $('.q2').val();
 choice_answer = $('.choice_answer').val();
 choice_text = $('.choice_text').val();
 var data = {
-    'q1': [0, choice_answer, choice_text],
-    'q2': [1, short],
-    'q3': [2, long]
+    'q1': [0, q1_question_id, choice_answer, choice_text],
+    'q2': [1, q2_question_id, short],
+    'q3': [2, q3_question_id, long]
     }
 $.ajax({
     type: "POST",

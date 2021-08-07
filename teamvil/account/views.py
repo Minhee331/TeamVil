@@ -53,8 +53,14 @@ def member_detail(request, profile_id):
     carrers = User_carrer.objects.filter(user_id = profile.user_id)
     user_links = User_link.objects.filter(user_id = profile.user_id)
     user_files = User_file.objects.filter(user_id = profile.user_id)
+    user_review_1 = len(User_review.objects.filter(to_user_id = profile.user_id, total = 1))
+    user_review_2 = len(User_review.objects.filter(to_user_id = profile.user_id, total = 2))
+    user_review_3 = len(User_review.objects.filter(to_user_id = profile.user_id, total = 3))
+    user_review_4 = len(User_review.objects.filter(to_user_id = profile.user_id, total = 4))
+    user_review_5 = len(User_review.objects.filter(to_user_id = profile.user_id, total = 5))
+    user_review = [user_review_1, user_review_2, user_review_3, user_review_4, user_review_5]
     return render(request, "member_detail.html", {"profile":profile, "carrers":carrers,
-                "user_links": user_links, "user_files": user_files})
+                "user_links": user_links, "user_files": user_files, "user_review": user_review})
 
 def member_detail_back(request, profile_id):
     profile = Profile.objects.get(id = profile_id)
@@ -119,6 +125,47 @@ def signup(request):
             return redirect('/')
     else :
         return render(request, 'signup.html')
+
+def signup_k(request):
+    if request.method == "POST": 
+        obj = json.loads(request.body)  
+        user_name= obj['name']
+        user_id = obj['id']
+        if User.objects.filter(username=id).exists():
+            auth.login(request)
+            return render(request, 'signup.html')   
+        else:
+            user = User.objects.create_user(username=user_id, password='0000')
+            profile = Profile()
+            profile.user_id = user
+            profile.name = user_name
+            mbti = Mbti.objects.get(id=1)
+            profile.mbti_id =  mbti# 추후 수정 필요
+            mbti.mbti_cnt = mbti.mbti_cnt + 1
+            mbti.save()
+            profile.email = "email" # 추후 수정 필요
+            profile.phone =  "010-1234-5678"
+            profile.birthday = "2021-07-10" # 추후 수정 필요
+            profile.region1_id = Region1.objects.get(id=1) # 추후 수정 필요
+            profile.region2_id = Region2.objects.get(id=1) # 추후 수정 필요
+            profile.openPhone = 0
+            profile.openEmail = 0 
+            profile.term_id =  Term.objects.get(id=1) # 추후 수정 필요
+            profile.field1_id = Field1.objects.get(id=1) # 추후 수정 필요
+            profile.field2 = "Field2" # 추후 수정 필요
+            profile.state = 1 
+            profile.job_id =  Job.objects.get(id=1) # 추후 수정 필요
+            profile.isLink = 0
+            profile.isFile =0
+            profile.isCarrer = 0 
+            profile.photo = "Photo" # 추후 수정 필요
+            profile.isReview = 0
+            profile.save()
+            auth.login(request, user)
+            return render(request, 'signup.html')
+    else :
+        return render(request, 'signup.html')
+
         
 # 로그인 함수
 def login(request):

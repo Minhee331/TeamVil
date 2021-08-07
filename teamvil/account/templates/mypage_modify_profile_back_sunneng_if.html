@@ -1,0 +1,96 @@
+{% load custom_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  {% block content %}
+  <form method="POST" action="{% url 'mypage_modify_profile_update'  %}" enctype ="multipart/form-data">
+    {% csrf_token %} 
+      {% if profile.submit %}
+      <h2>이름:</h2>
+        <input type="text" name="name" value={{profile.name}}>    
+      <h2>직업:</h2>
+        <select name="job_id">
+          {% for job in job %}
+          <option {% if job == profile.job_id %} selected {% endif %} value={{job.id}}>{{job.job}}</option>
+          {% endfor %} -->
+        </select>  
+      <h2>생년월일:</h2> 
+        <input type='date' name="birthday" value={% DateFormat profile.birthday %}>  
+      <h2>지역:</h2> 
+        <select name="region1_id">
+          {% for region in region1 %}
+          <option {% if region == profile.region1_id %} selected {% endif %} value={{region.id}}>{{region.region1}}</option>
+          {% endfor %}
+        </select>
+        <select name="region2_id">
+          {% for region in region2 %}
+          <option {% if region == profile.region2_id %} selected {% endif %} value={{region.id}}>{{region.region2}}</option>
+          {% endfor %}
+        </select>
+      <h2>상태:</h2> 
+        <select name="state">
+          <option {% if profile.state == 0 %} selected {% endif %} value="0">팀 참여중</option>
+          <option {% if profile.state == 1 %} selected {% endif %} value="1">팀 찾는중</option>
+          <option {% if profile.state == 2 %} selected {% endif %} value="2">휴식중</option>
+        </select>
+      <h2>관심분야:</h2>
+        <select name="field1_id">
+          {% for field in field1 %}
+          <option {% if field == profile.field1_id %} selected {% endif %} value={{field.id}}>{{field.field1}}</option>
+          {% endfor %}
+        </select>
+      <h2>관심분야_detail:</h2> 
+        <input type="int" name="field2" value={{profile.field2}}>
+      <h2>선호기간:</h2> 
+        <select name="term_id">
+          {% for term in term %}
+          <option {% if term == profile.term_id %} selected {% endif %} value={{term.id}}>{{term.term}} | {% if term.term_type %} 장기 {% else %} 단기 {% endif %}</option>
+          {% endfor %}
+        </select>
+      <h2>MBTI:</h2>
+        <select name="mbti_id">
+          {% for mbti in mbti %}
+          <option {% if mbti == profile.mbti_id %} selected {% endif %} value={{mbti.id}}>{{mbti.mbti}}</option>
+          {% endfor %}
+        </select>
+        <input type="text" name="mbti_detail" value={{profile.mbti_detail}}>
+      <h2>연락처:</h2>
+        <input type="int" name="phone" value={{profile.phone}}>
+      <h2>이메일:</h2>
+        <input type="text" name="email" value={{profile.email}}>
+      <h2>pr:</h2>
+        <textarea name="pr" cols="20" rows="10">{{profile.pr}}</textarea>
+      <h2>경력:</h2>
+        <textarea name="user_carrers" cols="60" rows="5 ">
+          {% for user_carrer in user_carrers %}
+          커리어:{{user_carrer.content}}
+          시작날짜:{{user_carrer.start_date}}~종료날짜:{{user_carrer.end_date}} 
+          {% endfor %} 
+        </textarea>
+      <h2>링크:</h2>
+        <input type="link" name="user_links" multiple>
+          {% for user_link in user_links %}
+          <p>링크:{{user_link.link}}</p> 
+          {% endfor %}
+        <br>
+      <h2>파일:</h2>
+        <input type="file" name="user_files" multiple>
+          {% for user_file in user_files %}
+          <p>파일:{{user_file.file}}</p> <br>
+          {% endfor %}
+        <br>
+      {% else %}
+      111
+      {% endif %}
+      <input type="submit" value="수정하기"> 
+  </form>
+  {% endblock %}
+</body>
+  

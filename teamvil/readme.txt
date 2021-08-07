@@ -87,4 +87,6 @@
 210728 자운 | account.views.py , project.views.py, base.css |  멤버/팀 좋아요 알람기능 추가, footer하단고정
 210728 유림 | community copy | community기능 합치기 (list 정렬, 글쓰기 기능)
 210728 건영 | project.views.py,team_apply_back_sunneng,team_answer_form_back_sunneng | team_apply 수정, team_apply_back_sunneng,,team_answer_form_back_sunneng.html생성및 url연결
-210802 민희 | messgae, info | message, info css, 기능 구현
+210802 민희 | message, info | message, info css, 기능 구현
+210807 유림 | team_new_back_S | 학교검색 및 자동완성 구현 
+210808 건영 | account_login, account.views |  login.html 카카오톡으로 로그인 기능 구현,네이버로 로그인 기능 시작

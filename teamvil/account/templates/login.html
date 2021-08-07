@@ -11,24 +11,32 @@
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
         <link rel="stylesheet" href="{% static 'css/login.css' %}">
         <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+        <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     </head>
 
     <body>
 
         {% include 'navbar.html' %}
 
-            {% block content %}
-
                 <form class="login-container" method="POST" action="{% url 'login' %}">
 
-                    {% csrf_token %}
+                    {% csrf_token %}    
 
                     <p class="login-title">Login</p>
                     <p class="login-more-title">다른 서비스로 로그인</p>
 
+                    <!-- <a href="javascript:kakaoLogin();"><img src="https://thumb.mt.co.kr/06/2021/01/2021012613224873686_1.jpg/dims/optimize/" style="height:60px;width:auto;"></a> -->
+                    <a id="custom-login-btn" href="javascript:loginWithKakao()">
+                        <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="222"/>
+                    </a>
+                    <a id="custom-login-btn" href="javascript:LoginWithNaverId()">
+                        <img src="https://mblogthumb-phinf.pstatic.net/MjAxODA4MDNfMjIx/MDAxNTMzMjY4NzQ4NDUx.pp5qAnsfJcB8wF7_bWk9X_E0Gn4OZiFwmq4dJ0fpGn0g.kElju0PYLStsSwU9rA8zlqEuXa9pO77qWoN3VTOtDvcg.PNG.thdbsgh3443/%25EC%258A%25A4%25ED%2581%25AC%25EB%25A6%25B0%25EC%2583%25B7_2018-08-03_%25EC%2598%25A4%25ED%259B%2584_12.58.53.png?type=w800" width="222"/>
+
                     <div class="login-icon-container">
                         <a href=""><span class="iconify" data-icon="vs:naver-square" data-inline="false"></span></a>
-                        <a href=""><span class="iconify" data-icon="akar-icons:instagram-fill" data-inline="false"></span></a>
                         <a href=""><span class="iconify" data-icon="akar-icons:facebook-fill" data-inline="false"></span></a>
                         <a href=""><span class="iconify" data-icon="akar-icons:google-fill" data-inline="false"></span></a>
                         <a href=""><span class="iconify" data-icon="akar-icons:github-fill" data-inline="false"></span></a>
@@ -51,7 +59,6 @@
                     
                         <input class="login-submit" type="submit" value="로그인">
                     </div>
-
                     <div class="login-more-container">
                         <label class="login-keep"><input type="checkbox" name="remember_session" checked>로그인 상태 유지</label>
                         <!-- 라벨로 감싸서 전체선택 가능하게 할건지? -->
@@ -59,15 +66,88 @@
                         <hr class="login-hr">
                         <a href="{% url 'signup'  %}">회원가입</a>  
                     </div>    
-
                 </form>
-
-        {% endblock %}
-
         {% include 'footer.html' %} 
-
     </body> 
+    <script>
+        Kakao.init('451c45669ba670a95f8a31e787ce122c');
+        Kakao.isInitialized();
+        function loginWithKakao() {
+            Kakao.Auth.login({
+                success: function(authObj) {
+                    console.log(JSON.stringify(authObj));
+                    Kakao.API.request({
+                        url: '/v2/user/me',
+                        data: {
+                            property_keys: ["kakao_account.profile.nickname"]
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            let name = response["kakao_account"]["profile"]["nickname"]
+                            let id = "k"+response['id']
+                            var data = {
+                                'name' : name,
+                                'id' : id
+                            }
+                            // console.log(authObj.access_token);
+                            // document.write(response.nickname+"님 환영합니다.");
+                            $.ajax({
+                                type: "POST",
+                                url: "{% url 'signup_k' %}",
+                                headers: {
+                                    'X-CSRFToken' : '{{csrf_token}}'
+                                },
+                                data: JSON.stringify(data),
+                                success : function(res){
+                                    // if(idChk==true)
+                                    //     console.log("회원가입중...");
+                                    //     $.ajax({
+                                    //         url: "{% url 'signup_k' %}",
+                                    //         method : "POST",
+                                    //         headers: {
+                                    //             'X-CSRFToken' : '{{csrf_token}}'
+                                    //         },
+                                    //         data : JSON.stringify({
+                                    //             userId : response.id,
+                                    //             userName : response.nickname,
+                                    //             }),
+                                    //             success : function(JSONData){
+                                    //             alert("회원가입이 정상적으로 되었습니다.");
+                                    //             $("form").attr("method","POST").attr("action","/").attr("target","_parent").submit();
+                                    //         }
+                                    //     })
+                                    //     if(idChk==false){ 
+                                    //         console.log("로그인중...");
+                                    //         $("form").attr("method","POST").attr("action","/account/signup_k/").attr("target","_parent").submit();
+                                    //     }
+                                    console.log('success!!')
+                                    location.replace('/');
+                                }
+                            });
+                        },
+                        fail: function(error) {
+                            console.log(error);
+                        }
+                    });
+                },
+                fail: function(err) {
+                    alert(JSON.stringify(err));         
+                }
+            });
+        }
+    </script>
 
+    <script type="text/javascript">
+        var naverLogin = new naver.LoginWithNaverId(
+		{
+			clientId: "6NbrDH2vMjug5Mc8GT67",
+			callbackUrl: "http://localhost:3000",
+			isPopup: false, /* 팝업을 통한 연동처리 여부 */
+			loginButton: {color: "green", type: 3, height: 50} /* 로그인 버튼의 타입을 지정 */
+		}
+    );
+    naverLogin.init();
+    </script>
 </html>
 
 

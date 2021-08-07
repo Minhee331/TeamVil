@@ -7,10 +7,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Document</title>
         <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     </head>
     
     <body>
+       
         <div class='container'>
             
             <h4>프로젝트 종류</h4>
@@ -122,13 +122,8 @@
 
                 <h4>(선택)학교</h4>
                     <!-- 학교 DB 만들어 받아와주기 필요. 보류 -->
-                    <select class="schooltype" name="school" onchange="changeType()">
-                        <option value="중학교" class="mid" selected>중학교</option>
-                        <option value="고등학교" class="high">고등학교</option>
-                        <option value="대학교" class="univ">대학교</option>
-                    </select>
-                    <input class="word" name="school" placeholder="검색어를 입력하세요." onkeyup="search(this);">
-                    <ul type="list" class="schoollist"></ul>
+                    <p>dd</p>
+                    <a href = "http://career.go.kr/cnet/openapi/getOpenApi?apiKey=d0c42cdd7e8461cfb295b56acc8bdc54&svcType=api&svcCode=SCHOOL&contentType=json&gubun=midd_list&searchSchulNm=정발">ddd</a>
                 <br>
                 <br>
 
@@ -157,79 +152,4 @@
             </form>
         </div>
     </body>
-    <script>
-        function addSchool(name){
-            $('.word').val(name);
-        }
-        var url = "//www.career.go.kr/cnet/openapi/getOpenApi.json?apiKey=d0c42cdd7e8461cfb295b56acc8bdc54&svcType=api&svcCode=SCHOOL&contentType=json&gubun=midd_list&searchSchulNm=";
-        function changeType(){
-            type = $('.schooltype option:selected').val();
-            if(type =="고등학교") url = "//www.career.go.kr/cnet/openapi/getOpenApi.json?apiKey=d0c42cdd7e8461cfb295b56acc8bdc54&svcType=api&svcCode=SCHOOL&contentType=json&gubun=high_list&searchSchulNm=";
-            if(type =="대학교") url = "//www.career.go.kr/cnet/openapi/getOpenApi.json?apiKey=d0c42cdd7e8461cfb295b56acc8bdc54&svcType=api&svcCode=SCHOOL&contentType=json&gubun=univ_list&searchSchulNm=";
-            $('.word').val('');
-            $(".schoollist").empty();
-        }
-        function search(target){
-            var word = target.value;
-            var encodeWord = encodeURI(word);
-            $(".schoollist").empty();
-            //중학교
-            // url = "//www.career.go.kr/cnet/openapi/getOpenApi.json?apiKey=d0c42cdd7e8461cfb295b56acc8bdc54&svcType=api&svcCode=SCHOOL&contentType=json&gubun=midd_list&searchSchulNm="+word;
-            $.ajax({
-                type:"GET",
-                dataType:"json",
-                url: url+word,
-                success: function(res){
-                    var completeWord = $(".word").val();
-                    if(completeWord.length>0 && res.dataSearch.content.length>0){
-                        for(i=0; i<res.dataSearch.content.length; i++){
-                            $(".schoollist").append( 
-                            "<div onclick=addSchool('"+res.dataSearch.content[i].schoolName+"')><li class='schlist' value='" + res.dataSearch.content[i].schoolName + "'>" + res.dataSearch.content[i].schoolName + "</li></div>");
-                        } 
-                    }else{
-                        $(".schoollist").append("<li class='schlist'>검색결과가 없습니다.</li>");
-                    }
-                },
-                error: function(err){
-                    console.log("실행중 오류가 발생하였습니다.");
-                }
-            })
-            // //고등학교
-            // $.ajax({
-            //     type:"GET",
-            //     dataType:"json",
-            //     url: "//www.career.go.kr/cnet/openapi/getOpenApi.json?apiKey=d0c42cdd7e8461cfb295b56acc8bdc54&svcType=api&svcCode=SCHOOL&contentType=json&gubun=high_list&searchSchulNm="+word,
-            //     success: function(res){
-            //         var completeWord = $(".word").val();
-            //         if(completeWord.length>0 && res.dataSearch.content.length>0){
-            //             for(i=0; i<res.dataSearch.content.length; i++){
-            //                 $(".schoollist").append( 
-            //                 "<div onclick=addSchool('"+res.dataSearch.content[i].schoolName+"')><li class='schlist' value='" + res.dataSearch.content[i].schoolName + "'>" + res.dataSearch.content[i].schoolName + "</li></div>");
-            //             } 
-            //         }
-            //     },
-            //     error: function(err){
-            //         console.log("실행중 오류가 발생하였습니다.");
-            //     }
-            // })
-            // //대학교
-            // $.ajax({
-            //     type:"GET",
-            //     dataType:"json",
-            //     url: "//www.career.go.kr/cnet/openapi/getOpenApi.json?apiKey=d0c42cdd7e8461cfb295b56acc8bdc54&svcType=api&svcCode=SCHOOL&contentType=json&gubun=univ_list&searchSchulNm="+word,
-            //     success: function(res){
-            //         var completeWord = $(".word").val();
-            //         if(completeWord.length>0 && res.dataSearch.content.length>0){
-            //             for(i=0; i<res.dataSearch.content.length; i++){
-            //                 $(".schoollist").append( 
-            //                 "<div onclick=addSchool('"+res.dataSearch.content[i].schoolName+"')><li class='schlist' value='" + res.dataSearch.content[i].schoolName + "'>" + res.dataSearch.content[i].schoolName + "</li></div>");
-            //             } 
-            //         }
-            //     },
-            //     error: function(err){
-            //         console.log("실행중 오류가 발생하였습니다.");
-            //     }
-            // })
-        }
-    </script>
 </html>

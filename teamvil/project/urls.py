@@ -9,6 +9,7 @@ urlpatterns = [
     path('team_search_back_cloud/', views.team_search_back_cloud, name = "team_search_back_cloud"),
     path('team_detail_back/<int:project_id>', views.team_detail_back, name = "team_detail_back"),
     path('team_new_back_S/', views.team_new_back_S, name="team_new_back_S"),
+    path('team_new_back_S_if/', views.team_new_back_S, name="team_new_back_S"),
     path('team_new_back_C/', views.team_new_back_C, name="team_new_back_C"),
     path('team_new_back_P/', views.team_new_back_P, name="team_new_back_P"),
     path('team_create_back_S/', views.team_create_back_S, name="team_create_back_S"),
@@ -25,7 +26,7 @@ urlpatterns = [
     path('team_review/<int:project_id>', views.team_review, name = "team_review"),
     path('team_review_form/', views.team_review_form, name="team_review_form"),
     path('team_apply_form_back/<int:project_id>',views.question_form, name="question_form"),
-    path('team_apply_back_sunneng/<int:project_id>',views.team_apply, name="team_apply"),
+    path('team_apply_back/<int:project_id>',views.team_apply, name="team_apply"),
     # path('team_answer_form_back_sunneng/<int:question_id>',views.answer_form, name="answer_form"), 
 
     # kay

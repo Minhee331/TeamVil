@@ -49,20 +49,16 @@
                       </span>
 
                       <span class="star-input">
-                          <span class="input">
-                            <input type="text">
-                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p0.5" value="0.5"><label for="p0.5">0.5</label>
-                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p1" value="1"><label for="p1">1</label>
-                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p1.5" value="1.5"><label for="p1.5">1.5</label>
-                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p2" value="2"><label for="p2">2</label>
-                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p2.5" value="2.5"><label for="p2.5">2.5</label>
-                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p3" value="3"><label for="p3">3</label>
-                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p3.5" value="3.5"><label for="p3.5">3.5</label>
-                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p4" value="4"><label for="p4">4</label>
-                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p4.5" value="4.5"><label for="p4.5">4.5</label>
-                            <input class="radio_{{member.id}}" type="radio" name="star-input" id="p5" value="5"><label for="p5">5</label>
-                          </span>
-                          <output for="star-input" class="radio_{{member.id}}"><b>0</b>점</output>
+                        <input class="radio_{{member.id}}" type="radio" name="star-input_{{member.id}}" id="s1" value="1"><label class="star mem_{{member.id}}_1" mem_id="{{member.id}}" for="p1"></label>
+                        
+                        <input class="radio_{{member.id}}" type="radio" name="star-input_{{member.id}}" id="s2" value="2"><label class="star mem_{{member.id}}_2" mem_id="{{member.id}}" for="s2"></label>
+                        
+                        <input class="radio_{{member.id}}" type="radio" name="star-input_{{member.id}}" id="s3" value="3"><label class="star mem_{{member.id}}_3" mem_id="{{member.id}}" for="s3"></label>
+                        
+                        <input class="radio_{{member.id}}" type="radio" name="star-input_{{member.id}}" id="s4" value="4"><label class="star mem_{{member.id}}_4" mem_id="{{member.id}}" for="s4"></label>
+                        
+                        <input class="radio_{{member.id}}" type="radio" name="star-input_{{member.id}}" id="s5" value="5"><label class="star mem_{{member.id}}_5" mem_id="{{member.id}}" for="s5"></label>
+                          <!-- <output for="star-input" class="radio_{{member.id}}"><b>0</b>점</output> -->
                       </span>
 
                   </div>          
@@ -72,9 +68,9 @@
                   {% endfor %}
                     
                   <input class="team_review-submit" type="button" value="등록하기">
-                   
+                  
             </div>
- 
+
 
         {% include 'footer.html' %} 
 
@@ -92,9 +88,13 @@
         }
         var rating_list= []
         for(const item of id_list){
-          rating_list.push($('.radio_'+item).val());
+          // console.log($("input[name='star-input_3']").val())
+          len = document.getElementsByClassName('active radio_' + item);
+          // console.log($($("input[name=star-input_"+item+"][class=active]")))
+          // rating_list.push($('.radio_'+item).val());
+          rating_list.push(len.length);
         }
-        console.log(rating_list)
+        // console.log(rating_list)
         var data = {
             'id_list' : id_list,
             'content_list': content_list,
@@ -116,46 +116,54 @@
             }
         });
       });
-      var starRating = function(){
-        var $star = $(".star-input"),
-            $result = $star.find("output>b");
-        // 별점 영역 안에서 클릭됐을 때 / focus 클래스 추가 
-        $(document).on("focusin", ".star-input>.input", function(){
-          console.log(1);
-          $(this).addClass("focus");
-        })
-        // 별점 영역 안에서 클릭됐을 때 / 라디오 영역 바꿔줌
-        .on("change", ".star-input :radio", function(){
-          console.log(3);
-          $result.text($(this).next().text());
-        })
-        // 별점 영역 밖에서 클릭됐을 때 / 포커스 클래스 삭제 
-        .on("focusout", ".star-input>.input", function(){
-          var $this = $(this);
-          setTimeout(function(){
-            if($this.find(":focus").length === 0){
-              console.log(2);
-              $this.removeClass("focus");
-            }
-          }, 100);
-        })
-        // 호버링 시 실행되는 함수 / 마우스커서가 별점 안에 있을 떄
-        .on("mouseover", ".star-input label", function(){
-          console.log(4);
-          $result.text($(this).text());
-        })
-        // 호버링 시 실행되는 함수 / 마우스커서가 별점 밖에 있을 떄
-        .on("mouseleave", ".star-input>.input", function(){
-          console.log(5);
-          var $checked = $star.find(":checked");
-          if($checked.length === 0){
-            $result.text("0");
-          }else {
-            $result.text($checked.next().text());
-          }
-        });
-      };
-      starRating();
+      $('.star').on("click", function(){
+        mem_id = $(this).attr('mem_id');
+        val = $(this).prev().val(); 
+        $(`input[name=star-input_${mem_id}]`).removeClass('active');
+        for(var i=1; i<=val; i++){
+          $(`.mem_${mem_id}_${i}`).prev().addClass('active');
+        }
+      });
+      // var starRating = function(){
+      //   var $star = $(".star-input"),
+      //       $result = $star.find("output>b");
+      //   // 별점 영역 안에서 클릭됐을 때 / focus 클래스 추가 
+      //   $(document).on("focusin", ".star-input>.input", function(){
+      //     console.log(1);
+      //     $(this).addClass("focus");
+      //   })
+      //   // 별점 영역 안에서 클릭됐을 때 / 라디오 영역 바꿔줌
+      //   .on("change", ".star-input :radio", function(){
+      //     console.log(3);
+      //     $result.text($(this).next().text());
+      //   })
+      //   // 별점 영역 밖에서 클릭됐을 때 / 포커스 클래스 삭제 
+      //   .on("focusout", ".star-input>.input", function(){
+      //     var $this = $(this);
+      //     setTimeout(function(){
+      //       if($this.find(":focus").length === 0){
+      //         console.log(2);
+      //         $this.removeClass("focus");
+      //       }
+      //     }, 100);
+      //   })
+      //   // 호버링 시 실행되는 함수 / 마우스커서가 별점 안에 있을 떄
+      //   .on("mouseover", ".star-input label", function(){
+      //     console.log(4);
+      //     $result.text($(this).text());
+      //   })
+      //   // 호버링 시 실행되는 함수 / 마우스커서가 별점 밖에 있을 떄
+      //   .on("mouseleave", ".star-input>.input", function(){
+      //     console.log(5);
+      //     var $checked = $star.find(":checked");
+      //     if($checked.length === 0){
+      //       $result.text("0");
+      //     }else {
+      //       $result.text($checked.next().text());
+      //     }
+      //   });
+      // };
+      // starRating();
     </script>
 
 </html>

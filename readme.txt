@@ -92,3 +92,11 @@
 210730 자운 | member_search_back, team_search_back |  멤버/팀 스크랩 기능 구현, 멤버/팀 스크랩 알람 기능 추가.
 210731 자운 | alarm_detail, views.py |  html 에 user_id 가 아닌 profile.name 으로 표시되도록 수정, 알람 url 연결 수정, 알람체크시 DB입력되도록 수정
 210731 건영 | project.views.py,team_apply_back_sunneng,team_answer_form_back_sunneng|  team_apply_back_sunneng html,views 수정 완료, team_answer_form_back_sunneng html수정 
+210802 민희 | messgae, info | message, info css, 기능 구현
+210805 자운 | member_detail |  팀원평가 그래프 추가중
+210805 민희 | team_review |  별점 레이팅 기능 수정
+210807 건영 | account_login, account.views |  login.html 카카오톡으로 로그인 기능 시작
+210808 민희 | team_apply |  team_apply 객관식 질문 데이터 불러오기
+210808 자운 | member_deatil, account.views |  팀원평가 그래프 추가, 별점 데이터 받아오게 구현
+210808 유림 | team_new_back_S | 학교검색 및 자동완성 구현 
+210808 건영 | account_login, account.views |  login.html 카카오톡으로 로그인 기능 구현,네이버로 로그인 기능 시작

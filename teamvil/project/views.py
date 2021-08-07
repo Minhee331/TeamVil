@@ -307,7 +307,7 @@ def team_form(request):
 # 지원서 작성 폼
 @csrf_exempt
 def  question_form(request,project_id):
-    if request.method == "POST":
+    if request.method == "POST": # 저장 
         user = request.user
         project = Project.objects.get(id = project_id)
         q1 = Question()
@@ -367,7 +367,7 @@ def  question_form(request,project_id):
         apply_form.q3_id = q3
         apply_form.save()
         return redirect('/')
-    else:
+    else: # 페이지 불러올 때
         return render(request,"team_apply_form_back.html",{"project_id":project_id})
 
 
@@ -389,7 +389,7 @@ def team_apply(request,project_id):
         for question in questions:
             questionlist.append(question)
         questiondict[str(question.id)] = questionlist
-    return render(request,"team_apply_back_sunneng.html",{"question":question,"project_id":project_id,"project":project,"profile":profile,"duties":duties,"questiondict":questiondict.items()})
+    return render(request,"team_apply_back.html",{"question":question,"project_id":project_id,"project":project,"profile":profile,"duties":duties,"questiondict":questiondict.items()})
         # for i in range(0, len(question)):
         #     type=question[i].type
         #     if(type ==0):
@@ -418,15 +418,23 @@ def team_apply(request,project_id):
 def answer_form(request,project_id):
     if request.method == "POST":
         obj = json.loads(request.body)
-        q1 = obj['0', 'choice_answer', 'choice_text']
-        q2 = obj['short']
-        q3 = obj['long']
-        project = Project.objects.get(id=project_id)
-        question = Question.objects.filter(project_id = project)
+        q1 = obj['q1'] # ([0, choice_answer, choice_text])
+        # q1[0]
+        # q2 = obj['short']
+        # q3 = obj['long']
+        # if q1[0] == 0 :
+        #     q = Question.objects.get(id = q1[1])
+        #     ans = Answer()
+        #     # 객관식 답 저장
+        # if q2[0] == 1:
+        #     ans = Answer()
+        #     # 단답식 답 저장 
+        # project = Project.objects.get(id=project_id)
+        # question = Question.objects.filter(project_id = project)
         answer = Answer()
         answer.q1=q1
-        answer.q1=q2
-        answer.q1=q3
+        # answer.q1=q2
+        # answer.q1=q3
         answer.save()
             #이 다음부터는 아직 못채우겠어요...
         return redirect('/project/team_answer_form_back_sunneng/' + str(project_id))
@@ -469,6 +477,7 @@ def scrapcancel(request):
 
 
 
+#학교검색 함수
 
     
   
