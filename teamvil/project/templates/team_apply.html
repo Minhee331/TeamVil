@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+{% load custom_tags %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/team_apply.css' %}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    
+    <div class="team_apply-main-container">
+        <div class="team_apply-title-container spoqa-light">
+            <h5 class="spoqa-regular">{{project.title}}</h5>
+
+            {% if project.type == 0 %}
+                <p>창업 | {{project.field1_id.field1}}</p> 
+            {% elif project.type == 1 %}
+                <p>공모전 | {{project.field1_id.field1}}</p>
+            {% else %}
+                <p>프로젝트 | {{project.field1_id.field1}}</p>
+            {% endif %}
+
+            <p class="">by {{profile.name}}</p>
+        </div>
+
+        <div class="team_apply-content-container">
+            <div class="team_apply-select-task-container">
+                <h6 class="spoqa-regular">지원 분야 선택</h6>
+
+                <div class="team_apply-tasks">
+                    {% for duty in duties %}
+                        <div class="team_apply-task">
+                            <p>{{duty.name}} | {{duty.now}} / {{duty.total}}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="team_apply-profile-container">
+                <h6 class="spoqa-regular">본인 프로필 제공 동의</h6>
+                
+                <input type="checkbox">
+                
+                <p>프로필 설정시 입력한 정보가 자동으로 제공됩니다!</p>
+            </div>
+
+            <div class="team_apply-question-container">
+                <h6 class="spoqa-regular">프로젝트 리더가 묻습니다!</h6>
+
+                <div class="team_apply-questions">
+                    {% for questionlist,questions in questiondict %}
+                        {% if question.id|stringformat:"i" == questionlist %}
+                            {% for question in questions %}
+                                {% if question.type == 0 %}
+                                    <div class="team_apply-question spoqa-regular">
+                                        {% if question.isRequired == 1 %}
+                                            <p class="team_apply-essential">*</p>
+                                        {% endif %}
+
+                                        <p class="">{{question.content}}</p>
+                                    </div>
+                                    
+                                    <div>
+                                        {% if question.choice1 is not None %}<input type="checkbox">{{question.choice1}}{% endif %}
+                                        {% if question.choice2 is not None %}<input type="checkbox">{{question.choice2}}{% endif %}
+                                        {% if question.choice3 is not None %}<input type="checkbox">{{question.choice3}}{% endif %}
+                                        {% if question.choice4 is not None %}<input type="checkbox">{{question.choice4}}{% endif %}
+                                        {% if question.choice5 is not None %}<input type="checkbox">{{question.choice5}}{% endif %}
+                                    </div>
+                                {% endif %}
+
+                                {% if question.type == 1 %}
+                                    <div class="team_apply-question spoqa-regular">
+                                        {% if question.isRequired == 1 %}
+                                            <p class="team_apply-essential">*</p>
+                                        {% endif %}
+
+                                        <p class="">{{question.content}}</p>
+                                    </div>
+
+                                    <input type="text">
+                                {% endif %}
+
+                                {% if question.type == 2 %}
+                                    <div class="team_apply-question spoqa-regular">
+                                        {% if question.isRequired == 1 %}
+                                            <p class="team_apply-essential">*</p>
+                                        {% endif %}
+
+                                        <p class="">{{question.content}}</p>
+                                    </div>
+
+                                    <textarea name="" id="" cols="50" rows="2"></textarea>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <button>제출하기</button>
+    </div>
+
+    {% include 'footer.html' %}
+</body>
+
+</html>

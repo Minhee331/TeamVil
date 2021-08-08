@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="kr">
+
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NaverLoginSDK</title>
+</head>
+
+
+<body>
+  <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
+  <script >
+      var naverLogin = new naver.LoginWithNaverId(
+          {
+              clientId: "6NbrDH2vMjug5Mc8GT67",
+              callbackUrl: "http://localhost:4000/member/login/",
+              isPopup: false,
+              callbackHandle: true
+          }
+      );
+      naverLogin.init();
+      window.addEventListener('load',function(){
+        naverLogin.getLoginStatus(function(status) {
+          print(1)
+          if (status) {
+            var email = naverLogin.user.getEmail();
+            alert(email);
+            console.log(naverLogin.user);
+            if(email == undefined || email==null) {
+              alert("이메일은 필수정보입니다.정보제공에 동의해주세요.");
+              naverLogin.reprompt();
+              return;
+            }
+          } else {
+            console.log("callback 처리에 실패하였습니다.");
+          }
+        });
+      });
+  </script>
+</body>
+</html>

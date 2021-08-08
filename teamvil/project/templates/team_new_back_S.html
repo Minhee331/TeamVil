@@ -41,8 +41,48 @@
                     <input type="text" name="field2" placeholder="ex)웹페이지 개발">
                     <br>
                     <br>
-
                 <h4>지역</h4>
+                <select id = "region1" onchange="categoryChange(this)" name="region1" required>
+                    {% for region1 in region1s %}
+                        <option value="{{ region1.id }}" class = "{{region1}}">{{ region1.region1 }}</option>
+                    {% endfor %}
+                </select>
+                
+                <select id="region2" name="region2" required>
+                    <!-- {% for region_1,region_2 in region1_list %}
+                        {% if region_1 == '서울시' %}
+                            {% for region in region_2 %}  
+                                <option value="{{region.region2}}" class = "{{region.region2}}">{{region.region2}}</option>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %} -->
+                </select>
+                <br>
+                <br> 
+                <script>
+                    function categoryChange(this){
+                        category = $('.{{region1}}').val(); //숫자 순서대로 
+                        $.ajax({
+                            type:"GET",
+                            success: function(res){
+                                for (i=2; i++;){
+                                    if(category == i){ 
+                                        $('#region2').empty()
+                                        $('#region2').append(
+                                        "{% for region_1,region_2 in region1_list %}
+                                            {% if region_1 == category}
+                                                {% for region in region_2 %}  
+                                                    <option value="{{region.region2}}" class = "{{region.region2}}">{{region.region2}}</option>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}"
+                                        )
+                                    }}    
+                                }
+                            }
+                </script>
+
+                <!-- <h4>지역</h4>
                     <select id = "region1" onchange="categoryChange(this)" name="region1" required>
                         {% for region1 in region1s %}
                         <option value="{{ region1.id }}">{{ region1.region1 }}</option>
@@ -55,8 +95,8 @@
                         {% endfor %}
                     </select>
                     <br>
-                    <br> 
-                    <script>
+                    <br>  -->
+                    <!-- <script>
                         function categoryChange(e) {
                             var sel = document.getElementById("region1");
                             var val = sel.options[sel.selectedIndex].text;
@@ -81,7 +121,7 @@
                             //     target.appendChild(opt);
                             // }	
                         }
-                    </script> 
+                    </script>  -->
                     
                     
 
@@ -160,6 +200,7 @@
     <script>
         function addSchool(name){
             $('.word').val(name);
+            $(".schoollist").empty();
         }
         var url = "//www.career.go.kr/cnet/openapi/getOpenApi.json?apiKey=d0c42cdd7e8461cfb295b56acc8bdc54&svcType=api&svcCode=SCHOOL&contentType=json&gubun=midd_list&searchSchulNm=";
         function changeType(){
@@ -173,8 +214,6 @@
             var word = target.value;
             var encodeWord = encodeURI(word);
             $(".schoollist").empty();
-            //중학교
-            // url = "//www.career.go.kr/cnet/openapi/getOpenApi.json?apiKey=d0c42cdd7e8461cfb295b56acc8bdc54&svcType=api&svcCode=SCHOOL&contentType=json&gubun=midd_list&searchSchulNm="+word;
             $.ajax({
                 type:"GET",
                 dataType:"json",

@@ -48,13 +48,13 @@ def community_new_back(request):
     user = request.user
     return render(request, 'community copy.html',{'user':user})
 
-def community_new_db_back(request):
+def community_new(request):
     obj = json.loads(request.body)
     com = Com()
     com.user_id = request.user
     com.content = obj['content']
     com.save()
-    return render(request, 'community copy.html')
+    return render(request, 'community.html')
 
 def comment(request):
     obj = json.loads(request.body)
@@ -144,4 +144,5 @@ def info_detail(request, info_id):
 
 # kay
 def community(request):
-    return render(request, 'community.html')
+    community = Com.objects.all().order_by('-id')
+    return render(request,'community.html', {'community':community})

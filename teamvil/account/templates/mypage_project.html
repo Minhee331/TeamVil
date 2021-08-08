@@ -1,53 +1,73 @@
 {% load static %}
-<div class="mypage-dropdown-item-wrap-container">
-    <div class="mypage-dropdown-item-wrap">
-        <div class="mypage-project-member-select-state spoqa-regular drop_btn" value="sort">
-            <div class="mypage-project-select-state-button">
-                <p>전체</p>
-                <img class="mypage-project-chevron" src="{% static 'image/chevron-down.png' %}">
-            </div>
-
-            <div class="hidden float" id="sort">
-                <div class="mypage-project-select-state-list">
-                    <a class="select-state-item">전체</a>
-                    <a class="select-state-item">모집중</a>
-                    <a class="select-state-item">모집완료</a>
+<div class="mypage-info-item-wrap-container">
+    <div class="mypage-project-item-wrap-container">
+        <div class="mypage-project-item-container">
+            <div class="mypage-project-title-wrap">
+                <p class="mypage-project-title spoqa-light">신뢰할 수 있는 팀원 모집 플랫폼</p>
+                <div class="mypage-project-select-state spoqa-regular drop_btn" value="job">
+                    <div class="mypage-project-select-state-button state col_10">
+                        <div class="mypage-project-state-circle"></div>
+                        <p class="spoqa-light">모집완료</p>
+                        <img class="mypage-project-triangle" src="{% static 'image/triangle.png' %}">
+                    </div>
+        
+                    <div class="hidden float" id="job">
+                        <div class="mypage-project-select-list col_10">
+                            <a class="select-state-item spoqa-light">모집중</a>
+                            <hr class="mypage-project-line">
+                            <a class="select-state-item spoqa-light">모집완료</a>
+                            <hr class="mypage-project-line">
+                            <a class="select-state-item spoqa-light">종료</a>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <hr class="mypage-project-line">
+            <div class="mypage-project-etc-wrap">
+                <p class="mypage-project-field-title spoqa-light">분야</p>
+                <p class="mypage-project-field-text spoqa-light">IT</p>
+                <p class="mypage-project-term-title spoqa-light">기간</p>
+                <p class="mypage-project-term-text spoqa-light">2021. 05. 17 ~ 2021. 06. 17</p>
+                <p class="mypage-project-mem-title spoqa-light">모집인원</p>
+                <p class="mypage-project-mem-text spoqa-light">1/5</p>
+            </div>
+            <hr class="mypage-project-line">
+            <div class="mypage-project-member-wrap">
+                <div class="mypage-project-member-title-wrap">
+                    <p class="mypage-project-member-title spoqa-light">팀원 정보</p>
+                    <img class="mypage-project-triangle" src="{% static 'image/triangle.png' %}">
+                </div>
+                <div class="mypage-project-manage-button">
+                    <a class="mypage-project-manage-text spoqa-light" href="">팀원 평가하기</a>
+                    <a class="mypage-project-manage-text spoqa-light" href="">지원서 열람하기</a>
+                </div>
+            </div>
+            <hr class="mypage-project-line">
+
+            <div class="mypage-project-member-manage-wrap project_id hidden">
+                <p class="mypage-project-name-title spoqa-light project_id hidden">박민희</p>
+                <p class="mypage-project-detail-info-text spoqa-light project_id hidden">22세</p>
+                <p class="mypage-project-detail-info-text spoqa-light project_id hidden">경기도 고양시</p>
+                <p class="mypage-project-detail-info-text spoqa-light project_id hidden">010-1234-1234</p>
+                <p class="mypage-project-detail-info-text spoqa-light project_id hidden">minhee@gmail.com</p>
+            </div>
+            <hr class="mypage-project-member-line project_id hidden">
+
+            <div class="mypage-project-member-manage-wrap project_id hidden">
+                <p class="mypage-project-name-title spoqa-light project_id hidden">박민희</p>
+                <p class="mypage-project-detail-info-text spoqa-light project_id hidden">22세</p>
+                <p class="mypage-project-detail-info-text spoqa-light project_id hidden">경기도 고양시</p>
+                <p class="mypage-project-detail-info-text spoqa-light project_id hidden">010-1234-1234</p>
+                <p class="mypage-project-detail-info-text spoqa-light project_id hidden">minhee@gmail.com</p>
+            </div>
+            <hr class="mypage-project-member-line project_id hidden">
+
         </div>
     </div>
 </div>
-<div class="mypage-info-item-wrap-container">
-    <div class="mypage-project-item-wrap-container">
-        {% for project in projects %}
-            
-            <article class="mypage-project-team-item">
-                <img class="mypage-project-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                <div class="mypage-project-team-item-text">
-                    <p class="mypage-project-team-item-title spoqa-medium">{{project.title}}</p>
-                    
-                    <p class="mypage-project-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
-                    
-                    <p class="mypage-project-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
-                    
-                    <p class="mypage-project-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
-                        {% if project.state == 1%}
-                            (모집중)
-                        {% else %}
-                            (모집완료)
-                        {% endif %}
-                    </p>
-                    
-                    <p class="mypage-project-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
-                </div>
-            </article>
-        {% endfor %}
-    </div>
-</div>
 <script>
-    $(document).ready(function(){
-        $(".drop_btn").on("click", function(){ 
+    // 드롭다운 열고 닫는 함수
+    $(".drop_btn").on("click", function(){ 
             let className = $(this).attr("value");
             let currentClass = document.getElementById(className);
             if ($(currentClass).is('.hidden')){
@@ -58,9 +78,31 @@
                 $(currentClass).addClass('hidden');
             }
         }); 
+    $('.select-state-item').on("click", function(){
+        $('.mypage-project-select-state-button.state p').text($(this).text());
+    }); 
+    $(".mypage-project-member-title-wrap").on("click", function(){
+        if($(".project_id").hasClass('hidden')){
+            $(".project_id").removeClass('hidden');
+        }else{
+            $(".project_id").addClass('hidden');
+        }
+    }); 
+    // $(document).ready(function(){
+    //     $(".drop_btn").on("click", function(){ 
+    //         let className = $(this).attr("value");
+    //         let currentClass = document.getElementById(className);
+    //         if ($(currentClass).is('.hidden')){
+    //             $(currentClass).removeClass('hidden');
+    //             $(currentClass).addClass('active');
+    //         } else{
+    //             $(currentClass).removeClass('active');
+    //             $(currentClass).addClass('hidden');
+    //         }
+    //     }); 
 
-        $('.select-state-item').on("click", function(){
-            $('.mypage-project-select-state-button p').text($(this).text());
-         }); 
-    });
+    //     $('.select-state-item').on("click", function(){
+    //         $('.mypage-project-select-state-button p').text($(this).text());
+    //     }); 
+    // });
 </script>

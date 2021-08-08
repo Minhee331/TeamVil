@@ -100,3 +100,5 @@
 210808 자운 | member_deatil, account.views |  팀원평가 그래프 추가, 별점 데이터 받아오게 구현
 210808 유림 | team_new_back_S | 학교검색 및 자동완성 구현 
 210808 건영 | account_login, account.views |  login.html 카카오톡으로 로그인 기능 구현,네이버로 로그인 기능 시작
+210809 자운 | member_deatil, account.views, team_detail |  팀원평가부분 완성, 디테일페이지에 좋아요/스크랩버튼 추가
+210809 건영 | call_back_back.html, login.html |  login.html 네이버로 로그인 기능 수정`

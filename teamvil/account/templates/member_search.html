@@ -270,14 +270,14 @@
                                 <p class="spoqa-regular">지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
 
                                 <div class="team_search-like-scrap-container spoqa-light">
-                                    <a href="" class="team_search-like-scrap-item">
-                                        <img src="{% static 'image/like-btn.png' %}" alt="">
-                                        <p>13</p>
+                                    <a class="team_search-like-scrap-item">
+                                        <img class="like-scrap like {% active_like 1 profile.id user.id %}" src="{% static 'image/like-btn-2.png' %}" value="{{profile.user_id.id}}">
+                                        <p>{% get_like_cnt 1 profile.id %}</p>
                                     </a>
 
-                                    <a href="" class="team_search-like-scrap-item">
-                                        <img src="{% static 'image/scrap-btn.png' %}" alt="">
-                                        <p>20</p>
+                                    <a class="team_search-like-scrap-item">
+                                        <img class="like-scrap scrap {% active_scrap 1 profile.id user.id %}" src="{% static 'image/scrap-btn-2.png' %}" value="{{profile.user_id.id}}">
+                                        <p>{% get_scrap_cnt 1 profile.id %}</p>
                                     </a>
                                 </div>
                             </div>
@@ -293,6 +293,71 @@
 
 <script>
     $(document).ready(function(){
+        $(".like").on("click", function(){ 
+            profile_id = $(this).attr('value'); 
+            var like = {
+                'value': profile_id
+            }
+            var url = '';
+            if($(this).hasClass('active')){
+                $(this).removeClass('active');
+                url = "{% url 'likecancels' %}"
+                $(this).next().text(parseInt($(this).next().text())-1);
+            }else{
+                $(this).addClass('active');
+                url = "{% url 'likes' %}"
+                $(this).next().text(parseInt($(this).next().text())+1);
+            }
+            $.ajax({
+                type:"POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url: url,
+                data :JSON.stringify(like),
+                success: function(res) {
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    alert("로그인하세요.");
+                    
+                }
+            }); 
+        });
+        
+        // 스크랩
+        $(".scrap").on("click", function(){ 
+            profile_id = $(this).attr('value'); 
+            var like = {
+                'value': profile_id
+            }
+            var url = '';
+            if($(this).hasClass('active')){
+                $(this).removeClass('active');
+                url = "{% url 'scrapcancels' %}"
+                $(this).next().text(parseInt($(this).next().text())-1);
+            }else{
+                $(this).addClass('active');
+                url = "{% url 'scraps' %}"
+                $(this).next().text(parseInt($(this).next().text())+1);
+            }
+            $.ajax({
+                type:"POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url: url,
+                data :JSON.stringify(like),
+                success: function(res) {
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    alert("로그인하세요.");
+                }
+            }); 
+        });
+
+
         $(".drop_btn").on("click", function(){ 
             var className = $(this).attr("value");
             let currentClass = document.getElementById(className);

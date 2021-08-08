@@ -1,14 +1,13 @@
 {% load static %}
 {% load custom_tags %}
-
 <div class="community-detail-box">
     <div class="community-close-btn">
-        <img src="/static/image/x-button.png" onclick="closeDetail()" alt="">
+        <img src="{% static 'image/x-button.png' %}" onclick="closeDetail()" alt="">
     </div>
 
     <div class="community-item community-content-box">
         <div class="community-profile-container">
-            <img class="community-profile-img" src="/static/image/cloud.jpg" alt="">
+            <img class="community-profile-img" src="{% static 'image/cloud.jpg' %}" alt="">
             <p class="spoqa-regular">{% Name communitys.user_id.id %}</p>
         </div>
 
@@ -38,14 +37,13 @@
     </div>
 
     <div class="community-comment-input-container">
-        <textarea class="community-comment-input spoqa-light com_{{communitys.id}}" type="text" id="comment" spellcheck="false"></textarea>
-<!-- 상단 댓글 작성버튼 -->
+        <textarea class="community-comment-input spoqa-light com_{{communitys.id}}" type="text" id="comment"></textarea>
+        
         <div class="community-write-btn-container">
-            <!-- <input class="community-comment-btn spoqa-light comment_submit" type="button" value="댓글 작성" onclick="addComment()"> -->
-            <input class="community-comment-btn spoqa-light comment_submit" com_id="{{communitys.id}}" type="button" value="댓글 작성"> 
+            <input class="community-comment-btn spoqa-light comment_submit" com_id="{{communitys.id}}" type="button" value="댓글 작성">
         </div>
     </div>
-<!-- 첫번째 댓글 -->
+
     <div class="community-comment-list">
         {% for comment in comments %}
         <div class="community-content-item">
@@ -107,6 +105,7 @@
 </div>
 
 <script>
+    
     $(".comment_submit").on("click", function() { 
         var content = {
             'comment_content' : $('.com_'+$(this).attr('com_id')).val(), 
@@ -136,15 +135,15 @@
                                 </div>
                             </div>
                             
-                            <div class="community-reply-list">
+                            <div class="community-reply-list_${res.comment_id}">
                                 <div class="community-reply-container">
                                     <div class="community-reply-item">
                                         <img class="community-reply-img" src="/static/image/arrow-line.png">
-                                        <textarea class="community-comment-input spoqa-light" id="0"></textarea>
+                                        <textarea class="community-comment-input spoqa-light reply_${res.com_id} reply_content_${res.comment_id}"></textarea>
                                     </div>
                                     
                                     <div class="community-write-btn-container">
-                                        <input class="community-comment-btn spoqa-light" com_id="${res.com_id}" type="button" value="댓글 작성" onclick="addReply(0)">
+                                        <input class="community-comment-btn spoqa-light reply_submit" com_id="${res.com_id}" parent = "${res.comment_id}" type="button" value="댓글 작성">
                                     </div>
                                 </div>
                             </div>
@@ -154,6 +153,7 @@
         })
     });
     $('.reply_submit').on("click",function(){
+        console.log(111);
         parent = $(this).attr('parent');
         var content = { 
             'reply_content' : $('.reply_content_'+parent).val(),
@@ -189,7 +189,8 @@
                             </div>
                         </div>`;
                 $('.community-reply-list_'+parent).append(html_str);
+                $('.reply_content_'+parent).val("");
             }
-        })
+        });
     })
 </script>

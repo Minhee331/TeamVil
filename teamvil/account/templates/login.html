@@ -13,9 +13,7 @@
         <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
         <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
         <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
-        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-    </head>
+        <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.0.js" charset="utf-8"></script>
 
     <body>
 
@@ -32,8 +30,8 @@
                     <a id="custom-login-btn" href="javascript:loginWithKakao()">
                         <img src="//k.kakaocdn.net/14/dn/btqCn0WEmI3/nijroPfbpCa4at5EIsjyf0/o.jpg" width="222"/>
                     </a>
-                    <a id="custom-login-btn" href="javascript:LoginWithNaverId()">
-                        <img src="https://mblogthumb-phinf.pstatic.net/MjAxODA4MDNfMjIx/MDAxNTMzMjY4NzQ4NDUx.pp5qAnsfJcB8wF7_bWk9X_E0Gn4OZiFwmq4dJ0fpGn0g.kElju0PYLStsSwU9rA8zlqEuXa9pO77qWoN3VTOtDvcg.PNG.thdbsgh3443/%25EC%258A%25A4%25ED%2581%25AC%25EB%25A6%25B0%25EC%2583%25B7_2018-08-03_%25EC%2598%25A4%25ED%259B%2584_12.58.53.png?type=w800" width="222"/>
+                    <div id="naverIdLogin" ></div>
+                    
 
                     <div class="login-icon-container">
                         <a href=""><span class="iconify" data-icon="vs:naver-square" data-inline="false"></span></a>
@@ -136,17 +134,18 @@
             });
         }
     </script>
-
     <script type="text/javascript">
         var naverLogin = new naver.LoginWithNaverId(
-		{
-			clientId: "6NbrDH2vMjug5Mc8GT67",
-			callbackUrl: "http://localhost:3000",
-			isPopup: false, /* 팝업을 통한 연동처리 여부 */
-			loginButton: {color: "green", type: 3, height: 50} /* 로그인 버튼의 타입을 지정 */
-		}
-    );
-    naverLogin.init();
+            {
+                clientId: "6NbrDH2vMjug5Mc8GT67",
+                callbackUrl: "http://localhost:4000/member/login/",
+                isPopup: false,
+                loginButton: {color: "green",type:3 ,height:60}
+            }
+        );
+
+        naverLogin.init();
+        
     </script>
 </html>
 

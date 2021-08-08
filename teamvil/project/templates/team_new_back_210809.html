@@ -15,7 +15,7 @@
 <body>
     {% include 'navbar.html' %}
 
-    <div class="team_new-main-container active" action="">
+    <form class="team_new-main-container active" action="">
         <div class="team_new-items">
             <div class="team_new-items-title-container">
                 <p class="team_new-items-essential">*</p>
@@ -23,17 +23,17 @@
             </div>
 
             <div class="team_new-upper-category-container">
-                <div class="team_new-upper-category-item" id="startup" category='0'>
+                <div class="team_new-upper-category-item" id="startup" onclick="Startup()">
                     <h6 class="spoqa-bold">S</h6>
                     <p class="spoqa-regular">스타트업(창업)</p>
                 </div>
     
-                <div class="team_new-upper-category-item" id="contest" category='1'>
+                <div class="team_new-upper-category-item" id="contest" onclick="Contest()">
                     <h6 class="spoqa-bold">C</h6>
                     <p class="spoqa-regular">공모전/대외활동</p>
                 </div>
     
-                <div class="team_new-upper-category-item" id="etc" category='2'>
+                <div class="team_new-upper-category-item" id="etc" onclick="Etc()">
                     <h6 class="spoqa-bold">P</h6>
                     <p class="spoqa-regular">기타 프로젝트</p>
                 </div>
@@ -46,7 +46,7 @@
                 <p class="team_new-items-title">프로젝트 명</p>
             </div>
 
-            <input class="team_new-input-long db_title" type="text" name="" id="">
+            <input class="team_new-input-long" type="text" name="" id="">
         </div>
 
         <div class="team_new-items">
@@ -55,7 +55,7 @@
                 <p class="team_new-items-title">프로젝트 목적</p>
             </div>
 
-            <input class="team_new-input-long db_desc" type="text" name="" id="">
+            <input class="team_new-input-long" type="text" name="" id="">
         </div>
 
         <div class="team_new-items">
@@ -67,7 +67,7 @@
             <div class="team_new-category-container">
                 {% for field1 in field1s %}
                     <div class="team_new-category-item">
-                        <input class="team_new-radio" type="radio" name="category" f_id = {{field1.id}}>
+                        <input class="team_new-radio" type="radio" name="category">
                         <p class="team_new-radio-name spoqa-light">{{field1.field1}}</p>
                     </div>
                 {% endfor %}
@@ -80,7 +80,7 @@
                 <p class="team_new-items-title">세부 분야</p>
             </div>
 
-            <input class="team_new-input-mid db_field2" type="text" name="" id="">
+            <input class="team_new-input-mid" type="text" name="" id="">
         </div>
 
         <div class="team_new-items">
@@ -214,10 +214,10 @@
             <input class="next-btn spoqa-regular" type="button" value="다음으로">
             <!-- <a><button class="spoqa-regular" type="submit">다음으로</button></a> -->
         </div>
-    </div>
+    </form>
 
 
-    <div class="team_form-main-container hidden" action="" id="formContainer">
+    <form class="team_form-main-container hidden" action="" id="formContainer">
         <div class="team_form-menu-container spoqa-regular">
             <p>질문 추가</p>
 
@@ -232,31 +232,59 @@
 
         <div class="team_form-btn-container">
             <input class="pre-btn spoqa-regular" type="button" value="이전으로">
-            <a><button class="spoqa-regular submit-btn">제출하기</button></a>
+            <a><button class="spoqa-regular" type="submit">제출하기</button></a>
         </div>
-    </div>
+    </form>
 
     {% include 'footer.html' %}
 </body>
 
 <script>
-    $(".submit-btn").on("click", function(){ 
-        type = $('.team_new-upper-category-item.active').attr('category');
-        title = $('.db_title').val();
-        desc = $('.db_desc').val();
-        field1_id = $('.team_new-radio.active').attr('f_id')
-        filed2 = $('.db_field2').val();
-        console.log(field1_id);
-    });
-    $('.team_new-radio').on("click", function(){ 
-        $('.team_new-radio').removeClass('active');
-        $(this).addClass('active')
-    });
-    $(".team_new-upper-category-item").on("click", function(){ 
-        $('.team_new-upper-category-item').removeClass('active');
-        $(this).addClass('active');
-    }); 
-    
+    function Startup() {
+        var targetS = document.getElementById('startup');
+        var targetC = document.getElementById('contest');
+        var targetE = document.getElementById('etc');
+
+        targetS.style.backgroundColor = '#0F59FF';
+        targetS.style.color = '#FFFFFF';
+
+        targetC.style.backgroundColor = '#FFFFFF';
+        targetC.style.color = '#1B1B1B';
+
+        targetE.style.backgroundColor = '#FFFFFF';
+        targetE.style.color = '#1B1B1B';
+    }
+
+    function Contest() {
+        var targetS = document.getElementById('startup');
+        var targetC = document.getElementById('contest');
+        var targetE = document.getElementById('etc');
+
+        targetS.style.backgroundColor = '#FFFFFF';
+        targetS.style.color = '#1B1B1B';
+
+        targetC.style.backgroundColor = '#0F59FF';
+        targetC.style.color = '#FFFFFF';
+
+        targetE.style.backgroundColor = '#FFFFFF';
+        targetE.style.color = '#1B1B1B';
+    }
+
+    function Etc() {
+        var targetS = document.getElementById('startup');
+        var targetC = document.getElementById('contest');
+        var targetE = document.getElementById('etc');
+
+        targetS.style.backgroundColor = '#FFFFFF';
+        targetS.style.color = '#1B1B1B';
+
+        targetC.style.backgroundColor = '#FFFFFF';
+        targetC.style.color = '#1B1B1B';
+
+        targetE.style.backgroundColor = '#0F59FF';
+        targetE.style.color = '#FFFFFF';
+    }
+
     function addTask() { //innetHTML
         var task = document.getElementById('task').value;
         var num = document.getElementById('num').value;

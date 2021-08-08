@@ -8,7 +8,7 @@ class Project(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.PROTECT, db_column="user_id")
     use = models.IntegerField(default=0)
     isEnd = models.IntegerField(default=0)
-    type = models.IntegerField()
+    type = models.IntegerField() # 창업, 공모전, 프로젝트
     title = models.CharField(max_length=100)
     desc = models.CharField(max_length=100)
     field1_id = models.ForeignKey('home.Field1', on_delete = models.CASCADE, db_column="field1_id")

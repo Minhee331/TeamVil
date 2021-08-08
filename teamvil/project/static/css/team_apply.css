@@ -1,0 +1,112 @@
+.team_apply-main-container {
+    margin: 50px 400px;
+}
+
+/* title */
+.team_apply-title-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.team_apply-title-container h5 {
+    font-size: 20px;
+}
+
+.team_apply-title-container p {
+    font-size: 15px;
+}
+
+/* content */
+.team_apply-content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 50px 0;
+    height: 1500px;
+}
+
+/* select-task */
+.team_apply-select-task-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.team_apply-select-task-container h6 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.team_apply-tasks {
+    display: flex;
+}
+
+.team_apply-task {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+    border: 1px solid #0F59FF;
+    border-radius: 1px;
+    background-color: #FFFFFF;
+    width: 100px;
+    height: 25px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.team_apply-task:hover {
+    margin-right: 20px;
+    background-color: #0F59FF;
+    color: #FFFFFF;
+}
+
+/* profile */
+.team_apply-profile-container {
+    display: flex;
+    align-items: center;
+}
+
+.team_apply-profile-container h6 {
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.team_apply-profile-container input {
+    font-size: 18px;
+    width: 15px;
+    height: 15px;
+    margin-right: 15px;
+}
+
+.team_apply-profile-container p {
+    font-size: 11px;
+    color: #0F59FF;
+}
+
+/* questions */
+.team_apply-question-container {
+    
+}
+
+.team_apply-question-container h6 {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.team_apply-questions {
+
+}
+
+.team_apply-question {
+    display: flex;
+    align-items: center;
+    margin: 50px 0 20px 0;
+}
+
+.team_apply-essential {
+    color: #0F59FF;
+    margin-right: 0.5em;
+    padding-top: 0.2em;
+}

@@ -315,3 +315,15 @@ label{
     margin-right: 4px;
     margin-left: 10px;
 }
+
+.team_search-like-scrap-item img:hover {
+    cursor: pointer;
+}
+
+.like.active{
+    content:url("../image/like-btn.png");
+}
+
+.scrap.active{
+    content:url("../image/scrap-btn.png");
+}

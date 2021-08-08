@@ -90,3 +90,4 @@ class Message(models.Model):
     to_user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="to_user_id", related_name="message_to_user_id")
     send_date = models.DateTimeField(default=timezone.now)
     content = models.CharField(max_length=1000)
+    state = models.IntegerField(default=0) # 0 읽지 않음, 1 읽음

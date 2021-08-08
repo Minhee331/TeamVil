@@ -17,13 +17,13 @@
             <div class="message-list-wrap-container">
                 <div class="message-list-scroll">
 
-                    {% for name, user_id in member_list %}
-                        <div class="message-list-item" name = {{name}} user_id = {{user_id}}>
+                    {% for name, list in member_list %}
+                        <div class="message-list-item" name = {{name}} user_id = {{list.0}}>
                             <img class="message-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
 
                             <p class="message-member-name-text spoqa-light {{name}}" user_id = {{user_id}}>{{name}}</p>
 
-                            <p class="message-state-text spoqa-light">읽음</p>
+                            <p class="message-state-text spoqa-light">{% if list.1 %}읽음{% else %}읽지않음{% endif %}</p>
                         </div>
                     {% endfor %}
                 </div>
@@ -50,6 +50,7 @@
 <script>
     var interval_list = []
     $(".message-list-item").on("click", function(){ 
+        $(this).find(".message-state-text").text("읽음");
         if(interval_list.length!=0){
             clearInterval(interval_list[0]);
             interval_list = []
@@ -60,7 +61,7 @@
         var data = {
             'user_id': $(this).attr('user_id')
         }
-        // console.log(data);
+        
         function load_message() {
             $.ajax({
                 type: "POST",
@@ -71,7 +72,7 @@
                 data: JSON.stringify(data),
                 success: function(res) {
                     $('.message-content-item').html(res);
-                    // console.log(data)
+                    $(".message-content-item").scrollTop($(".message-content-item")[0].scrollHeight);
                 },
                 error:function(request,status,error){
                     alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -103,6 +104,7 @@
                 data: JSON.stringify(data),
                 success: function(res) {
                     // console.log(res);
+                    $('.message-input').val('');
                 },
                 error:function(request,status,error){
                     alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);

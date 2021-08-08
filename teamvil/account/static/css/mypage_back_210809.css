@@ -153,135 +153,81 @@
 }
 
 /* 마이페이지 우측 영역 (프로젝트) */
-
-.mypage-project-item-container{
-    width: 100%;
-    border-top: 1px solid #ebebeb;
-}
-.mypage-project-title-wrap{
+.mypage-dropdown-item-wrap-container{
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 25px;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 20px;
 }
-.mypage-project-title{
-    font-size: 14px;
-    height: 40px;
-    line-height: 40px;
-}
-.mypage-project-line{
-    height: 1px;
-    background-color: #ebebeb;
-    border: 0;
-}
-.mypage-project-state-circle{
-    border-radius: 50%;
-    width: 7px;
-    height: 7px;
-    border: 2px solid blue;
+.mypage-dropdown-item-wrap{
+    display: flex;
+    justify-content: flex-end;
+    width: 50vw;
+    min-width: 660px;
+    max-width: 700px;
 }
 .mypage-project-select-state-button {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100px;
     height: 30px;
+    border: 1px solid #1b1b1b;
+    border-radius: 1px;
     padding: 0 10px;
 }
 .mypage-project-select-state-button p {
-    font-size: 12px;
+    font-size: 13px;
 }
-.mypage-project-select-list {
+.mypage-project-select-state-list {
     display: flex;
     flex-direction: column;
-    border: 1px solid #ebebeb;
+    border: 1px solid #1b1b1b;
+    border-top: none;
+    padding: 0 10px;
+    padding-top: 10px;
+    width: 100px;
     background-color: #ffffff;
 }
-.mypage-project-select-list a {
+.mypage-project-select-state-list a {
     display: block;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+.float {
+    position: absolute;
+}
+.mypage-project-item-wrap-container{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 50vw;
+    min-width: 660px;
+    max-width: 700px;
+}
+.mypage-project-team-item {
+    width: 324.985px;
+    height: 371.8875px;
+    border: 1px solid #D7D7D7;
+    border-radius: 1px;
+    margin-bottom: 60px;
+}
+.mypage-project-team-image {
+    width: 324.985px;
+    height: 212.055px;
+    border-radius: 1px;
+}
+.mypage-project-team-item-text {
+    padding: 10px 20px;
     line-height: 25px;
+}
+.mypage-project-team-item-title {
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+.mypage-project-team-item-content {
     font-size: 12px;
-    margin: 0 20px;
-}
-.mypage-project-triangle{
-    width: 15px;
-    height: 15px;
-}
-.mypage-project-etc-wrap{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-}
-.mypage-project-field-title{
-    padding-right: 25px;
-    font-size: 12px;
-    line-height: 40px;
-    border-right: 1px solid #ebebeb;
-}
-.mypage-project-field-text{
-    font-size: 12px;
-}
-.mypage-project-term-title{
-    padding: 0 25px;
-    font-size: 12px;
-    line-height: 40px;
-    border-left: 1px solid #ebebeb;
-    border-right: 1px solid #ebebeb;
-}
-.mypage-project-term-text{
-    font-size: 12px;
-}
-.mypage-project-mem-title{
-    padding: 0 25px;
-    font-size: 12px;
-    line-height: 40px;
-    border-left: 1px solid #ebebeb;
-    border-right: 1px solid #ebebeb;
-}
-.mypage-project-mem-text{
-    font-size: 12px;
-    margin-right: 25px;
-}
-.mypage-project-member-wrap{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-}
-.mypage-project-member-title-wrap{
-    display: flex;
-    align-items: center;
-}
-.mypage-project-member-title{
-    font-size: 12px;
-    margin-right: 10px;
-    line-height: 40px;
-}
-.mypage-project-manage-text{
-    font-size: 12px;
-    margin-left: 15px;
-    text-decoration: underline;
-}
-.mypage-project-member-manage-wrap{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 25px;
-}
-.mypage-project-name-title{
-    padding-left: 5px;
-    padding-right: 30px;
-    font-size: 12px;
-    line-height: 40px;
-    border-right: 1px solid #ebebeb;
-}
-.mypage-project-detail-info-text{
-    font-size: 12px;
-}
-.mypage-project-member-line{
-    height: 1px;
-    background-color: #ebebeb;
-    border: 0;
 }
 
 /* 마이페이지 우측 영역 (프로필 수정하기) */
@@ -343,9 +289,6 @@
 }
 .mypage-modify-triangle{
     width: 15px;
-}
-.col_9{
-    width: 90px;
 }
 .col_10{
     width: 100px;
@@ -508,37 +451,4 @@ p {
     border-bottom: 1px solid #EBEBEB;
     width: 100%;
     padding-top: 50px;
-}
-
-.mypage-project-item-wrap-container{
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    width: 50vw;
-    min-width: 660px;
-    max-width: 700px;
-}
-.mypage-project-team-item {
-    width: 324.985px;
-    height: 371.8875px;
-    border: 1px solid #D7D7D7;
-    border-radius: 1px;
-    margin-bottom: 60px;
-}
-.mypage-project-team-image {
-    width: 324.985px;
-    height: 212.055px;
-    border-radius: 1px;
-}
-.mypage-project-team-item-text {
-    padding: 10px 20px;
-    line-height: 25px;
-}
-.mypage-project-team-item-title {
-    display: inline-block;
-    font-size: 16px;
-    margin-bottom: 5px;
-}
-.mypage-project-team-item-content {
-    font-size: 12px;
 }

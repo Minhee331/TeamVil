@@ -1,0 +1,48 @@
+{% load static %}
+<div class="mypage-info-item-wrap-container">
+    <div class="mypage-project-item-wrap-container">
+        {% for project in projects %}
+            
+            <article class="mypage-project-team-item">
+                <img class="mypage-project-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
+
+                <div class="mypage-project-team-item-text">
+                    <p class="mypage-project-team-item-title spoqa-medium">{{project.title}}</p>
+                    
+                    <p class="mypage-project-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
+                    
+                    <p class="mypage-project-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
+                    
+                    <p class="mypage-project-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
+                        {% if project.state == 1%}
+                            (모집중)
+                        {% else %}
+                            (모집완료)
+                        {% endif %}
+                    </p>
+                    
+                    <p class="mypage-project-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+</div>
+<script>
+    // $(document).ready(function(){
+    //     $(".drop_btn").on("click", function(){ 
+    //         let className = $(this).attr("value");
+    //         let currentClass = document.getElementById(className);
+    //         if ($(currentClass).is('.hidden')){
+    //             $(currentClass).removeClass('hidden');
+    //             $(currentClass).addClass('active');
+    //         } else{
+    //             $(currentClass).removeClass('active');
+    //             $(currentClass).addClass('hidden');
+    //         }
+    //     }); 
+
+    //     $('.select-state-item').on("click", function(){
+    //         $('.mypage-project-select-state-button p').text($(this).text());
+    //     }); 
+    // });
+</script>

@@ -27,7 +27,7 @@ class Region2(models.Model):
         return self.region1_id.region1 + " " + self.region2
 
 class Like(models.Model):
-    type = models.IntegerField()
+    type = models.IntegerField() # 0 프로젝트 1 멤버 2 자유 커뮤니티 3 정보
     project_id = models.ForeignKey('project.Project', on_delete = models.CASCADE, db_column="project_id", null=True)
     com_id = models.ForeignKey(Com, on_delete = models.CASCADE, db_column="com_id", null=True)
     info_id = models.ForeignKey(Info, on_delete = models.CASCADE, db_column="info_id", null=True)
@@ -35,7 +35,7 @@ class Like(models.Model):
     to_user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="to_user_id", related_name="like_to_user_id", null=True)
 
 class Scrap(models.Model):
-    type = models.IntegerField()
+    type = models.IntegerField() # 0 프로젝트 1 멤버
     project_id = models.ForeignKey('project.Project', on_delete = models.CASCADE, db_column="project_id", null=True)
     from_user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="from_user_id", related_name="scrap_from_user_id")
     to_user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="to_user_id", related_name="scrap_to_user_id", null=True)

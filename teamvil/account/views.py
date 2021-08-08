@@ -12,6 +12,7 @@ from home.models import *
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.http.response import JsonResponse
+from django.db.models import Avg, Count
 
 def member_search(request):
     profiles = Profile.objects.all().order_by('-register')
@@ -53,14 +54,22 @@ def member_detail(request, profile_id):
     carrers = User_carrer.objects.filter(user_id = profile.user_id)
     user_links = User_link.objects.filter(user_id = profile.user_id)
     user_files = User_file.objects.filter(user_id = profile.user_id)
+    user_review = User_review.objects.filter(to_user_id = profile.user_id)
+    user_review_avg = User_review.objects.filter(to_user_id = profile.user_id).aggregate(Avg('total'))
+    user_review_cnt = len(User_review.objects.filter(to_user_id = profile.user_id))
+    # q = User_review.objects.filter(to_user_id = profile.user_id).annotate(Count('total'))
+    # user_review_cn = q[0].total__count
     user_review_1 = len(User_review.objects.filter(to_user_id = profile.user_id, total = 1))
     user_review_2 = len(User_review.objects.filter(to_user_id = profile.user_id, total = 2))
     user_review_3 = len(User_review.objects.filter(to_user_id = profile.user_id, total = 3))
     user_review_4 = len(User_review.objects.filter(to_user_id = profile.user_id, total = 4))
     user_review_5 = len(User_review.objects.filter(to_user_id = profile.user_id, total = 5))
-    user_review = [user_review_1, user_review_2, user_review_3, user_review_4, user_review_5]
+    print(user_review)
+    # print(user_review_cnt)
+    # print(user_review_cn)
+    user_review_all = [user_review_1, user_review_2, user_review_3, user_review_4, user_review_5]
     return render(request, "member_detail.html", {"profile":profile, "carrers":carrers,
-                "user_links": user_links, "user_files": user_files, "user_review": user_review})
+                "user_review": user_review, "user_links": user_links, "user_files": user_files, "user_review_all": user_review_all, "user_review_avg": user_review_avg, "user_review_cnt": user_review_cnt })
 
 def member_detail_back(request, profile_id):
     profile = Profile.objects.get(id = profile_id)
@@ -127,6 +136,46 @@ def signup(request):
         return render(request, 'signup.html')
 
 def signup_k(request):
+    if request.method == "POST": 
+        obj = json.loads(request.body)  
+        user_name= obj['name']
+        user_id = obj['id']
+        if User.objects.filter(username=id).exists():
+            auth.login(request)
+            return render(request, 'signup.html')   
+        else:
+            user = User.objects.create_user(username=user_id, password='0000')
+            profile = Profile()
+            profile.user_id = user
+            profile.name = user_name
+            mbti = Mbti.objects.get(id=1)
+            profile.mbti_id =  mbti# 추후 수정 필요
+            mbti.mbti_cnt = mbti.mbti_cnt + 1
+            mbti.save()
+            profile.email = "email" # 추후 수정 필요
+            profile.phone =  "010-1234-5678"
+            profile.birthday = "2021-07-10" # 추후 수정 필요
+            profile.region1_id = Region1.objects.get(id=1) # 추후 수정 필요
+            profile.region2_id = Region2.objects.get(id=1) # 추후 수정 필요
+            profile.openPhone = 0
+            profile.openEmail = 0 
+            profile.term_id =  Term.objects.get(id=1) # 추후 수정 필요
+            profile.field1_id = Field1.objects.get(id=1) # 추후 수정 필요
+            profile.field2 = "Field2" # 추후 수정 필요
+            profile.state = 1 
+            profile.job_id =  Job.objects.get(id=1) # 추후 수정 필요
+            profile.isLink = 0
+            profile.isFile =0
+            profile.isCarrer = 0 
+            profile.photo = "Photo" # 추후 수정 필요
+            profile.isReview = 0
+            profile.save()
+            auth.login(request, user)
+            return render(request, 'signup.html')
+    else :
+        return render(request, 'signup.html')
+
+def signup_n(request):
     if request.method == "POST": 
         obj = json.loads(request.body)  
         user_name= obj['name']
@@ -496,6 +545,14 @@ def message(request):
         user = User.objects.get(id = mem['from_user_id'])
         name = Profile.objects.get(user_id = user)
         member_list[name.name] = user.id
+    # for mem in member_list:
+    #     print(member_list[mem])
+    for mem in member_list:
+        user = User.objects.get(id=member_list[mem])
+        msg = Message.objects.filter(from_user_id=user, to_user_id=request.user).last()
+        if(msg is not None):
+            member_list[mem] = [member_list[mem], msg.state]
+        else: member_list[mem] = [member_list[mem], 1]
     return render(request, "message.html", {'member_list':member_list.items(), "select_member": 0})
 
 def load_message(request):
@@ -503,6 +560,7 @@ def load_message(request):
     user_id = obj['user_id']
     me = request.user
     message_list = Message.objects.filter(Q(from_user_id = me, to_user_id = user_id) | Q(from_user_id = user_id, to_user_id = me)).exclude(content = "").order_by('send_date')
+    Message.objects.filter(from_user_id = user_id, to_user_id = me, state = 0).update(state = 1)
     # print(message_list)
     return render(request, 'load_message.html', {"message_list":message_list})
 
@@ -537,6 +595,12 @@ def message_room(request, profile_id):
         user = User.objects.get(id = mem['from_user_id'])
         name = Profile.objects.get(user_id = user)
         member_list[name.name] = user.id
+    for mem in member_list:
+        user = User.objects.get(id=member_list[mem])
+        msg = Message.objects.filter(from_user_id=user, to_user_id=request.user).last()
+        if(msg is not None):
+            member_list[mem] = [member_list[mem], msg.state]
+        else: member_list[mem] = [member_list[mem], 1]
     return render(request, "message.html", {'member_list':member_list.items(), "select_member": profile})
 
 #스크랩 함수

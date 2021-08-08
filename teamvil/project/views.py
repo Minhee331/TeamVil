@@ -77,10 +77,18 @@ def team_detail_back(request, project_id):
 # S타입 팀만들기 html렌더링
 def team_new_back_S(request):
     field1 = Field1.objects.all()
-    region1 = Region1.objects.all()
-    region2 = Region2.objects.all()
+    region1 = Region1.objects.all() #서울시 경기도 충청도 등등의 첫번째 도 
+    region1_list = {} #{'서울시' '경기도 --'}
+    region2_list = []
+    for prov in region1:
+        region2_list = Region2.objects.filter(region1_id = prov) #{'서울시 서초구','서울시 강남구','서울시 중구'}
+        region1_list[prov.region1] = region2_list
+    #   region1_list['서울시'] = ['강남구', '중구', '서초구']
+    #   region1_list['경기도'] = ['고양시', '안산시', '용인시']
+    #   item으로 뽑으면 key랑 value모두 뽑힘 -> [('서울시',['강남구','중구','서초구'])]
+    #region2 = Region2.objects.all()
     education = Education.objects.all()
-    return render(request, 'team_new_back_S.html', {"field1s":field1, "region1s": region1, "region2s": region2, 
+    return render(request, 'team_new_back_S.html', {"field1s":field1, "region1s": region1, "region1_list": region1_list.items(), #"region2s": region2, 
                 "educations":education })
 # C타입 팀만들기 html렌더링
 def team_new_back_C(request):
@@ -116,6 +124,7 @@ def team_create_back_S(request):
         content = request.POST['content']
         start_date = request.POST['start_date']
         end_date = request.POST['end_date']
+        school = request.POST['school']
         education = int(request.POST['education'])
         project_link = request.POST['project_link'] 
         project = Project()
@@ -134,6 +143,7 @@ def team_create_back_S(request):
         project.start_date = start_date
         project.end_date = end_date
         project.content = content
+        project.school = school
         if(education!=0):
             project.education_id = Education.objects.get(id=education)
         project.save()
@@ -389,7 +399,7 @@ def team_apply(request,project_id):
         for question in questions:
             questionlist.append(question)
         questiondict[str(question.id)] = questionlist
-    return render(request,"team_apply_back.html",{"question":question,"project_id":project_id,"project":project,"profile":profile,"duties":duties,"questiondict":questiondict.items()})
+    return render(request,"team_apply.html",{"question":question,"project_id":project_id,"project":project,"profile":profile,"duties":duties,"questiondict":questiondict.items()})
         # for i in range(0, len(question)):
         #     type=question[i].type
         #     if(type ==0):

@@ -224,3 +224,27 @@ hr {
 }
 
 
+/* like-scrap */
+.team_detail-like-scrap-container {
+    display: flex;
+    margin-right: 20px;
+    margin: 15px 0;
+    justify-content: center;
+}
+
+.team_detail-like-scrap-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10px;
+    align-items: center;
+    font-size: 11px;
+}
+
+.team_detail-like-scrap-item img {
+    width: 11px;
+    height: 11px;
+    margin-right: 4px;
+    margin-left: 10px;
+}
+
+

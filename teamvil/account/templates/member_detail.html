@@ -22,10 +22,24 @@
                 <div class="member_detail-profile">
                     <img src="{% static 'image/profile.jpeg' %}" class="member_detail-profileimg">
 
-                    <hr class="member_detail-profile-line">
-
+                    
                     <div class="member_detail-profile-important">
+
                         <h1 class="spoqa-regular">{{profile.name}}</h1>
+
+                        <div class="member_detail-like-scrap-container spoqa-light">
+                            <a href="" class="member_detail-like-scrap-item">
+                                <img src="{% static 'image/like-btn.png' %}" alt="">
+                                <span>13</span>
+                            </a>
+    
+                            <a href="" class="member_detail-like-scrap-item">
+                                <img src="{% static 'image/scrap-btn.png' %}" alt="">
+                                <span>20</span>
+                            </a>
+                        </div>
+
+                        <hr class="member_detail-profile-line">
 
                         <p>
                             <span class="member_detail-profile-title spoqa-regular">직업</span>
@@ -150,88 +164,117 @@
         
         <hr class="member_detail-profile-middleline">
 
-        <div class="member_detail-profile-etc-container">
-            <div class="member_detail-profile-etc">
-                <p class="member_detail-profile-etc-title spoqa-bold">팀원평가</p>
+        <div class="member_detail-profile-rating-container">
+            <div class="member_detail-profile-rating">
+                <p class="member_detail-profile-rating-title spoqa-bold">팀원평가</p>
             </div>
         </div>
 
+        <div class="member_detail-rating">
 
-        <div id="chart-container">
+            <div id="chart-container">
 
-        <div id="chart">
+                <div id="chart">  
+                </div>
+
+                <script>
+                    var colors = [
+                    '#008FFB',
+                    '#00E396',
+                    '#FEB019',
+                    '#FF4560',
+                    '#775DD0',
+                    ]
+                </script>
+
+
+                <script>
+                    var review_list = {{user_review_all}};
+                    var options = {
+                    series: [{
+                    name: "평가 인원수",
+                    data: review_list
+                    }],
+                    chart: {
+                    toolbar: {
+                        show: false,
+                        },
+                    height: 270,
+                    type: 'bar',
+                    },
+                    tooltip: {
+                        enabled: true,
+                        enabledOnSeries: true,
+                    },
+                    colors: colors,
+                    plotOptions: {
+                    bar: {
+                        columnWidth: '45%',
+                        distributed: true,
+                    }
+                    },
+                    dataLabels: {
+                    enabled: false
+                    },
+                    legend: {
+                        show: false
+                    },
+                    xaxis: {
+                    categories: [
+                        '1점',
+                        '2점',
+                        '3점',
+                        '4점',
+                        '5점',
+                    ],
+                    labels: {
+                        style: {
+                        colors: colors,
+                        fontSize: '12px'
+                        }
+                    }
+                    },
+                    yaxis: {
+                        show: true,
+                        tickAmount: 1,
+                        opposite: false,
+                        minwidth: 1,
+                        labels: {
+                            formatter: function(val) {
+                                return parseInt(val);
+                            }
+                        }
+                    }
+                    };
+                    var chart = new ApexCharts(document.querySelector("#chart"), options);
+                    chart.render();
+                </script>
+
+            </div>
+
+            <div class="member_detail-profile-rating-cnt spoqa-light">
+                
+                {% if user_review_avg.total__avg == None %}
+                <p>팀원들의 평가가 아직 없습니다.</p>
+                {% else %}
+                <p>총 {{user_review_cnt}} 명이 참여</p>
+                <p>팀원이 준 평점 평균은 '{{user_review_avg.total__avg}} 점' 입니다</p>
+                {% endif %}
+            </div>
 
         </div>
 
-        <script>
-            var colors = [
-            '#008FFB',
-            '#00E396',
-            '#FEB019',
-            '#FF4560',
-            '#775DD0',
-            ]
-        </script>
+        <div class="member_detail-profile-rating-content-container">
 
-
-        <script>
-            var review_list = {{user_review}};
-            var options = {
-            series: [{
-            data: review_list
-            }],
-            chart: {
-            height: 350,
-            type: 'bar',
-            events: {
-                click: function(chart, w, e) {
-                // console.log(chart, w, e)
-                }
-            }
-            },
-            colors: colors,
-            plotOptions: {
-            bar: {
-                columnWidth: '45%',
-                distributed: true,
-            }
-            },
-            dataLabels: {
-            enabled: false
-            },
-            legend: {
-            show: false
-            },
-            xaxis: {
-            categories: [
-                '1점',
-                '2점',
-                '3점',
-                '4점',
-                '5점',
-            ],
-            labels: {
-                style: {
-                colors: colors,
-                fontSize: '12px'
-                }
-            }
-            },
-            yaxis: {
-                show: true,
-                tickAmount: 1,
-                opposite: false,
-                minwidth: 1,
-            }
-            };
-
-            var chart = new ApexCharts(document.querySelector("#chart"), options);
-            chart.render();
-        </script>
+            <div class="member_detail-profile-rating-content spoqa-light">
+                {% for review in user_review %}
+                    <p>'{{review.content}}'</p>
+                {% endfor %}
+            </div>
 
         </div>
-
-
+        
         {% include 'footer.html' %}  
     </body>
+
 </html>

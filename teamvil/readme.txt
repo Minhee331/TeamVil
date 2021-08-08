@@ -90,3 +90,6 @@
 210802 민희 | message, info | message, info css, 기능 구현
 210807 유림 | team_new_back_S | 학교검색 및 자동완성 구현 
 210808 건영 | account_login, account.views |  login.html 카카오톡으로 로그인 기능 구현,네이버로 로그인 기능 시작
+210808 유림 | team_new_back_S | 학교 DB 저장 및 수정, 지역 다중셀렉트박스 기능 구현 
+210809 민희 | mypage_project, message, community, team_search, member_search | mypage_project css 수정, message 읽음, 스크롤바 기능 추가, community 백&프론트 합치기, team_search&member_search 좋아요 기능
+210809 혜인 | community, team_search, team_apply, member_search | community 모달창 스크롤 막기, 스크롤 내린 상태에서도 가운데 맞춤, 영역 외 클릭 시 닫힘 구현, search 페이지 좋아요-스크랩 수정, team_apply html 및 css 작성
