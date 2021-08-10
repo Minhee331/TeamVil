@@ -49,7 +49,7 @@
                 
                 <input type="checkbox">
                 
-                <p>프로필 설정시 입력한 정보가 자동으로 제공됩니다!</p>
+                <p>프로필 설정 시 입력한 정보가 자동으로 제공됩니다!</p>
             </div>
 
             <div class="team_apply-question-container">
@@ -60,45 +60,51 @@
                         {% if question.id|stringformat:"i" == questionlist %}
                             {% for question in questions %}
                                 {% if question.type == 0 %}
-                                    <div class="team_apply-question spoqa-regular">
-                                        {% if question.isRequired == 1 %}
-                                            <p class="team_apply-essential">*</p>
-                                        {% endif %}
-
-                                        <p class="">{{question.content}}</p>
-                                    </div>
-                                    
-                                    <div>
-                                        {% if question.choice1 is not None %}<input type="checkbox">{{question.choice1}}{% endif %}
-                                        {% if question.choice2 is not None %}<input type="checkbox">{{question.choice2}}{% endif %}
-                                        {% if question.choice3 is not None %}<input type="checkbox">{{question.choice3}}{% endif %}
-                                        {% if question.choice4 is not None %}<input type="checkbox">{{question.choice4}}{% endif %}
-                                        {% if question.choice5 is not None %}<input type="checkbox">{{question.choice5}}{% endif %}
+                                    <div class="team_apply-question-item">
+                                        <div class="team_apply-question spoqa-regular">
+                                            {% if question.isRequired == 1 %}
+                                                <p class="team_apply-essential">*</p>
+                                            {% endif %}
+    
+                                            <p class="">{{question.content}}</p>
+                                        </div>
+                                        
+                                        <div>
+                                            {% if question.choice1 is not None %}<input type="checkbox">{{question.choice1}}{% endif %}
+                                            {% if question.choice2 is not None %}<input type="checkbox">{{question.choice2}}{% endif %}
+                                            {% if question.choice3 is not None %}<input type="checkbox">{{question.choice3}}{% endif %}
+                                            {% if question.choice4 is not None %}<input type="checkbox">{{question.choice4}}{% endif %}
+                                            {% if question.choice5 is not None %}<input type="checkbox">{{question.choice5}}{% endif %}
+                                        </div>
                                     </div>
                                 {% endif %}
 
                                 {% if question.type == 1 %}
-                                    <div class="team_apply-question spoqa-regular">
-                                        {% if question.isRequired == 1 %}
-                                            <p class="team_apply-essential">*</p>
-                                        {% endif %}
-
-                                        <p class="">{{question.content}}</p>
+                                    <div class="team_apply-question-item">
+                                        <div class="team_apply-question spoqa-regular">
+                                            {% if question.isRequired == 1 %}
+                                                <p class="team_apply-essential">*</p>
+                                            {% endif %}
+    
+                                            <p class="">{{question.content}}</p>
+                                        </div>
+    
+                                        <input type="text">
                                     </div>
-
-                                    <input type="text">
                                 {% endif %}
 
                                 {% if question.type == 2 %}
-                                    <div class="team_apply-question spoqa-regular">
-                                        {% if question.isRequired == 1 %}
-                                            <p class="team_apply-essential">*</p>
-                                        {% endif %}
-
-                                        <p class="">{{question.content}}</p>
+                                    <div class="team_apply-question-item">
+                                        <div class="team_apply-question spoqa-regular">
+                                            {% if question.isRequired == 1 %}
+                                                <p class="team_apply-essential">*</p>
+                                            {% endif %}
+    
+                                            <p class="">{{question.content}}</p>
+                                        </div>
+    
+                                        <textarea name="" id="" cols="50" rows="2"></textarea>
                                     </div>
-
-                                    <textarea name="" id="" cols="50" rows="2"></textarea>
                                 {% endif %}
                             {% endfor %}
                         {% endif %}

@@ -166,7 +166,13 @@
 
 /* photo */
 .team_new-input-photo {
+    display: block;
     margin-left: 10px;
+}
+
+#image_container img {
+    width: 324.985px;
+    height: 212.055px;
 }
 
 /* date */
@@ -293,9 +299,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 10px 25px;
+    padding: 15px 25px;
     border: 1px solid #ebebeb;
-    height: 100px;
+    width: 855px;
+    /* height: 100px; */
 }
 
 .team_form-sel-question-item {
@@ -316,6 +323,7 @@
 
 .team_form-question-num {
     display: flex;
+    flex-shrink: 0;
     justify-content: center;
     align-items: center;
     width: 30px;

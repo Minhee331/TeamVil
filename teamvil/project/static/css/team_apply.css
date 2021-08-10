@@ -24,13 +24,13 @@
     flex-direction: column;
     justify-content: space-between;
     margin: 50px 0;
-    height: 1500px;
 }
 
 /* select-task */
 .team_apply-select-task-container {
     display: flex;
     flex-direction: column;
+    margin-bottom: 80px;
 }
 
 .team_apply-select-task-container h6 {
@@ -66,6 +66,7 @@
 .team_apply-profile-container {
     display: flex;
     align-items: center;
+    margin-bottom: 80px;
 }
 
 .team_apply-profile-container h6 {
@@ -92,10 +93,13 @@
 
 .team_apply-question-container h6 {
     font-size: 18px;
-    margin-bottom: 30px;
 }
 
 .team_apply-questions {
+
+}
+
+.team_apply-question-item {
 
 }
 

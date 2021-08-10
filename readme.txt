@@ -109,3 +109,4 @@
 210809 건영 | call_back_back.html, login.html |  login.html 네이버로 로그인 기능 수정`
 210810 자운 | models, alarm_detail, team_review |  user_review, alarm 모델 DB수정, alarm_url 프로젝트, 멤버 각각 연결되도록 기능 수정, 팀리뷰 페이지 별점 미입력시 alert창뜨고 안넘어가도록 수정, 멤버 디테일 별점 밑에 코멘트 없을시 안뜨도록 수정.
 210811 건영 | call_back.html, login.html | login.html 네이버로 로그인 기능 구현, account.views&url 에 callback.html 연결 db연결
+210811 혜인 | team_new.html | 이미지 미리보기 구현, 학력 드롭다운 수정, 객관식 드롭다운 수정, 선택지 개수 변경 기능 추가

@@ -134,10 +134,12 @@
             <div class="team_new-items-title-container">
                 <p class="team_new-items-essential">*</p>
                 <p class="team_new-items-title">대표 사진</p>
-                <input class="team_new-input-photo" type="file" value="사진 등록">
+
+                <input class="team_new-input-photo" type="file" value="사진 등록" accept="image/*" onchange="setThumbnail(event);">
+                
             </div>
 
-            <img src="" alt="">
+            <div id="image_container"></div>
         </div>
 
         <div class="team_new-items">
@@ -177,18 +179,18 @@
 
             <div class="member_search-member-select-state spoqa-regular drop_btn" value="sort">
                 <div class="member_search-select-state-button">
-                    <p>전체</p>
+                    <p id="selection">전체</p>
                     <img class="member_search-chevron" src="{% static 'image/chevron-down.png' %}">
                 </div>
 
                 <div class="hidden float" id="sort">
                     <div class="member_search-select-state-list">
-                        <a href="">전체</a>
-                        <a href="">중졸</a>
-                        <a href="">고졸</a>
-                        <a href="">학사</a>
-                        <a href="">석사</a>
-                        <a href="">박사</a>
+                        <a id="전체" onclick="changeSelection(this.id)">전체</a>
+                        <a id="중졸" onclick="changeSelection(this.id)">중졸</a>
+                        <a id="고졸" onclick="changeSelection(this.id)">고졸</a>
+                        <a id="학사" onclick="changeSelection(this.id)">학사</a>
+                        <a id="석사" onclick="changeSelection(this.id)">석사</a>
+                        <a id="박사" onclick="changeSelection(this.id)">박사</a>
                     </div>
                 </div>
             </div>
@@ -300,9 +302,30 @@
         parent.parentNode.removeChild(parent);
     }
 
+    // image-preview
+    function setThumbnail(event) {
+        var imgCon = document.getElementById('image_container');
+        console.log('imgCon');
+
+        if (imgCon.hasChildNodes()) {
+            imgCon.removeChild(imgCon.firstChild);
+        }
+
+        var reader = new FileReader();
+        
+        reader.onload = function(event) {
+            var img = document.createElement("img");
+            
+            img.setAttribute("src", event.target.result);
+            document.querySelector("div#image_container").appendChild(img);
+        };
+        
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
     // dropdown
     $(document).ready(function(){
-        $(".drop_btn").on("click", function(){ 
+        $(".sort").on("click", function(){ 
             let className = $(this).attr("value");
             let currentClass = document.getElementById(className);
             
@@ -315,6 +338,12 @@
             }
         }); 
     });
+
+    function changeSelection(val) {
+        let selection = document.getElementById('selection');
+
+        selection.innerText = val;
+    }
 
 
 
@@ -490,25 +519,25 @@
         newSelectOption1.appendChild(newSelectOptionText1);
         newSelectOptionList.appendChild(newSelectOption1);
         newSelectOption1.setAttribute("id", "2개");
-        newSelectOption1.setAttribute("onclick", "changeDrop2(this)");
+        newSelectOption1.setAttribute("onclick", "changeDrop(this)");
         var newSelectOption2 = document.createElement("a");
         var newSelectOptionText2 = document.createTextNode("3개");
         newSelectOption2.appendChild(newSelectOptionText2);
         newSelectOptionList.appendChild(newSelectOption2);
         newSelectOption2.setAttribute("id", "3개");
-        newSelectOption2.setAttribute("onclick", "changeDrop3(this)");
+        newSelectOption2.setAttribute("onclick", "changeDrop(this)");
         var newSelectOption3 = document.createElement("a");
         var newSelectOptionText3 = document.createTextNode("4개");
         newSelectOption3.appendChild(newSelectOptionText3);
         newSelectOptionList.appendChild(newSelectOption3);
         newSelectOption3.setAttribute("id", "4개");
-        newSelectOption3.setAttribute("onclick", "changeDrop4(this)");
+        newSelectOption3.setAttribute("onclick", "changeDrop(this)");
         var newSelectOption4 = document.createElement("a");
         var newSelectOptionText4 = document.createTextNode("5개");
         newSelectOption4.appendChild(newSelectOptionText4);
         newSelectOptionList.appendChild(newSelectOption4);
         newSelectOption4.setAttribute("id", "5개");
-        newSelectOption4.setAttribute("onclick", "changeDrop5(this)");
+        newSelectOption4.setAttribute("onclick", "changeDrop(this)");
         newSelectOptionListDiv.appendChild(newSelectOptionList);
         newSelectOptionDiv.appendChild(newSelectOptionListDiv);
         newExtraDiv.appendChild(newSelectOptionDiv);
@@ -580,32 +609,21 @@
         }
     });
 
-    function changeDrop2(thisOption) {
-        let current = document.getElementsByClassName('team_form-drop-select');
-        let change = document.getElementById('2개');
+    function changeDrop(thisOption) {
+        thisOption.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].innerText = thisOption.id;
 
-        thisOption.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].innerText = "2개";
-    }
+        optionList = thisOption.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[1];
+        
+        while (optionList.hasChildNodes()) {
+            optionList.removeChild(optionList.firstChild);
+        }
 
-    function changeDrop3() {
-        let current = document.getElementsByClassName('team_form-drop-select');
-        let change = document.getElementById('3개');
-
-        thisOption.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].innerText = "3개";
-    }
-
-    function changeDrop4() {
-        let current = document.getElementsByClassName('team_form-drop-select');
-        let change = document.getElementById('4개');
-
-        thisOption.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].innerText = change.id;
-    }
-
-    function changeDrop5() {
-        let current = document.getElementsByClassName('team_form-drop-select');
-        let change = document.getElementById('5개');
-
-        thisOption.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].innerText = change.id;
+        let num = thisOption.id[0] * 1;
+        for (let i = 0; i < num; i++) {
+            var newOption = document.createElement("input");
+            newOption.setAttribute("placeholder", "선택지를 입력하세요.");
+            optionList.appendChild(newOption);
+        }
     }
 
     // toggle
