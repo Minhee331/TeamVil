@@ -14,6 +14,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http.response import JsonResponse
 from django.db.models import Avg, Count
 
+def callback(request):
+    return render(request, 'callback.html')
+    
 def member_search(request):
     profiles = Profile.objects.all().order_by('-register')
     profiles_reg = Profile.objects.all().order_by('-id')[:4]
@@ -54,7 +57,7 @@ def member_detail(request, profile_id):
     carrers = User_carrer.objects.filter(user_id = profile.user_id)
     user_links = User_link.objects.filter(user_id = profile.user_id)
     user_files = User_file.objects.filter(user_id = profile.user_id)
-    user_review = User_review.objects.filter(to_user_id = profile.user_id)
+    user_review = User_review.objects.filter(to_user_id = profile.user_id).order_by('-id')
     user_review_avg = User_review.objects.filter(to_user_id = profile.user_id).aggregate(Avg('total'))
     user_review_cnt = len(User_review.objects.filter(to_user_id = profile.user_id))
     # q = User_review.objects.filter(to_user_id = profile.user_id).annotate(Count('total'))
@@ -144,6 +147,7 @@ def signup_k(request):
             auth.login(request)
             return render(request, 'signup.html')   
         else:
+            print(obj)
             user = User.objects.create_user(username=user_id, password='0000')
             profile = Profile()
             profile.user_id = user
@@ -180,6 +184,7 @@ def signup_n(request):
         obj = json.loads(request.body)  
         user_name= obj['name']
         user_id = obj['id']
+        user_email = obj['email']
         if User.objects.filter(username=id).exists():
             auth.login(request)
             return render(request, 'signup.html')   
@@ -192,7 +197,7 @@ def signup_n(request):
             profile.mbti_id =  mbti# 추후 수정 필요
             mbti.mbti_cnt = mbti.mbti_cnt + 1
             mbti.save()
-            profile.email = "email" # 추후 수정 필요
+            profile.email =user_email # 추후 수정 필요
             profile.phone =  "010-1234-5678"
             profile.birthday = "2021-07-10" # 추후 수정 필요
             profile.region1_id = Region1.objects.get(id=1) # 추후 수정 필요
@@ -503,7 +508,7 @@ def likes(request):
     alarm.type = int(0)
     alarm.user_id = to_user_id
     alarm.like_id = like
-    alarm.url = '/member/member_detail/' + str(profile.id)
+    alarm.member_url = '/member/member_detail/' + str(profile.id)
     alarm.save()
     return render(request,'member_search_back.html')
 
@@ -618,7 +623,7 @@ def scraps(request):
     alarm.type = int(2)
     alarm.user_id = to_user_id
     alarm.scrap_id = scrap
-    alarm.url = '/member/member_detail/' + str(profile.id)
+    alarm.member_url = '/member/member_detail/' + str(profile.id)
     alarm.save()
     return render(request,'member_search_back.html')
 

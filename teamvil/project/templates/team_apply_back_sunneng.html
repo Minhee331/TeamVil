@@ -47,11 +47,11 @@
                     {%for question in questions %}
                         {% if question.type == 0 %}
                             <p>Q.{{question.content}}
-                              {% if question.isRequired == 1 %}
-                                 (필수)
-                              {% elif question.isRequired == 0 %}
-                                 (선택)
-                              {% endif %}</p>   
+                            {% if question.isRequired == 1 %}
+                                (필수)
+                            {% elif question.isRequired == 0 %}
+                                (선택)
+                            {% endif %}</p>   
                             <p><input type="checkbox">{{question.choice1}}</p>
                             <p><input type="checkbox">{{question.choice2}}</p>
                             <p><input type="checkbox">{{question.choice3}}</p>
@@ -61,21 +61,21 @@
                         <br>
                         {% if question.type == 1 %}
                             <p>Q.{{question.content}}
-                               {% if question.isRequired == 1 %}
-                                 (필수)
-                               {% elif question.isRequired == 0 %}
-                                 (선택)
-                               {% endif %}</p>
+                            {% if question.isRequired == 1 %}
+                                (필수)
+                            {% elif question.isRequired == 0 %}
+                                (선택)
+                            {% endif %}</p>
                             <input type="text">
                         <br>
                         {% endif %}
                         {% if question.type == 2 %}
                             <p>Q.{{question.content}}
-                               {% if question.isRequired == 1 %}
-                                  (필수)
-                               {% elif question.isRequired == 0 %}
-                                  (선택)
-                               {% endif %}</p>
+                            {% if question.isRequired == 1 %}
+                                (필수)
+                            {% elif question.isRequired == 0 %}
+                                (선택)
+                            {% endif %}</p>
                             </p>
                             <textarea name="" id="" cols="50" rows="2"></textarea>
                         {% endif %}

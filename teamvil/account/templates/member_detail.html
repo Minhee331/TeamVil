@@ -236,7 +236,6 @@
                     },
                     yaxis: {
                         show: true,
-                        tickAmount: 1,
                         opposite: false,
                         minwidth: 1,
                         labels: {
@@ -258,7 +257,7 @@
                 <p>팀원들의 평가가 아직 없습니다.</p>
                 {% else %}
                 <p>총 {{user_review_cnt}} 명이 참여</p>
-                <p>팀원이 준 평점 평균은 '{{user_review_avg.total__avg}} 점' 입니다</p>
+                <p>팀원이 준 평점 평균은 '{{user_review_avg.total__avg|floatformat:"1"}} 점' 입니다</p>
                 {% endif %}
             </div>
 
@@ -268,7 +267,10 @@
 
             <div class="member_detail-profile-rating-content spoqa-light">
                 {% for review in user_review %}
+                    {% if review.content == "" %}
+                    {% else %}
                     <p>'{{review.content}}'</p>
+                    {% endif %}
                 {% endfor %}
             </div>
 

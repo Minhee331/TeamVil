@@ -81,7 +81,7 @@ class User_review(models.Model):
     to_user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="to_user_id", related_name="review_to_user_id")
     project_id = models.ForeignKey(Project, on_delete = models.CASCADE, db_column="project_id")
     content = models.TextField()
-    total  = models.FloatField() # 0~5까지 0.5단위로
+    total = models.IntegerField() # 0~5까지 1단위로
     def __str__(self):
         return str(self.total)
 

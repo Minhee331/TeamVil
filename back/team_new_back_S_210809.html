@@ -42,66 +42,90 @@
                     <br>
                     <br>
                 <h4>지역</h4>
-                <select id = "region1" onchange="categoryChange()" name="region1" required>
+                <select id = "region1" onchange="categoryChange(this)" name="region1" required>
                     {% for region1 in region1s %}
-                        <option value="{{region1.id}}" class = "{{region1}}">{{region1.region1}}</option>
+                        <option value="{{ region1.id }}" class = "{{region1}}">{{ region1.region1 }}</option>
                     {% endfor %}
                 </select>
                 
                 <select id="region2" name="region2" required>
-                    {% for region_1,region_2 in region1_list %}
+                    <!-- {% for region_1,region_2 in region1_list %}
                         {% if region_1 == '서울시' %}
                             {% for region in region_2 %}  
                                 <option value="{{region.region2}}" class = "{{region.region2}}">{{region.region2}}</option>
-                            {% endfor %}                     
+                            {% endfor %}
                         {% endif %}
-                    {% endfor %}
+                    {% endfor %} -->
                 </select>
                 <br>
                 <br> 
                 <script>
-                    // $(document).ready(function(){
-                    //     var sel = $(".{{region1}}").val();
-                    //     if(sel == 1){
-                    //         $('.{{region1}}').append('selected')
-                    //     }
-                    // })
-            //클릭하는대로 selected 변경되게끔! 근데 가장 먼저 selected된건 서울시 (1)이니까 써준 함수 
-                    function categoryChange(){
-                        var category = $('select[name=region1] option:selected').val(); //숫자 순서대로 
-                        var region1 = $('select[name=region1] option:selected').text();
-                        // console.log(category);
-                        $("#region2").empty();
-                        var dict = {{region_list|safe}}
-                        // {% for region_1,region_2 in region1_list %}
-                        //     {% for region in region_2 %}  
-                        //         dict[{{region_1}}] = {{region|safe}}
-                        //     {% endfor %} 
-                        // {% endfor %}
-                        // console.log(dict)
-                        // var region2 = $("#region2");
-                        str = "";
-                        // region1_list = {{region1_list}};
-                        // console.log(region1_list);
-                        // $("#region2").append(str);
-                        // for(var i = 2; i++;){
-                        //     if(category == i){
-                        //         $("#region2").append()
-                                
-                        //     }  //서울을 제외한 region1은 2부터 시작
-                        // }\ [0, 용인시]
-                        for(const [key, value] of Object.entries(dict)){
-                            if(key == region1){
-                                console.log(value)
-                                for(v in value){
-                                    str += `<option value="${value[v][0]}" class = "${value[v][1]}">${value[v][1]}</option>` 
-                                    // console.log(v)
+                    function categoryChange(this){
+                        category = $('.{{region1}}').val(); //숫자 순서대로 
+                        $.ajax({
+                            type:"GET",
+                            success: function(res){
+                                for (i=2; i++;){
+                                    if(category == i){ 
+                                        $('#region2').empty()
+                                        $('#region2').append(
+                                        "{% for region_1,region_2 in region1_list %}
+                                            {% if region_1 == category}
+                                                {% for region in region_2 %}  
+                                                    <option value="{{region.region2}}" class = "{{region.region2}}">{{region.region2}}</option>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}"
+                                        )
+                                    }}    
                                 }
                             }
-                        }
-                        $("#region2").append(str);
-                    }
                 </script>
+
+                <!-- <h4>지역</h4>
+                    <select id = "region1" onchange="categoryChange(this)" name="region1" required>
+                        {% for region1 in region1s %}
+                        <option value="{{ region1.id }}">{{ region1.region1 }}</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <select id="region2" name="region2" required>
+                        {% for region2 in region2s %}
+                        <option value="{{ region2.id }}" class = "{{ region2 }}">{{ region2.region2 }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
+                    <br>  -->
+                    <!-- <script>
+                        function categoryChange(e) {
+                            var sel = document.getElementById("region1");
+                            var val = sel.options[sel.selectedIndex].text;
+                            var c = document.getElementsByClassName(val);
+                            for (var i = 0; i < c.length; i++) {
+                                c[i].classList.hide()
+                            }
+                            // let region22 = "{{region2s}}";
+                            // let target = document.getElementById("region2");
+                            // console.log(region22.split(','));
+                            // console.log(e);
+                            // if(e.value == "a") var a = region2;
+                            // else if(e.value == "a") var a = region2;
+                            // else if(e.value == "a") var a = region2;
+                        
+                            // target.options.length = 0;
+                        
+                            // for (x in d) {
+                            //     var opt = document.createElement("option");
+                            //     opt.value = d[x];
+                            //     opt.innerHTML = d[x];
+                            //     target.appendChild(opt);
+                            // }	
+                        }
+                    </script>  -->
+                    
+                    
+
+
 
                 <h4>전체 팀 인원</h4>
                     <input type="number" min="0" name="mem_total" placeholder="전체 팀 인원">

@@ -95,10 +95,17 @@
 210802 민희 | messgae, info | message, info css, 기능 구현
 210805 자운 | member_detail |  팀원평가 그래프 추가중
 210805 민희 | team_review |  별점 레이팅 기능 수정
+210807 유림 | team_new_back_S | 학교검색 및 자동완성 구현 
 210807 건영 | account_login, account.views |  login.html 카카오톡으로 로그인 기능 시작
 210808 민희 | team_apply |  team_apply 객관식 질문 데이터 불러오기
 210808 자운 | member_deatil, account.views |  팀원평가 그래프 추가, 별점 데이터 받아오게 구현
+210808 유림 | team_new_back_S | 학교 DB 저장 및 수정, 지역 다중셀렉트박스 기능 구현 
 210808 유림 | team_new_back_S | 학교검색 및 자동완성 구현 
 210808 건영 | account_login, account.views |  login.html 카카오톡으로 로그인 기능 구현,네이버로 로그인 기능 시작
+210809 민희 | mypage_project, message, community, team_search, member_search | mypage_project css 수정, message 읽음, 스크롤바 기능 추가, community 백&프론트 합치기, team_search&member_search 좋아요 기능
+210809 혜인 | community, team_search, team_apply, member_search | community 모달창 스크롤 막기, 스크롤 내린 상태에서도 가운데 맞춤, 영역 외 클릭 시 닫힘 구현, search 페이지 좋아요-스크랩 수정, team_apply html 및 css 작성
+210809 유림 | team_new_back_S | 지역 다중셀렉트박스 view수정 및 ajax작업
 210809 자운 | member_deatil, account.views, team_detail |  팀원평가부분 완성, 디테일페이지에 좋아요/스크랩버튼 추가
 210809 건영 | call_back_back.html, login.html |  login.html 네이버로 로그인 기능 수정`
+210810 자운 | models, alarm_detail, team_review |  user_review, alarm 모델 DB수정, alarm_url 프로젝트, 멤버 각각 연결되도록 기능 수정, 팀리뷰 페이지 별점 미입력시 alert창뜨고 안넘어가도록 수정, 멤버 디테일 별점 밑에 코멘트 없을시 안뜨도록 수정.
+210811 건영 | call_back.html, login.html | login.html 네이버로 로그인 기능 구현, account.views&url 에 callback.html 연결 db연결

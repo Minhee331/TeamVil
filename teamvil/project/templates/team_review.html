@@ -58,7 +58,7 @@
                         <input class="radio_{{member.id}}" type="radio" name="star-input_{{member.id}}" id="s4" value="4"><label class="star mem_{{member.id}}_4" mem_id="{{member.id}}" for="s4"></label>
                         
                         <input class="radio_{{member.id}}" type="radio" name="star-input_{{member.id}}" id="s5" value="5"><label class="star mem_{{member.id}}_5" mem_id="{{member.id}}" for="s5"></label>
-                          <!-- <output for="star-input" class="radio_{{member.id}}"><b>0</b>점</output> -->
+                        
                       </span>
 
                   </div>          
@@ -87,34 +87,43 @@
           content_list.push($('.content_'+item).val());
         }
         var rating_list= []
+        var flag = 1;
         for(const item of id_list){
           // console.log($("input[name='star-input_3']").val())
           len = document.getElementsByClassName('active radio_' + item);
           // console.log($($("input[name=star-input_"+item+"][class=active]")))
           // rating_list.push($('.radio_'+item).val());
+          if(len.length==0){
+            alert("별점은 필수!");
+            flag = 0;
+            break;
+          }
           rating_list.push(len.length);
         }
         // console.log(rating_list)
-        var data = {
+        if(flag){
+          var data = {
             'id_list' : id_list,
             'content_list': content_list,
             'rating_list': rating_list, 
             'project_id' : {{project.id}}
+          }
+          $.ajax({
+              type: "POST",
+              headers: {
+                  'X-CSRFToken' : '{{csrf_token}}'
+              },
+              url: "{% url 'team_review_form' %}",
+              data: JSON.stringify(data),
+              success: function(res) {
+                  location.href = '/project/team_detail/' + '{{project.id}}'
+              },
+              error:function(request,status,error){
+                  alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+              }
+          });
         }
-        $.ajax({
-            type: "POST",
-            headers: {
-                'X-CSRFToken' : '{{csrf_token}}'
-            },
-            url: "{% url 'team_review_form' %}",
-            data: JSON.stringify(data),
-            success: function(res) {
-                location.href = '/project/team_detail/' + '{{project.id}}'
-            },
-            error:function(request,status,error){
-                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-            }
-        });
+        
       });
       $('.star').on("click", function(){
         mem_id = $(this).attr('mem_id');

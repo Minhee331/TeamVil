@@ -10,6 +10,7 @@ urlpatterns = [
     path('member_detail_back/<int:profile_id>', views.member_detail_back, name = "member_detail_back"),
     path('signup/', views.signup, name="signup"),
     path('signup_k/', views.signup_k, name="signup_k"),
+    path('signup_n/', views.signup_k, name="signup_n"),
     path('login/', views.login, name="login"),
     # path('signup_back/', views.signup, name="signup"),
     # path('login_back/', views.login, name="login"),
@@ -37,5 +38,6 @@ urlpatterns = [
     path('message_room/<int:profile_id>', views.message_room, name="message_room"),
     path('load_message', views.load_message, name="load_message"),
     path('send_message', views.send_message, name="send_message"),
+    path('callback', views.callback, name="callback"),
     #path('member_state/<int:state_id>', views.member_state, name ="member_state")
 ]

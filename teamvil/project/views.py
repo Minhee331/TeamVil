@@ -80,16 +80,21 @@ def team_new_back_S(request):
     region1 = Region1.objects.all() #서울시 경기도 충청도 등등의 첫번째 도 
     region1_list = {} #{'서울시' '경기도 --'}
     region2_list = []
+    region_list = {}
     for prov in region1:
         region2_list = Region2.objects.filter(region1_id = prov) #{'서울시 서초구','서울시 강남구','서울시 중구'}
         region1_list[prov.region1] = region2_list
+        li = []
+        for r in region2_list: 
+            li.append([r.id, r.region2]) #['0','서초구'] // ['1','강남구'] 
+        region_list[prov.region1] = li #region_list['서울시'] = ['0','서초구']
     #   region1_list['서울시'] = ['강남구', '중구', '서초구']
     #   region1_list['경기도'] = ['고양시', '안산시', '용인시']
     #   item으로 뽑으면 key랑 value모두 뽑힘 -> [('서울시',['강남구','중구','서초구'])]
     #region2 = Region2.objects.all()
     education = Education.objects.all()
-    return render(request, 'team_new_back_S.html', {"field1s":field1, "region1s": region1, "region1_list": region1_list.items(), #"region2s": region2, 
-                "educations":education })
+    return render(request, 'team_new_back_S.html', {"field1s":field1, "region1s": region1, "region1_list": region1_list.items(), "region_list":region_list #"region2s": region2, 
+                            , "educations":education })
 # C타입 팀만들기 html렌더링
 def team_new_back_C(request):
     field1 = Field1.objects.all()
@@ -225,8 +230,8 @@ def like(request):
     alarm.type = int(1)
     alarm.user_id = project_id.user_id
     alarm.like_id = like
-    alarm.url = '/member/member_detail/' + str(profile.id)
-    # alarm.url = '/project/team_detail/' + str(project_id.id) #프로젝트 연결도 추가시켜주는게 좋을 것 같다.
+    alarm.member_url = '/member/member_detail/' + str(profile.id)
+    alarm.project_url = '/project/team_detail/' + str(project_id.id) #프로젝트 연결도 추가시켜주는게 좋을 것 같다.
     alarm.save()
     return render(request,'team_search_back.html') #team_list에도 적용이 되야된다
 
@@ -428,7 +433,9 @@ def team_apply(request,project_id):
 def answer_form(request,project_id):
     if request.method == "POST":
         obj = json.loads(request.body)
-        q1 = obj['q1'] # ([0, choice_answer, choice_text])
+        q1 = obj['q1']
+        q2 = obj['q2']
+        q3 = obj['q3'] # ([0, choice_answer, choice_text])
         # q1[0]
         # q2 = obj['short']
         # q3 = obj['long']
@@ -472,8 +479,8 @@ def scrap(request):
     alarm.type = int(3)
     alarm.user_id = project_id.user_id
     alarm.scrap_id = scrap
-    alarm.url = '/member/member_detail/' + str(profile.id)
-    # alarm.url = '/project/team_detail/' + str(project_id.id) #프로젝트 연결도 추가시켜주는게 좋을 것 같다.
+    alarm.member_url = '/member/member_detail/' + str(profile.id)
+    alarm.project_url = '/project/team_detail/' + str(project_id.id) #프로젝트 연결도 추가시켜주는게 좋을 것 같다.
     alarm.save()
     return render(request,'team_search_back.html')
 
