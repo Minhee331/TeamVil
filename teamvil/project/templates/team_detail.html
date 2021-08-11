@@ -9,6 +9,7 @@
         <title>Document</title>
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
         <link rel="stylesheet" href="{% static 'css/team_detail.css' %}">
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     </head>
     <body>
         {% include 'navbar.html' %}
@@ -28,14 +29,14 @@
                     </span>
 
                     <div class="team_detail-like-scrap-container spoqa-light">
-                        <a href="" class="team_detail-like-scrap-item">
-                            <img src="{% static 'image/like-btn.png' %}" alt="">
-                            <p>13</p>
+                        <a class="team_detail-like-scrap-item">
+                            <img class="like-scrap like {% active_like 0 project.id user.id %}" src="{% static 'image/like-btn-2.png' %}" value="{{project.id}}">
+                            <p>{% get_like_cnt 0 project.id %}</p>
                         </a>
 
-                        <a href="" class="team_detail-like-scrap-item">
-                            <img src="{% static 'image/scrap-btn.png' %}" alt="">
-                            <p>20</p>
+                        <a class="team_detail-like-scrap-item">
+                            <img class="like-scrap scrap {% active_scrap 0 project.id user.id %}" src="{% static 'image/scrap-btn-2.png' %}" value="{{project.id}}">
+                            <p>{% get_scrap_cnt 0 project.id %}</p>
                         </a>
                     </div>
 
@@ -71,12 +72,15 @@
                     <div class="team_detail-info-detail-button-container">
                         <span class="team_detail-info-detail-title">전체 팀 인원</span>
                         <div>
-                            <a class="team_detail-apply-button" href="{% url 'team_application'  %}">
+                            {% if user == project.user_id %}
+                            <a class="team_detail-apply-button" href="">
                                 <button type="button" class="team_detail-apply">수정하기</button>
                             </a>
-                            <a class="team_detail-apply-button" href="{% url 'team_application'  %}">
+                            {% else %}
+                            <a class="team_detail-apply-button" href="{% url 'team_apply'  project.id %}">
                                 <button type="button" class="team_detail-apply">지원하기</button>
                             </a>
+                            {% endif %}
                         </div>
                     </div>
 
@@ -150,4 +154,72 @@
         </div>
         {% include 'footer.html' %}        
     </body>
+    <script>
+        // 좋아요 활성화
+        $(".like").on("click", function(){ 
+            console.log(124)
+            project_id = $(this).attr('value'); 
+            var like = {
+                'value': project_id
+            }
+            var url = '';
+            if($(this).hasClass('active')){
+                $(this).removeClass('active');
+                url = "{% url 'likecancel' %}"
+                $(this).next().text(parseInt($(this).next().text())-1);
+            }else{
+                $(this).addClass('active');
+                url = "{% url 'like' %}"
+                $(this).next().text(parseInt($(this).next().text())+1);
+            }
+            $.ajax({
+                type:"POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url: url,
+                data :JSON.stringify(like),
+                success: function(res) {
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    alert("로그인하세요.");
+                    
+                }
+            }); 
+        });
+        
+        // 스크랩
+        $(".scrap").on("click", function(){ 
+            project_id = $(this).attr('value'); 
+            var like = {
+                'value': project_id
+            }
+            var url = '';
+            if($(this).hasClass('active')){
+                $(this).removeClass('active');
+                url = "{% url 'scrapcancel' %}"
+                $(this).next().text(parseInt($(this).next().text())-1);
+            }else{
+                $(this).addClass('active');
+                url = "{% url 'scrap' %}"
+                $(this).next().text(parseInt($(this).next().text())+1);
+            }
+            $.ajax({
+                type:"POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url: url,
+                data :JSON.stringify(like),
+                success: function(res) {
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    alert("로그인하세요.");
+                }
+            }); 
+        });
+
+    </script>
 </html>

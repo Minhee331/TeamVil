@@ -1,9 +1,10 @@
 {% load static %}
+{% load custom_tags %}
 <div class="mypage-info-item-wrap-container">
     <div class="mypage-profile-modify-item-container">
         <div class="mypage-profile-modify-element-wrap">
             <p class="mypage-modify-title-text spoqa-regular">이름</p>
-            <p class="mypage-modify-unmodifiable-text spoqa-light">이혜인</p>
+            <p class="mypage-modify-unmodifiable-text spoqa-light">{{profile.name}}</p>
         </div>
 
         <div class="mypage-profile-modify-element-wrap">
@@ -12,15 +13,15 @@
             <div class="mypage-modify-dropdown-item-wrap">
                 <div class="mypage-modify-select-state spoqa-regular drop_btn" value="job">
                     <div class="mypage-modify-select-state-button job col_10">
-                        <p class="spoqa-light">대학생</p>
+                        <p class="spoqa-light" value="{{profile.job_id.id}}">{{profile.job_id}}</p>
                         <img class="mypage-modify-triangle" src="{% static 'image/triangle.png' %}">
                     </div>
         
                     <div class="hidden float" id="job">
                         <div class="mypage-modify-select-list col_10">
-                            <a class="select-job-item spoqa-light">대학생</a>
-                            <a class="select-job-item spoqa-light">무직</a>
-                            <a class="select-job-item spoqa-light">회사원</a>
+                            {% for job in job %}
+                                <a class="select-job-item spoqa-light" value="{{job.id}}">{{job.job}}</a>
+                            {% endfor %} 
                         </div>
                     </div>
                 </div>
@@ -29,15 +30,15 @@
         
         <div class="mypage-profile-modify-element-wrap">
             <p class="mypage-modify-title-text spoqa-regular">나이</p>
-            <p class="mypage-modify-unmodifiable-text spoqa-light">24세</p>
+            <p class="mypage-modify-unmodifiable-text spoqa-light">{% getAge profile.birthday %}세</p>
         </div>
 
         <div class="mypage-profile-modify-element-wrap">
-            <p class="mypage-modify-title-text spoqa-regular">직업</p>
+            <p class="mypage-modify-title-text spoqa-regular">지역</p>
             
             <div class="mypage-modify-dropdown-item-wrap">
                 <div class="mypage-modify-select-state spoqa-regular drop_btn" value="region">
-                    <div class="mypage-modify-select-state-button region col_15">
+                    <!-- <div class="mypage-modify-select-state-button region col_15">
                         <p class="spoqa-light">경기도 고양시</p>
                         <img class="mypage-modify-triangle" src="{% static 'image/triangle.png' %}">
                     </div>
@@ -48,7 +49,22 @@
                             <a class="select-region-item spoqa-light">경기도 용인시</a>
                             <a class="select-region-item spoqa-light">경기도 김포시</a>
                         </div>
-                    </div>
+                    </div> -->
+                    <select id = "region1" onchange="categoryChange()" name="region1" required>
+                        {% for region1 in region1s %}
+                            <option value="{{region1.id}}" class = "{{region1}}">{{region1.region1}}</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <select id="region2" name="region2" required>
+                        {% for region_1,region_2 in region1_list %}
+                            {% if region_1 == '서울시' %}
+                                {% for region in region_2 %}  
+                                    <option value="{{region.id}}" class = "{{region.region2}}">{{region.region2}}</option>
+                                {% endfor %}                     
+                            {% endif %}
+                        {% endfor %}
+                    </select>
                 </div>
             </div>
         </div>
@@ -59,7 +75,15 @@
             <div class="mypage-modify-dropdown-item-wrap">
                 <div class="mypage-modify-select-state spoqa-regular drop_btn" value="state">
                     <div class="mypage-modify-select-state-button state col_15">
-                        <p class="spoqa-light">팀 찾는 중</p>
+                        <p class="spoqa-light">
+                            {% if profile.state == 0 %}
+                                팀 찾는 중
+                            {% elif profile.state == 1 %}
+                                팀 참여 중
+                            {% elif profile.state == 2 %}   
+                                휴식중
+                            {% endif %}
+                        </p>
                         <img class="mypage-modify-triangle" src="{% static 'image/triangle.png' %}">
                     </div>
         
@@ -80,15 +104,15 @@
             <div class="mypage-modify-dropdown-item-wrap">
                 <div class="mypage-modify-select-state spoqa-regular drop_btn" value="field1">
                     <div class="mypage-modify-select-state-button field1 col_15">
-                        <p class="spoqa-light">UX/UI</p>
+                        <p class="spoqa-light" value="{{profile.field1_id.id}}">{{profile.field1_id}}</p>
                         <img class="mypage-modify-triangle" src="{% static 'image/triangle.png' %}">
                     </div>
         
                     <div class="hidden float" id="field1">
                         <div class="mypage-modify-select-list col_15">
-                            <a class="select-field1-item spoqa-light">UX/UI</a>
-                            <a class="select-field1-item spoqa-light">건축</a>
-                            <a class="select-field1-item spoqa-light">게임</a>
+                            {% for field in field1 %}
+                            <a class="select-field1-item spoqa-light" value="{{field1.id}}">{{field.field1}}</a>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -99,7 +123,7 @@
             <p class="mypage-modify-title-text spoqa-regular"></p>
             
             <div class="mypage-modify-input-wrap">
-                <input type="text" class="mypage-modify-input col_15 spoqa-light" placeholder="세부 분야">
+                <input type="text" class="mypage-modify-input col_15 spoqa-light db_field2" value="{{profile.field2}}">
             </div>
         </div>
 
@@ -109,14 +133,15 @@
             <div class="mypage-modify-dropdown-item-wrap">
                 <div class="mypage-modify-select-state spoqa-regular drop_btn" value="term">
                     <div class="mypage-modify-select-state-button term col_17">
-                        <p class="spoqa-light">1개월 | 단기</p>
+                        <p class="spoqa-light" value="{{profile.term_id.id}}">{{profile.term_id}} | {% if profile.term_id.term_type %} 장기 {% else %} 단기 {% endif %}</p>
                         <img class="mypage-modify-triangle" src="{% static 'image/triangle.png' %}">
                     </div>
         
                     <div class="hidden float" id="term">
                         <div class="mypage-modify-select-list col_17">
-                            <a class="select-term-item spoqa-light">1개월 | 단기</a>
-                            <a class="select-term-item spoqa-light">6개월 | 장기</a>
+                            {% for term in term %}
+                                <a class="select-term-item spoqa-light" value="{{term.id}}">{{term.term}} | {% if term.term_type %} 장기 {% else %} 단기 {% endif %}</a>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -129,14 +154,15 @@
             <div class="mypage-modify-dropdown-item-wrap">
                 <div class="mypage-modify-select-state spoqa-regular drop_btn" value="mbti">
                     <div class="mypage-modify-select-state-button mbti col_15">
-                        <p class="spoqa-light">ISTJ</p>
+                        <p class="spoqa-light" value = "{{profile.mbti_id.id}}">{{profile.mbti_id}}</p>
                         <img class="mypage-modify-triangle" src="{% static 'image/triangle.png' %}">
                     </div>
         
                     <div class="hidden float" id="mbti">
                         <div class="mypage-modify-select-list col_15">
-                            <a class="select-mbti-item spoqa-light">ISTJ</a>
-                            <a class="select-mbti-item spoqa-light">ENTP</a>
+                            {% for mbti in mbtis %}
+                                <a class="select-mbti-item spoqa-light" value="{{mbti.id}}">{{mbti.mbti}}</a>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>
@@ -147,7 +173,7 @@
             <p class="mypage-modify-title-text spoqa-regular"></p>
             
             <div class="mypage-modify-input-wrap">
-                <input type="text" class="mypage-modify-input col_60 spoqa-light" placeholder="자신의 성격에 대해 상세히 적어보세요.">
+                <input type="text" class="mypage-modify-input col_60 spoqa-light db_mbti_detail" value="{{profile.mbti_detail}}">
             </div>
         </div>
 
@@ -156,7 +182,7 @@
             
             <div class="mypage-modify-row-wrap">
                 <div class="mypage-modify-input-switch-wrap">
-                    <input type="text" class="mypage-modify-input col_12 spoqa-light" placeholder="010-1234-0000">
+                    <input type="text" class="mypage-modify-input col_12 spoqa-light db_phone" value="{{profile.phone}}">
                 </div>
 
                 <div class="mypage-modify-input-switch-wrap">
@@ -175,7 +201,7 @@
             
             <div class="mypage-modify-row-wrap">
                 <div class="mypage-modify-input-switch-wrap">
-                    <input type="text" class="mypage-modify-input col_15 spoqa-light" placeholder="1234@likelion.org">
+                    <input type="text" class="mypage-modify-input col_15 spoqa-light db_email" value="{{profile.email}}">
                 </div>
 
                 <div class="mypage-modify-input-switch-wrap">
@@ -194,7 +220,7 @@
     <div class="mypage-profile-column-item-container">
         <div class="mypage-profile-detail-info-wrap">
             <p class="mypage-profile-detail-info-title-text spoqa-regular">PR</p>
-            <p class="mypage-profile-detail-info-content-text  spoqa-light">{{profile.pr}}</p>
+            <textarea class="mypage-profile-detail-info-content-text  spoqa-light db_pr">{{profile.pr}}</textarea>
         </div>
 
         {% if profile.isCarrer %}
@@ -225,6 +251,7 @@
         {% endif %}
     </div>
 </div>
+<input class="edit-submit-btn" type="submit" value="수정하기">  
 <script>
     $(document).ready(function(){
         // 드롭다운 열고 닫는 함수
@@ -242,6 +269,7 @@
         // job 선택 시
         $('.select-job-item').on("click", function(){
             $('.mypage-modify-select-state-button.job p').text($(this).text());
+            $('.mypage-modify-select-state-button.job p').attr('value', $(this).attr('value'));
         }); 
         // 지역 선택 시
         $('.select-region-item').on("click", function(){
@@ -254,15 +282,88 @@
         // 관심분야 선택 시
         $('.select-field1-item').on("click", function(){
             $('.mypage-modify-select-state-button.field1 p').text($(this).text());
+            $('.mypage-modify-select-state-button.field1 p').attr('value', $(this).attr('value'));
         }); 
         // 선호기간 선택 시
         $('.select-term-item').on("click", function(){
             $('.mypage-modify-select-state-button.term p').text($(this).text());
+            $('.mypage-modify-select-state-button.term p').attr('value', $(this).attr('value'));
         }); 
         // mbti 선택 시
         $('.select-mbti-item').on("click", function(){
             $('.mypage-modify-select-state-button.mbti p').text($(this).text());
+            $('.mypage-modify-select-state-button.mbti p').attr('value', $(this).attr('value'));
         }); 
         
     });
+    // 지역 선택 시 (region1에 따라 region2가 바뀜)
+    function categoryChange(){
+        var category = $('select[name=region1] option:selected').val(); //숫자 순서대로 
+        var region1 = $('select[name=region1] option:selected').text();
+        // console.log(category);
+        $("#region2").empty();
+        var dict = {{region_list|safe}}
+        str = "";
+        for(const [key, value] of Object.entries(dict)){
+            if(key == region1){
+                console.log(value)
+                for(v in value){
+                    str += `<option value="${value[v][0]}" class = "${value[v][1]}">${value[v][1]}</option>` 
+                    // console.log(v)
+                }
+            }
+        }
+        $("#region2").append(str);
+    }
+    // 수정하기 버튼
+    $(".edit-submit-btn").on("click", function(){ 
+        job_id = $('.mypage-modify-select-state-button.job p').attr('value');
+        region1_id = $('select[name=region1] option:selected').val();
+        region2_id = $('select[name=region2] option:selected').val();
+        state = $('mypage-modify-select-state-button p').text()
+        if(state=="팀 찾는 중"){
+            state = 0
+        }else if(state = "팀 참여 중"){
+            state = 1
+        }else{
+            state = 2
+        }
+        field11_id = $('.mypage-modify-select-state-button.field1 p').attr('value');
+        field2 = $('.db_field2').val();
+        term = $('.mypage-modify-select-state-button.term p').attr('value');
+        mbti = $('.mypage-modify-select-state-button.mbti p').attr('value');
+        mbti_detail = $('.db_mbti_detail').val();
+        phone = $('.db_phone').val();
+        email = $('.db_email').val();
+        pr = $('.db_pr').val();
+        data = {
+            "profile_id":{{profile.id}},
+            "job_id":job_id,
+            "region1_id":region1_id,
+            "region2_id":region2_id,
+            "state":state,
+            "field1_id":field11_id,
+            "field2":field2,
+            "term":term,
+            "mbti":mbti,
+            "mbti_detail":mbti_detail,
+            "phone":phone,
+            "email":email,
+            "pr": pr
+        }
+        $.ajax({
+            type: "POST",
+            headers:{
+                'X-CSRFToken' : '{{csrf_token}}'
+            },
+            url: "{% url 'modify_profile'%}",
+            data: JSON.stringify(data),
+            success: function(res) {
+                location.href = "/member/mypage"
+            },
+            error:function(request,status,error){
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+    }); 
 </script>

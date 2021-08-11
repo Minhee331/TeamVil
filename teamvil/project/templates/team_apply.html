@@ -12,6 +12,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/team_apply.css' %}">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 <body>
     {% include 'navbar.html' %}
@@ -37,7 +38,7 @@
 
                 <div class="team_apply-tasks">
                     {% for duty in duties %}
-                        <div class="team_apply-task">
+                        <div class="team_apply-task" value = '{{duty.id}}'>
                             <p>{{duty.name}} | {{duty.now}} / {{duty.total}}</p>
                         </div>
                     {% endfor %}
@@ -60,7 +61,7 @@
                         {% if question.id|stringformat:"i" == questionlist %}
                             {% for question in questions %}
                                 {% if question.type == 0 %}
-                                    <div class="team_apply-question-item">
+                                    <div class="team_apply-question-item question.id" q_id="{{question.id}}" q_type ='{{question.type}}' >
                                         <div class="team_apply-question spoqa-regular">
                                             {% if question.isRequired == 1 %}
                                                 <p class="team_apply-essential">*</p>
@@ -70,17 +71,17 @@
                                         </div>
                                         
                                         <div>
-                                            {% if question.choice1 is not None %}<input type="checkbox">{{question.choice1}}{% endif %}
-                                            {% if question.choice2 is not None %}<input type="checkbox">{{question.choice2}}{% endif %}
-                                            {% if question.choice3 is not None %}<input type="checkbox">{{question.choice3}}{% endif %}
-                                            {% if question.choice4 is not None %}<input type="checkbox">{{question.choice4}}{% endif %}
-                                            {% if question.choice5 is not None %}<input type="checkbox">{{question.choice5}}{% endif %}
+                                            {% if question.choice1 is not None %}<input type="radio" name='choice{{question.id}}' value="1" checked="checked" txt = "{{question.choice1}}">{{question.choice1}}{% endif %}
+                                            {% if question.choice2 is not None %}<input type="radio" name='choice{{question.id}}' value="2" txt = "{{question.choice2}}">{{question.choice2}}{% endif %}
+                                            {% if question.choice3 is not None %}<input type="radio" name='choice{{question.id}}' value="3" txt = "{{question.choice3}}">{{question.choice3}}{% endif %}
+                                            {% if question.choice4 is not None %}<input type="radio" name='choice{{question.id}}' value="4" txt = "{{question.choice4}}">{{question.choice4}}{% endif %}
+                                            {% if question.choice5 is not None %}<input type="radio" name='choice{{question.id}}' value="5" txt = "{{question.choice5}}">{{question.choice5}}{% endif %}
                                         </div>
                                     </div>
                                 {% endif %}
 
                                 {% if question.type == 1 %}
-                                    <div class="team_apply-question-item">
+                                    <div class="team_apply-question-item question.id" q_id="{{question.id}}" q_type ='{{question.type}}'>
                                         <div class="team_apply-question spoqa-regular">
                                             {% if question.isRequired == 1 %}
                                                 <p class="team_apply-essential">*</p>
@@ -89,12 +90,12 @@
                                             <p class="">{{question.content}}</p>
                                         </div>
     
-                                        <input type="text">
+                                        <input type="text" class="short_answer">
                                     </div>
                                 {% endif %}
 
                                 {% if question.type == 2 %}
-                                    <div class="team_apply-question-item">
+                                    <div class="team_apply-question-item question.id" q_id="{{question.id}}" q_type ='{{question.type}}'>
                                         <div class="team_apply-question spoqa-regular">
                                             {% if question.isRequired == 1 %}
                                                 <p class="team_apply-essential">*</p>
@@ -103,7 +104,7 @@
                                             <p class="">{{question.content}}</p>
                                         </div>
     
-                                        <textarea name="" id="" cols="50" rows="2"></textarea>
+                                        <textarea name="" id="" cols="50" rows="2" class="long_answer"></textarea>
                                     </div>
                                 {% endif %}
                             {% endfor %}
@@ -113,10 +114,57 @@
             </div>
         </div>
 
-        <button>제출하기</button>
+        <button class="submit-btn">제출하기</button>
     </div>
 
     {% include 'footer.html' %}
 </body>
-
+<script>
+    $('.team_apply-task').on("click", function(){ 
+        $('.team_apply-task').removeClass('active');
+        $(this).addClass('active');
+    });
+    $('.submit-btn').on("click", function(){ 
+        duty_id = $('.team_apply-task.active').attr('value')
+        answer = document.getElementsByClassName('team_apply-question-item');
+        a_list = []
+        for(let i=0; i<answer.length; i++){
+            a_dict = {}
+            a_item = $(answer[i])
+            q_id = a_item.attr('q_id')
+            q_type = Number(a_item.attr('q_type'))
+            a_dict['q_id'] = Number(q_id)
+            a_dict['q_type'] = q_type
+            if(q_type==0){
+                a_dict['choice_answer'] = Number(a_item.find(':radio[name=choice'+q_id+']:checked').val())
+                a_dict['choice_text'] = a_item.find(':radio[name=choice'+q_id+']:checked').attr('txt')
+            }else if(q_type==1){
+                a_dict['short_answer'] = a_item.find('.short_answer').val();
+            }else{
+                a_dict['long_answer'] = a_item.find(".long_answer").val();
+            }
+            a_list.push(a_dict)
+        }
+        data = {
+            "duty_id":duty_id,
+            "a_list":a_list,
+            'project_id':{{project.id}}
+        }
+        console.log(data)
+        $.ajax({
+            type: "POST",
+            headers:{
+                'X-CSRFToken' : '{{csrf_token}}'
+            },
+            url: "{% url 'team_apply' project.id %}",
+            data: JSON.stringify(data),
+            success: function(res) {
+                location.href = '/project/team_detail/'+res['project_id']
+            },
+            error:function(request,status,error){
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+    });
+</script>
 </html>

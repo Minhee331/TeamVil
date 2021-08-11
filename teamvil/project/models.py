@@ -6,8 +6,8 @@ from django.utils import timezone
 # Create your models here.
 class Project(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.PROTECT, db_column="user_id")
-    use = models.IntegerField(default=0)
-    isEnd = models.IntegerField(default=0)
+    use = models.IntegerField(default=0) # 삭제 여부
+    isEnd = models.IntegerField(default=0) # 0 미완, 1 완
     type = models.IntegerField() # 창업, 공모전, 프로젝트
     title = models.CharField(max_length=100)
     desc = models.CharField(max_length=100)
@@ -15,12 +15,12 @@ class Project(models.Model):
     field2 = models.CharField(max_length=20)
     region1_id = models.ForeignKey('home.Region1', on_delete = models.CASCADE, db_column="region1_id")
     region2_id = models.ForeignKey('home.Region2', on_delete = models.CASCADE, db_column="region2_id")
-    mem_total = models.IntegerField()
-    mem_now = models.IntegerField()
-    mem_duty = models.IntegerField(default=0)
+    mem_total = models.IntegerField() # 프로젝트 총 인원
+    mem_now = models.IntegerField() # 모집된 인원
+    mem_duty = models.IntegerField(default=0) # 모집할 직무 총인원 (mem_total-mem_now)
     start_date = models.DateField()
     end_date = models.DateField()
-    state = models.IntegerField(default=1)
+    state = models.IntegerField(default=1) # 1 모집중 0 모집완료
     school = models.CharField(max_length=45, null=True)
     content = models.TextField()
     isLink = models.IntegerField(default=0)

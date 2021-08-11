@@ -62,6 +62,13 @@
     border: 1px solid #0F59FF;
     border-radius: 3px;
     width: 150px;
+    background-color: #FFFFFF;
+    color: #1B1B1B;
+}
+
+.team_new-upper-category-item.active{
+    background-color: #0F59FF !important;
+    color: #FFFFFF !important;
 }
 
 .team_new-upper-category-item h6 {
@@ -159,7 +166,13 @@
 
 /* photo */
 .team_new-input-photo {
+    display: block;
     margin-left: 10px;
+}
+
+#image_container img {
+    width: 324.985px;
+    height: 212.055px;
 }
 
 /* date */
@@ -227,6 +240,242 @@
     border-radius: 1px;
     background-color: #FFFFFF;
     color: #0F59FF;
+    font-size: 12px;
+    width: 80px;
+    height: 25px;
+}
+
+
+
+
+
+
+
+/* team_form */
+
+/* main */
+.team_form-main-container {
+    margin: 50px 300px;
+}
+
+.team_form-menu-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.team_form-menu-container p {
+    margin-right: 50px;
+}
+
+.team_form-menu-container input {
+    margin-right: 20px;
+    border: 1px solid #0F59FF;
+    border-radius: 1px;
+    background-color: #FFFFFF;
+    width: 60px;
+    height: 20px;
+    font-size: 12px;
+}
+
+.team_form-menu-container input:hover {
+    margin-right: 20px;
+    background-color: #0F59FF;
+    color: #FFFFFF;
+}
+
+.team_form-x-btn {
+    width: 10px;
+    height: 10px;
+    margin-left: 3px;
+}
+
+.team_form-x-btn:hover {
+    cursor: pointer;
+}
+
+/* select */
+.team_form-sel-question-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px 25px;
+    border: 1px solid #ebebeb;
+    width: 855px;
+    /* height: 100px; */
+}
+
+.team_form-sel-question-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.team_form-extra-container {
+    display: flex;
+}
+
+/* question */
+.team_form-question-item-box {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.team_form-question-num {
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    background-color: #0F59FF;
+    color: #FFFFFF;
+    font-size: 12px;
+}
+
+.team_form-question-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 25px;
+    border: 1px solid #ebebeb;
+    height: 50px;
+}
+
+.team_form-question-input {
+    width: 500px;
+    height: 30px;
+    border: 1px solid #ebebeb;
+}
+
+/* toggle */
+.toggleBG {
+    margin-left: 20px;
+    background: #ebebeb;
+    width: 70px;
+    height: 30px;
+    border: 1px solid #ebebeb;
+    border-radius: 15px;
+}
+
+.toggleFG {
+    background: #FFFFFF;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 15px;
+    position: relative;
+    left: 0px;
+}
+
+.desc {
+    display: inline-flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    width: 62px;
+    height: 30px;
+    margin-left: -26px;
+}
+
+.desc p {
+    font-size: 11px;
+    color: black;
+}
+
+/* dropdown */
+.member_search-member-select-state {
+    width: 80px;
+    height: 30px;
+    margin: 0 20px;
+}
+
+.member_search-select-state-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ebebeb;
+    border-radius: 1px;
+    padding: 0 10px;
+    
+}
+
+.member_search-select-state-button p {
+    font-size: 13px;
+}
+
+.member_search-select-state-list {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ebebeb;
+    border-top: none;
+    padding: 0 10px;
+    padding-top: 10px;
+    width: 58px;
+    background-color: #ffffff;
+}
+
+.member_search-select-state-list a {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+.float {
+    position: absolute;
+}
+
+/* checkbox */
+.team_form-checkbox-container {
+    display: flex;
+    align-items: center;
+}
+
+.team_form-checkbox-container input {
+    margin-right: 5px;
+}
+
+.team_form-checkbox-container p {
+    font-size: 12px;
+}
+
+/* option */
+.team_form-option-container {
+    
+}
+
+.team_form-option-container input {
+    width: 200px;
+    height: 30px;
+    border: 1px solid #ebebeb;
+    margin: 20px 40px 0 0;
+}
+
+/* btn */
+.team_form-btn-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.team_form-btn-container a {
+    margin-left: 15px;
+}
+
+.team_form-btn-container input {
+    border: 2px solid #0F59FF;
+    border-radius: 1px;
+    background-color: #FFFFFF;
+    color: #0F59FF;
+    font-size: 12px;
+    width: 80px;
+    height: 25px;
+}
+
+.team_form-btn-container button {
+    border: 2px solid #0F59FF;
+    border-radius: 1px;
+    background-color: #0F59FF;
+    color: #FFFFFF;
     font-size: 12px;
     width: 80px;
     height: 25px;

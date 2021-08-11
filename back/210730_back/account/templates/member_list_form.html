@@ -54,30 +54,67 @@
 {% endif %}
 
 <script>
-    $(document).ready(function(){
-        $('.like_submit').on("click", function(){
-            var memlike = {
-                'value': $(this).val()
-            }
-            $.ajax({
-                type:"POST",
-                headers:{
-                    'X-CSRFToken' : '{{csrf_token}}'
-                },
-                url:"{% url 'likes' %}",
-                data :JSON.stringify(memlike),
-                success: function(res) {
-                    if ($('.like_submit_delete').is('.hidden')){
-                        $('.like_submit_delete').removeClass('hidden');
-                        $('.like_submit').addClass('hidden');
-                    }
-                },
-                error:function(request,status,error){
-                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                    alert("로그인하세요.");
-                    
-                }
-            }); 
-        }); 
-    }
+    // $(".like").on("click", function(){ 
+    //     profile_id = $(this).attr('value'); 
+    //     var like = {
+    //         'value': profile_id
+    //     }
+    //     var url = '';
+    //     if($(this).hasClass('active')){
+    //         $(this).removeClass('active');
+    //         url = "{% url 'likecancels' %}"
+    //         $(this).next().text(parseInt($(this).next().text())-1);
+    //     }else{
+    //         $(this).addClass('active');
+    //         url = "{% url 'likes' %}"
+    //         $(this).next().text(parseInt($(this).next().text())+1);
+    //     }
+    //     $.ajax({
+    //         type:"POST",
+    //         headers:{
+    //             'X-CSRFToken' : '{{csrf_token}}'
+    //         },
+    //         url: url,
+    //         data :JSON.stringify(like),
+    //         success: function(res) {
+    //         },
+    //         error:function(request,status,error){
+    //             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+    //             alert("로그인하세요.");
+                
+    //         }
+    //     }); 
+    // });
+        
+    // // 스크랩
+    // $(".scrap").on("click", function(){ 
+    //     profile_id = $(this).attr('value'); 
+    //     var like = {
+    //         'value': profile_id
+    //     }
+    //     var url = '';
+    //     if($(this).hasClass('active')){
+    //         $(this).removeClass('active');
+    //         url = "{% url 'scrapcancels' %}"
+    //         $(this).next().text(parseInt($(this).next().text())-1);
+    //     }else{
+    //         $(this).addClass('active');
+    //         url = "{% url 'scraps' %}"
+    //         $(this).next().text(parseInt($(this).next().text())+1);
+    //     }
+    //     $.ajax({
+    //         type:"POST",
+    //         headers:{
+    //             'X-CSRFToken' : '{{csrf_token}}'
+    //         },
+    //         url: url,
+    //         data :JSON.stringify(like),
+    //         success: function(res) {
+    //         },
+    //         error:function(request,status,error){
+    //             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+    //             alert("로그인하세요.");
+    //         }
+    //     }); 
+    // });
 </script>

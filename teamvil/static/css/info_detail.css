@@ -14,7 +14,8 @@
 /* 상단 박스 */
 .info_detail-box-wrap{
     display: flex;
-    width: 850px;
+    width: 100%;
+    margin: 0 80px;
     height: 370px;
     border: 1px solid #ebebeb;
     border-radius: 1px;
@@ -27,7 +28,7 @@
 .info_detail-item-wrap{
     display: flex;
     flex-direction: column;
-    width: 590px;
+    width: 100%;
     padding: 60px 50px;
 }
 .info_detail-content-title-divide-wrap{
@@ -51,8 +52,10 @@
     align-items: center;
 }
 .info_detail-box-line{
-    border: 1px solid #ebebeb;
     width: 100%;
+    height: 1px;
+    background-color: #ebebeb;
+    border: 0;
 }
 .info_detail-content-content-divide-wrap{
     height: 70px;
@@ -74,33 +77,58 @@
 }
 /* 수평선 */
 .info_detail-line{
-    border: 1px solid #ebebeb;
-    margin: 40px -50px;
-}
-/* 하단 상세 설명 */
-.info_detail-detail-text{
-    font-size: 18px;
-    margin-bottom: 20px;
-}
-.info_detail-detail-img-wrap{
-    margin: 0 12px;
-}
-.info_detail-detail-img{
+    height: 1px;
+    background-color: #ebebeb;
+    border: 0;
     width: 100%;
-    width: 828px;
-}
-.info_detail-detail-text-inline-wrap{
     margin: 40px 0;
+}
+/* 상세 설명 */
+.info_detail-detail-text-wrap{
+    margin: 0 95px 20px 80px;
+    width: 100%;
     display: flex;
+    justify-content: space-between;
     align-items: flex-end;
 }
-.info_detail-link-text{
-    font-size: 16px;
-    margin-bottom: 20px;
-    margin-left: 30px;
+.info_detail-detail-text{
+    font-size: 18px;
 }
-
-/* 설명 */
+.info_detail-view-text{
+    font-size: 13px;
+    
+}
+/* 상세 이미지 */
+.info_detail-img-wrap{
+    width: 100%;
+    padding: 0 95px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.info_detail-img-item{
+    max-width: 100%;
+    margin-bottom: 30px;
+}
+/* 상세 설명 텍스트 */
 .info_detail-desc-text{
     width: 100%;
+    font-size: 16px;
+    margin: 0 95px;
+    text-align: justify;
+    line-height: 30px;
+}
+/* 링크, 파일 */
+.info_detail-detail-text-inline-wrap{
+    width: 100%;
+    margin: 0 80px 70px 80px;
+    display: flex;
+}
+.info_detail-link-wrap{
+    margin-top: 5px;
+    margin-left: 30px;
+}
+.info_detail-link-text{
+    font-size: 14px;
+    margin-bottom: 8px;
 }

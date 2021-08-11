@@ -9,6 +9,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 <body>
     {% include 'navbar.html' %}
@@ -68,24 +69,48 @@
                         <div class="home-latest-team-table-item">
                             {% for project in projects %}
                                 <article class="home-latest-team-item">
-                                    <img class="home-latest-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                                    <div class="home-latest-team-item-text">
-                                        <p class="home-latest-team-item-title spoqa-medium">{{project.title}}</p>
-                                        
-                                        <p class="home-latest-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
-                                        
-                                        <p class="home-latest-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
-                                        
-                                        <p class="home-latest-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
-                                            {% if project.state == 1%}
-                                                (모집중)
-                                            {% else %}
-                                                (모집완료)
-                                            {% endif %}
-                                        </p>
-                                        
-                                        <p class="home-latest-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
+                                    <a href="{% url 'team_detail' project.id %}">
+                                        <img class="home-latest-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
+                                    </a>
+                                    <div class="home-latest-team-item-wrap">
+                                        <a href="{% url 'team_detail' project.id %}">
+                                            <div class="home-latest-team-item-text">
+                                                <p class="home-latest-team-item-title spoqa-medium">{{project.title}}</p>
+                                                
+                                                <p class="home-latest-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
+                                                
+                                                <p class="home-latest-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
+                                                
+                                                <p class="home-latest-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
+                                                    {% if project.state == 1%}
+                                                        (모집중)
+                                                    {% else %}
+                                                        (모집완료)
+                                                    {% endif %}
+                                                </p>
+                                                
+                                                <p class="home-latest-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
+                                            </div>
+                                        </a>
+                                        <div class="home-latest-like-scrap-container spoqa-light">
+                                            <a class="home-latest-like-scrap-item">
+                                                {% if user.is_authenticated %}
+                                                <img class="like-scrap like like-project {% active_like 0 project.id user.id %}" src="{% static 'image/like-btn-2.png' %}" value="{{project.id}}">
+                                                {% else %}
+                                                <img class="like-scrap like like-project" src="{% static 'image/like-btn-2.png' %}" value="{{project.id}}">
+                                                {% endif %}
+                                                <p>{% get_like_cnt 0 project.id %}</p>
+                                            </a>
+        
+                                            <a class="home-latest-like-scrap-item">
+                                                {% if user.is_authenticated %}
+                                                <img class="like-scrap scrap scrap-project {% active_scrap 0 project.id user.id %}" src="{% static 'image/scrap-btn-2.png' %}" value="{{project.id}}">
+                                                {% else %}
+                                                <img class="like-scrap scra scrap-project" src="{% static 'image/scrap-btn-2.png' %}" value="{{project.id}}">
+                                                {% endif %}
+                                                <p>{% get_scrap_cnt 0 project.id %}</p>
+                                            </a>
+                                        </div>
                                     </div>
                                 </article>
                             {% endfor %}
@@ -102,18 +127,39 @@
                         <div class="home-latest-member-table-item">
                         {% for profile in profiles %}
                             <article class="home-latest-member-item">
-                                <div class="home-latest-member-profile-container">
-                                    <div class="home-latest-member-name-container">
-                                        <img class="home-latest-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-                                        <p class="spoqa-medium">{{profile.name}}</p>
+                                <a href="{% url 'member_detail' profile.id %}">
+                                    <div class="home-latest-member-profile-container">
+                                        <div class="home-latest-member-name-container">
+                                            <img class="home-latest-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+                                            <p class="spoqa-medium">{{profile.name}}</p>
+                                        </div>
                                     </div>
-                                </div>
+                                </a>
+                                <a href="{% url 'member_detail' profile.id %}">
+                                    <p>성격유형 : {{profile.mbti_id.mbti}}</p>
+                                    <p>관심분야 : {{profile.field1_id.field1}}</p>
+                                    <p>나이 : {% getAge profile.birthday %}</p>
+                                </a>
+                                <div class="member-latest-regtion-like-wrap">
+                                    <p>지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
+                                    <a class="home-latest-like-scrap-item">
+                                        {% if user.is_authenticated %}
+                                        <img class="like-scrap like like-member {% active_like 1 profile.id user.id %}" src="{% static 'image/like-btn-2.png' %}" value="{{profile.user_id.id}}">
+                                        {% else %}
+                                        <img class="like-scrap like like-member" src="{% static 'image/like-btn-2.png' %}" value="{{profile.user_id.id}}">
+                                        {% endif %}
+                                        <p>{% get_like_cnt 1 profile.id %}</p>
+                                    </a>
 
-                                <p>성격유형 : {{profile.mbti_id.mbti}}</p>
-                                <p>관심분야 : {{profile.field1_id.field1}}</p>
-                                <p>나이 : {% getAge profile.birthday %}</p>
-                                <p>직업 : {{ profile.job_id.job }}</p>
-                                <p>지역 : {{ profile.region1_id.region1 }} {{ profile.region2_id.region2 }}</p>
+                                    <a class="home-latest-like-scrap-item">
+                                        {% if user.is_authenticated %}
+                                        <img class="like-scrap scrap scrap-member {% active_scrap 1 profile.id user.id %}" src="{% static 'image/scrap-btn-2.png' %}" value="{{profile.user_id.id}}">
+                                        {% else %}
+                                        <img class="like-scrap scrap scrap-member" src="{% static 'image/scrap-btn-2.png' %}" value="{{profile.user_id.id}}">
+                                        {% endif %}
+                                        <p>{% get_scrap_cnt 1 profile.id %}</p>
+                                    </a>
+                                </div>
                             </article>
                         {% endfor %}
                         </div>
@@ -124,5 +170,154 @@
     </div>
     {% include 'footer.html' %}
     <script type="text/javascript" src="{% static 'js/home.js' %}"></script>
+    <script>
+        // 좋아요 활성화
+        $(".like-project").on("click", function(){ 
+            user = {% if user.is_authenticated %}true{% else %}false{% endif %}
+            if(user){
+                project_id = $(this).attr('value'); 
+                var like = {
+                    'value': project_id
+                }
+                var url = '';
+                if($(this).hasClass('active')){
+                    $(this).removeClass('active');
+                    url = "{% url 'likecancel' %}"
+                    $(this).next().text(parseInt($(this).next().text())-1);
+                }else{
+                    $(this).addClass('active');
+                    url = "{% url 'like' %}"
+                    $(this).next().text(parseInt($(this).next().text())+1);
+                }
+                $.ajax({
+                    type:"POST",
+                    headers:{
+                        'X-CSRFToken' : '{{csrf_token}}'
+                    },
+                    url: url,
+                    data :JSON.stringify(like),
+                    success: function(res) {
+                    },
+                    error:function(request,status,error){
+                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                        alert("로그인하세요.");
+                        
+                    }
+                }); 
+            }else{
+                alert("로그인하세요.");
+            }
+        });
+
+        // // 스크랩
+        $(".scrap-project").on("click", function(){ 
+            user = {% if user.is_authenticated %}true{% else %}false{% endif %}
+            if(user){
+                project_id = $(this).attr('value'); 
+                var like = {
+                    'value': project_id
+                }
+                var url = '';
+                if($(this).hasClass('active')){
+                    $(this).removeClass('active');
+                    url = "{% url 'scrapcancel' %}"
+                    $(this).next().text(parseInt($(this).next().text())-1);
+                }else{
+                    $(this).addClass('active');
+                    url = "{% url 'scrap' %}"
+                    $(this).next().text(parseInt($(this).next().text())+1);
+                }
+                $.ajax({
+                    type:"POST",
+                    headers:{
+                        'X-CSRFToken' : '{{csrf_token}}'
+                    },
+                    url: url,
+                    data :JSON.stringify(like),
+                    success: function(res) {
+                    },
+                    error:function(request,status,error){
+                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                        alert("로그인하세요.");
+                    }
+                }); 
+            }else{
+                alert("로그인하세요.");
+            }
+        });
+        $(".like-member").on("click", function(){ 
+            user = {% if user.is_authenticated %}true{% else %}false{% endif %}
+            if(user){
+                profile_id = $(this).attr('value'); 
+                var like = {
+                    'value': profile_id
+                }
+                var url = '';
+                if($(this).hasClass('active')){
+                    $(this).removeClass('active');
+                    url = "{% url 'likecancels' %}"
+                    $(this).next().text(parseInt($(this).next().text())-1);
+                }else{
+                    $(this).addClass('active');
+                    url = "{% url 'likes' %}"
+                    $(this).next().text(parseInt($(this).next().text())+1);
+                }
+                $.ajax({
+                    type:"POST",
+                    headers:{
+                        'X-CSRFToken' : '{{csrf_token}}'
+                    },
+                    url: url,
+                    data :JSON.stringify(like),
+                    success: function(res) {
+                    },
+                    error:function(request,status,error){
+                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                        alert("로그인하세요.");
+                        
+                    }
+                }); 
+            }else{
+                alert("로그인하세요.");
+            }
+        });
+        
+        // 스크랩
+        $(".scrap-member").on("click", function(){ 
+            user = {% if user.is_authenticated %}true{% else %}false{% endif %}
+            if(user){
+                profile_id = $(this).attr('value'); 
+                var like = {
+                    'value': profile_id
+                }
+                var url = '';
+                if($(this).hasClass('active')){
+                    $(this).removeClass('active');
+                    url = "{% url 'scrapcancels' %}"
+                    $(this).next().text(parseInt($(this).next().text())-1);
+                }else{
+                    $(this).addClass('active');
+                    url = "{% url 'scraps' %}"
+                    $(this).next().text(parseInt($(this).next().text())+1);
+                }
+                $.ajax({
+                    type:"POST",
+                    headers:{
+                        'X-CSRFToken' : '{{csrf_token}}'
+                    },
+                    url: url,
+                    data :JSON.stringify(like),
+                    success: function(res) {
+                    },
+                    error:function(request,status,error){
+                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                        alert("로그인하세요.");
+                    }
+                }); 
+            }else{
+                alert("로그인하세요.");
+            }
+        });
+    </script>
 </body>
 </html>

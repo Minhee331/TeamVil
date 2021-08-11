@@ -1,4 +1,5 @@
 from typing import ContextManager
+from django.db.models.query_utils import PathInfo
 from django.shortcuts import render , redirect
 from .models import *
 import datetime
@@ -175,7 +176,7 @@ def signup_k(request):
             profile.isReview = 0
             profile.save()
             auth.login(request, user)
-            return render(request, 'signup.html')
+            return redirect('/')
     else :
         return render(request, 'signup.html')
 
@@ -185,6 +186,7 @@ def signup_n(request):
         user_name= obj['name']
         user_id = obj['id']
         user_email = obj['email']
+        user_phone = obj['phone']
         if User.objects.filter(username=id).exists():
             auth.login(request)
             return render(request, 'signup.html')   
@@ -198,7 +200,7 @@ def signup_n(request):
             mbti.mbti_cnt = mbti.mbti_cnt + 1
             mbti.save()
             profile.email =user_email # 추후 수정 필요
-            profile.phone =  "010-1234-5678"
+            profile.phone =  user_phone
             profile.birthday = "2021-07-10" # 추후 수정 필요
             profile.region1_id = Region1.objects.get(id=1) # 추후 수정 필요
             profile.region2_id = Region2.objects.get(id=1) # 추후 수정 필요
@@ -216,7 +218,7 @@ def signup_n(request):
             profile.isReview = 0
             profile.save()
             auth.login(request, user)
-            return render(request, 'signup.html')
+            return redirect('/')
     else :
         return render(request, 'signup.html')
 
@@ -368,76 +370,76 @@ def filterMember(request):
     if state[0]=='all':state=[0, 1, 2]
     if job[0]=='all':job=list(Job.objects.values_list('id', flat=True))
     profiles = Profile.objects.filter(field1_id__id__in=field1,mbti_id__id__in=mbti,region2_id__id__in=region,
-                                    term_id__id__in=term, state__in=state, job_id__id__in=job).order_by('id')
+                                    term_id__id__in=term, state__in=state, job_id__id__in=job).order_by('-id')
     return render(request, "member_list_form.html", {'profiles':profiles})
 
-#마이페이지 프로필 수정 함수
-def mypage_modify_profile_edit(request):
-    user = request.user
-    profile = Profile.objects.get(user_id = user)
-    field1 = Field1.objects.all()
-    mbti = Mbti.objects.all()
-    job = Job.objects.all()
-    region1 =Region1.objects.all()
-    region2 =Region2.objects.all()
-    term =Term.objects.all()
-    user_links = User_link.objects.filter(user_id = user)
-    user_files = User_file.objects.filter(user_id = user)
-    user_carrers = User_carrer.objects.filter(user_id = user)
-    return render(request, "mypage_modify_profile_back_sunneng.html", {"term":term,"region2":region2,"region1":region1,"mbti":mbti,"job":job,"field1":field1,"profile":profile, "user_links": user_links, "user_files": user_files ,  "user_carrers":user_carrers})
+# #마이페이지 프로필 수정 함수
+# def mypage_modify_profile_edit(request):
+#     user = request.user
+#     profile = Profile.objects.get(user_id = user)
+#     field1 = Field1.objects.all()
+#     mbtis = Mbti.objects.all()
+#     job = Job.objects.all()
+#     region1 =Region1.objects.all()
+#     region2 =Region2.objects.all()
+#     term =Term.objects.all()
+#     user_links = User_link.objects.filter(user_id = user)
+#     user_files = User_file.objects.filter(user_id = user)
+#     user_carrers = User_carrer.objects.filter(user_id = user)
+#     return render(request, "mypage_modify_profile_back_sunneng.html", {"term":term,"region2":region2,"region1":region1,"mbtis":mbtis,"job":job,"field1":field1,"profile":profile, "user_links": user_links, "user_files": user_files ,  "user_carrers":user_carrers})
 
-#마이페이지 프로필 update 함수
-def mypage_modify_profile_update(request):
-    user = request.user
-    name = request.POST.get('name')
-    job = Job.objects.get(id=request.POST.get('job_id'))
-    birthday = request.POST.get('birthday')
-    region1 = Region1.objects.get(id=request.POST.get('region1_id'))
-    region2 = Region2.objects.get(id=request.POST.get('region2_id'))
-    state = request.POST.get('state')
-    field1 = Field1.objects.get(id=request.POST.get('field1_id'))
-    field2 = request.POST.get('field2')
-    term = Term.objects.get(id=request.POST.get('term_id'))
-    mbti = Mbti.objects.get(id=request.POST.get('mbti_id'))
-    mbti_detail = request.POST.get('mbti_detail')
-    pr = request.POST.get('pr')
-    profile = Profile.objects.get(user_id = user)
-    save_mbti_id = profile.mbti_id.id
-    save_mbti = Mbti.objects.get(id=save_mbti_id)
-    save_mbti.mbti_cnt = save_mbti.mbti_cnt -1
-    save_mbti.save()
-    profile.name = name
-    profile.job_id = job
-    profile.birthday = birthday
-    profile.region1_id = region1
-    profile.region2_id = region2
-    profile.state = state
-    profile.field1_id = field1
-    profile.field2 = field2
-    profile.term_id = term  
-    profile.mbti_id =mbti
-    mbti.mbti_cnt = mbti.mbti_cnt + 1
-    mbti.save()
-    profile.mbti_detail = mbti_detail
-    profile.pr = pr
-    # user_links = User_link.objects.filter(user_id = user) # 링크 여러개 수정할 수 있도록
-    # user_links.link = request.POST.get('link')
-    # if(request.FILES.getlist('user_files')): 
-    #         profile.isfile = 1
-    # user_carrers = User_carrer.objects.filter(user_id = user) # 커리어 여러개 수정할 수 있도록
-    # user_carrers.start_date = request.POST.get('start_date')
-    # user_carrers.end_date = request.POST.get('end_date')
-    # user_carrers.content = request.POST.get('content')
-    profile.submit = 1
-    profile.save()
-    # for files in request.FILES.getlist('user_files'): # 파일 여러개 수정할 수 있도록
-    #     user_files = User_file()
-    #     user_files.profile_id = profile
-    #     user_files.file = files
-    #     user_files.save()
-    #     profile.isFile = 1
-    #     profile.save() 
-    return redirect('/member/mypage')
+# #마이페이지 프로필 update 함수
+# def mypage_modify_profile_update(request):
+#     user = request.user
+#     name = request.POST.get('name')
+#     job = Job.objects.get(id=request.POST.get('job_id'))
+#     birthday = request.POST.get('birthday')
+#     region1 = Region1.objects.get(id=request.POST.get('region1_id'))
+#     region2 = Region2.objects.get(id=request.POST.get('region2_id'))
+#     state = request.POST.get('state')
+#     field1 = Field1.objects.get(id=request.POST.get('field1_id'))
+#     field2 = request.POST.get('field2')
+#     term = Term.objects.get(id=request.POST.get('term_id'))
+#     mbti = Mbti.objects.get(id=request.POST.get('mbti_id'))
+#     mbti_detail = request.POST.get('mbti_detail')
+#     pr = request.POST.get('pr')
+#     profile = Profile.objects.get(user_id = user)
+#     save_mbti_id = profile.mbti_id.id
+#     save_mbti = Mbti.objects.get(id=save_mbti_id)
+#     save_mbti.mbti_cnt = save_mbti.mbti_cnt -1
+#     save_mbti.save()
+#     profile.name = name
+#     profile.job_id = job
+#     profile.birthday = birthday
+#     profile.region1_id = region1
+#     profile.region2_id = region2
+#     profile.state = state
+#     profile.field1_id = field1
+#     profile.field2 = field2
+#     profile.term_id = term  
+#     profile.mbti_id =mbti
+#     mbti.mbti_cnt = mbti.mbti_cnt + 1
+#     mbti.save()
+#     profile.mbti_detail = mbti_detail
+#     profile.pr = pr
+#     # user_links = User_link.objects.filter(user_id = user) # 링크 여러개 수정할 수 있도록
+#     # user_links.link = request.POST.get('link')
+#     # if(request.FILES.getlist('user_files')): 
+#     #         profile.isfile = 1
+#     # user_carrers = User_carrer.objects.filter(user_id = user) # 커리어 여러개 수정할 수 있도록
+#     # user_carrers.start_date = request.POST.get('start_date')
+#     # user_carrers.end_date = request.POST.get('end_date')
+#     # user_carrers.content = request.POST.get('content')
+#     profile.submit = 1
+#     profile.save()
+#     # for files in request.FILES.getlist('user_files'): # 파일 여러개 수정할 수 있도록
+#     #     user_files = User_file()
+#     #     user_files.profile_id = profile
+#     #     user_files.file = files
+#     #     user_files.save()
+#     #     profile.isFile = 1
+#     #     profile.save() 
+#     return redirect('/member/mypage')
 
 # 마이페이지 함수
 def mypage(request):
@@ -466,30 +468,97 @@ def mypage_project(request):
 def mypage_modify_profile(request):
     user = request.user
     profile = Profile.objects.get(user_id = user)
+    field1 = Field1.objects.all()
+    mbtis = Mbti.objects.all()
+    job = Job.objects.all()
+    region1 = Region1.objects.all() #서울시 경기도 충청도 등등의 첫번째 도 
+    region1_list = {} #{'서울시' '경기도 --'}
+    region2_list = []
+    region_list = {}
+    for prov in region1:
+        region2_list = Region2.objects.filter(region1_id = prov) #{'서울시 서초구','서울시 강남구','서울시 중구'}
+        region1_list[prov.region1] = region2_list
+        li = []
+        for r in region2_list: 
+            li.append([r.id, r.region2]) #['0','서초구'] // ['1','강남구'] 
+        region_list[prov.region1] = li #region_list['서울시'] = ['0','서초구']
+    term =Term.objects.all()
     user_links = User_link.objects.filter(user_id = user)
     user_files = User_file.objects.filter(user_id = user)
-    user_reviews = User_review.objects.filter(to_user_id = user)
     user_carrers = User_carrer.objects.filter(user_id = user)
-    return render(request, "mypage_modify_profile.html", {"profile":profile, "user_links": user_links, "user_files": user_files , 
-                "user_reviews": user_reviews, "user_carrers":user_carrers})
+    return render(request, "mypage_modify_profile.html", {"term":term,"region1s": region1, "region1_list": region1_list.items(), "region_list":region_list,"mbtis":mbtis,"job":job,"field1":field1,"profile":profile, "user_links": user_links, "user_files": user_files ,  "user_carrers":user_carrers})
 
+def modify_profile(request):
+    obj = json.loads(request.body)
+    profile_id = obj['profile_id']
+    job_id = obj['job_id']
+    job = Job.objects.get(id = job_id)
+    region1_id = obj['region1_id']
+    region1 = Region1.objects.get(id=region1_id)
+    region2_id = obj['region2_id']
+    region2 = Region2.objects.get(id=region2_id)
+    state = obj['state']
+    field1_id = obj['field1_id']
+    field1 = Field1.objects.get(id=field1_id)
+    field2 = obj['field2']
+    term_id = obj['term']
+    term = Term.objects.get(id=term_id)
+    mbti_id = obj['mbti']
+    mbti = Mbti.objects.get(id=mbti_id)
+    mbti.mbti_cnt = mbti.mbti_cnt+1
+    mbti.save()
+    mbti_detail = obj['mbti_detail']
+    phone = obj['phone']
+    email = obj['email']
+    pr = obj['pr']
+    profile = Profile.objects.get(id = profile_id)
+    profile.job_id = job
+    profile.region1_id = region1
+    profile.region2_id = region2
+    profile.state = state
+    profile.field1_id = field1
+    profile.field2 = field2
+    profile.term_id = term
+    m_save = profile.mbti_id
+    m_save.mbti_cnt = m_save.mbti_cnt - 1
+    m_save.save()
+    profile.mbti_id = mbti
+    profile.mbti_detail = mbti_detail
+    profile.phone = phone
+    profile.email = email
+    profile.pr = pr
+    profile.save()
+    res = {
+        'suc':"success",
+    }
+    return JsonResponse(res)
 # 마이페이지 좋아요 페이지 함수
 def mypage_like(request):
     user = request.user
-    projects = Project.objects.filter(user_id=user)
-    likes = Like.objects.filter(to_user_id =user)
-    scraps = Scrap.objects.filter(to_user_id =user)
-    profiles = Profile.objects.all().order_by('-id')[:4]
-    return render(request, "mypage_like.html", {'projects':projects, "likes": likes,"scrpas": scraps, "profiles":profiles})
+    project_like = Like.objects.filter(type=0, from_user_id = user).values('project_id')
+    project_like = list(project_like)
+    project_like_list = [d['project_id'] for d in project_like]
+    projects = Project.objects.filter(id__in = project_like_list).order_by('-id')
+    member_like = Like.objects.filter(type = 1,  from_user_id = user).values('to_user_id')
+    member_like = list(member_like)
+    member_like_list = [d['to_user_id'] for d in member_like]
+    like_users = User.objects.filter(id__in=member_like_list)
+    profiles = Profile.objects.filter(user_id__in=like_users)
+    return render(request, "mypage_like.html", {'projects':projects, "profiles":profiles})
 
 # 마이페이지 스크랩 페이지 함수
 def mypage_scrap(request):
     user = request.user
-    projects = Project.objects.filter(user_id=user)
-    likes = Like.objects.filter(to_user_id =user)
-    scraps = Scrap.objects.filter(to_user_id =user)
-    profiles = Profile.objects.all().order_by('-id')[:4]
-    return render(request, "mypage_like.html", {'projects':projects, "likes": likes,"scrpas": scraps, "profiles":profiles})
+    project_scrap = Scrap.objects.filter(type=0, from_user_id = user).values('project_id')
+    project_scrap = list(project_scrap)
+    project_scrap_list = [d['project_id'] for d in project_scrap]
+    projects = Project.objects.filter(id__in = project_scrap_list).order_by('-id')
+    member_scrap = Scrap.objects.filter(type = 1,  from_user_id = user).values('to_user_id')
+    member_scrap = list(member_scrap)
+    member_scrap_list = [d['to_user_id'] for d in member_scrap]
+    scrap_users = User.objects.filter(id__in=member_scrap_list)
+    profiles = Profile.objects.filter(user_id__in=scrap_users)
+    return render(request, "mypage_scrap.html", {'projects':projects, "profiles":profiles})
 
 #좋아요 만들어지는 함수 create
 def likes(request):
@@ -522,9 +591,52 @@ def likecancels(request):
 
 # 팀원 찾기 최신순 정렬 함수
 def latestMember(request):
-    profiles = Profile.objects.all().order_by('-register')
+    obj = json.loads(request.body)
+    field1 = obj['field1']
+    mbti = obj['mbti']
+    region = obj['region']
+    term = obj['term']
+    state = obj['state']
+    job = obj['job']
+    if field1[0]=='all':field1=list(Field1.objects.values_list('id', flat=True))
+    if mbti[0]=='all':mbti=list(Mbti.objects.values_list('id', flat=True))
+    if region[0]=='all':region=list(Region2.objects.values_list('id', flat=True))
+    if term[0]=='all':term=list(Term.objects.values_list('id', flat=True))
+    if state[0]=='all':state=[0, 1, 2]
+    if job[0]=='all':job=list(Job.objects.values_list('id', flat=True))
+    profiles = Profile.objects.filter(field1_id__id__in=field1,mbti_id__id__in=mbti,region2_id__id__in=region,
+                                    term_id__id__in=term, state__in=state, job_id__id__in=job).order_by('-id')
     return render(request, "member_list_form.html", {'profiles':profiles})
 
+# 팀원 찾기 최신순 정렬 함수
+def popularMember(request):
+    obj = json.loads(request.body)
+    field1 = obj['field1']
+    mbti = obj['mbti']
+    region = obj['region']
+    term = obj['term']
+    state = obj['state']
+    job = obj['job']
+    if field1[0]=='all':field1=list(Field1.objects.values_list('id', flat=True))
+    if mbti[0]=='all':mbti=list(Mbti.objects.values_list('id', flat=True))
+    if region[0]=='all':region=list(Region2.objects.values_list('id', flat=True))
+    if term[0]=='all':term=list(Term.objects.values_list('id', flat=True))
+    if state[0]=='all':state=[0, 1, 2]
+    if job[0]=='all':job=list(Job.objects.values_list('id', flat=True))
+    profiles = Profile.objects.filter(field1_id__id__in=field1,mbti_id__id__in=mbti,region2_id__id__in=region,
+                                    term_id__id__in=term, state__in=state, job_id__id__in=job).values('user_id').order_by('-id')
+    user = User.objects.filter(id__in = profiles)
+    like = Like.objects.filter(type = 1, to_user_id__in = user).values('to_user_id').annotate(cnt = Count('to_user_id')).order_by('-cnt')
+    like_list = list(like)
+    like_id = [d['to_user_id'] for d in like_list]
+    profiles = []
+    for i in like_id:
+        user = User.objects.get(id = i)
+        p = Profile.objects.get(user_id = user)
+        profiles.append(p)
+    not_like_profiles = Profile.objects.filter(field1_id__id__in=field1,mbti_id__id__in=mbti,region2_id__id__in=region,
+                                    term_id__id__in=term, state__in=state, job_id__id__in=job).exclude(user_id__in = like_id).order_by('-id')
+    return render(request, "member_list_form.html", {'profiles':profiles, "not_like_profiles":not_like_profiles})
 # 알람 페이지 html 렌더링
 def alarm_detail(request):
     user = request.user

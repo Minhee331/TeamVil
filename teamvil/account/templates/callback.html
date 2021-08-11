@@ -37,7 +37,7 @@
     //         }
     //       });
     // }     
-    var naver_id_login = new naver_id_login("6NbrDH2vMjug5Mc8GT67", "http://127.0.0.1:4000/member/callback");
+    var naver_id_login = new naver_id_login("6NbrDH2vMjug5Mc8GT67", "http://localhost:4000/member/callback");
         // 접근 토큰 값 출력
         console.log(naver_id_login.oauthParams.access_token);
         // 네이버 사용자 프로필 조회
@@ -47,14 +47,17 @@
             console.log(naver_id_login.getProfileData('email'));
             console.log(naver_id_login.getProfileData('name'));
             console.log(naver_id_login.getProfileData('id'));
+            console.log(naver_id_login.getProfileData('phone'));
             
             let email = (naver_id_login.getProfileData('email'));
             let name = (naver_id_login.getProfileData('name'));
             let id = "n"+(naver_id_login.getProfileData('id'));
+            let phone = (naver_id_login.getProfileData('phone'));
             var data={
               'email' : email,
               'name' : name,
-              'id' : id
+              'id' : id,
+              'phone' : phone
             }
             $.ajax({
               type: "POST",

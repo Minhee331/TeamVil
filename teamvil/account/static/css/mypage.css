@@ -136,10 +136,13 @@
     margin: 10px 0;
 }
 .mypage-profile-detail-info-content-text{
+    width: 100%;
+    height: 500px;
     margin: 0 15px;
     font-size: 15px;
     line-height: 30px;
     text-align: justify;
+    resize: none;
 }
 .mypage-profile-column-item-container{
     display: flex;
@@ -285,6 +288,19 @@
 }
 
 /* 마이페이지 우측 영역 (프로필 수정하기) */
+.edit-submit-btn {
+    height: 30px;
+    width: 110px;
+    margin-top: 42px;
+    margin-right: auto;
+    background-color: #0F59FF;
+    border: 1px solid #0F59FF;
+    border-radius: 1px;
+    color: #ffffff;
+}
+.edit-submit-btn:hover {
+    cursor: pointer; 
+}
 .mypage-profile-modify-item-container{
     display: flex;
     justify-content: flex-start;
@@ -541,4 +557,45 @@ p {
 }
 .mypage-project-team-item-content {
     font-size: 12px;
+}
+.mypage-project-team-item-wrap{
+    display: flex;
+    justify-content: space-between;
+}
+.mypage-project-member-item-wrap{
+    display: flex;
+    justify-content: space-between;
+}
+/* like-scrap */
+.mypage-like-scrap-container {
+    display: flex;
+    margin-right: 20px;
+    margin-bottom: 15px;
+    align-self: flex-end;
+}
+
+.mypage-like-scrap-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+}
+
+.mypage-like-scrap-item img {
+    width: 11px;
+    height: 11px;
+    margin-right: 4px;
+    margin-left: 10px;
+}
+
+.mypage-like-scrap-item img:hover {
+    cursor: pointer;
+}
+
+.like.active{
+    content:url("../image/like-btn.png");
+}
+
+.scrap.active{
+    content:url("../image/scrap-btn.png");
 }

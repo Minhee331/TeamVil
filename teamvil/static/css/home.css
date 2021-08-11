@@ -51,7 +51,7 @@
     cursor: pointer;
 }
 
-.active, .home-slide-dot:hover{
+.active-slide, .home-slide-dot:hover{
     background: rgba(27, 27, 27, 0.4);
 }
 
@@ -142,7 +142,10 @@
     height: 212.055px;
     border-radius: 1px;
 }
-
+.home-latest-team-item-wrap{
+    display: flex;
+    justify-content: space-between;
+}
 .home-latest-team-item-text {
     padding: 10px 20px;
     line-height: 25px;
@@ -212,4 +215,41 @@
     height: 50px;
     border-radius: 75px;
     margin-right: 15px;
+}
+.member-latest-regtion-like-wrap{
+    display: flex;
+    justify-content: space-between;
+}
+/* like-scrap */
+.home-latest-like-scrap-container {
+    display: flex;
+    margin-right: 20px;
+    margin-bottom: 15px;
+    align-self: flex-end;
+}
+
+.home-latest-like-scrap-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+}
+
+.home-latest-like-scrap-item img {
+    width: 11px;
+    height: 11px;
+    margin-right: 4px;
+    margin-left: 10px;
+}
+
+.home-latest-like-scrap-item img:hover {
+    cursor: pointer;
+}
+
+.like.active{
+    content:url("../image/like-btn.png");
+}
+
+.scrap.active{
+    content:url("../image/scrap-btn.png");
 }

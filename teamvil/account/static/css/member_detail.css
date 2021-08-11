@@ -282,5 +282,13 @@
     margin-left: 10px;
 }
 
+.like.active{
+    content:url("../image/like-btn.png");
+}
+
+.scrap.active{
+    content:url("../image/scrap-btn.png");
+}
+
 
 

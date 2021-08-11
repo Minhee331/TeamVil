@@ -29,7 +29,7 @@ header {
 
 
 .team_detail-title {
-    padding: 10px 0;
+    padding: 23px 0 10px 0;
     font-size: 25.32px;
     font-family: 'Spoqa Han Sans Neo', 'sans-serif';
     font-weight: 500;
@@ -58,7 +58,7 @@ header {
 }
 
 .team_detail-leader {
-    margin-top: 17.4075px;
+    /* margin-top: 17.4075px; */
     text-align: right;
     font-family: 'Spoqa Han Sans Neo', 'sans-serif';
     font-weight: 400;
@@ -223,4 +223,35 @@ hr {
     font-size: 15px;
 }
 
+
+/* like-scrap */
+.team_detail-like-scrap-container {
+    display: flex;
+    margin-right: 20px;
+    margin-top: 15px;
+    justify-content: center;
+}
+
+.team_detail-like-scrap-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10px;
+    align-items: center;
+    font-size: 11px;
+}
+
+.team_detail-like-scrap-item img {
+    width: 11px;
+    height: 11px;
+    margin-right: 4px;
+    margin-left: 10px;
+}
+
+.like.active{
+    content:url("../image/like-btn.png");
+}
+
+.scrap.active{
+    content:url("../image/scrap-btn.png");
+}
 

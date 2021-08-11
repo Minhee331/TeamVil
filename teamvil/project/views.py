@@ -7,10 +7,10 @@ from home.models import *
 from account.models import *
 from django.contrib.auth.models import User
 from django.contrib import auth
-from django.db.models import Q
+from django.db.models import Q, Case
 import json
 from django.views.decorators.csrf import csrf_exempt
-
+from django.db.models import Count
 
 # Create your views here.
 def team_detail(request, project_id):
@@ -212,7 +212,7 @@ def filterTeam(request):
     if field1[0]=='all':field1=list(Field1.objects.values_list('id', flat=True))
     if region[0]=='all':region=list(Region2.objects.values_list('id', flat=True))
     if state[0]=='all':state=[0, 1]
-    projects = Project.objects.filter(field1_id__id__in=field1,region2_id__id__in=region,state__in=state).order_by('id')
+    projects = Project.objects.filter(field1_id__id__in=field1,region2_id__id__in=region,state__in=state).order_by('-id')
     return render(request, "team_list_form.html", {'projects':projects})
 
 #좋아요 만들어지는 함수 create
@@ -246,8 +246,35 @@ def likecancel(request):
 
 # 팀찾기 최신순 정렬 함수
 def latestTeam(request):
-    projects = Project.objects.all().order_by('-register')
+    obj = json.loads(request.body)
+    field1 = obj['field1']
+    region = obj['region']
+    state = obj['state']
+    if field1[0]=='all':field1=list(Field1.objects.values_list('id', flat=True))
+    if region[0]=='all':region=list(Region2.objects.values_list('id', flat=True))
+    if state[0]=='all':state=[0, 1]
+    projects = Project.objects.filter(field1_id__id__in=field1,region2_id__id__in=region,state__in=state).order_by('-id')
     return render(request, "team_list_form.html", {'projects':projects})
+
+# 팀찾기 인기순 정렬 함수
+def popularTeam(request):
+    obj = json.loads(request.body)
+    field1 = obj['field1']
+    region = obj['region']
+    state = obj['state']
+    if field1[0]=='all':field1=list(Field1.objects.values_list('id', flat=True))
+    if region[0]=='all':region=list(Region2.objects.values_list('id', flat=True))
+    if state[0]=='all':state=[0, 1]
+    projects = Project.objects.filter(field1_id__id__in=field1,region2_id__id__in=region,state__in=state).order_by('-id')
+    like = Like.objects.filter(type = 0, project_id__in = projects).values('project_id').annotate(cnt = Count('project_id')).order_by('-cnt')
+    like_list = list(like)
+    like_id = [d['project_id'] for d in like_list]
+    projects = []
+    for i in like_id:
+        p = Project.objects.get(id =i)
+        projects.append(p)
+    not_like_projects = Project.objects.filter(field1_id__id__in=field1,region2_id__id__in=region,state__in=state).exclude(id__in=like_id).order_by('-id')
+    return render(request, "team_list_form.html", {'projects':projects, "not_like_projects":not_like_projects})
 
 # 지원서 열람 페이지 html 렌더링
 def team_application(request):
@@ -313,8 +340,142 @@ def team_review_form(request):
 
 # kay
 def team_new(request):
-    field1 = Field1.objects.all()
-    return render(request, "team_new.html", {"field1s":field1})
+    if request.method == "POST":
+        obj = json.loads(request.body)
+        type = obj['type']
+        title = obj['title']
+        desc = obj['desc']
+        field1_id = Field1.objects.get(id = int(obj['field1_id']))
+        filed2 = obj['filed2']
+        region1_id = Region1.objects.get(id = int(obj['region1_id']))
+        region2_id = Region2.objects.get(id = int(obj['region2_id']))
+        mem_total = obj['mem_total']
+        mem_now = obj['mem_now']
+        mem_duty = obj['mem_duty']
+        content = obj['content']
+        start_date = obj['start_date']
+        end_date = obj['end_date']
+        school = obj['school']
+        link = obj['link']
+        education_id = int(obj['education_id'])
+        if education_id!= 0 : education_id = Education.objects.get(id=education_id)
+        duty_list = obj['duty_list']
+        duty_desc = obj['duty_desc']
+        q_list = obj['q_list']
+        # 프로젝트 저장 시작
+        # todo . 대표사진 모델 생성 필요
+        project = Project()
+        project.user_id = request.user
+        project.type = int(type)
+        project.title = title
+        project.desc = desc
+        project.field1_id = field1_id
+        project.field2 = filed2
+        project.region1_id = region1_id
+        project.region2_id = region2_id
+        project.mem_total = mem_total
+        project.mem_now = mem_now
+        project.mem_duty = mem_duty
+        project.start_date = start_date
+        project.end_date = end_date
+        if school!="": project.school = school
+        project.content = content
+        if link!="": 
+            project.isLink = 1
+        if education_id != 0: project.education_id = education_id
+        project.save()
+        # 프로젝트 저장 끝
+        # 링크 저장 시작
+        if link!="": 
+            db_link = Project_link()
+            db_link.project_id = project
+            db_link.link = link
+            db_link.save()
+        # 링크 저장 끝
+        # todo . 파일 저장 구현 필요
+        for d in duty_list:
+            duty = Duty()
+            duty.project_id = project
+            duty.total = d[1]
+            duty.desc = duty_desc
+            # todo . desc 직무마다 구현 필요
+            duty.name = d[0]
+            duty.save()
+        apply = Apply_form()
+        qi_list = []
+        # Question 저장시작
+        for q in q_list:
+            question = Question()
+            question.project_id = project
+            if(q['type']==0):
+                question.type = 0
+                question.isRequired = 1
+                question.content = q['content']
+                choice_list = q['choice_list']
+                for i in range(0,len(q['choice_list'])):
+                    if i==0:
+                        question.choice1 = q['choice_list'][i]
+                    if i==1:
+                        question.choice2 = q['choice_list'][i]
+                    if i==2:
+                        question.choice3 = q['choice_list'][i]
+                    if i==3:
+                        question.choice4 = q['choice_list'][i]
+                    if i==4:
+                        question.choice5 = q['choice_list'][i]
+            else:
+                question.type = q['type']
+                question.isRequired = 1
+                question.content = q['content']
+            question.save()
+            qi_list.append(question)
+        # Question 저장 끝
+        # Apply_form 저장 시작
+        apply.project_id = project
+        apply.user_id = request.user
+        for i in range(0,len(qi_list)):
+            if i==0:
+                apply.q1_id = qi_list[i]
+            if i==1:
+                apply.q2_id = qi_list[i]
+            if i==2:
+                apply.q3_id = qi_list[i]
+            if i==3:
+                apply.q4_id = qi_list[i]
+            if i==4:
+                apply.q5_id = qi_list[i]
+            if i==5:
+                apply.q6_id = qi_list[i]
+            if i==6:
+                apply.q7_id = qi_list[i]
+            if i==7:
+                apply.q8_id = qi_list[i]
+            if i==8:
+                apply.q9_id = qi_list[i]
+            if i==9:
+                apply.q10_id = qi_list[i]
+        apply.save()
+        # Apply_form 저장 끝
+        essence = {
+        'project_id':project.id
+        }
+        return JsonResponse(essence)
+    else:
+        field1 = Field1.objects.all()
+        region1 = Region1.objects.all() #서울시 경기도 충청도 등등의 첫번째 도 
+        region1_list = {} #{'서울시' '경기도 --'}
+        region2_list = []
+        region_list = {}
+        for prov in region1:
+            region2_list = Region2.objects.filter(region1_id = prov) #{'서울시 서초구','서울시 강남구','서울시 중구'}
+            region1_list[prov.region1] = region2_list
+            li = []
+            for r in region2_list: 
+                li.append([r.id, r.region2]) #['0','서초구'] // ['1','강남구'] 
+            region_list[prov.region1] = li #region_list['서울시'] = ['0','서초구']
+        education = Education.objects.all()
+        return render(request, "team_new.html", {"field1s":field1, "region1s": region1, "region1_list": region1_list.items(), "region_list":region_list, "educations":education})
+
 
 def team_form(request):
     return render(request, "team_form.html")
@@ -393,40 +554,69 @@ def  question_form(request,project_id):
 #팀지원서 양식 폼
 @csrf_exempt
 def team_apply(request,project_id):
-    project = Project.objects.get(id=project_id)
-    profile = Profile.objects.get(user_id = project.user_id)
-    duties = Duty.objects.filter(project_id = project_id)
-    question = Question.objects.filter(project_id = project)
-    questiondict = {} 
-    for question in question:
-        questionlist = []
-        questions = Question.objects.filter(project_id = project)
-        for question in questions:
-            questionlist.append(question)
-        questiondict[str(question.id)] = questionlist
-    return render(request,"team_apply.html",{"question":question,"project_id":project_id,"project":project,"profile":profile,"duties":duties,"questiondict":questiondict.items()})
-        # for i in range(0, len(question)):
-        #     type=question[i].type
-        #     if(type ==0):
-        #         question.project_id = project
-        #         question.content=question[i].content 
-        #         question.isRequired =question[i].isRequired 
-        #         question.choice_cnt=question[i].choice_cnt
-        #         question.choice1=question[i].choice1 
-        #         question.choice2=question[i].choice2 
-        #         question.choice3=question[i].choice3  
-        #         question.choice4=question[i].choice4 
-        #         question.choice5=question[i].choice5
-        #     if(type == 1):
-        #         question.project_id = project
-        #         question.content=question[i].content
-        #         question.isRequired=question[i].isRequired 
-        #     if(type == 2):
-        #         question.project_id = project
-        #         question.content=question[i].content
-        #         question.isRequired=question[i].isRequired
-        # return render(request,"team_apply_back_sunneng.html",{"question":question,"project_id":project_id,"project":project,"profile":profile,"duties":duties})
-
+    if request.method == "POST":
+        obj = json.loads(request.body)
+        duty_id = obj['duty_id']
+        a_list = obj['a_list']
+        ai_list = []
+        for a in a_list:
+            answer = Answer()
+            question_id = Question.objects.get(id = a['q_id'])
+            answer.question_id = question_id
+            answer.type = a['q_type']
+            if a['q_type']==0:
+                answer.choice_answer = a['choice_answer']
+                answer.choice_text = a['choice_text']
+            elif a['q_type']==1:
+                answer.short_answer = a['short_answer']
+            elif a['q_type']==2:
+                answer.long_answer = a['long_answer']
+            answer.save()
+            ai_list.append(answer)
+        application = Application()
+        project = Project.objects.get(id = int(project_id))
+        application.project_id = project
+        application.user_id = request.user
+        for i in range(0,len(ai_list)):
+            if i==0:
+                application.a1_id = ai_list[i]
+            if i==1:
+                application.a2_id = ai_list[i]
+            if i==2:
+                application.a3_id = ai_list[i]
+            if i==3:
+                application.a4_id = ai_list[i]
+            if i==4:
+                application.a5_id = ai_list[i]
+            if i==5:
+                application.a6_id = ai_list[i]
+            if i==6:
+                application.a7_id = ai_list[i]
+            if i==7:
+                application.a8_id = ai_list[i]
+            if i==8:
+                application.a9_id = ai_list[i]
+            if i==9:
+                application.a10_id = ai_list[i]
+        application.state = 0
+        application.save()
+        essence = {
+            'project_id':project.id
+        }
+        return JsonResponse(essence)
+    else:
+        project = Project.objects.get(id=project_id)
+        profile = Profile.objects.get(user_id = project.user_id)
+        duties = Duty.objects.filter(project_id = project_id)
+        question = Question.objects.filter(project_id = project)
+        questiondict = {} 
+        for question in question:
+            questionlist = []
+            questions = Question.objects.filter(project_id = project)
+            for question in questions:
+                questionlist.append(question)
+            questiondict[str(question.id)] = questionlist
+        return render(request,"team_apply.html",{"question":question,"project_id":project_id,"project":project,"profile":profile,"duties":duties,"questiondict":questiondict.items()})
 
 
 @csrf_exempt

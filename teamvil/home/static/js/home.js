@@ -33,7 +33,7 @@ function slidefunc(n){
         slide_list[i].style.display = "none";
     }
     for(i=0; i<dot.length; i++){
-        dot[i].classList.remove("active");
+        dot[i].classList.remove("active-slide");
     }
     if(n > slide_list.length){
         counter = 1;
@@ -42,5 +42,6 @@ function slidefunc(n){
         counter = slide_list.length;
     }
     slide_list[counter-1].style.display = "block";
-    dot[counter-1].classList.add('active');
+    dot[counter-1].classList.add('active-slide');
 }
+
