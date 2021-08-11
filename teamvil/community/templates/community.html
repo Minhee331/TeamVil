@@ -23,7 +23,7 @@
 
         <main class="community-main-container">
 
-            {% for community in community.all %}
+            {% for community in posts %}
             <section class="community-item" onclick="openDetail()">
                 <div class="community-profile-container" profile_id = '{% get_profile_id community.user_id.id %}'>
                     <img class="community-profile-img" src="{% static 'image/cloud.jpg' %}" alt="">
@@ -59,7 +59,21 @@
         </main>
 
         <section class="community-bottom-container">
-            <p>pagination</p>
+            <p>{% if posts.has_previous %}
+                <a href="?page=1">First</a>
+                
+                <a href="?page={{posts.previous_page_number}}">Previous</a>
+            {% endif %}
+        
+            <span>{{posts.number}}</span>
+            <span>of</span>
+            <span>{{posts.paginator.num_pages}}</span>
+        
+            {% if posts.has_next %}
+                <a href="?page={{posts.next_page_number}}">Next</a>
+                <a href="?page={{posts.paginator.num_pages}}">Last</a>
+            {% endif %}</p>
+            
         </section>
     </div>
 
@@ -84,6 +98,8 @@
             </div>
         </div>
     </div>
+    
+
 
     <!-- detail -->
     <div id="detail" class="background">
@@ -214,6 +230,9 @@
             });
         })
     });
+
+    
 </script>
+    
 
 </html>

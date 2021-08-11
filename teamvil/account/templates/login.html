@@ -15,7 +15,7 @@
         <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
         <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js" charset="utf-8"></script>
         <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
-        <script src="/js/lib/jquery-1.9.1.min.js"></script>
+        <!-- <script src="/js/lib/jquery-1.9.1.min.js"></script> -->
     <body>
 
         {% include 'navbar.html' %}
@@ -30,10 +30,10 @@
                     <!-- <a href="javascript:kakaoLogin();"><img src="https://thumb.mt.co.kr/06/2021/01/2021012613224873686_1.jpg/dims/optimize/" style="height:60px;width:auto;"></a> -->
                     <div id="naver_id_login"></div>  
                     <!-- #페이스북 로그인               -->
-                    <fb:login-button
+                    <!-- <fb:login-button
                     scope="public_profile,email"
                     onlogin="checkLoginState();">
-                    </fb:login-button>
+                    </fb:login-button> -->
                     
                     
                     
@@ -145,15 +145,15 @@
     </script>
 
     <script type="text/javascript">
-        var naver_id_login = new naver_id_login("6NbrDH2vMjug5Mc8GT67", "http://localhost:4000/member/callback");
+        var naver_id_login = new naver_id_login("6NbrDH2vMjug5Mc8GT67", "http://localhost:5000/member/callback");
         var state = naver_id_login.getUniqState();
         naver_id_login.setButton("green", 2,40);
-        naver_id_login.setDomain("http://localhost:4000/member/login");
+        naver_id_login.setDomain("http://localhost:5000/member/login");
         naver_id_login.setState(state);
         // naver_id_login.setPopup();
         naver_id_login.init_naver_id_login();
     </script>
-
+<!-- 
 <script>
     window.fbAsyncInit = function() {
     FB.init({
@@ -214,7 +214,7 @@
     });
     }
     
-    </script>
+    </script> -->
 
 </html>
 

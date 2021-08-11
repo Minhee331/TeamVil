@@ -6,6 +6,7 @@ from account.models import *
 from django.contrib.auth.models import User
 import json
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 
 # Create your views here.
 #커뮤니티 리스트 함수
@@ -132,7 +133,11 @@ def register_info(request):
 
 def info(request):
     infoList = Info.objects.all()
-    return render(request, 'info.html', {"infoList":infoList})
+    infoList_list=Info.objects.all()
+    page = request.GET.get('page')
+    paginator = Paginator(infoList_list, 2)
+    posts = paginator.get_page(page)
+    return render(request, 'info.html', {"infoList":infoList, "posts":posts})
 
 def info_detail(request, info_id):
     info = Info.objects.get(id = info_id)
@@ -144,5 +149,9 @@ def info_detail(request, info_id):
 
 # kay
 def community(request):
-    community = Com.objects.all().order_by('-id')
-    return render(request,'community.html', {'community':community})
+    community = Com.objects.all().order_by('-id') 
+    community_list=Com.objects.all().order_by('-id')
+    page = request.GET.get('page')
+    paginator = Paginator(community_list, 5)
+    posts = paginator.get_page(page)
+    return render(request,'community.html', {'community':community, 'posts': posts})

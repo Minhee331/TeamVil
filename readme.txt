@@ -111,3 +111,4 @@
 210810 유림 | team_new_back_S | 지역 다중셀렉트박스 코드 정리, 오류 수정
 210811 건영 | call_back.html, login.html | login.html 네이버로 로그인 기능 구현, account.views&url 에 callback.html 연결 db연결
 210811 혜인 | team_new.html | 이미지 미리보기 구현, 학력 드롭다운 수정, 객관식 드롭다운 수정, 선택지 개수 변경 기능 추가
+210812 건영 | call_back.html, community , info | login.html 네이버로 로그인 기능 구현수정, community.html 페이지네이션 추가 , info.html 페이지네이션 기능 추가

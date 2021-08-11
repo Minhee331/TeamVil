@@ -17,7 +17,7 @@
             <div class="width-width">
                 <a class="float-left" href="{% url 'register_info' %}"><input class="register_info-signup-submit-btn" type="submit" value="게시 요청"></a> 
             </div>
-            {% for info in infoList %}
+            {% for info in posts %}
                 <a href="{% url 'info_detail' info.id %}">
                     <div class="info-content-box-wrap">
                         <img class="info-img-item" src="{% static 'image/cloud.jpg' %}" alt="">
@@ -40,6 +40,23 @@
                 </a>
             {% endfor %}
         </div>
+    </div>
+
+    <div style="display: flex; justify-content: center;">
+        <p>{% if posts.has_previous %}
+            <a href="?page=1">First</a>
+            
+            <a href="?page={{posts.previous_page_number}}">Previous</a>
+        {% endif %}
+    
+        <span>{{posts.number}}</span>
+        <span>of</span>
+        <span>{{posts.paginator.num_pages}}</span>
+    
+        {% if posts.has_next %}
+            <a href="?page={{posts.next_page_number}}">Next</a>
+            <a href="?page={{posts.paginator.num_pages}}">Last</a>
+        {% endif %}</p>>
     </div>
     {% include 'footer.html' %}
 </body>

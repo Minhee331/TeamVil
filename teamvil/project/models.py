@@ -10,6 +10,7 @@ class Project(models.Model):
     isEnd = models.IntegerField(default=0) # 0 미완, 1 완
     type = models.IntegerField() # 창업, 공모전, 프로젝트
     title = models.CharField(max_length=100)
+    photo = models.FileField(null=True) #디비 비울 떄 널 트루 지우기
     desc = models.CharField(max_length=100)
     field1_id = models.ForeignKey('home.Field1', on_delete = models.CASCADE, db_column="field1_id")
     field2 = models.CharField(max_length=20)

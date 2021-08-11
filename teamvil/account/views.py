@@ -14,6 +14,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.http.response import JsonResponse
 from django.db.models import Avg, Count
+from django.core.paginator import Paginator
 
 def callback(request):
     return render(request, 'callback.html')
@@ -26,8 +27,12 @@ def member_search(request):
     region2 = Region2.objects.all() # ~시 (서울만 ~구)
     term = Term.objects.all()
     job = Job.objects.all()
+    profiles_list = Profile.objects.all().order_by('-register')
+    paginator = Paginator(profiles_list, 3)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
     return render(request, "member_search.html", {'profiles':profiles, "field1s":field1, "mbtis" : mbti, 
-                                                    "region2s": region2, "terms": term, "jobs": job, "profiles_reg":profiles_reg})
+                                                    "region2s": region2, "terms": term, "jobs": job, "profiles_reg":profiles_reg,"posts":posts})
 
 
 def member_search_back(request):
@@ -186,7 +191,7 @@ def signup_n(request):
         user_name= obj['name']
         user_id = obj['id']
         user_email = obj['email']
-        user_phone = obj['phone']
+        # user_phone = obj['phone']
         if User.objects.filter(username=id).exists():
             auth.login(request)
             return render(request, 'signup.html')   
@@ -200,7 +205,7 @@ def signup_n(request):
             mbti.mbti_cnt = mbti.mbti_cnt + 1
             mbti.save()
             profile.email =user_email # 추후 수정 필요
-            profile.phone =  user_phone
+            profile.phone =  "010-1234-5678"
             profile.birthday = "2021-07-10" # 추후 수정 필요
             profile.region1_id = Region1.objects.get(id=1) # 추후 수정 필요
             profile.region2_id = Region2.objects.get(id=1) # 추후 수정 필요

@@ -11,6 +11,7 @@ from django.db.models import Q, Case
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count
+from django.core.paginator import Paginator
 
 # Create your views here.
 def team_detail(request, project_id):
@@ -30,6 +31,14 @@ def team_search(request):
     region2 = Region2.objects.all() # ~시 (서울만 ~구)
     term = Term.objects.all()
     job = Job.objects.all()
+    # projects_list = Project.objects.all().order_by('-register')
+    # paginator = Paginator(projects_list, 3)
+    # page_number = request.GET.get('page')
+    # saved_list = paginator.get_page(page_number) 
+    # context = {
+    #     'paginate': True,
+    #     'projects_list': saved_list,
+    # }
     return render(request, "team_search.html", {'projects':projects, "field1s":field1, "mbtis" : mbti, 
                                                     "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg})
 

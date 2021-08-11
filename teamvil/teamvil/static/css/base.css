@@ -95,6 +95,16 @@ li a {
     justify-content: space-between;
 }
 
+.navbar-my-container ul {
+    display: flex;
+}
+
+.navbar-my-container img {
+    height: 18px;
+    margin-left: 20px;
+    margin-top: 1px;
+}
+
 .navbar-menu-item {
     margin-right: 45px;
     flex-shrink: 0;

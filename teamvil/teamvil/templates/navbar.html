@@ -12,13 +12,20 @@
         </ul>
     </div>
 
-    <ul class="navbar-my-container spoqa-regular">
+    <div class="navbar-my-container spoqa-regular">
         {% if user.is_authenticated %}
-            <li class="navbar-my-item"><a href="{% url 'mypage' %}">마이페이지</a></li>
-            <li class="navbar-my-item"><a href="{% url 'logout' %}">로그아웃</a></li>
+            <img src="{% static 'image/noti-inactive.png' %}" alt="" onclick="newNoti(this)">
+            <img src="{% static 'image/message-inactive.png' %}" alt="" onclick="newMessage(this)">
+
+            <ul class="">
+                <li class="navbar-my-item"><a href="{% url 'mypage' %}">마이페이지</a></li>
+                <li class="navbar-my-item"><a href="{% url 'logout' %}">로그아웃</a></li>
+            </ul>
         {% else %}
-            <li class="navbar-my-item"><a href="{% url 'login' %}">로그인/</a><a href="{% url 'signup'  %}">회원가입</a></li>
+            <ul class="">
+                <li class="navbar-my-item"><a href="{% url 'login' %}">로그인/</a><a href="{% url 'signup'  %}">회원가입</a></li>
+            </ul>
         {% endif %}
-    </ul>
+    </div>
 </nav>
 
