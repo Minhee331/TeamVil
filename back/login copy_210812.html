@@ -20,7 +20,7 @@
 
         {% include 'navbar.html' %}
 
-                <form class="login-container content" method="POST" action="{% url 'login' %}">
+                <form class="login-container" method="POST" action="{% url 'login' %}">
 
                     {% csrf_token %}    
 
@@ -35,13 +35,12 @@
                     </fb:login-button> -->
                     
                     
-                    
+                    <div id="naver_id_login"></div>  
 
                     <div class="login-icon-container">
                         <a id="custom-login-btn" href="javascript:loginWithKakao();">
                             <span class="iconify" data-icon="ri:kakao-talk-fill"></span>
                         </a>
-                        <div id="naver_id_login" style="display: none;"></div>
                         <a id="naverLogin" href=""><span class="iconify" data-icon="vs:naver-square" data-inline="false"></span></a>
                         <a href=""><span class="iconify" data-icon="akar-icons:facebook-fill" data-inline="false"></span></a>
                         <a href=""><span class="iconify" data-icon="akar-icons:google-fill" data-inline="false"></span></a>
@@ -145,20 +144,13 @@
     </script>
 
     <script type="text/javascript">
-
         var naver_id_login = new naver_id_login("6NbrDH2vMjug5Mc8GT67", "http://localhost:5000/member/callback");
         var state = naver_id_login.getUniqState();
         naver_id_login.setButton("green", 2,40);
         naver_id_login.setDomain("http://localhost:5000/member/login");
         naver_id_login.setState(state);
-        //naver_id_login.setPopup();
+        // naver_id_login.setPopup();
         naver_id_login.init_naver_id_login();
-
-        $(document).on("click", "#naverLogin", function(){
-            var naverLoginUrl = document.getElementById("naver_id_login_anchor").getAttribute('href');
-            window.open(naverLoginUrl,"","width=500, height=800");
-            window.close(naverLoginUrl,"","width=500, height=800");
-        });
 
     </script>
 <!-- 

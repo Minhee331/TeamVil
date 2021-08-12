@@ -28,7 +28,10 @@ urlpatterns = [
     path('team_review_form/', views.team_review_form, name="team_review_form"),
     path('team_apply_form_back/<int:project_id>',views.question_form, name="question_form"),
     path('team_apply/<int:project_id>', views.team_apply, name="team_apply"),
-    # path('team_answer_form_back_sunneng/<int:question_id>',views.answer_form, name="answer_form"), 
+    # path('team_answer_form_back_sunneng/<int:question_id>',views.answer_form, name="answer_form"),
+    path('classify_S/', views.classify_S, name="classify_S"),
+    path('classify_C/', views.classify_C, name="classify_C"),
+    path('classify_P/', views.classify_P, name="classify_P"), 
 
     # kay
     path('team_new/', views.team_new, name = "team_new"),

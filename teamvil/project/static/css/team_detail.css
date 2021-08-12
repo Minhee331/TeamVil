@@ -17,6 +17,7 @@
     align-items: center;
     text-align: center;
     background-image: url(../image/cloud.jpg);
+    background-repeat: no-repeat;
     background-size: 1345.625px 504.020625px;
 }
 

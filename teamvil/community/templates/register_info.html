@@ -12,7 +12,7 @@
 </head>
 <body>
     {% include 'navbar.html' %}
-    <form method="POST" action="{% url 'register_info' %}" onsubmit="return registerSubmit();" enctype="multipart/form-data">
+    <form class="content" method="POST" action="{% url 'register_info' %}" onsubmit="return registerSubmit();" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="register_info-wrap-container margin">
             <div class="register_info_wrap margin">

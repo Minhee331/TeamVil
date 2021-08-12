@@ -112,3 +112,6 @@
 210811 건영 | call_back.html, login.html | login.html 네이버로 로그인 기능 구현, account.views&url 에 callback.html 연결 db연결
 210811 혜인 | team_new.html | 이미지 미리보기 구현, 학력 드롭다운 수정, 객관식 드롭다운 수정, 선택지 개수 변경 기능 추가
 210812 건영 | call_back.html, community , info | login.html 네이버로 로그인 기능 구현수정, community.html 페이지네이션 추가 , info.html 페이지네이션 기능 추가
+210812 자운 | login, member_detail, etc | 네이버로그인 html,css 수정, 멤버디테일,팀디테일 공백표시 수정, 푸터하단고정 모든페이지 적용, 멤버디테일 버튼 위치변화 수정, 팀디테일 백그라운드 이미지 반복 안되도록 수정. 
+210812 유림 | home.html team_search.html | 타이틀 글자수 제한(모델수정), 대분류 클릭시 하단 프로젝트 변경 ajax 
+210813 건영 | team_search.html, member_search , mypage.html | team_search.html 페이지네이션 임시 추가 , member_search.html 페이지네이션 임시 추가 ,mypage.html 페이지네이션 임시 추가

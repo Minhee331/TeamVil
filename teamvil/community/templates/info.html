@@ -12,51 +12,53 @@
 </head>
 <body>
     {% include 'navbar.html' %}
-    <div class="info-wrap-container margin">
-        <div class="info-wrap">
-            <div class="width-width">
-                <a class="float-left" href="{% url 'register_info' %}"><input class="register_info-signup-submit-btn" type="submit" value="게시 요청"></a> 
-            </div>
-            {% for info in posts %}
-                <a href="{% url 'info_detail' info.id %}">
-                    <div class="info-content-box-wrap">
-                        <img class="info-img-item" src="{% static 'image/cloud.jpg' %}" alt="">
-                        <div class="info-content-item-wrap">
-                            <div class="info-content-title-divide-wrap">
-                                <p class="info-title-text spoqa-regular">{{info.title}}</p>
-                            </div>
-                            <div class="info-content-content-divide-wrap">
-                                <p class="info-content-text spoqa-regular">주최 : {{info.host}}</p>
-                                <p class="info-content-text spoqa-regular">
-                                    장소 : {% if info.location is not none %}{{info.location}}{% else %}없음{% endif %}
-                                </p>
-                            </div>
-                            <div class="info-content-etc-divide-wrap">
-                                <p class="info-etc-text spoqa-regular">조회 {{info.view_cnt}}</p>
-                                <p class="info-etc-text spoqa-regular">D - 81</p>
+    <div class="content">
+        <div class="info-wrap-container margin">
+            <div class="info-wrap">
+                <div class="width-width">
+                    <a class="float-left" href="{% url 'register_info' %}"><input class="register_info-signup-submit-btn" type="submit" value="게시 요청"></a> 
+                </div>
+                {% for info in posts %}
+                    <a href="{% url 'info_detail' info.id %}">
+                        <div class="info-content-box-wrap">
+                            <img class="info-img-item" src="{% static 'image/cloud.jpg' %}" alt="">
+                            <div class="info-content-item-wrap">
+                                <div class="info-content-title-divide-wrap">
+                                    <p class="info-title-text spoqa-regular">{{info.title}}</p>
+                                </div>
+                                <div class="info-content-content-divide-wrap">
+                                    <p class="info-content-text spoqa-regular">주최 : {{info.host}}</p>
+                                    <p class="info-content-text spoqa-regular">
+                                        장소 : {% if info.location is not none %}{{info.location}}{% else %}없음{% endif %}
+                                    </p>
+                                </div>
+                                <div class="info-content-etc-divide-wrap">
+                                    <p class="info-etc-text spoqa-regular">조회 {{info.view_cnt}}</p>
+                                    <p class="info-etc-text spoqa-regular">D - 81</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>
-            {% endfor %}
+                    </a>
+                {% endfor %}
+            </div>
         </div>
-    </div>
 
-    <div style="display: flex; justify-content: center;">
-        <p>{% if posts.has_previous %}
-            <a href="?page=1">First</a>
-            
-            <a href="?page={{posts.previous_page_number}}">Previous</a>
-        {% endif %}
-    
-        <span>{{posts.number}}</span>
-        <span>of</span>
-        <span>{{posts.paginator.num_pages}}</span>
-    
-        {% if posts.has_next %}
-            <a href="?page={{posts.next_page_number}}">Next</a>
-            <a href="?page={{posts.paginator.num_pages}}">Last</a>
-        {% endif %}</p>>
+        <div style="display: flex; justify-content: center;">
+            <p>{% if posts.has_previous %}
+                <a href="?page=1">First</a>
+                
+                <a href="?page={{posts.previous_page_number}}">이전</a>
+            {% endif %}
+        
+            <span>{{posts.number}}</span>
+            <span>/</span>
+            <span>{{posts.paginator.num_pages}}</span>
+        
+            {% if posts.has_next %}
+                <a href="?page={{posts.next_page_number}}">다음</a>
+                <a href="?page={{posts.paginator.num_pages}}">Last</a>
+            {% endif %}</p>>
+        </div>
     </div>
     {% include 'footer.html' %}
 </body>

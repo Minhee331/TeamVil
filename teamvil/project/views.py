@@ -31,16 +31,17 @@ def team_search(request):
     region2 = Region2.objects.all() # ~시 (서울만 ~구)
     term = Term.objects.all()
     job = Job.objects.all()
-    # projects_list = Project.objects.all().order_by('-register')
-    # paginator = Paginator(projects_list, 3)
-    # page_number = request.GET.get('page')
+    projects_list = Project.objects.all().order_by('-register')
+    paginator = Paginator(projects_list, 5)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
     # saved_list = paginator.get_page(page_number) 
     # context = {
     #     'paginate': True,
     #     'projects_list': saved_list,
     # }
     return render(request, "team_search.html", {'projects':projects, "field1s":field1, "mbtis" : mbti, 
-                                                    "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg})
+                                                    "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg,"posts":posts})
 
 def team_search_back_min(request):
     projects = Project.objects.all().order_by('-register')
@@ -210,8 +211,8 @@ def searchTeam(request):
                                         | Q(content__icontains = value) | Q(school__icontains = value) | Q(desc__icontains = value))
         return render(request,'team_list_form.html',{'projects':projects})
     else:
-        return render(request,'team_list_form.html')  
- 
+        return render(request,'team_list_form.html') 
+
 # 팀 찾기 > 세부 필터링 함수
 def filterTeam(request):
     obj = json.loads(request.body)
@@ -691,12 +692,29 @@ def scrapcancel(request):
     Scrap.objects.get(project_id = project_id, from_user_id = request.user).delete()
     return render(request,'team_search_back.html')
 
-
-
-#학교검색 함수
+#대분류 함수(창업)
+def classify_S(request):
+    projects = Project.objects.filter(type = int(0))
+    return render(request,'team_list_form.html',{'projects':projects}) 
+#대분류 함수(공모전)
+def classify_C(request):
+    projects = Project.objects.filter(type = int(1))
+    return render(request,'team_list_form.html',{'projects':projects}) 
+#대분류 함수(프로젝트)
+def classify_P(request):
+    projects = Project.objects.filter(type = int(2))
+    return render(request,'team_list_form.html',{'projects':projects}) 
 
     
-  
+# def searchTeam(request):
+#     obj = json.loads(request.body)
+#     value = obj['value']
+#     if value:
+#         projects = Project.objects.filter(Q(title__icontains = value) | Q(region1_id__region1__icontains=value) | Q(region2_id__region2__icontains=value)
+#                                         | Q(content__icontains = value) | Q(school__icontains = value) | Q(desc__icontains = value))
+#         return render(request,'team_list_form.html',{'projects':projects})
+#     else:
+#         return render(request,'team_list_form.html') 
 
 
 

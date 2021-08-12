@@ -116,6 +116,8 @@
                     <span class="team_detail-info-etc-body">
                         {% if project.school != None %}
                             {{project.school}}
+                        {% else %}
+                            학교제한 없음
                         {% endif %}
                     </span>
                     {% if project.school != None %}
@@ -125,8 +127,10 @@
                 <p>
                     <span class="team_detail-info-etc-title">학력 제한</span>
                     <span class="team_detail-info-etc-body">
-                        {% if project.education == None %}
+                        {% if project.education_id != "" %}
                             {{project.education_id.education}}
+                        {% else %}
+                            학력제한 없음
                         {% endif %}
                     </span>
                 </p>
@@ -137,6 +141,8 @@
                             {% for project_link in project_links %}
                                 {{project_link}}
                             {% endfor %}
+                        {% else %}
+                            링크 없음
                         {% endif %}
                     </span>
                 </p>
@@ -147,6 +153,8 @@
                             {% for project_file in project_files %}
                                 {{project_file}}
                             {% endfor %}
+                        {% else %}
+                            파일 없음
                         {% endif %}
                     </span>
                 </p>

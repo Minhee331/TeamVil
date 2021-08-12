@@ -97,7 +97,7 @@
 }
 
 .member_detail-invite {
-    position: fixed;
+    position: sticky;
     top: 650px;
     left: 1199px;
     width: 100px;
@@ -108,6 +108,7 @@
     font-size: 10px;
     background-color: #0f59ff;
     margin-left: auto;
+    margin-bottom: 100px;
     border-radius: 2px;
 }
 
@@ -119,7 +120,7 @@
 }
 
 .member_detail-message {
-    position: fixed;
+    position: sticky;
     top: 650px;
     left: 1300px;
     width: 72.795px;
@@ -130,6 +131,7 @@
     font-size: 10px;
     background-color: #ffffff;
     margin-left: auto;
+    margin-bottom: 100px;
     border-radius: 2px;
 }
 
@@ -155,14 +157,8 @@
 }
 
 .member_detail-profile-etc {
-    margin: 30px 450px 150px;
+    margin: 0 450px 0;
     width: 550px;
-}
-
-
-
-.member_detail-profile-etc p {
-    padding: 12px 0;
 }
 
 .member_detail-profile-etc-title {
@@ -170,10 +166,23 @@
     width: 83px;
     font-size: 19px;
     font-weight: bold;
-    padding-right: 10px;
+    margin: 15px 0;
+}
+
+.member_detail-profile-etc-title-pr {
+    display: inline-block;
+    width: 83px;
+    font-size: 19px;
+    font-weight: bold;
+    margin-bottom: 15px;
 }
 
 .member_detail-profile-etc-body {
+    margin: 0 0 70px 15px;
+    
+}
+
+/* .member_detail-profile-etc-body {
     margin-left: 10px;
     white-space: pre-line;
     font-size: 15px;
@@ -187,7 +196,7 @@
     font-size: 15px;
     line-height: 25px;
     margin-top: -60px;
-}
+} */
 
 .member_detail-rating {
     display: flex;

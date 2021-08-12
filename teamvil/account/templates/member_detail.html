@@ -16,266 +16,275 @@
         {% include 'navbar.html' %}
         <!-- <a href="//www.career.go.kr/cnet/openapi/getOpenApi?apiKey=d0c42cdd7e8461cfb295b56acc8bdc54&svcType=api&svcCode=SCHOOL&contentType=json&gubun=elem_list&searchSchulNm=고림">ㅇㅇㅇ</a> -->
         <!-- <iframe src="//www.career.go.kr/cnet/iframe/School.do?apiKey=d0c42cdd7e8461cfb295b56acc8bdc54&gubun=high_list" scrolling="no" name="ce" width="1000" height="1080" frameborder="0" style="border-width:0px;border-color:white; border-style:solid;"> </iframe> -->
+        <div class="content">
 
-        <div class="member_detail-all">
-            <div class="member_detail-container">
-                <div class="member_detail-profile">
-                    <img src="{% static 'image/profile.jpeg' %}" class="member_detail-profileimg">
+            <div class="member_detail-all">
+                <div class="member_detail-container">
+                    <div class="member_detail-profile">
+                        <img src="{% static 'image/profile.jpeg' %}" class="member_detail-profileimg">
 
-                    
-                    <div class="member_detail-profile-important">
+                        
+                        <div class="member_detail-profile-important">
 
-                        <h1 class="spoqa-regular">{{profile.name}}</h1>
+                            <h1 class="spoqa-regular">{{profile.name}}</h1>
 
-                        <div class="member_detail-like-scrap-container spoqa-light">
-                            <a class="member_detail-like-scrap-item">
-                                <img class="like-scrap like {% active_like 1 profile.id user.id %}" src="{% static 'image/like-btn-2.png' %}" value="{{profile.user_id.id}}">
-                                <span>{% get_like_cnt 1 profile.id %}</span>
-                            </a>
+                            <div class="member_detail-like-scrap-container spoqa-light">
+                                <a class="member_detail-like-scrap-item">
+                                    <img class="like-scrap like {% active_like 1 profile.id user.id %}" src="{% static 'image/like-btn-2.png' %}" value="{{profile.user_id.id}}">
+                                    <span>{% get_like_cnt 1 profile.id %}</span>
+                                </a>
 
-                            <a class="member_detail-like-scrap-item">
-                                <img class="like-scrap scrap {% active_scrap 1 profile.id user.id %}" src="{% static 'image/scrap-btn-2.png' %}" value="{{profile.user_id.id}}">
-                                <span>{% get_scrap_cnt 1 profile.id %}</span>
-                            </a>
+                                <a class="member_detail-like-scrap-item">
+                                    <img class="like-scrap scrap {% active_scrap 1 profile.id user.id %}" src="{% static 'image/scrap-btn-2.png' %}" value="{{profile.user_id.id}}">
+                                    <span>{% get_scrap_cnt 1 profile.id %}</span>
+                                </a>
+                            </div>
+
+                            <hr class="member_detail-profile-line">
+
+                            <p>
+                                <span class="member_detail-profile-title spoqa-regular">직업</span>
+                                <span class="member_detail-profile-body spoqa-light">{{profile.job_id.job}}</span>
+                            </p>
+                            <p>
+                                <span class="member_detail-profile-title spoqa-regular">나이</span>
+                                <span class="member_detail-profile-body spoqa-light">{% getAge profile.birthday %}세</span>
+                            </p>
+                            <p>
+                                <span class="member_detail-profile-title spoqa-regular">지역</span>
+                                <span class="member_detail-profile-body spoqa-light">{{profile.region1_id.region1}}{{profile.region2_id.region2}}</span>
+                            </p>
+                            <p>
+                                <span class="member_detail-profile-title spoqa-regular">상태</span>
+                                <span class="member_detail-profile-body spoqa-light">
+                                {% if profile.state == 1 %}
+                                    팀 찾는 중
+                                {% elif profile.state == 2 %}
+                                    휴식 중
+                                {% else %}
+                                    팀 참여 중
+                                {% endif %}
+                                </span>
+                            </p>
                         </div>
+                    </div>
 
-                        <hr class="member_detail-profile-line">
+                    <div class="member_detail-profiles">
+                        <div class="member_detail-profile-more">
+                            <p>
+                                <span class="member_detail-profile-more-title spoqa-regular">관심 분야</span>
+                                <span class="member_detail-profile-more-body spoca-light">{{profile.field1_id.field1}}</span>
+                            </p>
 
-                        <p>
-                            <span class="member_detail-profile-title spoqa-regular">직업</span>
-                            <span class="member_detail-profile-body spoqa-light">{{profile.job_id.job}}</span>
-                        </p>
-                        <p>
-                            <span class="member_detail-profile-title spoqa-regular">나이</span>
-                            <span class="member_detail-profile-body spoqa-light">{% getAge profile.birthday %}세</span>
-                        </p>
-                        <p>
-                            <span class="member_detail-profile-title spoqa-regular">지역</span>
-                            <span class="member_detail-profile-body spoqa-light">{{profile.region1_id.region1}}{{profile.region2_id.region2}}</span>
-                        </p>
-                        <p>
-                            <span class="member_detail-profile-title spoqa-regular">상태</span>
-                            <span class="member_detail-profile-body spoqa-light">
-                            {% if profile.state == 1 %}
-                                팀 찾는 중
-                            {% elif profile.state == 2 %}
-                                휴식 중
-                            {% else %}
-                                팀 참여 중
+                            <p>
+                                <span class="member_detail-profile-more-title spoqa-regular">기간</span>
+                                <span class="member_detail-profile-more-body spoca-light">{{profile.term_id.term}}</span>
+                            </p>
+
+                            <hr class="member_detail-profile-more-line">
+
+                            <p>
+                                <span class="member_detail-profile-more-title spoqa-regular">MBTI</span>
+                                <span class="member_detail-profile-more-body spoca-light">{{profile.mbti_id.mbti}}</span>
+                            </p>
+
+                            {% if profile.mbti_detail == None %}
+                                <p class="member_detail-profile-body spoca-light">{{profile.mbti_detail}}</p>
                             {% endif %}
-                            </span>
-                        </p>
-                    </div>
-                </div>
 
-                <div class="member_detail-profiles">
-                    <div class="member_detail-profile-more">
-                        <p>
-                            <span class="member_detail-profile-more-title spoqa-regular">관심 분야</span>
-                            <span class="member_detail-profile-more-body spoca-light">{{profile.field1_id.field1}}</span>
-                        </p>
+                            <hr class="member_detail-profile-more-line">
 
-                        <p>
-                            <span class="member_detail-profile-more-title spoqa-regular">기간</span>
-                            <span class="member_detail-profile-more-body spoca-light">{{profile.term_id.term}}</span>
-                        </p>
-
-                        <hr class="member_detail-profile-more-line">
-
-                        <p>
-                            <span class="member_detail-profile-more-title spoqa-regular">MBTI</span>
-                            <span class="member_detail-profile-more-body spoca-light">{{profile.mbti_id.mbti}}</span>
-                        </p>
-
-                        {% if profile.mbti_detail == None %}
-                            <p class="member_detail-profile-body spoca-light">{{profile.mbti_detail}}</p>
-                        {% endif %}
-
-                        <hr class="member_detail-profile-more-line">
-
-                        <p>
-                            <span class="member_detail-profile-more-title spoqa-regular">연락처</span>
-                            <span class="member_detail-profile-body spoca-light">
-                                {% if profile.open_phone %}
-                                <span>{{profile.phone}}</span>
-                                {% else %}
-                                <span>비공개</span>
-                                {% endif %}
-                            </span>
-                        </p>
-                        <p>
-                            <span class="member_detail-profile-more-title spoqa-regular">이메일</span>
-                            <span class="member_detail-profile-body spoca-light">
-                                {% if profile.open_email %}
-                                <span>{{profile.email}}</span>
-                                {% else %}
-                                <span>비공개</span>
-                                {% endif %}
-                            </span>
-                        </p>
+                            <p>
+                                <span class="member_detail-profile-more-title spoqa-regular">연락처</span>
+                                <span class="member_detail-profile-body spoca-light">
+                                    {% if profile.open_phone %}
+                                    <span>{{profile.phone}}</span>
+                                    {% else %}
+                                    <span>비공개</span>
+                                    {% endif %}
+                                </span>
+                            </p>
+                            <p>
+                                <span class="member_detail-profile-more-title spoqa-regular">이메일</span>
+                                <span class="member_detail-profile-body spoca-light">
+                                    {% if profile.open_email %}
+                                    <span>{{profile.email}}</span>
+                                    {% else %}
+                                    <span>비공개</span>
+                                    {% endif %}
+                                </span>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <button type="button" class="member_detail-invite">초대하기</button>
-        <a href="{% url 'message_room' profile.id %}"><button type="button" class="member_detail-message">메세지</button></a>
-        <hr class="member_detail-profile-middleline">
+            <button type="button" class="member_detail-invite">초대하기</button>
+            <a href="{% url 'message_room' profile.id %}"><button type="button" class="member_detail-message">메세지</button></a>
+            <hr class="member_detail-profile-middleline">
 
-        <div class="member_detail-profile-etc-container">
-            <div class="member_detail-profile-etc">
-                <p class="member_detail-profile-etc-title spoqa-bold">PR</p>
-                <p class="member_detail-profile-etc-body-pr spoqa-light">
-                {% if profile.pr != None %}
-                {{profile.pr}}
-                {% endif %}
-                </p>
-                <p class="member_detail-profile-etc-title spoqa-bold">경력</p>
-                <p class="member_detail-profile-etc-body spoqa-light">
-                {% if profile.isCarrer %}
-                    {% for carrer in carrers %}
-                        {{carrer.start_date}} ~ {{carrer.end_date}} | {{carrer.content}}
+            <div class="member_detail-profile-etc-container">
+                <div class="member_detail-profile-etc">
+                    <p class="member_detail-profile-etc-title-pr spoqa-bold">PR</p>
+                    <p class="member_detail-profile-etc-body spoqa-light">
+                    {% if profile.pr != None %}
+                    {{profile.pr}}
+                    {% else %}
+                    그러니까
+                    {% endif %}
+                    </p>
+                    <p class="member_detail-profile-etc-title spoqa-bold">경력</p>
+                    <p class="member_detail-profile-etc-body spoqa-light">
+                    {% if profile.isCarrer %}
+                        {% for carrer in carrers %}
+                            {{carrer.start_date}} ~ {{carrer.end_date}} | {{carrer.content}}
+                        {% endfor %}
+                    {% else %}
+                    그게 뭐냐면말이죠
+                    {% endif %}
+                    </p>
+                    <p class="member_detail-profile-etc-title spoqa-bold">링크</p>
+                    <p class="member_detail-profile-etc-body spoqa-light">
+                    {% if profile.isLink %}
+                    {% for user_link in user_links %}
+                    {{user_link.link}}
                     {% endfor %}
-                {% endif %}
-                </p>
-                <p class="member_detail-profile-etc-title spoqa-bold">링크</p>
-                <p class="member_detail-profile-etc-body spoqa-light">
-                {% if profile.isLink %}
-                {% for user_link in user_links %}
-                {{user_link.link}}
-                {% endfor %}
-                {% endif %}
-                </p>
-                <p class="member_detail-profile-etc-title spoqa-bold">파일</p>
-                <p class="member_detail-profile-etc-body spoqa-light">
-                {% if profile.isFile %}
-                {% for user_file in user_files %}
-                {{user_file.file}}
-                {% endfor %}
-                {% endif %}
-                </p>
-            </div>
-        </div>
-
-
-        
-        
-        
-        
-        <hr class="member_detail-profile-middleline">
-
-        <div class="member_detail-profile-rating-container">
-            <div class="member_detail-profile-rating">
-                <p class="member_detail-profile-rating-title spoqa-bold">팀원평가</p>
-            </div>
-        </div>
-
-        <div class="member_detail-rating">
-
-            <div id="chart-container">
-
-                <div id="chart">  
+                    {% else %}
+                    바로바로
+                    {% endif %}
+                    </p>
+                    <p class="member_detail-profile-etc-title spoqa-bold">파일</p>
+                    <p class="member_detail-profile-etc-body spoqa-light">
+                    {% if profile.isFile %}
+                    {% for user_file in user_files %}
+                    {{user_file.file}}
+                    {% endfor %}
+                    {% else %}
+                    알려드렸습니다
+                    {% endif %}
+                    </p>
                 </div>
-
-                <script>
-                    var colors = [
-                    '#008FFB',
-                    '#00E396',
-                    '#FEB019',
-                    '#FF4560',
-                    '#775DD0',
-                    ]
-                </script>
+            </div>
 
 
-                <script>
-                    var review_list = {{user_review_all}};
-                    var options = {
-                    series: [{
-                    name: "평가 인원수",
-                    data: review_list
-                    }],
-                    chart: {
-                    toolbar: {
-                        show: false,
+            
+            
+            
+            
+            <hr class="member_detail-profile-middleline">
+
+            <div class="member_detail-profile-rating-container">
+                <div class="member_detail-profile-rating">
+                    <p class="member_detail-profile-rating-title spoqa-bold">팀원평가</p>
+                </div>
+            </div>
+
+            <div class="member_detail-rating">
+
+                <div id="chart-container">
+
+                    <div id="chart">  
+                    </div>
+
+                    <script>
+                        var colors = [
+                        '#008FFB',
+                        '#00E396',
+                        '#FEB019',
+                        '#FF4560',
+                        '#775DD0',
+                        ]
+                    </script>
+
+
+                    <script>
+                        var review_list = {{user_review_all}};
+                        var options = {
+                        series: [{
+                        name: "평가 인원수",
+                        data: review_list
+                        }],
+                        chart: {
+                        toolbar: {
+                            show: false,
+                            },
+                        height: 270,
+                        type: 'bar',
                         },
-                    height: 270,
-                    type: 'bar',
-                    },
-                    tooltip: {
-                        enabled: true,
-                        enabledOnSeries: true,
-                    },
-                    colors: colors,
-                    plotOptions: {
-                    bar: {
-                        columnWidth: '45%',
-                        distributed: true,
-                    }
-                    },
-                    dataLabels: {
-                    enabled: false
-                    },
-                    legend: {
-                        show: false
-                    },
-                    xaxis: {
-                    categories: [
-                        '1점',
-                        '2점',
-                        '3점',
-                        '4점',
-                        '5점',
-                    ],
-                    labels: {
-                        style: {
+                        tooltip: {
+                            enabled: true,
+                            enabledOnSeries: true,
+                        },
                         colors: colors,
-                        fontSize: '12px'
+                        plotOptions: {
+                        bar: {
+                            columnWidth: '45%',
+                            distributed: true,
                         }
-                    }
-                    },
-                    yaxis: {
-                        show: true,
-                        opposite: false,
-                        minwidth: 1,
+                        },
+                        dataLabels: {
+                        enabled: false
+                        },
+                        legend: {
+                            show: false
+                        },
+                        xaxis: {
+                        categories: [
+                            '1점',
+                            '2점',
+                            '3점',
+                            '4점',
+                            '5점',
+                        ],
                         labels: {
-                            formatter: function(val) {
-                                return parseInt(val);
+                            style: {
+                            colors: colors,
+                            fontSize: '12px'
                             }
                         }
-                    }
-                    };
-                    var chart = new ApexCharts(document.querySelector("#chart"), options);
-                    chart.render();
-                </script>
+                        },
+                        yaxis: {
+                            show: true,
+                            opposite: false,
+                            minwidth: 1,
+                            labels: {
+                                formatter: function(val) {
+                                    return parseInt(val);
+                                }
+                            }
+                        }
+                        };
+                        var chart = new ApexCharts(document.querySelector("#chart"), options);
+                        chart.render();
+                    </script>
 
-            </div>
+                </div>
 
-            <div class="member_detail-profile-rating-cnt spoqa-light">
-                
-                {% if user_review_avg.total__avg == None %}
-                <p>팀원들의 평가가 아직 없습니다.</p>
-                {% else %}
-                <p>총 {{user_review_cnt}} 명이 참여</p>
-                <p>팀원이 준 평점 평균은 '{{user_review_avg.total__avg|floatformat:"1"}} 점' 입니다</p>
-                {% endif %}
-            </div>
-
-        </div>
-
-        <div class="member_detail-profile-rating-content-container">
-
-            <div class="member_detail-profile-rating-content spoqa-light">
-                {% for review in user_review %}
-                    {% if review.content == "" %}
+                <div class="member_detail-profile-rating-cnt spoqa-light">
+                    
+                    {% if user_review_avg.total__avg == None %}
+                    <p>팀원들의 평가가 아직 없습니다.</p>
                     {% else %}
-                    <p>'{{review.content}}'</p>
+                    <p>총 {{user_review_cnt}} 명이 참여</p>
+                    <p>팀원이 준 평점 평균은 '{{user_review_avg.total__avg|floatformat:"1"}} 점' 입니다</p>
                     {% endif %}
-                {% endfor %}
+                </div>
+
             </div>
 
+            <div class="member_detail-profile-rating-content-container">
+
+                <div class="member_detail-profile-rating-content spoqa-light">
+                    {% for review in user_review %}
+                        {% if review.content == "" %}
+                        {% else %}
+                        <p>'{{review.content}}'</p>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+            </div>
         </div>
-        
         {% include 'footer.html' %}  
     </body>
 <script>

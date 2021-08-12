@@ -15,96 +15,97 @@
 </head>
 <body>
     {% include 'navbar.html' %}
+        <div class="content">
 
-    <div class="community-box">
-        <section class="community-top-container spoqa-regular">
-            <button onclick="newCommunity()">글쓰기</button>
-        </section>
+            <div class="community-box">
+                <section class="community-top-container spoqa-regular">
+                    <button onclick="newCommunity()">글쓰기</button>
+                </section>
 
-        <main class="community-main-container">
+                <main class="community-main-container">
 
-            {% for community in posts %}
-            <section class="community-item" onclick="openDetail()">
-                <div class="community-profile-container" profile_id = '{% get_profile_id community.user_id.id %}'>
-                    <img class="community-profile-img" src="{% static 'image/cloud.jpg' %}" alt="">
-                    <p class="spoqa-regular">{% Name community.user_id.id %}</p>
-                </div>
-
-                <div class="community-content-container spoqa-light community-list-item" com_id = "{{community.id}}">
-                    <p class="community-content">{{community.content}}</p>
-                
-                    <div class="community-extra-container">
-                        <div class="community-datetime-container">
-                            <p>{% TimeFormat community.write_date %}</p>
-                            <p>|</p>
-                            <p>{% HourFormat community.write_date %}</p>
+                    {% for community in posts %}
+                    <section class="community-item" onclick="openDetail()">
+                        <div class="community-profile-container" profile_id = '{% get_profile_id community.user_id.id %}'>
+                            <img class="community-profile-img" src="{% static 'image/cloud.jpg' %}" alt="">
+                            <p class="spoqa-regular">{% Name community.user_id.id %}</p>
                         </div>
-    
-                        <div class="community-comment-view-container">
-                            <div class="community-comment-view-item">
-                                <p>댓글</p>
-                                <p>7</p>
+
+                        <div class="community-content-container spoqa-light community-list-item" com_id = "{{community.id}}">
+                            <p class="community-content">{{community.content}}</p>
+                        
+                            <div class="community-extra-container">
+                                <div class="community-datetime-container">
+                                    <p>{% TimeFormat community.write_date %}</p>
+                                    <p>|</p>
+                                    <p>{% HourFormat community.write_date %}</p>
+                                </div>
+            
+                                <div class="community-comment-view-container">
+                                    <div class="community-comment-view-item">
+                                        <p>댓글</p>
+                                        <p>7</p>
+                                    </div>
+            
+                                    <div class="community-comment-view-item">
+                                        <p>조회</p>
+                                        <p>{{community.view_cnt}}</p>
+                                    </div>
+                                </div>
                             </div>
-    
-                            <div class="community-comment-view-item">
-                                <p>조회</p>
-                                <p>{{community.view_cnt}}</p>
-                            </div>
+                        </div>
+                    </section>
+
+                    {% endfor %}
+                </main>
+
+                <section class="community-bottom-container">
+                    <p>{% if posts.has_previous %}
+                        <a href="?page=1">First</a>
+                        
+                        <a href="?page={{posts.previous_page_number}}">이전</a>
+                    {% endif %}
+                
+                    <span>{{posts.number}}</span>
+                    <span>/</span>
+                    <span>{{posts.paginator.num_pages}}</span>
+                
+                    {% if posts.has_next %}
+                        <a href="?page={{posts.next_page_number}}">다음</a>
+                        <a href="?page={{posts.paginator.num_pages}}">Last</a>
+                    {% endif %}</p>
+                    
+                </section>
+            </div>
+
+            <!-- write -->
+            <div id="write" class="background">
+                <div class="community-new-box">
+                    <div class="community-close-btn">
+                        <img src="{% static 'image/x-button.png' %}" onclick="closeNew()" alt="">
+                    </div>
+
+                    <div class="community-content-box">
+                        <div class="community-profile-container">
+                            <img class="community-profile-img" src="{% static 'image/cloud.jpg' %}" alt="">
+                            <p class="spoqa-regular">{{user}}</p>
+                        </div>
+
+                        <textarea class="spoqa-light write-content-text" name="" id=""></textarea>
+            
+                        <div class="community-write-btn-container">
+                            <button class="spoqa-regular write-submit-btn" onclick="closeNew()">글쓰기</button>
                         </div>
                     </div>
                 </div>
-            </section>
-
-            {% endfor %}
-        </main>
-
-        <section class="community-bottom-container">
-            <p>{% if posts.has_previous %}
-                <a href="?page=1">First</a>
-                
-                <a href="?page={{posts.previous_page_number}}">Previous</a>
-            {% endif %}
-        
-            <span>{{posts.number}}</span>
-            <span>of</span>
-            <span>{{posts.paginator.num_pages}}</span>
-        
-            {% if posts.has_next %}
-                <a href="?page={{posts.next_page_number}}">Next</a>
-                <a href="?page={{posts.paginator.num_pages}}">Last</a>
-            {% endif %}</p>
+            </div>
             
-        </section>
-    </div>
 
-    <!-- write -->
-    <div id="write" class="background">
-        <div class="community-new-box">
-            <div class="community-close-btn">
-                <img src="{% static 'image/x-button.png' %}" onclick="closeNew()" alt="">
+
+            <!-- detail -->
+            <div id="detail" class="background">
             </div>
-
-            <div class="community-content-box">
-                <div class="community-profile-container">
-                    <img class="community-profile-img" src="{% static 'image/cloud.jpg' %}" alt="">
-                    <p class="spoqa-regular">{{user}}</p>
-                </div>
-
-                <textarea class="spoqa-light write-content-text" name="" id=""></textarea>
-    
-                <div class="community-write-btn-container">
-                    <button class="spoqa-regular write-submit-btn" onclick="closeNew()">글쓰기</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-
-
-    <!-- detail -->
-    <div id="detail" class="background">
-    </div>
-    
+        </div>    
     {% include 'footer.html' %}
 </body>
 

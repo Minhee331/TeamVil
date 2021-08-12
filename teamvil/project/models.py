@@ -31,6 +31,8 @@ class Project(models.Model):
     register = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return self.title
+    def abb(self):
+        return self.title[:12]
 
 class Project_link(models.Model):
     project_id = models.ForeignKey(Project, on_delete = models.CASCADE, db_column="project_id")

@@ -549,7 +549,13 @@ def mypage_like(request):
     member_like_list = [d['to_user_id'] for d in member_like]
     like_users = User.objects.filter(id__in=member_like_list)
     profiles = Profile.objects.filter(user_id__in=like_users)
-    return render(request, "mypage_like.html", {'projects':projects, "profiles":profiles})
+    projects_list = Project.objects.filter(id__in = project_like_list).order_by('-id')
+    profiles_list = Profile.objects.filter(user_id__in=like_users)
+    page = request.GET.get('page')
+    paginator = Paginator(projects_list, 5)
+    paginator = Paginator(profiles_list, 5)
+    posts = paginator.get_page(page)
+    return render(request, "mypage_like.html", {'projects':projects, "profiles":profiles,"posts":posts})
 
 # 마이페이지 스크랩 페이지 함수
 def mypage_scrap(request):
