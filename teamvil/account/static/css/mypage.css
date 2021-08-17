@@ -160,6 +160,7 @@
 .mypage-project-item-container{
     width: 100%;
     border-top: 1px solid #ebebeb;
+    margin-bottom: 100px;
 }
 .mypage-project-title-wrap{
     display: flex;
@@ -598,4 +599,76 @@ p {
 
 .scrap.active{
     content:url("../image/scrap-btn.png");
+}
+
+
+/*apexcharts*/
+
+#chart-container {
+    display: flex;
+    justify-content: center;
+    margin-right: 70px;
+}
+
+#chart {
+    width: 250px;
+    margin: 0 30px;
+    padding: 5px 20px;
+}
+
+#chart .apexcharts-xaxis-label {
+    font-weight: bold;
+}
+
+#chart, .chart-box {
+    background: #fff;
+    border: 1px solid #ddd;
+}
+
+.user_review_rating {
+    justify-self: center;
+}
+
+.mypage-profile-rating-container {
+    display: grid;
+    justify-content: center;
+}
+
+.mypage-profile-rating {
+    margin-bottom: 30px;
+    margin-top: 70px;
+    width: 600px;
+
+}
+
+.mypage-profile-rating p {
+    padding: 12px 0;
+}
+
+.mypage-profile-rating-title {
+    display: inline-block;
+    width: 83px;
+    font-size: 19px;
+    padding-right: 10px;
+}
+
+.mypage-profile-rating-cnt p {
+    margin: 30px 0;
+}
+
+.mypage-profile-rating-content-container {
+    display: flex;
+    justify-content: center;
+}
+
+.mypage-profile-rating-content p {
+    margin: 0 15px 50px;
+    width : 570px;
+    justify-self: center;
+}
+
+.mypage-rating {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
 }

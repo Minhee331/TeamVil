@@ -47,7 +47,7 @@
                     <p class="team_new-items-title">프로젝트 명</p>
                 </div>
 
-                <input class="team_new-input-long db_title" type="text" name="" id="">
+                <input class="team_new-input-long spoqa-light db_title" type="text" name="" id="">
             </div>
 
             <div class="team_new-items">
@@ -56,7 +56,7 @@
                     <p class="team_new-items-title">프로젝트 목적</p>
                 </div>
 
-                <input class="team_new-input-long db_desc" type="text" name="" id="">
+                <input class="team_new-input-long spoqa-light db_desc" type="text" name="" id="">
             </div>
 
             <div class="team_new-items">
@@ -81,7 +81,7 @@
                     <p class="team_new-items-title">세부 분야</p>
                 </div>
 
-                <input class="team_new-input-mid db_field2" type="text" name="" id="">
+                <input class="team_new-input-mid spoqa-light db_field2" type="text" name="" id="">
             </div>
 
             <div class="team_new-items">
@@ -115,9 +115,9 @@
                 </div>
 
                 <div class="team_new-mem-num-container">
-                    <input class="team_new-input-short db_mem_now" type="text" name="" id="">
+                    <input class="team_new-input-short spoqa-light db_mem_now" type="text" name="" id="">
                     <p>/</p>
-                    <input class="team_new-input-short db_mem_total" type="text" name="" id="">
+                    <input class="team_new-input-short spoqa-light db_mem_total" type="text" name="" id="">
                 </div>
             </div>
 
@@ -129,9 +129,9 @@
 
                 <div class="team_new-task-container" id="taskContainer">
                     <div class="team_new-task">
-                        <input class="team_new-input-mid-short" type="text" name="" id="task" placeholder="직무">
+                        <input class="team_new-input-mid-short spoqa-light" type="text" name="" id="task" placeholder="직무">
                         <p>/</p>
-                        <input class="team_new-input-short" type="text" name="" id="num" placeholder="인원">
+                        <input class="team_new-input-short spoqa-light" type="text" name="" id="num" placeholder="인원">
                         <input class="team_new-add-task spoqa-regular" type="button" value="추가" onclick="addTask()">
                     </div>
                 </div>
@@ -143,7 +143,7 @@
                     <p class="team_new-items-title">직무 설명</p>
                 </div>
 
-                <input class="team_new-input-long db_duty_desc" type="text" name="" id="">
+                <input class="team_new-input-long spoqa-light db_duty_desc" type="text" name="" id="">
             </div>
 
             <div class="team_new-items">
@@ -151,7 +151,7 @@
                     <p class="team_new-items-essential">*</p>
                     <p class="team_new-items-title">대표 사진</p>
 
-                    <input class="team_new-input-photo db_photo" type="file" value="사진 등록" accept="image/*" onchange="setThumbnail(event);">
+                    <input class="team_new-input-photo db_photo" id="upload_photo" type="file" value="사진 등록" accept="image/*" onchange="setThumbnail(event);">
                     
                 </div>
 
@@ -164,7 +164,7 @@
                     <p class="team_new-items-title">프로젝트 소개</p>
                 </div>
 
-                <input class="team_new-input-long db_content" type="text" name="" id="">
+                <input class="team_new-input-long spoqa-light db_content" type="text" name="" id="">
             </div>
 
             <div class="team_new-items">
@@ -230,7 +230,7 @@
                     <p class="team_new-items-title">링크</p>
                 </div>
 
-                <input class="team_new-input-long db_link" type="text" name="" id="">
+                <input class="team_new-input-long spoqa-light db_link" type="text" name="" id="">
             </div>
 
             <div class="team_new-items">
@@ -238,7 +238,7 @@
                     <p class="team_new-items-title">파일</p>
                 </div>
 
-                <input class="team_new-file" type="file" name="" id="">
+                <input class="team_new-file" type="file" multiple name="" id="upload_files">
             </div>
 
             <div class="team_form-btn-container">
@@ -354,6 +354,7 @@
             url: "{% url 'team_new' %}",
             data: JSON.stringify(data),
             success: function(res) {
+                upload_file(res['project_id'])
                 location.href = '/project/team_detail/'+res['project_id']
             },
             error:function(request,status,error){
@@ -362,6 +363,28 @@
         });
     });
 
+    function upload_file(project_id){
+        photo = $("input[id='upload_photo'")[0].files[0];
+        files = $("input[id='upload_files'")[0].files[0];
+        var file_data = new FormData();
+        file_data.append("file", photo);
+        file_data.append("files", files);
+        file_data.append("csrfmiddlewaretoken", "{{csrf_token}}");
+        $.ajax({
+            method: "POST",
+            url: '/project/upload_project_file/'+project_id,
+            processData: false,
+            contentType: false,
+            mimeType: "multipart/form-data",
+            data: file_data,
+            success: function(res) {
+                console.log(res)
+            },
+            error:function(request,status,error){
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+    }
     // 지역 선택 시 (region1에 따라 region2가 바뀜)
     function categoryChange(){
         var category = $('select[name=region1] option:selected').val(); //숫자 순서대로 

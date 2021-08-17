@@ -14,7 +14,11 @@
     <body>
         {% include 'navbar.html' %}
         <div class="team_detail-container">
-            <div class="team_detail-name">
+            {% if project.photo.url is not None %}
+            <div class="team_detail-name" style="background-image: url('{{project.photo.url}}')">
+            {% else %}
+            <div class="team_detail-name" style="background-color: #ebebeb;">
+            {% endif %}
                 <header>
                     <h1 class="team_detail-title">{{project.title}}</h1>
 
@@ -30,12 +34,20 @@
 
                     <div class="team_detail-like-scrap-container spoqa-light">
                         <a class="team_detail-like-scrap-item">
-                            <img class="like-scrap like {% active_like 0 project.id user.id %}" src="{% static 'image/like-btn-2.png' %}" value="{{project.id}}">
+                            {% if user.is_authenticated %}
+                                <img class="like-scrap like {% active_like 0 project.id user.id %}" src="{% static 'image/like-btn-2.png' %}" value="{{project.id}}">
+                            {% else %}
+                                <img class="like-scrap like" src="{% static 'image/like-btn-2.png' %}" value="{{project.id}}">
+                            {% endif %}
                             <p>{% get_like_cnt 0 project.id %}</p>
                         </a>
 
                         <a class="team_detail-like-scrap-item">
-                            <img class="like-scrap scrap {% active_scrap 0 project.id user.id %}" src="{% static 'image/scrap-btn-2.png' %}" value="{{project.id}}">
+                            {% if user.is_authenticated %}
+                                <img class="like-scrap scrap {% active_scrap 0 project.id user.id %}" src="{% static 'image/scrap-btn-2.png' %}" value="{{project.id}}">
+                            {% else %}
+                                <img class="like-scrap scrap" src="{% static 'image/scrap-btn-2.png' %}" value="{{project.id}}">
+                            {% endif %}
                             <p>{% get_scrap_cnt 0 project.id %}</p>
                         </a>
                     </div>
@@ -77,9 +89,11 @@
                                 <button type="button" class="team_detail-apply">수정하기</button>
                             </a>
                             {% else %}
-                            <a class="team_detail-apply-button" href="{% url 'team_apply'  project.id %}">
-                                <button type="button" class="team_detail-apply">지원하기</button>
-                            </a>
+                                {% if user.is_authenticated %}
+                                    <a class="team_detail-apply-button" href="{% url 'team_apply'  project.id %}">
+                                        <button type="button" class="team_detail-apply">지원하기</button>
+                                    </a>
+                                {% endif %}
                             {% endif %}
                         </div>
                     </div>
@@ -127,7 +141,7 @@
                 <p>
                     <span class="team_detail-info-etc-title">학력 제한</span>
                     <span class="team_detail-info-etc-body">
-                        {% if project.education_id != "" %}
+                        {% if project.education_id != null %}
                             {{project.education_id.education}}
                         {% else %}
                             학력제한 없음
@@ -139,7 +153,7 @@
                     <span class="team_detail-info-etc-body">
                         {% if project.isLink %}
                             {% for project_link in project_links %}
-                                {{project_link}}
+                                <a href="https://{{project_link}}">{{project_link}}</a>
                             {% endfor %}
                         {% else %}
                             링크 없음
@@ -151,7 +165,7 @@
                     <span class="team_detail-info-etc-body">
                         {% if project.isFile %}
                             {% for project_file in project_files %}
-                                {{project_file}}
+                                <a href="{{project_file}}">{{project_file}}</a>
                             {% endfor %}
                         {% else %}
                             파일 없음

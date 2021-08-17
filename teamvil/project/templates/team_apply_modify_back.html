@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+{% load custom_tags %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/team_apply.css' %}">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+    
+    <div class="team_apply-main-container content">
+        <div class="team_apply-title-container spoqa-light">
+            <h5 class="spoqa-regular">{{project.title}}</h5>
+
+            <option {% if project.field1_id.field1 == 0 %} selected {% endif %} value="0">창업 | {{project.field1_id.field1}}</option>
+            <option {% if project.field1_id.field1 == 1 %} selected {% endif %} value="1">공모전 | {{project.field1_id.field1}}</option>
+            <option {% if project.field1_id.field1 == 2 %} selected {% endif %} value="2">프로젝트 | {{project.field1_id.field1}}</option>          
+            
+
+            <p class="">by {{profile.name}}</p>
+        </div>
+
+        <div class="team_apply-content-container">
+            <div class="team_apply-select-task-container">
+                <h6 class="spoqa-regular">지원 분야 선택</h6>
+
+                <div class="team_apply-tasks">
+                    {% for duty in duties %}
+                    <option {% if duty == project.duty_id %} selected {% endif %} value={{duty.id}}>{{duty.name}} | {{duty.now}} / {{duty.total}}</option>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="team_apply-profile-container">
+                <h6 class="spoqa-regular">본인 프로필 제공 동의</h6>
+                
+                <input type="checkbox">
+                
+                <p>프로필 설정 시 입력한 정보가 자동으로 제공됩니다!</p>
+            </div>
+
+            <div class="team_apply-question-container">
+                <h6 class="spoqa-regular">프로젝트 리더가 묻습니다!</h6>
+
+                <div class="team_apply-questions">
+                    {% for questionlist,questions in questiondict %}
+                        {% if question.id|stringformat:"i" == questionlist %}
+                            {% for question in questions %}
+                                <option {% if question.type == 0 %} selected {% endif %} value="0"></option>    
+                                    <div class="team_apply-question-item question.id" q_id="{{question.id}}" q_type ='{{question.type}}' >
+                                        <div class="team_apply-question spoqa-regular">
+                                            {% if question.isRequired == 1 %}
+                                                <p class="team_apply-essential">*</p>
+                                            {% else %}
+                                                <p>&nbsp;</p>
+                                            {% endif %}
+    
+                                            <p class="team_apply-question-content" value="{{question.content}}">{{question.content}}</p>
+                                        </div>
+                                        
+                                        <div class="team_apply-option-list spoqa-light">
+                                            {% if question.choice1 is not None %}
+                                                <input type="radio" name='choice{{question.id}}' value="1" checked="checked" txt = "{{question.choice1}}">
+                                                <p>{{question.choice1}}</p>
+                                            {% endif %}
+
+                                            {% if question.choice2 is not None %}
+                                                <input type="radio" name='choice{{question.id}}' value="2" txt = "{{question.choice2}}">
+                                                <p>{{question.choice2}}</p>
+                                            {% endif %}
+
+                                            {% if question.choice3 is not None %}
+                                                <input type="radio" name='choice{{question.id}}' value="3" txt = "{{question.choice3}}">
+                                                <p>{{question.choice3}}</p>
+                                            {% endif %}
+
+                                            {% if question.choice4 is not None %}
+                                                <input type="radio" name='choice{{question.id}}' value="4" txt = "{{question.choice4}}">
+                                                <p>{{question.choice4}}</p>
+                                            {% endif %}
+
+                                            {% if question.choice5 is not None %}
+                                                <input type="radio" name='choice{{question.id}}' value="5" txt = "{{question.choice5}}">
+                                                <p>{{question.choice5}}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                
+
+                                {% if question.type == 1 %}
+                                    <div class="team_apply-question-item question.id" q_id="{{question.id}}" q_type ='{{question.type}}'>
+                                        <div class="team_apply-question spoqa-regular">
+                                            {% if question.isRequired == 1 %}
+                                                <p class="team_apply-essential">*</p>
+                                            {% else %}
+                                                <p>&nbsp;</p>
+                                            {% endif %}
+    
+                                            <p class="team_apply-question-content">{{question.content}}</p>
+                                        </div>
+    
+                                        <div class="team_apply-answer-area">
+                                            <input type="text" class="spoqa-light short_answer" value={{answer.short_answer}}>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                                {% if question.type == 2 %}
+                                    <div class="team_apply-question-item question.id" q_id="{{question.id}}" q_type ='{{question.type}}'>
+                                        <div class="team_apply-question spoqa-regular">
+                                            {% if question.isRequired == 1 %}
+                                                <p class="team_apply-essential">*</p>
+                                            {% else %}
+                                                <p>&nbsp;</p>
+                                            {% endif %}
+    
+                                            <p class="team_apply-question-content">{{question.content}}</p>
+                                        </div>
+    
+                                        <div class="team_apply-answer-area">
+                                            <textarea name="" id="" cols="50" rows="2" class="spoqa-light long_answer" value={{answer.short_answer}}></textarea>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="team_apply-modify-container">
+            <button class="team_apply-modify-btn spoqa-regular">수정하기</button>
+        </div>
+    </div>
+
+    {% include 'footer.html' %}
+</body>
+<script>
+    $('.team_apply-task').on("click", function(){ 
+        $('.team_apply-task').removeClass('active');
+        $(this).addClass('active');
+    });
+    $('.team_apply-modify-btn').on("click", function(){ 
+        duty_id = $('.team_apply-task.active').attr('value')
+        answer = document.getElementsByClassName('team_apply-question-item');
+        a_list = []
+        for(let i=0; i<answer.length; i++){
+            a_dict = {}
+            a_item = $(answer[i])
+            q_id = a_item.attr('q_id')
+            q_type = Number(a_item.attr('q_type'))
+            a_dict['q_id'] = Number(q_id)
+            a_dict['q_type'] = q_type
+            if(q_type==0){
+                a_dict['choice_answer'] = Number(a_item.find(':radio[name=choice'+q_id+']:checked').val())
+                a_dict['choice_text'] = a_item.find(':radio[name=choice'+q_id+']:checked').attr('txt')
+            }else if(q_type==1){
+                a_dict['short_answer'] = a_item.find('.short_answer').val();
+            }else{
+                a_dict['long_answer'] = a_item.find(".long_answer").val();
+            }
+            a_list.push(a_dict)
+        }
+        data = {
+            "duty_id":duty_id,
+            "a_list":a_list,
+            'project_id':{{project.id}}
+        }
+        console.log(data)
+        $.ajax({
+            type: "POST",
+            headers:{
+                'X-CSRFToken' : '{{csrf_token}}'
+            },
+            url: "{% url 'team_apply_modify' project.id %}",
+            data: JSON.stringify(data),
+            success: function(res) {
+                location.href = '/project/team_detail/'+res['project_id']
+            },
+            error:function(request,status,error){
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+    });
+</script>
+</html>

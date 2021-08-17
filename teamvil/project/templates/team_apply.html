@@ -65,17 +65,38 @@
                                         <div class="team_apply-question spoqa-regular">
                                             {% if question.isRequired == 1 %}
                                                 <p class="team_apply-essential">*</p>
+                                            {% else %}
+                                                <p>&nbsp;</p>
                                             {% endif %}
     
-                                            <p class="">{{question.content}}</p>
+                                            <p class="team_apply-question-content">{{question.content}}</p>
                                         </div>
                                         
-                                        <div>
-                                            {% if question.choice1 is not None %}<input type="radio" name='choice{{question.id}}' value="1" checked="checked" txt = "{{question.choice1}}">{{question.choice1}}{% endif %}
-                                            {% if question.choice2 is not None %}<input type="radio" name='choice{{question.id}}' value="2" txt = "{{question.choice2}}">{{question.choice2}}{% endif %}
-                                            {% if question.choice3 is not None %}<input type="radio" name='choice{{question.id}}' value="3" txt = "{{question.choice3}}">{{question.choice3}}{% endif %}
-                                            {% if question.choice4 is not None %}<input type="radio" name='choice{{question.id}}' value="4" txt = "{{question.choice4}}">{{question.choice4}}{% endif %}
-                                            {% if question.choice5 is not None %}<input type="radio" name='choice{{question.id}}' value="5" txt = "{{question.choice5}}">{{question.choice5}}{% endif %}
+                                        <div class="team_apply-option-list spoqa-light">
+                                            {% if question.choice1 is not None %}
+                                                <input type="radio" name='choice{{question.id}}' value="1" checked="checked" txt = "{{question.choice1}}">
+                                                <p>{{question.choice1}}</p>
+                                            {% endif %}
+
+                                            {% if question.choice2 is not None %}
+                                                <input type="radio" name='choice{{question.id}}' value="2" txt = "{{question.choice2}}">
+                                                <p>{{question.choice2}}</p>
+                                            {% endif %}
+
+                                            {% if question.choice3 is not None %}
+                                                <input type="radio" name='choice{{question.id}}' value="3" txt = "{{question.choice3}}">
+                                                <p>{{question.choice3}}</p>
+                                            {% endif %}
+
+                                            {% if question.choice4 is not None %}
+                                                <input type="radio" name='choice{{question.id}}' value="4" txt = "{{question.choice4}}">
+                                                <p>{{question.choice4}}</p>
+                                            {% endif %}
+
+                                            {% if question.choice5 is not None %}
+                                                <input type="radio" name='choice{{question.id}}' value="5" txt = "{{question.choice5}}">
+                                                <p>{{question.choice5}}</p>
+                                            {% endif %}
                                         </div>
                                     </div>
                                 {% endif %}
@@ -85,12 +106,16 @@
                                         <div class="team_apply-question spoqa-regular">
                                             {% if question.isRequired == 1 %}
                                                 <p class="team_apply-essential">*</p>
+                                            {% else %}
+                                                <p>&nbsp;</p>
                                             {% endif %}
     
-                                            <p class="">{{question.content}}</p>
+                                            <p class="team_apply-question-content">{{question.content}}</p>
                                         </div>
     
-                                        <input type="text" class="short_answer">
+                                        <div class="team_apply-answer-area">
+                                            <input type="text" class="spoqa-light short_answer">
+                                        </div>
                                     </div>
                                 {% endif %}
 
@@ -99,12 +124,16 @@
                                         <div class="team_apply-question spoqa-regular">
                                             {% if question.isRequired == 1 %}
                                                 <p class="team_apply-essential">*</p>
+                                            {% else %}
+                                                <p>&nbsp;</p>
                                             {% endif %}
     
-                                            <p class="">{{question.content}}</p>
+                                            <p class="team_apply-question-content">{{question.content}}</p>
                                         </div>
     
-                                        <textarea name="" id="" cols="50" rows="2" class="long_answer"></textarea>
+                                        <div class="team_apply-answer-area">
+                                            <textarea name="" id="" cols="50" rows="2" class="spoqa-light long_answer"></textarea>
+                                        </div>
                                     </div>
                                 {% endif %}
                             {% endfor %}
@@ -114,7 +143,9 @@
             </div>
         </div>
 
-        <button class="submit-btn">제출하기</button>
+        <div class="team_apply-submit-container">
+            <button class="team_apply-submit-btn spoqa-regular">제출하기</button>
+        </div>
     </div>
 
     {% include 'footer.html' %}
@@ -124,7 +155,7 @@
         $('.team_apply-task').removeClass('active');
         $(this).addClass('active');
     });
-    $('.submit-btn').on("click", function(){ 
+    $('.team_apply-submit-btn').on("click", function(){ 
         duty_id = $('.team_apply-task.active').attr('value')
         answer = document.getElementsByClassName('team_apply-question-item');
         a_list = []

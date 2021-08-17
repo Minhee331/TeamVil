@@ -1,5 +1,9 @@
 hr {
     margin: 10px 0px;
+    height: 1px;
+    border: 0 none;
+    color: #1b1b1b;
+    background-color: #1b1b1b;
 }
 label{
     cursor: pointer;

@@ -111,7 +111,7 @@
                     <div class="hidden float" id="field1">
                         <div class="mypage-modify-select-list col_15">
                             {% for field in field1 %}
-                            <a class="select-field1-item spoqa-light" value="{{field1.id}}">{{field.field1}}</a>
+                            <a class="select-field1-item spoqa-light" value="{{field.id}}">{{field.field1}}</a>
                             {% endfor %}
                         </div>
                     </div>
@@ -123,7 +123,11 @@
             <p class="mypage-modify-title-text spoqa-regular"></p>
             
             <div class="mypage-modify-input-wrap">
-                <input type="text" class="mypage-modify-input col_15 spoqa-light db_field2" value="{{profile.field2}}">
+                {% if profile.submit %}
+                    <input type="text" class="mypage-modify-input col_15 spoqa-light db_field2" value="{{profile.field2}}">
+                {% else %}
+                    <input type="text" class="mypage-modify-input col_15 spoqa-light db_field2" placeholder="세부 분야를 적어주세요.">
+                {% endif %}
             </div>
         </div>
 
@@ -173,7 +177,11 @@
             <p class="mypage-modify-title-text spoqa-regular"></p>
             
             <div class="mypage-modify-input-wrap">
-                <input type="text" class="mypage-modify-input col_60 spoqa-light db_mbti_detail" value="{{profile.mbti_detail}}">
+                {% if profile.mbti_detail is not None %}
+                    <input type="text" class="mypage-modify-input col_60 spoqa-light db_mbti_detail" value="{{profile.mbti_detail}}">
+                {% else %}
+                    <input type="text" class="mypage-modify-input col_60 spoqa-light db_mbti_detail" placeholder="자신의 성격에 대해 상세히 적어주세요.">
+                {% endif %}
             </div>
         </div>
 
@@ -201,7 +209,11 @@
             
             <div class="mypage-modify-row-wrap">
                 <div class="mypage-modify-input-switch-wrap">
-                    <input type="text" class="mypage-modify-input col_15 spoqa-light db_email" value="{{profile.email}}">
+                    {% if profile.submit %}
+                        <input type="text" class="mypage-modify-input col_15 spoqa-light db_email" value="{{profile.email}}">
+                    {% else %}
+                        <input type="text" class="mypage-modify-input col_15 spoqa-light db_email" value="">
+                    {% endif %}
                 </div>
 
                 <div class="mypage-modify-input-switch-wrap">
@@ -214,13 +226,26 @@
                 </div>
             </div>
         </div>
+
+        <div class="mypage-profile-modify-element-wrap">
+            <p class="mypage-modify-title-text spoqa-regular">사진</p>
+            <div class="mypage-modify-row-wrap">
+                <div class="mypage-modify-input-switch-wrap">
+                    <input type="file" id = "upload_photo" accept="image/*">
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="mypage-info-item-wrap-container">
     <div class="mypage-profile-column-item-container">
         <div class="mypage-profile-detail-info-wrap">
             <p class="mypage-profile-detail-info-title-text spoqa-regular">PR</p>
-            <textarea class="mypage-profile-detail-info-content-text  spoqa-light db_pr">{{profile.pr}}</textarea>
+            {% if profile.pr is not None %}
+                <textarea class="mypage-profile-detail-info-content-text  spoqa-light db_pr">{{profile.pr}}</textarea>
+            {% else %}
+                <textarea class="mypage-profile-detail-info-content-text  spoqa-light db_pr"></textarea>
+            {% endif %}
         </div>
 
         {% if profile.isCarrer %}
@@ -328,7 +353,7 @@
         }else{
             state = 2
         }
-        field11_id = $('.mypage-modify-select-state-button.field1 p').attr('value');
+        field1_id = $('.mypage-modify-select-state-button.field1 p').attr('value');
         field2 = $('.db_field2').val();
         term = $('.mypage-modify-select-state-button.term p').attr('value');
         mbti = $('.mypage-modify-select-state-button.mbti p').attr('value');
@@ -342,7 +367,7 @@
             "region1_id":region1_id,
             "region2_id":region2_id,
             "state":state,
-            "field1_id":field11_id,
+            "field1_id":field1_id,
             "field2":field2,
             "term":term,
             "mbti":mbti,
@@ -359,6 +384,7 @@
             url: "{% url 'modify_profile'%}",
             data: JSON.stringify(data),
             success: function(res) {
+                upload_file();
                 location.href = "/member/mypage"
             },
             error:function(request,status,error){
@@ -366,4 +392,24 @@
             }
         });
     }); 
+    function upload_file(){
+        photo = $("input[id='upload_photo'")[0].files[0];
+        var file_data = new FormData();
+        file_data.append("file", photo);
+        file_data.append("csrfmiddlewaretoken", "{{csrf_token}}");
+        $.ajax({
+            method: "POST",
+            url: "{% url 'upload_profile_photo' profile.id %}",
+            processData: false,
+            contentType: false,
+            mimeType: "multipart/form-data",
+            data: file_data,
+            success: function(res) {
+                console.log(res)
+            },
+            error:function(request,status,error){
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+    }
 </script>

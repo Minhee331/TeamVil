@@ -43,9 +43,10 @@
                         </a>
                         <div id="naver_id_login" style="display: none;"></div>
                         <a id="naverLogin" href=""><span class="iconify" data-icon="vs:naver-square" data-inline="false"></span></a>
-                        <a href=""><span class="iconify" data-icon="akar-icons:facebook-fill" data-inline="false"></span></a>
-                        <a href=""><span class="iconify" data-icon="akar-icons:google-fill" data-inline="false"></span></a>
-                        <a href=""><span class="iconify" data-icon="akar-icons:github-fill" data-inline="false"></span></a>
+                        <a onclick="alert('개발중입니다^.^');"style="cursor:pointer"><span class="iconify" data-icon="akar-icons:facebook-fill" data-inline="false"></span></a>
+                        
+                        <a onclick="alert('개발중입니다^.^');"style="cursor:pointer"><span class="iconify" data-icon="akar-icons:google-fill" data-inline="false"></span></a>
+                        <a onclick="alert('개발중입니다^.^');"style="cursor:pointer"><span class="iconify" data-icon="akar-icons:github-fill" data-inline="false"></span></a>
                     </div>
 
                     <div class="login-line-container">
@@ -68,7 +69,7 @@
                     <div class="login-more-container">
                         <label class="login-keep"><input type="checkbox" name="remember_session" checked>로그인 상태 유지</label>
                         <!-- 라벨로 감싸서 전체선택 가능하게 할건지? -->
-                        <a href="">비밀번호 재설정</a>
+                        <a onclick="alert('개발중입니다^.^');"style="cursor:pointer">비밀번호 재설정</a>
                         <hr class="login-hr">
                         <a href="{% url 'signup'  %}">회원가입</a>  
                     </div>    
@@ -146,18 +147,18 @@
 
     <script type="text/javascript">
 
-        var naver_id_login = new naver_id_login("6NbrDH2vMjug5Mc8GT67", "http://localhost:5000/member/callback");
+        var naver_id_login = new naver_id_login("6NbrDH2vMjug5Mc8GT67", "http://3.37.223.26/member/callback");
         var state = naver_id_login.getUniqState();
         naver_id_login.setButton("green", 2,40);
-        naver_id_login.setDomain("http://localhost:5000/member/login");
+        naver_id_login.setDomain("http://3.37.223.26/member/login");
         naver_id_login.setState(state);
         //naver_id_login.setPopup();
         naver_id_login.init_naver_id_login();
 
-        $(document).on("click", "#naverLogin", function(){
-            var naverLoginUrl = document.getElementById("naver_id_login_anchor").getAttribute('href');
-            window.open(naverLoginUrl,"","width=500, height=800");
-            window.close(naverLoginUrl,"","width=500, height=800");
+        $('#naverLogin').on('click', function(e) {
+            e.preventDefault();
+            var btn = document.getElementById('naver_id_login').firstChild
+            btn.click();
         });
 
     </script>

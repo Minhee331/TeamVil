@@ -21,7 +21,9 @@
         {% include 'navbar.html' %}
 
         <div class="alarm_detail-container content">
-
+            {% if alarms|length == 0 %}
+            <p class="alarm_detail-notice ">아직 알람이 없습니다</p>
+            {% else %}
             {% for alarm in alarms %}
             <div class="alarm_detail-item">
 
@@ -50,21 +52,21 @@
                     {% if alarm.type == 0 %}
                         {% for profile in profiles %}
                             {% if alarm.like_id.from_user_id == profile.user_id %}
-                            <a href="{{alarm.member_url}}">"{{profile}}"</a>님이 당신을 좋아합니다.
+                            <a href="{{alarm.member_url}}">"{{profile}}"</a>님이 당신의 프로필을 좋아요 했습니다.
                             {% endif %}
                         {% endfor %}
 
                     {% elif alarm.type == 1 %}
                         {% for profile in profiles %}
                             {% if alarm.like_id.from_user_id == profile.user_id %}
-                            <a href="{{alarm.member_url}}">"{{profile}}"</a>님이 <a href="{{alarm.project_url}}">"{{alarm.like_id.project_id}}"</a>프로젝트를 좋아합니다.
+                            <a href="{{alarm.member_url}}">"{{profile}}"</a>님이 <a href="{{alarm.project_url}}">"{{alarm.like_id.project_id}}"</a>프로젝트를 좋아요했습니다.
                             {% endif %}
                         {% endfor %}    
 
                     {% elif alarm.type == 2 %}
                         {% for profile in profiles %}
                             {% if alarm.scrap_id.from_user_id == profile.user_id %}
-                            <a href="{{alarm.member_url}}">"{{profile}}"</a>님이 당신을 스크랩 했습니다.
+                            <a href="{{alarm.member_url}}">"{{profile}}"</a>님이 당신의 프로필을 스크랩 했습니다.
                             {% endif %}
                         {% endfor %} 
 
@@ -115,7 +117,7 @@
             <hr>
             
             {% endfor %}
-
+            {% endif %}
         </div>
 
         {% include 'footer.html' %} 

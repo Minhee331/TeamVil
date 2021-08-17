@@ -4,7 +4,7 @@
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 
-{% if not profiles and not not_like_profiles%} 
+{% if not profiles and not not_like_profiles %} 
     <h1>검색 결과가 없습니다</h1>
 {% else %}
     {% for profile in profiles %}
@@ -22,7 +22,11 @@
 
             <div class="member_search-member-profile-container">
                 <div class="member_search-member-name-container">
-                    <img class="member_search-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+                    {% if profile.photo.url is not None %}
+                        <img src="{{profile.photo.url}}" class="member_search-member-image">
+                    {% else %}
+                        <img src="{% static 'image/default_profile.png' %}" class="member_search-member-image">
+                    {% endif %}
                     <p class="spoqa-bold">{{profile.name}}</p>
                 </div>
 

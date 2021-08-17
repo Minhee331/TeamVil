@@ -32,7 +32,7 @@ class Project(models.Model):
     def __str__(self):
         return self.title
     def abb(self):
-        return self.title[:12]
+        return self.title[:11]
 
 class Project_link(models.Model):
     project_id = models.ForeignKey(Project, on_delete = models.CASCADE, db_column="project_id")

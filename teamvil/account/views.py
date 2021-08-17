@@ -15,6 +15,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http.response import JsonResponse
 from django.db.models import Avg, Count
 from django.core.paginator import Paginator
+from django.contrib.auth import authenticate, login
+import os
+import sys
+import urllib.request
+from django.core.files.storage import FileSystemStorage
 
 def callback(request):
     return render(request, 'callback.html')
@@ -110,6 +115,12 @@ def signup(request):
             return render(request, 'signup.html', {'error':"이미 존재하는 아이디입니다."})
         elif Profile.objects.filter(phone = phone).exists():
             return render(request, "signup.html", {'error': '이미 등록된 연락처입니다.'})
+        elif type(name) != str:                     #이거 안돼요
+            return render(request, "signup.html", {'error': '이름을 다시 입력해주세요.'})
+        elif len(name) >6:
+            return render(request, "signup.html", {'error': '이름을 다시 입력해주세요.'}) 
+        elif len(phone) !=11:
+            return render(request, "signup.html", {'error': '핸드폰 번호 11자리를 다시 입력해주세요.'})  
         elif password != passwordCheck :
             return render(request, "signup.html", {'error': '비밀번호가 일치하지 않습니다.'})     
         else:
@@ -136,7 +147,6 @@ def signup(request):
             profile.isLink = 0
             profile.isFile =0
             profile.isCarrer = 0 
-            profile.photo = "Photo" # 추후 수정 필요
             profile.isReview = 0
             profile.save()
             auth.login(request, user)
@@ -149,10 +159,12 @@ def signup_k(request):
         obj = json.loads(request.body)  
         user_name= obj['name']
         user_id = obj['id']
-        if User.objects.filter(username=id).exists():
-            auth.login(request)
+        if User.objects.filter(username=user_id).exists():
+            user = authenticate(request, username=user_id, password='0000')
+            auth.login(request,user)
             return render(request, 'signup.html')   
         else:
+            print('kakao')
             print(obj)
             user = User.objects.create_user(username=user_id, password='0000')
             profile = Profile()
@@ -177,7 +189,6 @@ def signup_k(request):
             profile.isLink = 0
             profile.isFile =0
             profile.isCarrer = 0 
-            profile.photo = "Photo" # 추후 수정 필요
             profile.isReview = 0
             profile.save()
             auth.login(request, user)
@@ -190,10 +201,10 @@ def signup_n(request):
         obj = json.loads(request.body)  
         user_name= obj['name']
         user_id = obj['id']
-        user_email = obj['email']
-        # user_phone = obj['phone']
-        if User.objects.filter(username=id).exists():
-            auth.login(request)
+        # user_phone = obj['phone']s
+        if User.objects.filter(username=user_id).exists():
+            user = authenticate(request, username=user_id, password='0000')
+            auth.login(request,user)
             return render(request, 'signup.html')   
         else:
             user = User.objects.create_user(username=user_id, password='0000')
@@ -204,7 +215,7 @@ def signup_n(request):
             profile.mbti_id =  mbti# 추후 수정 필요
             mbti.mbti_cnt = mbti.mbti_cnt + 1
             mbti.save()
-            profile.email =user_email # 추후 수정 필요
+            profile.email ='user_email' # 추후 수정 필요
             profile.phone =  "010-1234-5678"
             profile.birthday = "2021-07-10" # 추후 수정 필요
             profile.region1_id = Region1.objects.get(id=1) # 추후 수정 필요
@@ -219,7 +230,6 @@ def signup_n(request):
             profile.isLink = 0
             profile.isFile =0
             profile.isCarrer = 0 
-            profile.photo = "Photo" # 추후 수정 필요
             profile.isReview = 0
             profile.save()
             auth.login(request, user)
@@ -458,16 +468,26 @@ def mypage_profile(request):
     user_files = User_file.objects.filter(user_id = user)
     user_reviews = User_review.objects.filter(to_user_id = user)
     user_carrers = User_carrer.objects.filter(user_id = user)
+    user_review = User_review.objects.filter(to_user_id = profile.user_id).order_by('-id')
+    user_review_avg = User_review.objects.filter(to_user_id = profile.user_id).aggregate(Avg('total'))
+    user_review_cnt = len(User_review.objects.filter(to_user_id = profile.user_id))
+    user_review_1 = len(User_review.objects.filter(to_user_id = profile.user_id, total = 1))
+    user_review_2 = len(User_review.objects.filter(to_user_id = profile.user_id, total = 2))
+    user_review_3 = len(User_review.objects.filter(to_user_id = profile.user_id, total = 3))
+    user_review_4 = len(User_review.objects.filter(to_user_id = profile.user_id, total = 4))
+    user_review_5 = len(User_review.objects.filter(to_user_id = profile.user_id, total = 5))
+    user_review_all = [user_review_1, user_review_2, user_review_3, user_review_4, user_review_5]
     return render(request, "mypage_profile.html", {"profile":profile, "user_links": user_links, "user_files": user_files , 
-                "user_reviews": user_reviews, "user_carrers":user_carrers})
+                "user_reviews": user_reviews, "user_carrers":user_carrers, "user_review": user_review, "user_review_all": user_review_all,
+                "user_review_avg": user_review_avg, "user_review_cnt": user_review_cnt})
 
 # 마이페이지 프로젝트 함수
 def mypage_project(request):
-    user = request.user
-    projects = Project.objects.filter(user_id=user)
-    likes = Like.objects.filter(to_user_id =user)
-    scraps = Scrap.objects.filter(to_user_id =user)
-    return render(request, "mypage_project.html", {'projects':projects, "likes": likes,"scrpas": scraps})
+    projects = Project.objects.filter(user_id=request.user)
+    member_list = {}
+    for project in projects:
+        member_list[project.id] = Member.objects.filter(project_id = project)
+    return render(request, "mypage_project.html", {'projects':projects, "member_list": member_list.items()})
 
 # 마이페이지 프로필 수정 페이지 함수
 def mypage_modify_profile(request):
@@ -492,6 +512,14 @@ def mypage_modify_profile(request):
     user_files = User_file.objects.filter(user_id = user)
     user_carrers = User_carrer.objects.filter(user_id = user)
     return render(request, "mypage_modify_profile.html", {"term":term,"region1s": region1, "region1_list": region1_list.items(), "region_list":region_list,"mbtis":mbtis,"job":job,"field1":field1,"profile":profile, "user_links": user_links, "user_files": user_files ,  "user_carrers":user_carrers})
+# 마이페이지 프로필 수정 페이지 함수 - 대표사진 업로드 
+def upload_profile_photo(request, profile_id):
+    profile = Profile.objects.get(id = profile_id)
+    file = request.FILES.get('file')
+    profile.photo = file
+    profile.save()
+    return JsonResponse({"suc": 'success'})
+
 
 def modify_profile(request):
     obj = json.loads(request.body)
@@ -532,6 +560,7 @@ def modify_profile(request):
     profile.phone = phone
     profile.email = email
     profile.pr = pr
+    profile.submit = 1
     profile.save()
     res = {
         'suc':"success",
@@ -584,12 +613,15 @@ def likes(request):
     like.save()
     #알람기능 추가
     profile = Profile.objects.get(user_id=request.user)
-    alarm=Alarm()
-    alarm.type = int(0)
-    alarm.user_id = to_user_id
-    alarm.like_id = like
-    alarm.member_url = '/member/member_detail/' + str(profile.id)
-    alarm.save()
+    if like.to_user_id != request.user:
+        alarm=Alarm()
+        alarm.type = int(0)
+        alarm.user_id = to_user_id
+        alarm.like_id = like    
+        alarm.member_url = '/member/member_detail/' + str(profile.id)
+        alarm.save()
+    else:
+        return render(request,'member_search_back.html')
     return render(request,'member_search_back.html')
 
 #좋아요 취소 함수
@@ -648,11 +680,13 @@ def popularMember(request):
     not_like_profiles = Profile.objects.filter(field1_id__id__in=field1,mbti_id__id__in=mbti,region2_id__id__in=region,
                                     term_id__id__in=term, state__in=state, job_id__id__in=job).exclude(user_id__in = like_id).order_by('-id')
     return render(request, "member_list_form.html", {'profiles':profiles, "not_like_profiles":not_like_profiles})
+
 # 알람 페이지 html 렌더링
 def alarm_detail(request):
     user = request.user
     profiles = Profile.objects.all()
     alarms = Alarm.objects.filter(user_id=user).order_by('-send_date')
+    print(len(alarms))
     for alarm in alarms:
         if alarm.check == 0:
             alarm.check = int(1)
@@ -742,12 +776,15 @@ def scraps(request):
     scrap.save()
     #알람기능 추가
     profile = Profile.objects.get(user_id=request.user)
-    alarm=Alarm()
-    alarm.type = int(2)
-    alarm.user_id = to_user_id
-    alarm.scrap_id = scrap
-    alarm.member_url = '/member/member_detail/' + str(profile.id)
-    alarm.save()
+    if scrap.to_user_id != request.user:
+        alarm=Alarm()
+        alarm.type = int(2)
+        alarm.user_id = to_user_id
+        alarm.scrap_id = scrap
+        alarm.member_url = '/member/member_detail/' + str(profile.id)
+        alarm.save()
+    else:
+        return render(request,'member_search_back.html')
     return render(request,'member_search_back.html')
 
 #스크랩 취소 함수

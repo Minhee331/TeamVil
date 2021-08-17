@@ -236,13 +236,16 @@ def like(request):
     like.save()
     #알람기능 추가
     profile = Profile.objects.get(user_id=request.user)
-    alarm=Alarm()
-    alarm.type = int(1)
-    alarm.user_id = project_id.user_id
-    alarm.like_id = like
-    alarm.member_url = '/member/member_detail/' + str(profile.id)
-    alarm.project_url = '/project/team_detail/' + str(project_id.id) #프로젝트 연결도 추가시켜주는게 좋을 것 같다.
-    alarm.save()
+    if like.project_id.user_id != request.user:
+        alarm=Alarm()
+        alarm.type = int(1)
+        alarm.user_id = project_id.user_id
+        alarm.like_id = like
+        alarm.member_url = '/member/member_detail/' + str(profile.id)
+        alarm.project_url = '/project/team_detail/' + str(project_id.id) #프로젝트 연결도 추가시켜주는게 좋을 것 같다.
+        alarm.save()
+    else:
+        return render(request,'team_search_back.html')
     return render(request,'team_search_back.html') #team_list에도 적용이 되야된다
 
 
@@ -486,6 +489,20 @@ def team_new(request):
         education = Education.objects.all()
         return render(request, "team_new.html", {"field1s":field1, "region1s": region1, "region1_list": region1_list.items(), "region_list":region_list, "educations":education})
 
+def upload_project_file(request, project_id):
+    project = Project.objects.get(id = project_id)
+    file = request.FILES.get('file')
+    fileList = request.FILES.getlist('files')
+    print(fileList)
+    if fileList : project.isFile = 1
+    project.photo = file
+    project.save()
+    for item in fileList:
+        project_file = Project_file()
+        project_file.project_id = project
+        project_file.file = item
+        project_file.save()
+    return JsonResponse({"suc": 'success'})
 
 def team_form(request):
     return render(request, "team_form.html")
@@ -557,10 +574,6 @@ def  question_form(request,project_id):
         return render(request,"team_apply_form_back.html",{"project_id":project_id})
 
 
-        
-   
-     
-
 #팀지원서 양식 폼
 @csrf_exempt
 def team_apply(request,project_id):
@@ -630,6 +643,23 @@ def team_apply(request,project_id):
 
 
 @csrf_exempt
+def team_apply_modify(request,project_id):
+    # obj = json.loads(request.body)
+    project = Project.objects.get(id = int(project_id))
+    application = Application.objects.all()
+    application.project_id = project
+    application.user_id = request.user
+    # project_id= obj['project_id']
+    # duty_id = obj['duty_id']
+    # a_list = obj['a_list']
+    # question_id = Question.objects.get(id = a['q_id'])
+    return render(request,"team_apply_modify_back.html",{"project_id":project_id,"project":project})
+
+
+
+
+
+@csrf_exempt
 def answer_form(request,project_id):
     if request.method == "POST":
         obj = json.loads(request.body)
@@ -675,13 +705,16 @@ def scrap(request):
     scrap.save()
     #알람기능 추가
     profile = Profile.objects.get(user_id=request.user)
-    alarm=Alarm()
-    alarm.type = int(3)
-    alarm.user_id = project_id.user_id
-    alarm.scrap_id = scrap
-    alarm.member_url = '/member/member_detail/' + str(profile.id)
-    alarm.project_url = '/project/team_detail/' + str(project_id.id) #프로젝트 연결도 추가시켜주는게 좋을 것 같다.
-    alarm.save()
+    if scrap.project_id.user_id != request.user:
+        alarm=Alarm()
+        alarm.type = int(3)
+        alarm.user_id = project_id.user_id
+        alarm.scrap_id = scrap
+        alarm.member_url = '/member/member_detail/' + str(profile.id)
+        alarm.project_url = '/project/team_detail/' + str(project_id.id) #프로젝트 연결도 추가시켜주는게 좋을 것 같다.
+        alarm.save()
+    else:
+        return render(request,'team_search_back.html')
     return render(request,'team_search_back.html')
 
 
@@ -692,6 +725,10 @@ def scrapcancel(request):
     Scrap.objects.get(project_id = project_id, from_user_id = request.user).delete()
     return render(request,'team_search_back.html')
 
+#대분류 함수(all)
+def classify_A(request):
+    projects = Project.objects.all().order_by('-id')
+    return render(request,'team_list_form.html',{'projects':projects})
 #대분류 함수(창업)
 def classify_S(request):
     projects = Project.objects.filter(type = int(0))

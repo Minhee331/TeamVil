@@ -6,8 +6,8 @@
     </div>
 
     <div class="community-item community-content-box">
-        <div class="community-profile-container">
-            <img class="community-profile-img" src="{% static 'image/cloud.jpg' %}" alt="">
+        <div class="community-profile-container" profile_id = '{% get_profile_id communitys.user_id.id %}'>
+            <img class="community-profile-img" src="{% get_profile_photo communitys.user_id.id %}" alt="">
             <p class="spoqa-regular">{% Name communitys.user_id.id %}</p>
         </div>
 
@@ -47,17 +47,17 @@
     <div class="community-comment-list">
         {% for comment in comments %}
         <div class="community-content-item">
-            <div class="community-profile-container">
-                <img class="community-profile-img" src="/static/image/cloud.jpg">
+            <div class="community-profile-container" profile_id = '{% get_profile_id comment.user_id.id %}'>
+                <img class="community-profile-img" src="{% get_profile_photo comment.user_id.id%}">
                 <p class="spoqa-regular" id="replyName">{% Name comment.user_id.id %}</p>
             </div>
             
             <div class="community-content-container spoqa-light">
                 <p class="community-comment-content">{{comment.content}}</p>
                 <div class="community-comment-datetime-container">
-                    <p>2021.07.21</p>
-                    <p>|</p>
-                    <p>21:45</p>
+                    <p>{% TimeFormat comment.write_date %}</p>
+                    <p>|</p> 
+                    <p>{% HourFormat comment.write_date %}</p>
                 </div>
             </div>
             <!-- 대댓글 작성 -->
@@ -79,8 +79,8 @@
                             <div class="community-reply-box">
                                 <img class="community-reply-img" src="/static/image/arrow-line.png">
                                 <div>
-                                    <div class="community-profile-container">
-                                        <img class="community-profile-img" src="/static/image/cloud.jpg">
+                                    <div class="community-profile-container" profile_id = '{% get_profile_id reply.user_id.id %}'>
+                                        <img class="community-profile-img" src="{% get_profile_photo reply.user_id.id %}">
                                         <p class="spoqa-regular" id="replyName">{% Name reply.user_id.id %}</p>
                                     </div>
                                     
@@ -88,9 +88,9 @@
                                         <p class="community-comment-content">{{reply.content}}</p>
                                         
                                         <div class="community-comment-datetime-container">
-                                            <p>2021.07.21</p>
-                                            <p>|</p>
-                                            <p>21:45</p>
+                                            <p>{% TimeFormat reply.write_date %}</p>
+                                            <p>|</p> 
+                                            <p>{% HourFormat reply.write_date %}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -105,7 +105,10 @@
 </div>
 
 <script>
-    
+    $(document).on("click", '.community-profile-container',function() {
+        var url = "/member/member_detail/" + $(this).attr('profile_id');
+        location.href = url;
+    });
     $(".comment_submit").on("click", function() { 
         var content = {
             'comment_content' : $('.com_'+$(this).attr('com_id')).val(), 
@@ -121,17 +124,17 @@
             data: JSON.stringify(content),
             success: function(res) {
                 html_str =`<div class="community-content-item">
-                            <div class="community-profile-container">
-                                <img class="community-profile-img" src="/static/image/cloud.jpg">
+                            <div class="community-profile-container" profile_id = '${res.profile_id}'>
+                                <img class="community-profile-img" src="{% get_profile_photo user.id %}">
                                 <p class="spoqa-regular" id="replyName">${res.user}</p>
                             </div>
                             
                             <div class="community-content-container spoqa-light">
                                 <p class="community-comment-content">${res.comment}</p>
                                 <div class="community-comment-datetime-container">
-                                    <p>2021.07.21</p>
+                                    <p>${res.date}</p>
                                     <p>|</p>
-                                    <p>21:45</p>
+                                    <p>${res.hour}</p>
                                 </div>
                             </div>
                             
@@ -151,9 +154,9 @@
                 $('.community-comment-list').append(html_str);
             }
         })
+        $('.com_'+$(this).attr('com_id')).val('');
     });
-    $('.reply_submit').on("click",function(){
-        console.log(111);
+    $(document).on("click",'.reply_submit', function(){
         parent = $(this).attr('parent');
         var content = { 
             'reply_content' : $('.reply_content_'+parent).val(),
@@ -172,8 +175,8 @@
                 html_str =`<div class="community-reply-box">
                             <img class="community-reply-img" src="/static/image/arrow-line.png">
                             <div>
-                                <div class="community-profile-container">
-                                    <img class="community-profile-img" src="/static/image/cloud.jpg">
+                                <div class="community-profile-container" profile_id = '${res.profile_id}'>
+                                    <img class="community-profile-img" src="{% get_profile_photo user.id %}">
                                     <p class="spoqa-regular" id="replyName">${res.user}</p>
                                 </div>
                                 
@@ -181,9 +184,9 @@
                                     <p class="community-comment-content">${res.comment}</p>
                                     
                                     <div class="community-comment-datetime-container">
-                                        <p>2021.07.21</p>
+                                        <p>${res.date}</p>
                                         <p>|</p>
-                                        <p>21:45</p>
+                                        <p>${res.hour}</p>
                                     </div>
                                 </div>
                             </div>

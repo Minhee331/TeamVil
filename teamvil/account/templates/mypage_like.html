@@ -7,7 +7,7 @@
 </div>
 <div class="mypage-info-item-wrap-container">
     <div class="mypage-project-item-wrap-container">
-        {% for project in posts %}
+        {% for project in projects %}
             
             <article class="mypage-project-team-item">
                 <a href="{% url 'team_detail' project.id %}">
@@ -56,7 +56,7 @@
             </article>
         {% endfor %}
     </div>
-    <div style="display: flex; justify-content: center;">
+    <!-- <div style="display: flex; justify-content: center;">
             <p>{% if posts.has_previous %}
                 <a href="?page=1">First</a>
                 <a href="?page={{posts.previous_page_number}}">이전</a>
@@ -69,8 +69,8 @@
             {% if posts.has_next %}
                 <a href="?page={{posts.next_page_number}}">다음</a>
                 <a href="?page={{posts.paginator.num_pages}}">Last</a>
-                {% endif %}</p>
-            </div>
+                {% endif %}</p> -->
+            <!-- </div> -->
 </div>
 <div class="mypage-info-type-wrap-container">
     <div class="mypage-project-item-wrap-container">
@@ -80,7 +80,7 @@
 <div class="mypage-info-item-wrap-container">
     <div class="mypage-like-member-table">
         <div class="mypage-like-member-table-item">
-        {% for profile in posts %}
+        {% for profile in profiles %}
             <article class="mypage-like-member-item">
                 <a href="{% url 'member_detail' profile.id %}">
                     <div class="mypage-like-member-profile-container">
@@ -127,7 +127,7 @@
         {% endfor %}
         </div>
     </div>
-    <div style="display: flex; justify-content: center;">
+    <!-- <div style="display: flex; justify-content: center;">
         <p>{% if posts.has_previous %}
             <a href="?page=1">First</a>
             <a href="?page={{posts.previous_page_number}}">이전</a>
@@ -141,7 +141,7 @@
             <a href="?page={{posts.next_page_number}}">다음</a>
             <a href="?page={{posts.paginator.num_pages}}">Last</a>
             {% endif %}</p>
-        </div>
+        </div> -->
 </div>
 </div>
 <script>

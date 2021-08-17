@@ -21,7 +21,11 @@
                 {% for info in posts %}
                     <a href="{% url 'info_detail' info.id %}">
                         <div class="info-content-box-wrap">
-                            <img class="info-img-item" src="{% static 'image/cloud.jpg' %}" alt="">
+                            {% if info.image.url is not None %}
+                                <img class="info-img-item" src="{{info.image.url}}" alt="">
+                            {% else %}
+                                <img class="info-img-item" alt="" style="background-color: #ebebeb;">
+                            {% endif %}
                             <div class="info-content-item-wrap">
                                 <div class="info-content-title-divide-wrap">
                                     <p class="info-title-text spoqa-regular">{{info.title}}</p>

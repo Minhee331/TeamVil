@@ -31,6 +31,7 @@ class Info(models.Model):
     start_date = models.DateTimeField(null=True)
     end_date = models.DateTimeField(null=True)
     content = models.TextField()
+    image = models.FileField(null=True)
     isLink = models.IntegerField(default=0)
     isFile = models.IntegerField(default=0)
     view_cnt = models.IntegerField(default=0)

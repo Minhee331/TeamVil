@@ -21,7 +21,7 @@
 
         <section class="team_search-category-container margin">
             <div>
-                <a class="team_search-category-item" href="">
+                <a class="team_search-category-item all" href="">
                     <h6>A</h6>
                     <p>전체</p>
                 </a>
@@ -53,8 +53,11 @@
 
                 {% for reg in projects_reg %}
                 <div class="member_search-rec-member">
-                    <img class="member_search-rec-image" src="{% static 'image/cloud.jpg' %}">
-
+                    {% if reg.photo.url is not None %}
+                        <img class="member_search-rec-image" src="{{reg.photo.url}}">
+                    {% else %}
+                        <img class="member_search-rec-image" style="background-color: #ebebeb;">
+                    {% endif %}
                     <div class="member_search-rec-info">
                         <p class="member_search-rec-info-name spoqa-regular">{{reg.title}}</p>
                         <p class="spoqa-light">분야 : {{reg.field1_id.field1}}</p>
@@ -171,22 +174,26 @@
                             <input class="member_search-member-select-search spoqa-light" type="text">
                             <img class="member_search-search-button" src="{% static 'image/search.png' %}">
                         </div>
-
+                        {% if user.is_authenticated %}
                         <div class="team_search-new-team-container">
                             <a href="{% url 'team_new' %}"><input type="button" value="팀 만들기"></a>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
 
                 <div class="team_search-team-container">
-                    {% for project in posts %}
+                    {% for project in projects %}
                         <a href="{% url 'team_detail' project.id %}">
                             <article class="team_search-team-item">
-                                <img class="team_search-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
+                                {% if project.photo.url is not None %}
+                                    <img class="team_search-team-image" src="{{project.photo.url}}" alt="">
+                                {% else %}
+                                    <img class="team_search-team-image" style="background-color: #ebebeb;" alt="">
+                                {% endif %}
                                 <div class="team_search-team-item-container">
                                     <div class="team_search-team-item-text">
-                                        {% if project.title|length > 14 %}
+                                        {% if project.title|length > 12 %}
                                         <p class="home-latest-team-item-title spoqa-medium">{{project.abb}} . . .</p>
                                         {% else %}
                                             <p class="home-latest-team-item-title spoqa-medium">{{project.title}}</p>
@@ -205,12 +212,20 @@
 
                                     <div class="team_search-like-scrap-container spoqa-light">
                                         <a class="team_search-like-scrap-item">
-                                            <img class="like-scrap like {% active_like 0 project.id user.id %}" src="{% static 'image/like-btn-2.png' %}" value="{{project.id}}">
+                                            {% if user.is_authenticated %}
+                                                <img class="like-scrap like {% active_like 0 project.id user.id %}" src="{% static 'image/like-btn-2.png' %}" value="{{project.id}}">
+                                            {% else %}
+                                                <img class="like-scrap like" src="{% static 'image/like-btn-2.png' %}" value="{{project.id}}">
+                                            {% endif %}
                                             <p>{% get_like_cnt 0 project.id %}</p>
                                         </a>
 
                                         <a class="team_search-like-scrap-item">
-                                            <img class="like-scrap scrap {% active_scrap 0 project.id user.id %}" src="{% static 'image/scrap-btn-2.png' %}" value="{{project.id}}">
+                                            {% if user.is_authenticated %}
+                                                <img class="like-scrap scrap {% active_scrap 0 project.id user.id %}" src="{% static 'image/scrap-btn-2.png' %}" value="{{project.id}}">
+                                            {% else %}
+                                                <img class="like-scrap scrap" src="{% static 'image/scrap-btn-2.png' %}" value="{{project.id}}">
+                                            {% endif %}
                                             <p>{% get_scrap_cnt 0 project.id %}</p>
                                         </a>
                                     </div>
@@ -221,7 +236,7 @@
                 </div>
             </main>
         </section>
-        <div style="display: flex; justify-content: center;">
+        <!-- <div style="display: flex; justify-content: center;">
             <p>{% if posts.has_previous %}
                 <a href="?page=1">First</a>
                 <a href="?page={{posts.previous_page_number}}">이전</a>
@@ -235,7 +250,7 @@
                 <a href="?page={{posts.next_page_number}}">다음</a>
                 <a href="?page={{posts.paginator.num_pages}}">Last</a>
                 {% endif %}</p>
-            </div>
+            </div> -->
     </div>
     {% include 'footer.html' %}
 </body>
@@ -245,67 +260,77 @@
         $(document).ready(function(){
             // 좋아요 활성화
             $(".like").on("click", function(){ 
-                project_id = $(this).attr('value'); 
-                var like = {
-                    'value': project_id
-                }
-                var url = '';
-                if($(this).hasClass('active')){
-                    $(this).removeClass('active');
-                    url = "{% url 'likecancel' %}"
-                    $(this).next().text(parseInt($(this).next().text())-1);
-                }else{
-                    $(this).addClass('active');
-                    url = "{% url 'like' %}"
-                    $(this).next().text(parseInt($(this).next().text())+1);
-                }
-                $.ajax({
-                    type:"POST",
-                    headers:{
-                        'X-CSRFToken' : '{{csrf_token}}'
-                    },
-                    url: url,
-                    data :JSON.stringify(like),
-                    success: function(res) {
-                    },
-                    error:function(request,status,error){
-                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                        alert("로그인하세요.");
-                        
+                user = {% if user.is_authenticated %}true{% else %}false{% endif %}
+                if(user){
+                    project_id = $(this).attr('value'); 
+                    var like = {
+                        'value': project_id
                     }
-                }); 
+                    var url = '';
+                    if($(this).hasClass('active')){
+                        $(this).removeClass('active');
+                        url = "{% url 'likecancel' %}"
+                        $(this).next().text(parseInt($(this).next().text())-1);
+                    }else{
+                        $(this).addClass('active');
+                        url = "{% url 'like' %}"
+                        $(this).next().text(parseInt($(this).next().text())+1);
+                    }
+                    $.ajax({
+                        type:"POST",
+                        headers:{
+                            'X-CSRFToken' : '{{csrf_token}}'
+                        },
+                        url: url,
+                        data :JSON.stringify(like),
+                        success: function(res) {
+                        },
+                        error:function(request,status,error){
+                            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                            alert("로그인하세요.");
+                            
+                        }
+                    });
+                }else{
+                    alert("로그인하세요.");
+                }
             });
             
             // 스크랩
             $(".scrap").on("click", function(){ 
-                project_id = $(this).attr('value'); 
-                var like = {
-                    'value': project_id
-                }
-                var url = '';
-                if($(this).hasClass('active')){
-                    $(this).removeClass('active');
-                    url = "{% url 'scrapcancel' %}"
-                    $(this).next().text(parseInt($(this).next().text())-1);
-                }else{
-                    $(this).addClass('active');
-                    url = "{% url 'scrap' %}"
-                    $(this).next().text(parseInt($(this).next().text())+1);
-                }
-                $.ajax({
-                    type:"POST",
-                    headers:{
-                        'X-CSRFToken' : '{{csrf_token}}'
-                    },
-                    url: url,
-                    data :JSON.stringify(like),
-                    success: function(res) {
-                    },
-                    error:function(request,status,error){
-                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                        alert("로그인하세요.");
+                user = {% if user.is_authenticated %}true{% else %}false{% endif %}
+                if(user){
+                    project_id = $(this).attr('value'); 
+                    var like = {
+                        'value': project_id
                     }
-                }); 
+                    var url = '';
+                    if($(this).hasClass('active')){
+                        $(this).removeClass('active');
+                        url = "{% url 'scrapcancel' %}"
+                        $(this).next().text(parseInt($(this).next().text())-1);
+                    }else{
+                        $(this).addClass('active');
+                        url = "{% url 'scrap' %}"
+                        $(this).next().text(parseInt($(this).next().text())+1);
+                    }
+                    $.ajax({
+                        type:"POST",
+                        headers:{
+                            'X-CSRFToken' : '{{csrf_token}}'
+                        },
+                        url: url,
+                        data :JSON.stringify(like),
+                        success: function(res) {
+                        },
+                        error:function(request,status,error){
+                            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                            alert("로그인하세요.");
+                        }
+                    }); 
+                }else{
+                    alert("로그인하세요.");
+                }
             });
 
             $(".drop_btn").on("click", function(){ 
@@ -471,15 +496,32 @@
                     });
                 }
             });
+            //분류(all)
+            $('.all').on("click", function(e){
+                e.preventDefault()
+                $.ajax({
+                    type: "POST",
+                    headers:{
+                        'X-CSRFToken' : '{{csrf_token}}'
+                    },
+                    url: "{% url 'classify_A' %}",
+                    success: function(res){
+                        $('.team_search-team-container').html(res);
+                    },
+                    error:function(request,status,error){
+                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    }
+                })
+            });
             //분류(창업)
-            $('.startup').on("click", function(){
+            $('.startup').on("click", function(e){
+                e.preventDefault()
                 $.ajax({
                     type: "POST",
                     headers:{
                         'X-CSRFToken' : '{{csrf_token}}'
                     },
                     url: "{% url 'classify_S' %}",
-                    data: JSON,
                     success: function(res){
                         $('.team_search-team-container').html(res);
                     },
@@ -489,7 +531,8 @@
                 })
             });
             //분류(공모전)
-            $('.contest').on("click", function(){
+            $('.contest').on("click", function(e){
+                e.preventDefault()
                 $.ajax({
                     type: "POST",
                     headers:{
@@ -505,7 +548,8 @@
                 })
             });
             //분류(프로젝트)
-            $('.exproject').on("click", function(){
+            $('.exproject').on("click", function(e){
+                e.preventDefault()
                 $.ajax({
                     type: "POST",
                     headers:{

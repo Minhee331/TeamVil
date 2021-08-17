@@ -27,7 +27,7 @@
                     {% for community in posts %}
                     <section class="community-item" onclick="openDetail()">
                         <div class="community-profile-container" profile_id = '{% get_profile_id community.user_id.id %}'>
-                            <img class="community-profile-img" src="{% static 'image/cloud.jpg' %}" alt="">
+                            <img class="community-profile-img" src="{% get_profile_photo community.user_id.id %}" alt="">
                             <p class="spoqa-regular">{% Name community.user_id.id %}</p>
                         </div>
 
@@ -84,11 +84,11 @@
                     <div class="community-close-btn">
                         <img src="{% static 'image/x-button.png' %}" onclick="closeNew()" alt="">
                     </div>
-
+                    <!-- username이 안돼네.. -->
                     <div class="community-content-box">
-                        <div class="community-profile-container">
-                            <img class="community-profile-img" src="{% static 'image/cloud.jpg' %}" alt="">
-                            <p class="spoqa-regular">{{user}}</p>
+                        <div class="community-profile-container" profile_id = '{% get_profile_id user.id %}'>
+                            <img class="community-profile-img" src="{% get_profile_photo user.id %}" alt="">
+                            <p class="spoqa-regular">{{name}}</p>   
                         </div>
 
                         <textarea class="spoqa-light write-content-text" name="" id=""></textarea>
@@ -188,48 +188,6 @@
             var url = "/member/member_detail/" + $(this).attr('profile_id');
             location.href = url;
         });
-
-        $('.reply_submit').on("click",function(){
-            console.log(111);
-            parent = $(this).attr('parent');
-            var content = { 
-                'reply_content' : $('.reply_content_'+parent).val(),
-                'com_id' : $(this).attr('com_id'),
-                'parent' : parent,
-
-            }
-            $.ajax({
-                type: "POST",
-                headers: {
-                    'X-CSRFToken' : '{{csrf_token}}'
-                },
-                url: "{% url 'reply' %}",
-                data: JSON.stringify(content),
-                success: function(res) {
-                    html_str =`<div class="community-reply-box">
-                                <img class="community-reply-img" src="/static/image/arrow-line.png">
-                                <div>
-                                    <div class="community-profile-container">
-                                        <img class="community-profile-img" src="/static/image/cloud.jpg">
-                                        <p class="spoqa-regular" id="replyName">${res.user}</p>
-                                    </div>
-                                    
-                                    <div class="community-content-container spoqa-light">
-                                        <p class="community-comment-content">${res.comment}</p>
-                                        
-                                        <div class="community-comment-datetime-container">
-                                            <p>2021.07.21</p>
-                                            <p>|</p>
-                                            <p>21:45</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>`;
-                    $('.community-reply-list_'+parent).append(html_str);
-                    $('.reply_content_'+parent).val("");
-                }
-            });
-        })
     });
 
     

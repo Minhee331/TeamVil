@@ -115,3 +115,7 @@
 210812 자운 | login, member_detail, etc | 네이버로그인 html,css 수정, 멤버디테일,팀디테일 공백표시 수정, 푸터하단고정 모든페이지 적용, 멤버디테일 버튼 위치변화 수정, 팀디테일 백그라운드 이미지 반복 안되도록 수정. 
 210812 유림 | home.html team_search.html | 타이틀 글자수 제한(모델수정), 대분류 클릭시 하단 프로젝트 변경 ajax 
 210813 건영 | team_search.html, member_search , mypage.html | team_search.html 페이지네이션 임시 추가 , member_search.html 페이지네이션 임시 추가 ,mypage.html 페이지네이션 임시 추가
+210815 자운 | team_detail | 백그라운드 이미지 반응형 수정
+210816 건영 | signup_back.html, account_views | 이름 6글자로 맞춰주기 수정,휴대폰 번호 11자리 제한으로 수정
+210816 자운 | team_detail | 학력제한 없음 표시 수정, 마이페이지 프로필에 팀원평가 추가
+210818 건영 | alarm_detail, views | 본인알람 생성 안되도록 수정, 알람 없을때 없다는 알림메시지 뜨도록 수정.

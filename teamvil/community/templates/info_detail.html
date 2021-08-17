@@ -16,8 +16,11 @@
     <div class="info_detail-wrap-container content margin">
         <div class="info_detail-wrap">
             <div class="info_detail-box-wrap">
-                <img class="info_detail-box-img-item" src="{% static 'image/cloud.jpg' %}" alt="">
-
+                {% if info.image.url is not None %}
+                    <img class="info_detail-box-img-item" src="{{info.image.url}}" alt="">
+                {% else %}
+                    <img class="info_detail-box-img-item" alt="" style="background-color: #ebebeb;">
+                {% endif %}
                 <div class="info_detail-item-wrap">
                     <div class="info_detail-content-title-divide-wrap">
                         <p class="info_detail-title-text spoqa-light">{{info.title}}</p>
@@ -37,7 +40,7 @@
                     </div>
 
                     <div class="info_detail-content-etc-divide-wrap">
-                        <p class="info_detail-etc-text spoqa-light">D - 81</p>
+                        <p class="info_detail-etc-text spoqa-light">D  {% Dday info.end_date %}</p>
                     </div>
                 </div>
             </div>
@@ -48,12 +51,11 @@
                 <p class="info_detail-detail-text spoqa-light">상세 설명</p>
                 <p class="info_detail-view-text spoqa-light">조회 81</p>
             </div>
-
-            <div class="info_detail-img-wrap">
-                <img class="info_detail-img-item" src="{% static 'image/cloud.jpg' %}" alt="">
-                <img class="info_detail-img-item" src="{% static 'image/cloud.jpg' %}" alt="">
-            </div>
-
+            {% if info.image.url is not None %}
+                <div class="info_detail-img-wrap">
+                    <img class="info_detail-img-item" src="{{info.image.url}}" alt="">
+                </div>
+            {% endif %}
             <p class="info_detail-desc-text spoqa-light">
                 {{info.content}}
             </p>

@@ -47,7 +47,9 @@ def community_detail_content(request, community_id):
 
 def community_new_back(request):
     user = request.user
-    return render(request, 'community copy.html',{'user':user})
+    profile = Profile.objects.get(user_id = user)
+    name = profile.name
+    return render(request, 'community.html',{'user':user, 'name':name})
 
 def community_new(request):
     obj = json.loads(request.body)
@@ -55,7 +57,8 @@ def community_new(request):
     com.user_id = request.user
     com.content = obj['content']
     com.save()
-    return render(request, 'community.html')
+    user = request.user
+    return render(request, 'community.html', {'user_id':request.user.id})
 
 def comment(request):
     obj = json.loads(request.body)
@@ -68,10 +71,13 @@ def comment(request):
     comment.parent = obj['parent']
     comment.save() # 댓글 = 0 / 대댓글 = 해당 댓글의 id를 갖는다고 했잖아
     essence = {
+        'profile_id':profile.id,
         'user':profile.name,
         'comment':comment.content,
         'comment_id': comment.id,
-        'com_id': obj['com_id']
+        'com_id': obj['com_id'],
+        'date':comment.write_date.strftime('%Y.%m.%d'),
+        'hour':comment.write_date.strftime('%H:%M')
     }
     return JsonResponse(essence)
 
@@ -87,8 +93,11 @@ def reply(request):
     comment.parent = obj['parent']
     comment.save() 
     essences = {
+        'profile_id':profile.id,
         'user':profile.name,
-        'comment':comment.content
+        'comment':comment.content,
+        'date':comment.write_date.strftime('%Y.%m.%d'),
+        'hour':comment.write_date.strftime('%H:%M')
     }
     return JsonResponse(essences)
 
@@ -105,6 +114,7 @@ def register_info(request):
         content = request.POST['content']
         link = request.POST['link']
         fileList = request.FILES.getlist('files')
+        img = request.FILES.get('img')
         info = Info()
         info.host = host
         info.email = email
@@ -113,6 +123,7 @@ def register_info(request):
         if start_date : info.start_date = start_date
         if end_date : info.end_date = end_date
         info.content = content
+        info.image = img
         info.save()
         if link : 
             info.isLink = 1
@@ -127,7 +138,12 @@ def register_info(request):
             info_file.file = item
             info_file.save()
         info.save()
-        return render(request, 'info.html')
+        infoList = Info.objects.all()
+        infoList_list=Info.objects.all()
+        page = request.GET.get('page')
+        paginator = Paginator(infoList_list, 2)
+        posts = paginator.get_page(page)
+        return render(request, 'info.html', {"infoList":infoList, "posts":posts})
     else:
         return render(request, 'register_info.html')
 
@@ -154,4 +170,6 @@ def community(request):
     page = request.GET.get('page')
     paginator = Paginator(community_list, 5)
     posts = paginator.get_page(page)
-    return render(request,'community.html', {'community':community, 'posts': posts})
+    profile = Profile.objects.get(user_id = request.user)
+    name = profile.name
+    return render(request,'community.html', {'community':community, 'posts': posts, 'name':name})
