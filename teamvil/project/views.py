@@ -12,6 +12,7 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count
 from django.core.paginator import Paginator
+from datetime import datetime
 
 # Create your views here.
 def team_detail(request, project_id):
@@ -20,188 +21,39 @@ def team_detail(request, project_id):
     project_links = Project_link.objects.filter(project_id = project_id)
     project_files = Project_file.objects.filter(project_id = project_id)
     duties = Duty.objects.filter(project_id = project_id)
+    project.view_cnt +=1
+    project.save()
+    try:
+        apply = Application.objects.get(project_id = project, user_id = request.user)
+    except Application.DoesNotExist:
+        apply = None
     return render(request, "team_detail.html", {'project':project, 'profile':profile, 
-                "project_links":project_links, "project_files":project_files, "duties": duties})
+                "project_links":project_links, "project_files":project_files, "duties": duties, "apply": apply})
 
 def team_search(request):
+    user = request.user
+    profile = Profile.objects.get(user_id = user)
     projects = Project.objects.all().order_by('-register')
-    projects_reg = Project.objects.all().order_by('id')[:4]
+    projects_reg = Project.objects.filter(field1_id = profile.field1_id).exclude(user_id = user).order_by('-view_cnt')[:3]
     field1 = Field1.objects.all() # 대분야 (ex IT)
     mbti = Mbti.objects.all()
-    region2 = Region2.objects.all() # ~시 (서울만 ~구)
+    region1s = Region1.objects.all()# ~시 (서울만 ~구
     term = Term.objects.all()
     job = Job.objects.all()
-    projects_list = Project.objects.all().order_by('-register')
-    paginator = Paginator(projects_list, 5)
-    page = request.GET.get('page')
-    posts = paginator.get_page(page)
+    classify = 'A'
     # saved_list = paginator.get_page(page_number) 
     # context = {
     #     'paginate': True,
     #     'projects_list': saved_list,
     # }
+    page_len = len(projects)//18
+    if len(projects)%18 != 0:
+        page_len+=1
+    page = list(range(1, page_len+1))
+    projects = projects[0:18]
     return render(request, "team_search.html", {'projects':projects, "field1s":field1, "mbtis" : mbti, 
-                                                    "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg,"posts":posts})
+                                                    "region1s": region1s, "terms": term, "jobs": job, "projects_reg": projects_reg, "classify":classify, "page": page, "current_page":1})
 
-def team_search_back_min(request):
-    projects = Project.objects.all().order_by('-register')
-    projects_reg = Project.objects.all().order_by('id')[:4]
-    field1 = Field1.objects.all() # 대분야 (ex IT)
-    mbti = Mbti.objects.all()
-    region2 = Region2.objects.all() # ~시 (서울만 ~구)
-    term = Term.objects.all()
-    job = Job.objects.all()
-    return render(request, "team_search_back_min.html", {'projects':projects, "field1s":field1, "mbtis" : mbti, 
-                                                    "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg})
-
-def team_search_back_cloud(request):
-    projects = Project.objects.all().order_by('-register')
-    projects_reg = Project.objects.all().order_by('id')[:4]
-    field1 = Field1.objects.all() # 대분야 (ex IT)
-    mbti = Mbti.objects.all()
-    region2 = Region2.objects.all() # ~시 (서울만 ~구)
-    term = Term.objects.all()
-    job = Job.objects.all()
-    return render(request, "team_search_back_cloud.html", {'projects':projects, "field1s":field1, "mbtis" : mbti, 
-                                                    "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg})
-
-def team_search_back(request):
-    projects = Project.objects.all().order_by('-register')
-    projects_reg = Project.objects.all().order_by('id')[:4]
-    field1 = Field1.objects.all() # 대분야 (ex IT)
-    mbti = Mbti.objects.all()
-    region2 = Region2.objects.all() # ~시 (서울만 ~구)
-    term = Term.objects.all()
-    job = Job.objects.all()
-    return render(request, "team_search_back.html", {'projects':projects, "field1s":field1, "mbtis" : mbti, 
-                                                    "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg})
-
-def team_detail_back(request, project_id):
-    project = Project.objects.get(id=project_id)
-    profile = Profile.objects.get(user_id = project.user_id)
-    project_links = Project_link.objects.filter(project_id = project_id)
-    project_files = Project_file.objects.filter(project_id = project_id)
-    duties = Duty.objects.filter(project_id = project_id)
-    return render(request, "team_detail_back.html", {'project':project, 'profile':profile, 
-                "project_links":project_links, "project_files":project_files, "duties": duties})
-# S타입 팀만들기 html렌더링
-def team_new_back_S(request):
-    field1 = Field1.objects.all()
-    region1 = Region1.objects.all() #서울시 경기도 충청도 등등의 첫번째 도 
-    region1_list = {} #{'서울시' '경기도 --'}
-    region2_list = []
-    region_list = {}
-    for prov in region1:
-        region2_list = Region2.objects.filter(region1_id = prov) #{'서울시 서초구','서울시 강남구','서울시 중구'}
-        region1_list[prov.region1] = region2_list
-        li = []
-        for r in region2_list: 
-            li.append([r.id, r.region2]) #['0','서초구'] // ['1','강남구'] 
-        region_list[prov.region1] = li #region_list['서울시'] = ['0','서초구']
-    #   region1_list['서울시'] = ['강남구', '중구', '서초구']
-    #   region1_list['경기도'] = ['고양시', '안산시', '용인시']
-    #   item으로 뽑으면 key랑 value모두 뽑힘 -> [('서울시',['강남구','중구','서초구'])]
-    #region2 = Region2.objects.all()
-    education = Education.objects.all()
-    return render(request, 'team_new_back_S.html', {"field1s":field1, "region1s": region1, "region1_list": region1_list.items(), "region_list":region_list #"region2s": region2, 
-                            , "educations":education })
-# C타입 팀만들기 html렌더링
-def team_new_back_C(request):
-    field1 = Field1.objects.all()
-    region1 = Region1.objects.all()
-    region2 = Region2.objects.all()
-    education = Education.objects.all()
-    return render(request, 'team_new_back_C.html', {"field1s":field1, "region1s": region1, "region2s": region2,
-                "educations":education })
-# P타입 팀만들기 html렌더링
-def team_new_back_P(request):
-    field1 = Field1.objects.all()
-    region1 = Region1.objects.all()
-    region2 = Region2.objects.all()
-    education = Education.objects.all()
-    return render(request, 'team_new_back_P.html', {"field1s":field1, "region1s": region1, "region2s": region2,
-                "educations":education })
-# S타입 팀 만들기
-@csrf_exempt
-def team_create_back_S(request):
-    if request.method == "POST":  
-        title = request.POST['title']
-        desc = request.POST['desc']
-        field1_id = int(request.POST['field1'])
-        field2 = request.POST['field2']
-        region1_id = int(request.POST['region1'])
-        region2_id = int(request.POST['region2'])
-        mem_total = request.POST['mem_total']
-        mem_now = request.POST['mem_now']
-        duty_name = request.POST['duty_name']
-        total = request.POST['total']
-        duty_desc = request.POST['duty_desc']
-        content = request.POST['content']
-        start_date = request.POST['start_date']
-        end_date = request.POST['end_date']
-        school = request.POST['school']
-        education = int(request.POST['education'])
-        project_link = request.POST['project_link'] 
-        project = Project()
-        if(request.FILES.getlist('project_file')): 
-            project.isfile = 1
-        project.user_id = request.user
-        project.type = 0
-        project.title = title
-        project.desc = desc
-        project.field1_id = Field1.objects.get(id=field1_id)
-        project.field2 = field2
-        project.region1_id = Region1.objects.get(id=region1_id)
-        project.region2_id = Region2.objects.get(id=region2_id)
-        project.mem_total = mem_total #프로젝트 총 인원
-        project.mem_now = mem_now #모집된 직무 총 인원
-        project.start_date = start_date
-        project.end_date = end_date
-        project.content = content
-        project.school = school
-        if(education!=0):
-            project.education_id = Education.objects.get(id=education)
-        project.save()
-        duty = Duty() # 수정 필요. css 작업 완료되면 for 문으로 바꾸고 여러 duty 저장할 수 있도록
-        duty.project_id = project
-        duty.total = total
-        duty.desc = duty_desc
-        duty.name = duty_name
-        duty.save()
-        project.mem_total = total # 수정 필요 duty 테이블 다 저장하면서 total 누적 시켜야함
-        #input file 받아오기
-        project.save()
-        for files in request.FILES.getlist('project_file'):
-            project_file = Project_file()
-            project_file.project_id = project
-            project_file.file = files
-            project_file.save()
-            project.isFile = 1
-            project.save() 
-        if(project_link!=""): # 여러개 입력 가능해지면 수정 필요
-            project.isLink = 1
-            link = Project_link()
-            link.project_id = project
-            link.link = project_link
-            link.save()
-        return redirect('/project/team_detail/' + str(project.id))
-
-# C타입 팀 만들기
-def team_create_back_C(request):
-    project = Project()
-    project.user_id = request.user
-    project.use = 0
-    project.type = 1
-    project.save()
-    return redirect('/team_detail/' + str(project.id))
-# P타입 팀 만들기
-def team_create_back_P(request):
-    project = Project()
-    project.user_id = request.user
-    project.use = 0
-    project.type = 2
-    project.save()
-    return redirect('/team_detail/' + str(project.id))
 # 팀 찾기 > 검색 함수
 def searchTeam(request):
     obj = json.loads(request.body)
@@ -216,14 +68,29 @@ def searchTeam(request):
 # 팀 찾기 > 세부 필터링 함수
 def filterTeam(request):
     obj = json.loads(request.body)
+    current_page = int(obj['page'])
+    start_page = (current_page-1)*18
+    txt = obj['txt']
+    if txt=="":
+        projects = Project.objects.all()
+    else:
+        projects = Project.objects.filter(Q(title__icontains = txt) | Q(region1_id__region1__icontains=txt) | Q(region2_id__region2__icontains=txt)
+                                        | Q(content__icontains = txt) | Q(school__icontains = txt) | Q(desc__icontains = txt))
     field1 = obj['field1']
     region = obj['region']
     state = obj['state']
+    term = obj['term']
     if field1[0]=='all':field1=list(Field1.objects.values_list('id', flat=True))
-    if region[0]=='all':region=list(Region2.objects.values_list('id', flat=True))
+    if region[0]=='all':region=list(Region1.objects.values_list('id', flat=True))
     if state[0]=='all':state=[0, 1]
-    projects = Project.objects.filter(field1_id__id__in=field1,region2_id__id__in=region,state__in=state).order_by('-id')
-    return render(request, "team_list_form.html", {'projects':projects})
+    if term[0]=='all':term=[1, 2]
+    projects = projects.filter(field1_id__id__in=field1,region1_id__id__in=region,state__in=state, term__in = term).order_by('-id')
+    page_len = len(projects)//18
+    if len(projects)%18 != 0:
+        page_len+=1
+    page = list(range(1, page_len+1))
+    projects = projects[start_page:start_page+18]
+    return render(request, "team_list_form.html", {'projects':projects, "page": page, "current_page":current_page})
 
 #좋아요 만들어지는 함수 create
 def like(request):
@@ -245,8 +112,8 @@ def like(request):
         alarm.project_url = '/project/team_detail/' + str(project_id.id) #프로젝트 연결도 추가시켜주는게 좋을 것 같다.
         alarm.save()
     else:
-        return render(request,'team_search_back.html')
-    return render(request,'team_search_back.html') #team_list에도 적용이 되야된다
+        return render(request,'team_search.html')
+    return render(request,'team_search.html') #team_list에도 적용이 되야된다
 
 
 #좋아요 취소 함수
@@ -254,31 +121,52 @@ def likecancel(request):
     obj = json.loads(request.body) #받아온 data를 풀어주기  project_id를 가져올것
     project_id = Project.objects.get(id=obj['value'])
     Like.objects.get(project_id = project_id, from_user_id = request.user).delete() #like모델에 저장된 project_id랑 좋아요를 다시 클릭해서 얻어온 
-    return render(request,'team_search_back.html')
+    return render(request,'team_search.html')
 
 
 # 팀찾기 최신순 정렬 함수
 def latestTeam(request):
     obj = json.loads(request.body)
+    txt = obj['txt']
+    if txt=="":
+        projects_list = Project.objects.all()
+    else:
+        projects_list = Project.objects.filter(Q(title__icontains = txt) | Q(region1_id__region1__icontains=txt) | Q(region2_id__region2__icontains=txt)
+                                        | Q(content__icontains = txt) | Q(school__icontains = txt) | Q(desc__icontains = txt))
     field1 = obj['field1']
     region = obj['region']
     state = obj['state']
+    term = obj['term']
     if field1[0]=='all':field1=list(Field1.objects.values_list('id', flat=True))
     if region[0]=='all':region=list(Region2.objects.values_list('id', flat=True))
     if state[0]=='all':state=[0, 1]
-    projects = Project.objects.filter(field1_id__id__in=field1,region2_id__id__in=region,state__in=state).order_by('-id')
-    return render(request, "team_list_form.html", {'projects':projects})
+    if term[0]=='all':term=[1, 2]
+    projects = projects_list.filter(field1_id__id__in=field1,region1_id__id__in=region,state__in=state, term__in = term).order_by('-id')
+    page_len = len(projects)//18
+    if len(projects)%18 != 0:
+        page_len+=1
+    page = list(range(1, page_len+1))
+    projects = projects[0:18]
+    return render(request, "team_list_form.html", {'projects':projects, "page": page, "current_page":1})
 
 # 팀찾기 인기순 정렬 함수
 def popularTeam(request):
     obj = json.loads(request.body)
+    txt = obj['txt']
+    if txt=="":
+        projects_list = Project.objects.all()
+    else:
+        projects_list = Project.objects.filter(Q(title__icontains = txt) | Q(region1_id__region1__icontains=txt) | Q(region2_id__region2__icontains=txt)
+                                        | Q(content__icontains = txt) | Q(school__icontains = txt) | Q(desc__icontains = txt))
     field1 = obj['field1']
     region = obj['region']
     state = obj['state']
+    term = obj['term']
     if field1[0]=='all':field1=list(Field1.objects.values_list('id', flat=True))
     if region[0]=='all':region=list(Region2.objects.values_list('id', flat=True))
     if state[0]=='all':state=[0, 1]
-    projects = Project.objects.filter(field1_id__id__in=field1,region2_id__id__in=region,state__in=state).order_by('-id')
+    if term[0]=='all':term=[1, 2]
+    projects = projects_list.filter(field1_id__id__in=field1,region1_id__id__in=region,state__in=state, term__in = term).order_by('-id')
     like = Like.objects.filter(type = 0, project_id__in = projects).values('project_id').annotate(cnt = Count('project_id')).order_by('-cnt')
     like_list = list(like)
     like_id = [d['project_id'] for d in like_list]
@@ -286,12 +174,229 @@ def popularTeam(request):
     for i in like_id:
         p = Project.objects.get(id =i)
         projects.append(p)
-    not_like_projects = Project.objects.filter(field1_id__id__in=field1,region2_id__id__in=region,state__in=state).exclude(id__in=like_id).order_by('-id')
-    return render(request, "team_list_form.html", {'projects':projects, "not_like_projects":not_like_projects})
+    # projects = Project.objects.filter(id__in = like_id)
+    not_like_projects = projects_list.filter(field1_id__id__in=field1,region1_id__id__in=region,state__in=state, term__in = term).exclude(id__in=like_id).order_by('-id')
+    for p in not_like_projects:
+        projects.append(p)
+    # projects = projects | not_like_projects
+    page_len = len(projects)//18
+    if len(projects)%18 != 0:
+        page_len+=1
+    page = list(range(1, page_len+1))
+    projects = projects[0:18]
+    return render(request, "team_list_form.html", {'projects':projects, "page": page, "current_page":1})
 
 # 지원서 열람 페이지 html 렌더링
-def team_application(request):
-    return render(request, "team_application.html")
+def team_application(request, project_id):
+    project = Project.objects.get(id = project_id)
+    if(project.user_id == request.user):
+        applications = Application.objects.filter(project_id = project_id)
+        applications_user_ids = [application.user_id for application in applications]
+        profiles = Profile.objects.filter(user_id__in=applications_user_ids)
+        try:
+            application = Application.objects.get(project_id = project, user_id = profiles[0].user_id)
+            apply_form = Apply_form.objects.get(project_id =project)
+            qna_list = []
+            if application.a1_id:
+                qna = []
+                qna.append(application.a1_id)
+                qna.append(apply_form.q1_id)
+                qna_list.append(qna)
+            if application.a2_id:
+                qna = []
+                qna.append(application.a2_id)
+                qna.append(apply_form.q2_id)
+                qna_list.append(qna)
+            if application.a3_id:
+                qna = []
+                qna.append(application.a3_id)
+                qna.append(apply_form.q3_id)
+                qna_list.append(qna)
+            if application.a4_id:
+                qna = []
+                qna.append(application.a4_id)
+                qna.append(apply_form.q4_id)
+                qna_list.append(qna)
+            if application.a5_id:
+                qna = []
+                qna.append(application.a5_id)
+                qna.append(apply_form.q5_id)
+                qna_list.append(qna)
+            if application.a6_id:
+                qna = []
+                qna.append(application.a6_id)
+                qna.append(apply_form.q6_id)
+                qna_list.append(qna)
+            if application.a7_id:
+                qna = []
+                qna.append(application.a7_id)
+                qna.append(apply_form.q7_id)
+                qna_list.append(qna)
+            if application.a8_id:
+                qna = []
+                qna.append(application.a8_id)
+                qna.append(apply_form.q8_id)
+                qna_list.append(qna)
+            if application.a9_id:
+                qna = []
+                qna.append(application.a9_id)
+                qna.append(apply_form.q9_id)
+                qna_list.append(qna)
+            if application.a10_id:
+                qna = []
+                qna.append(application.a10_id)
+                qna.append(apply_form.q10_id)
+                qna_list.append(qna)
+            duties = Duty.objects.filter(project_id = project_id)
+            member = Member.objects.get(project_id = project, user_id = profiles[0].user_id)
+            return render(request, "team_applications.html", {'profiles':profiles, 'qna_list':qna_list, "project": project, "duties":duties, "member": member, "profile": profiles[0]})
+        except:
+            profiles = None
+            qna_list = []
+            duties = None
+            member = None
+            return render(request, "team_applications.html", {'profiles':profiles, 'qna_list':qna_list, "project": project, "duties":duties, "member": member, "profile": None})
+    else:
+        application = Application.objects.get(project_id = project, user_id = request.user)
+        # applications_user_ids = [application.user_id for application in applications]
+        apply_form = Apply_form.objects.get(project_id =project)
+        qna_list = []
+        if application.a1_id:
+            qna = []
+            qna.append(application.a1_id)
+            qna.append(apply_form.q1_id)
+            qna_list.append(qna)
+        if application.a2_id:
+            qna = []
+            qna.append(application.a2_id)
+            qna.append(apply_form.q2_id)
+            qna_list.append(qna)
+        if application.a3_id:
+            qna = []
+            qna.append(application.a3_id)
+            qna.append(apply_form.q3_id)
+            qna_list.append(qna)
+        if application.a4_id:
+            qna = []
+            qna.append(application.a4_id)
+            qna.append(apply_form.q4_id)
+            qna_list.append(qna)
+        if application.a5_id:
+            qna = []
+            qna.append(application.a5_id)
+            qna.append(apply_form.q5_id)
+            qna_list.append(qna)
+        if application.a6_id:
+            qna = []
+            qna.append(application.a6_id)
+            qna.append(apply_form.q6_id)
+            qna_list.append(qna)
+        if application.a7_id:
+            qna = []
+            qna.append(application.a7_id)
+            qna.append(apply_form.q7_id)
+            qna_list.append(qna)
+        if application.a8_id:
+            qna = []
+            qna.append(application.a8_id)
+            qna.append(apply_form.q8_id)
+            qna_list.append(qna)
+        if application.a9_id:
+            qna = []
+            qna.append(application.a9_id)
+            qna.append(apply_form.q9_id)
+            qna_list.append(qna)
+        if application.a10_id:
+            qna = []
+            qna.append(application.a10_id)
+            qna.append(apply_form.q10_id)
+            qna_list.append(qna)
+        # Apply_form = Apply_form.objects.filter(user_id__in=applications_user_ids)
+        duties = Duty.objects.filter(project_id = project_id)
+        member = Member.objects.get(project_id = project, user_id = request.user)
+        return render(request, "team_application.html", {'qna_list':qna_list, "project": project, "duties":duties, "member": member})
+    
+# 지원서 열람 페이지 html 렌더링
+def team_applications_content(request):
+    obj = json.loads(request.body)
+    project_id = obj['project_id']
+    profile_id = obj['profile_id']
+    profile = Profile.objects.get(id=profile_id)
+    project = Project.objects.get(id = project_id)
+    applications = Application.objects.filter(project_id = project_id)
+    applications_user_ids = [application.user_id for application in applications]
+    profiles = Profile.objects.filter(user_id__in=applications_user_ids)
+    application = Application.objects.get(project_id = project, user_id = profile.user_id)
+    apply_form = Apply_form.objects.get(project_id =project)
+    qna_list = []
+    if application.a1_id:
+        qna = []
+        qna.append(application.a1_id)
+        qna.append(apply_form.q1_id)
+        qna_list.append(qna)
+    if application.a2_id:
+        qna = []
+        qna.append(application.a2_id)
+        qna.append(apply_form.q2_id)
+        qna_list.append(qna)
+    if application.a3_id:
+        qna = []
+        qna.append(application.a3_id)
+        qna.append(apply_form.q3_id)
+        qna_list.append(qna)
+    if application.a4_id:
+        qna = []
+        qna.append(application.a4_id)
+        qna.append(apply_form.q4_id)
+        qna_list.append(qna)
+    if application.a5_id:
+        qna = []
+        qna.append(application.a5_id)
+        qna.append(apply_form.q5_id)
+        qna_list.append(qna)
+    if application.a6_id:
+        qna = []
+        qna.append(application.a6_id)
+        qna.append(apply_form.q6_id)
+        qna_list.append(qna)
+    if application.a7_id:
+        qna = []
+        qna.append(application.a7_id)
+        qna.append(apply_form.q7_id)
+        qna_list.append(qna)
+    if application.a8_id:
+        qna = []
+        qna.append(application.a8_id)
+        qna.append(apply_form.q8_id)
+        qna_list.append(qna)
+    if application.a9_id:
+        qna = []
+        qna.append(application.a9_id)
+        qna.append(apply_form.q9_id)
+        qna_list.append(qna)
+    if application.a10_id:
+        qna = []
+        qna.append(application.a10_id)
+        qna.append(apply_form.q10_id)
+        qna_list.append(qna)
+    duties = Duty.objects.filter(project_id = project_id)
+    member = Member.objects.get(project_id = project, user_id = profile.user_id)
+    return render(request, "team_applications_content.html", {'profiles':profiles, 'qna_list':qna_list, "project": project, "duties":duties, "member": member, "profile": profile})
+
+def manageMember(request):
+    obj = json.loads(request.body)
+    project_id = obj['project_id']
+    profile_id = obj['profile_id']
+    type = obj['type']
+    project = Project.objects.get(id=project_id)
+    profile = Profile.objects.get(id=profile_id)
+    member = Member.objects.get(project_id=project, user_id = profile.user_id)
+    member.register_state = int(type)
+    member.save()
+    essence = {
+        'suc':"success"
+    }
+    return JsonResponse(essence)
 
 # 팀원 리뷰 페이지 html 렌더링
 def team_review(request, project_id):
@@ -308,7 +413,6 @@ def team_review(request, project_id):
 @csrf_exempt
 def team_review_form(request):
     if request.method == "POST": 
-        print(123)
         obj = json.loads(request.body)
         print(obj)
         id_list = obj['id_list']
@@ -355,16 +459,16 @@ def team_review_form(request):
 def team_new(request):
     if request.method == "POST":
         obj = json.loads(request.body)
-        type = obj['type']
+        type = int(obj['type'])
         title = obj['title']
         desc = obj['desc']
         field1_id = Field1.objects.get(id = int(obj['field1_id']))
-        filed2 = obj['filed2']
+        field2 = obj['field2']
         region1_id = Region1.objects.get(id = int(obj['region1_id']))
         region2_id = Region2.objects.get(id = int(obj['region2_id']))
-        mem_total = obj['mem_total']
-        mem_now = obj['mem_now']
-        mem_duty = obj['mem_duty']
+        mem_total = int(obj['mem_total'])
+        mem_now = int(obj['mem_now'])
+        mem_duty = mem_total-mem_now
         content = obj['content']
         start_date = obj['start_date']
         end_date = obj['end_date']
@@ -372,18 +476,18 @@ def team_new(request):
         link = obj['link']
         education_id = int(obj['education_id'])
         if education_id!= 0 : education_id = Education.objects.get(id=education_id)
-        duty_list = obj['duty_list']
-        duty_desc = obj['duty_desc']
+        duty_list = obj['duty_list'] #직무이름 및 숫자 리스트로 [[직무이름.2,직무설명],[직무이름,3,직무설명],]
+        # duty_desc = obj['duty_desc'] #직무설명 val값
         q_list = obj['q_list']
         # 프로젝트 저장 시작
         # todo . 대표사진 모델 생성 필요
         project = Project()
         project.user_id = request.user
-        project.type = int(type)
+        project.type = type
         project.title = title
         project.desc = desc
         project.field1_id = field1_id
-        project.field2 = filed2
+        project.field2 = field2
         project.region1_id = region1_id
         project.region2_id = region2_id
         project.mem_total = mem_total
@@ -391,6 +495,9 @@ def team_new(request):
         project.mem_duty = mem_duty
         project.start_date = start_date
         project.end_date = end_date
+        date_diff = datetime.strptime(end_date, "%Y-%m-%d") - datetime.strptime(start_date, "%Y-%m-%d")
+        if date_diff.days >= 90:
+            project.term = 2 # 1: 단기, 2: 장기
         if school!="": project.school = school
         project.content = content
         if link!="": 
@@ -410,7 +517,7 @@ def team_new(request):
             duty = Duty()
             duty.project_id = project
             duty.total = d[1]
-            duty.desc = duty_desc
+            duty.desc = d[2]
             # todo . desc 직무마다 구현 필요
             duty.name = d[0]
             duty.save()
@@ -626,6 +733,18 @@ def team_apply(request,project_id):
         essence = {
             'project_id':project.id
         }
+        member = Member()
+        member.user_id = request.user
+        member.project_id = project
+        duty = Duty.objects.get(id = duty_id)
+        member.duty_id = duty
+        member.save()
+        alarm = Alarm()
+        alarm.type = 4
+        alarm.user_id = project.user_id
+        alarm.member_id = member
+        alarm.project_url = '/project/team_application/'+str(project.id)
+        alarm.save()
         return JsonResponse(essence)
     else:
         project = Project.objects.get(id=project_id)
@@ -714,8 +833,8 @@ def scrap(request):
         alarm.project_url = '/project/team_detail/' + str(project_id.id) #프로젝트 연결도 추가시켜주는게 좋을 것 같다.
         alarm.save()
     else:
-        return render(request,'team_search_back.html')
-    return render(request,'team_search_back.html')
+        return render(request,'team_search.html')
+    return render(request,'team_search.html')
 
 
 #스크랩 취소 함수
@@ -723,24 +842,98 @@ def scrapcancel(request):
     obj = json.loads(request.body)
     project_id = Project.objects.get(id=obj['value'])
     Scrap.objects.get(project_id = project_id, from_user_id = request.user).delete()
-    return render(request,'team_search_back.html')
+    return render(request,'team_search.html')
 
 #대분류 함수(all)
 def classify_A(request):
     projects = Project.objects.all().order_by('-id')
-    return render(request,'team_list_form.html',{'projects':projects})
-#대분류 함수(창업)
+    projects_reg = Project.objects.all().order_by('id')[:3]
+    field1 = Field1.objects.all() # 대분야 (ex IT)
+    mbti = Mbti.objects.all()
+    region2 = Region2.objects.all()
+    region1 = Region1.objects.all() # ~시 (서울만 ~구)
+    term = Term.objects.all()
+    job = Job.objects.all()
+    page_len = len(projects)//18
+    if len(projects)%18 != 0:
+        page_len+=1
+    page = list(range(1, page_len+1))
+    projects = projects[0:18]
+    return render(request, "team_search.html", {'projects':projects, "field1s":field1, "mbtis" : mbti, "region1s":region1,
+                                                    "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg, "page": page, "current_page":1})
+
+#대분류 함수(창업)->리로드
 def classify_S(request):
+    user = request.user
+    profile = Profile.objects.get(user_id = user)
     projects = Project.objects.filter(type = int(0))
-    return render(request,'team_list_form.html',{'projects':projects}) 
-#대분류 함수(공모전)
+    projects_reg = Project.objects.filter(type = int(0), field1_id = profile.field1_id).exclude(user_id = user).order_by('-view_cnt')[:3]
+    field1 = Field1.objects.all() # 대분야 (ex IT)
+    mbti = Mbti.objects.all()
+    region2 = Region2.objects.all()
+    region1 = Region1.objects.all() # ~시 (서울만 ~구)
+    term = Term.objects.all()
+    job = Job.objects.all()
+    projects_list = Project.objects.all().order_by('-register')
+    paginator = Paginator(projects_list, 5)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
+    classify = 'S'
+    page_len = len(projects)//18
+    if len(projects)%18 != 0:
+        page_len+=1
+    page = list(range(1, page_len+1))
+    projects = projects[0:18]
+    return render(request, "team_search.html", {'projects':projects, "field1s":field1, "mbtis" : mbti, "region1s":region1,
+                                                    "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg,"posts":posts, "classify":classify, "page": page, "current_page":1})
+#대분류 함수(공모전)->리로드
 def classify_C(request):
+    user = request.user
+    profile = Profile.objects.get(user_id = user)
     projects = Project.objects.filter(type = int(1))
-    return render(request,'team_list_form.html',{'projects':projects}) 
-#대분류 함수(프로젝트)
+    projects_reg = Project.objects.filter(type = int(1), field1_id = profile.field1_id).exclude(user_id = user).order_by('-view_cnt')[:3]
+    field1 = Field1.objects.all() # 대분야 (ex IT)
+    mbti = Mbti.objects.all()
+    region2 = Region2.objects.all()
+    region1 = Region1.objects.all() # ~시 (서울만 ~구)
+    term = Term.objects.all()
+    job = Job.objects.all()
+    projects_list = Project.objects.all().order_by('-register')
+    paginator = Paginator(projects_list, 5)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
+    classify = 'C'
+    page_len = len(projects)//18
+    if len(projects)%18 != 0:
+        page_len+=1
+    page = list(range(1, page_len+1))
+    projects = projects[0:18]
+    return render(request, "team_search.html", {'projects':projects, "field1s":field1, "mbtis" : mbti, "region1s":region1,
+                                                    "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg,"posts":posts, "classify":classify, "page": page, "current_page":1}) 
+#대분류 함수(프로젝트)->리로드
 def classify_P(request):
+    user = request.user
+    profile = Profile.objects.get(user_id = user)
     projects = Project.objects.filter(type = int(2))
-    return render(request,'team_list_form.html',{'projects':projects}) 
+    projects_reg = Project.objects.filter(type = int(2), field1_id = profile.field1_id).exclude(user_id = user).order_by('-view_cnt')[:3]
+    field1 = Field1.objects.all() # 대분야 (ex IT)
+    mbti = Mbti.objects.all()
+    region2 = Region2.objects.all()
+    region1 = Region1.objects.all() # ~시 (서울만 ~구)
+    term = Term.objects.all()
+    job = Job.objects.all()
+    projects_list = Project.objects.all().order_by('-register')
+    paginator = Paginator(projects_list, 5)
+    page = request.GET.get('page')
+    posts = paginator.get_page(page)
+    classify = 'P'
+    page_len = len(projects)//18
+    if len(projects)%18 != 0:
+        page_len+=1
+    page = list(range(1, page_len+1))
+    projects = projects[0:18]
+    return render(request, "team_search.html", {'projects':projects, "field1s":field1, "mbtis" : mbti, "region1s":region1,
+                                                    "region2s": region2, "terms": term, "jobs": job, "projects_reg": projects_reg,"posts":posts, "classify":classify, "page": page, "current_page":1})
 
     
 # def searchTeam(request):

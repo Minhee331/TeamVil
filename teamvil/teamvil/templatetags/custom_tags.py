@@ -24,24 +24,44 @@ def DateFormatDot(birthday):
      birthday = birthday.strftime('%Y.%m.%d')
      return birthday
 
-
+# 선호 프로젝트
+@register.simple_tag
+def get_project_type(type):
+     if type == 0:
+          return "창업"
+     elif type == 1:
+          return "공모전"
+     else:
+          return "프로젝트"
 
 
 @register.simple_tag
 def Dday(end_date):
-     #같은 달인경우
-     f_now = int(datetime.datetime.today().month)
-     f_end_date = int(end_date.strftime('%m'))
-     now = int(datetime.datetime.today().day)
-     end_date = int(end_date.strftime('%d'))
-     if f_now == f_end_date :
-          if now < end_date:
-               return now - end_date
-          else: 
-               return "이미지난공고입니다"
-     #다른 달인경우
-     else :
-          return now
+     # #같은 달인경우
+     # f_now = int(datetime.datetime.today().month)
+     # f_end_date = int(end_date.strftime('%m'))
+     # now = int(datetime.datetime.today().day)
+     # end_date = int(end_date.strftime('%d'))
+     # if f_now == f_end_date :
+     #      if now < end_date:
+     #           return now - end_date
+     #      else: 
+     #           return "이미지난공고입니다"
+     # #다른 달인경우
+     # else :
+     #      return now
+     y_end_date = int(end_date.strftime('%Y')) 
+     m_end_date = int(end_date.strftime('%m'))
+     d_end_date = int(end_date.strftime('%d'))
+     today = datetime.date.today() #(2021, 08, 19)
+     targetday = datetime.date(y_end_date,m_end_date,d_end_date) #(2021, 09, 11)
+     values = targetday - today
+     if (values.days == 0):
+          return "D-day"
+     elif (values.days < 0):
+          return "이미 지난 공고 입니다."
+     else:
+          return "D -" + str(values.days)
 
 @register.simple_tag
 def Name(profile): #community.user_id // reply.user_id
@@ -61,10 +81,12 @@ def get_profile_id(user_id): #community.user_id // reply.user_id
 def get_profile_photo(user_id): #community.user_id // reply.user_id
      user = User.objects.get(id=user_id)
      profile = Profile.objects.get(user_id = user) 
-     if profile.photo.url is not None:
+     # print(profile.photo.url)
+     if profile.photo:
           return profile.photo.url
      else:
-          return ''
+          return '/static/image/default_profile.png'
+
 
 # {$ Name comment.user_id.id $} 
 @register.simple_tag
@@ -75,6 +97,11 @@ def TimeFormat(write_date):
 @register.simple_tag
 def HourFormat(write_date):
      write_date = write_date.strftime('%H:%M')
+     return write_date
+
+@register.simple_tag # 메시지 날짜 포맷
+def MessageTimeFormat(write_date):
+     write_date = write_date.strftime('%Y.%m.%d') + write_date.strftime('%H:%M')
      return write_date
 
 @register.simple_tag
@@ -113,6 +140,13 @@ def get_scrap_cnt(type, id):
           profile = Profile.objects.get(id=id)
           cnt = Scrap.objects.filter(type=1, to_user_id=profile.user_id).count()
      return  cnt
+
+@register.simple_tag
+def get_com_cnt(id):
+     community = Com.objects.get(id = id)
+     comment = Comment.objects.filter(com_id = community)
+     return len(comment)
+
 
 @register.simple_tag
 def active_scrap(type, id, u_id):

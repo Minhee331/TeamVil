@@ -1,0 +1,35 @@
+.about-container { 
+    display: grid;
+    justify-content: center;
+}
+
+.about-title {
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 300;
+    font-size: 80px;
+    color: #0f59ff;
+    text-align: center;
+}
+
+.about-title-content {
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 300;
+    font-size: 17px;
+}
+
+.about-title-page {
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 400;
+    text-align: center;
+}
+
+.about-title-page-more {
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 300;
+    text-align: center;
+    font-size: 17px;
+}
+
+img {
+    margin-top: 3px;
+}

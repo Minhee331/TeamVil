@@ -8,10 +8,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Teamvil</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/community.css' %}">
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <link rel="shortcut icon" href="{% static 'image/favicon.ico' %}"/>
 </head>
 <body>
     {% include 'navbar.html' %}
@@ -24,11 +25,11 @@
 
                 <main class="community-main-container">
 
-                    {% for community in posts %}
+                    {% for community in community_list %}
                     <section class="community-item" onclick="openDetail()">
-                        <div class="community-profile-container" profile_id = '{% get_profile_id community.user_id.id %}'>
-                            <img class="community-profile-img" src="{% get_profile_photo community.user_id.id %}" alt="">
-                            <p class="spoqa-regular">{% Name community.user_id.id %}</p>
+                        <div class="community-profile-container off-click" profile_id = '{% get_profile_id community.user_id.id %}'>
+                            <img class="community-profile-img community-profile-click" src="{% get_profile_photo community.user_id.id %}" alt="" profile_id = '{% get_profile_id community.user_id.id %}'>
+                            <p class="spoqa-regular community-profile-click" profile_id = '{% get_profile_id community.user_id.id %}'>{% Name community.user_id.id %}</p>
                         </div>
 
                         <div class="community-content-container spoqa-light community-list-item" com_id = "{{community.id}}">
@@ -43,12 +44,12 @@
             
                                 <div class="community-comment-view-container">
                                     <div class="community-comment-view-item">
-                                        <p>댓글</p>
-                                        <p>7</p>
+                                        <p class ="com_cnt">댓글</p>
+                                        <p>{% get_com_cnt community.id %}</p>
                                     </div>
             
                                     <div class="community-comment-view-item">
-                                        <p>조회</p>
+                                        <p class ="view_cnt_{{community}}">조회</p>
                                         <p>{{community.view_cnt}}</p>
                                     </div>
                                 </div>
@@ -60,21 +61,15 @@
                 </main>
 
                 <section class="community-bottom-container">
-                    <p>{% if posts.has_previous %}
-                        <a href="?page=1">First</a>
-                        
-                        <a href="?page={{posts.previous_page_number}}">이전</a>
-                    {% endif %}
-                
-                    <span>{{posts.number}}</span>
-                    <span>/</span>
-                    <span>{{posts.paginator.num_pages}}</span>
-                
-                    {% if posts.has_next %}
-                        <a href="?page={{posts.next_page_number}}">다음</a>
-                        <a href="?page={{posts.paginator.num_pages}}">Last</a>
-                    {% endif %}</p>
-                    
+                    <a href="?page=1" class="spoqa-light page"><<</a>
+                    {% for l in  community_list.paginator.page_range %}
+                        {% if community_list.number == forloop.counter %}
+                            <a href="?page={{forloop.counter}}" class="spoqa-light active page">{{forloop.counter}}</a>
+                        {% else %}
+                            <a href="?page={{forloop.counter}}" class="spoqa-light page">{{forloop.counter}}</a>
+                        {% endif %}
+                    {% endfor %}
+                    <a href="?page={{community_list.paginator.num_pages}}" class="spoqa-light page">>></a>
                 </section>
             </div>
 
@@ -144,6 +139,9 @@
     function closeDetail() {
         document.getElementById('detail').style.display = 'none';
         document.body.classList.remove("stop-scroll");
+        //$(".view_cnt").next().text(parseInt($(".view_cnt").next().html())+1)
+
+        //$(".com_cnt").next().text(parseInt($(".com_cnt").next().html())+1)
     }
 
     $(document).ready(function(){
@@ -184,10 +182,14 @@
             });
         });
 
-        $('.community-profile-container').on("click", function() {
+        $('.community-profile-click').on("click", function() {
             var url = "/member/member_detail/" + $(this).attr('profile_id');
             location.href = url;
         });
+        $('.offclick').on("click", function(e){
+            e.stopPropagation();;
+        })
+
     });
 
     

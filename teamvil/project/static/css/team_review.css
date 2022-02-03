@@ -29,6 +29,8 @@
     font-weight: 300;
     border: solid 1px #ebebeb;
     font-size: 14px;
+    display: flex;
+    align-items: center;
 }
 
 .team_review-box {
@@ -73,6 +75,19 @@ input[type=radio] + label {
 }
 .active + label{ 
     background: url(../image/star2.png) left/22px no-repeat !important; 
+}
+
+.profile-img{
+    width: 25px;
+    height: 25px;
+    margin: 2px 4px;
+}
+.profile-name-text{
+    font-size: 14px;
+    margin: 2px 4px;
+}
+.star-input{
+    display: flex;
 }
 /* 별점 CSS
 .star-input>.input,

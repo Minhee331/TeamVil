@@ -1,16 +1,17 @@
+{% load custom_tags %}
 {% for msg in message_list %}
     {% if msg.to_user_id == user %}
         <div class="message-receive-content-item">
             <p class="message-receive-text spoqa-light">{{msg.content}}</p>
         </div>
         
-        <p class="message-receive-date spoqa-light">{{msg.send_date}}</p>
+        <p class="message-receive-date spoqa-light">{% MessageTimeFormat msg.send_date %}</p>
     {% else %}
         <div class="message-send-content-item">
             <p class="message-receive-text spoqa-light">{{msg.content}}</p>
         </div>
         
-        <p class="message-send-date spoqa-light">{{msg.send_date}}</p>
+        <p class="message-send-date spoqa-light">{% MessageTimeFormat msg.send_date %}</p>
     {% endif %}
 {% endfor %}
 

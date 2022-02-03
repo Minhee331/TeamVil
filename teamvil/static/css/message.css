@@ -2,14 +2,94 @@
     display: flex;
     justify-content: center;
 }
+.message-wrap-container{
+    display: flex;
+    justify-content: center;
+}
+.payment-wrap{
+    width: 100%;
+    margin: 70px 0 30px -30px;
+    display: flex;
+    justify-content: flex-end;
+}
+.question-wrap div {
+    position: relative;
+    display: inline-block;
+}
+.payment-text{
+    margin: auto 0;
+    margin-right: 5px;
+    font-size: 14px;
+}
+.question-wrap{
+    margin: auto 0;
+}
+.question-mark{
+    margin-top: 5px;
+    display: block;
+    width: 16px;
+    height: 16px;
+    margin-right: 15px;
+    cursor: pointer;
+}
+.question-text {
+    display: none;
+    position: absolute;
+    width: 310px;
+    margin-top: 15px;
+    margin-left: -155px;
+    padding: 8px;
+    left: 0;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;  
+    border-radius: 8px;
+    background: #ebebeb;
+    color: #000;
+    font-size: 12px;
+}
+
+.question-text:after {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin-left: -10px;
+    border: solid transparent;
+    border-color: rgba(51, 51, 51, 0);
+    border-bottom-color: #ebebeb;
+    border-width: 10px;
+    pointer-events: none;
+    content: " ";
+}
+
+.question-mark:hover + p.question-text {
+    display: block;
+}
+
+.payment-btn {
+    width: 100px;
+    height: 30px;
+    border: 1px solid #0F59FF;
+    border-radius: 3px;
+    background-color: #ffffff;
+    color: #0F59FF;
+    font-size: 13px;
+}
+
+.payment-btn:hover {
+    cursor: pointer;
+    background-color: #0F59FF;
+    color: #ffffff;
+}
 .message-wrap{
-    margin: 100px 0;
+    margin-bottom: 100px;
     display: flex;
     justify-content: space-between;
     width: 90vw;
     min-width: 900px;
     max-width: 1600px;
-    height: 800px;
+    height: 700px;
 }
 .message-list-wrap-container{
     display: flex;
@@ -24,33 +104,42 @@
     height: 100%;
     overflow-y: auto;
 }
+.message-member-none{
+    font-size: 14px;
+    text-align: center;
+    line-height: 300px;
+}
+.message-select-member-none{
+    font-size: 14px;
+    margin: 0 auto;
+}
 .message-list-item{
     display: flex;
     /* justify-content: flex-start; */
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 60px;
+    height: 57px;
     border-bottom: 1px solid #ebebeb;
     cursor: pointer;
 }
 .message-member-image{
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     border-radius: 50%;
     margin-left: 20px;
     margin-right: 15px;
 }
 .message-member-name-text{
-    font-size: 16px;
+    font-size: 14px;
     margin-right: auto;
 }
 .message-select-member-name-text{
-    font-size: 16px;
+    font-size: 14px;
     margin-right: auto;
 }
 .message-state-text {
-    margin-top: 20px;
+    margin-top: 15px;
     font-size: 12px;
     margin-right: 20px;
 }
@@ -90,7 +179,7 @@
     border-radius: 15px;
 }
 .message-receive-text{
-    font-size: 14px;
+    font-size: 12px;
 }
 .message-receive-date{
     color: #6C6C6C;
@@ -112,6 +201,7 @@
     background-color: #ebebeb;
     border: 1px solid #ebebeb;
     border-radius: 15px;
+    margin-right: 15px;
 }
 /* 메시지 전송 */
 .message-send-box-item{

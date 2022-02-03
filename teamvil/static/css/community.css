@@ -96,7 +96,7 @@
 .community-comment-view-item {
     display: flex;
     justify-content: space-between;
-    width: 35px;
+    width: 40px;
 }
 
 .community-bottom-container {
@@ -294,4 +294,12 @@
 
 #replyName {
     font-size: 14px;
+}
+.page{
+    margin: 0 5px;
+    font-size: 14px;
+}
+.page.active{
+    font-weight: 500;
+    text-decoration-line: underline;
 }

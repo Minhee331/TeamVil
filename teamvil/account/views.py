@@ -1,3 +1,4 @@
+# from teamvil import project
 from typing import ContextManager
 from django.db.models.query_utils import PathInfo
 from django.shortcuts import render , redirect
@@ -26,18 +27,53 @@ def callback(request):
     
 def member_search(request):
     profiles = Profile.objects.all().order_by('-register')
-    profiles_reg = Profile.objects.all().order_by('-id')[:4]
+    # profiles_reg = Profile.objects.all().order_by('-id')[:4]
+    user = request.user
+    profile = Profile.objects.get(user_id = user)
+    if profile.mbti_id.mbti == 'ENTP': 
+        profiles_reg = Profile.objects.filter(Q(mbti_id = 10) | Q(mbti_id = 12)).order_by('-view_cnt')[:4]
+    elif profile.mbti_id.mbti == 'ISFJ': 
+        profiles_reg = Profile.objects.filter(Q(mbti_id = 10) | Q(mbti_id = 2)).order_by('-view_cnt')[:4]
+    elif profile.mbti_id.mbti == 'ESFJ': 
+        profiles_reg = Profile.objects.filter(Q(mbti_id = 2) | Q(mbti_id = 4)).order_by('-view_cnt')[:4]
+    elif profile.mbti_id.mbti == 'INTP': 
+        profiles_reg = Profile.objects.filter(Q(mbti_id = 12) | Q(mbti_id = 10)).order_by('-view_cnt')[:4]
+    elif profile.mbti_id.mbti == 'ENFJ': 
+        profiles_reg = Profile.objects.filter(Q(mbti_id = 13) | Q(mbti_id = 15)).order_by('-view_cnt')[:4]
+    elif profile.mbti_id.mbti == 'ISTP': 
+        profiles_reg = Profile.objects.filter(Q(mbti_id = 7) | Q(mbti_id = 5)).order_by('-view_cnt')[:4]
+    elif profile.mbti_id.mbti == 'ESTP': 
+        profiles_reg = Profile.objects.filter(Q(mbti_id = 5) | Q(mbti_id = 7)).order_by('-view_cnt')[:4]
+    elif profile.mbti_id.mbti == 'INFJ': 
+        profiles_reg = Profile.objects.filter(Q(mbti_id = 15) | Q(mbti_id = 13)).order_by('-view_cnt')[:4]
+    elif profile.mbti_id.mbti == 'ESFP': 
+        profiles_reg = Profile.objects.filter(Q(mbti_id = 1) | Q(mbti_id = 3)).order_by('-view_cnt')[:4]
+    elif profile.mbti_id.mbti == 'INTJ': 
+        profiles_reg = Profile.objects.filter(Q(mbti_id = 16) | Q(mbti_id = 14)).order_by('-view_cnt')[:4]
+    elif profile.mbti_id.mbti == 'ENTJ': 
+        profiles_reg = Profile.objects.filter(Q(mbti_id = 14) | Q(mbti_id = 16)).order_by('-view_cnt')[:4]
+    elif profile.mbti_id.mbti == 'ISFP': 
+        profiles_reg = Profile.objects.filter(Q(mbti_id = 3) | Q(mbti_id = 1)).order_by('-view_cnt')[:4]
+    elif profile.mbti_id.mbti == 'ESTJ': 
+        profiles_reg = Profile.objects.filter(Q(mbti_id = 6) | Q(mbti_id = 8)).order_by('-view_cnt')[:4]
+    elif profile.mbti_id.mbti == 'INFP': 
+        profiles_reg = Profile.objects.filter(Q(mbti_id = 11) | Q(mbti_id = 9)).order_by('-view_cnt')[:4]
+    elif profile.mbti_id.mbti == 'ENFP': 
+        profiles_reg = Profile.objects.filter(Q(mbti_id = 9) | Q(mbti_id = 11)).order_by('-view_cnt')[:4]
+    elif profile.mbti_id.mbti == 'ISTJ': 
+        profiles_reg = Profile.objects.filter(Q(mbti_id = 8) | Q(mbti_id = 6)).order_by('-view_cnt')[:4]
     field1 = Field1.objects.all() # 대분야 (ex IT)
     mbti = Mbti.objects.all()
     region2 = Region2.objects.all() # ~시 (서울만 ~구)
     term = Term.objects.all()
     job = Job.objects.all()
-    profiles_list = Profile.objects.all().order_by('-register')
-    paginator = Paginator(profiles_list, 3)
-    page = request.GET.get('page')
-    posts = paginator.get_page(page)
+    page_len = len(profiles)//18
+    if len(profiles)%18 != 0:
+        page_len+=1
+    page = list(range(1, page_len+1))
+    profiles = profiles[0:18]
     return render(request, "member_search.html", {'profiles':profiles, "field1s":field1, "mbtis" : mbti, 
-                                                    "region2s": region2, "terms": term, "jobs": job, "profiles_reg":profiles_reg,"posts":posts})
+                                                    "region2s": region2, "terms": term, "jobs": job, "profiles_reg":profiles_reg, "page": page, "current_page":1})
 
 
 def member_search_back(request):
@@ -81,6 +117,8 @@ def member_detail(request, profile_id):
     print(user_review)
     # print(user_review_cnt)
     # print(user_review_cn)
+    profile.view_cnt +=1
+    profile.save()
     user_review_all = [user_review_1, user_review_2, user_review_3, user_review_4, user_review_5]
     return render(request, "member_detail.html", {"profile":profile, "carrers":carrers,
                 "user_review": user_review, "user_links": user_links, "user_files": user_files, "user_review_all": user_review_all, "user_review_avg": user_review_avg, "user_review_cnt": user_review_cnt })
@@ -134,7 +172,7 @@ def signup(request):
             mbti.save()
             profile.email = "email" # 추후 수정 필요
             profile.phone =  phone
-            profile.birthday = "2021-07-10" # 추후 수정 필요
+            profile.birthday = "1999-07-10" # 추후 수정 필요
             profile.region1_id = Region1.objects.get(id=1) # 추후 수정 필요
             profile.region2_id = Region2.objects.get(id=1) # 추후 수정 필요
             profile.openPhone = 0
@@ -255,108 +293,11 @@ def login(request):
     else:
         return render(request, 'login.html')
 
-# # 회원가입 함수
-# def signup(request):
-#     if request.method == "POST":   
-#         username = request.POST['username']
-#         password = request.POST['password']
-#         passwordCheck = request.POST['passwordCheck']
-#         name = request.POST['name']
-#         phone = request.POST['phone']
-#         if not (username and password and passwordCheck and name and phone) :
-#             return render(request, 'signup_back.html', {'error':"모든 값을 입력해주세요."})
-#         elif User.objects.filter(username=username).exists():
-#             return render(request, 'signup_back.html', {'error':"이미 존재하는 아이디입니다."})
-#         elif Profile.objects.filter(phone = phone).exists():
-#             return render(request, "signup_back.html", {'error': '이미 등록된 연락처입니다.'})
-#         elif password != passwordCheck :
-#             return render(request, "signup_back.html", {'error': '비밀번호가 일치하지 않습니다.'})     
-#         else:
-#             user = User.objects.create_user(username=request.POST["username"], password=request.POST["password"])
-#             profile = Profile()
-#             profile.user_id = user
-#             profile.name = name
-#             mbti = Mbti.objects.get(id=1)
-#             profile.mbti_id =  mbti# 추후 수정 필요
-#             mbti.mbti_cnt = mbti.mbti_cnt + 1
-#             mbti.save()
-#             profile.email = "email" # 추후 수정 필요
-#             profile.phone =  phone
-#             profile.birthday = "2021-07-10" # 추후 수정 필요
-#             profile.region1_id = Region1.objects.get(id=1) # 추후 수정 필요
-#             profile.region2_id = Region2.objects.get(id=1) # 추후 수정 필요
-#             profile.openPhone = 0
-#             profile.openEmail = 0 
-#             profile.term_id =  Term.objects.get(id=1) # 추후 수정 필요
-#             profile.field1_id = Field1.objects.get(id=1) # 추후 수정 필요
-#             profile.field2 = "Field2" # 추후 수정 필요
-#             profile.state = 1 
-#             profile.job_id =  Job.objects.get(id=1) # 추후 수정 필요
-#             profile.isLink = 0
-#             profile.isFile =0
-#             profile.isCarrer = 0 
-#             profile.photo = "Photo" # 추후 수정 필요
-#             profile.isReview = 0
-#             profile.save()
-#             auth.login(request, user)
-#             return redirect('/')
-#     else :
-#         return render(request, 'signup_back.html')
-        
-# # 로그인 함수
-# def login(request):
-#     if request.method == "POST":
-#         username = request.POST['username']
-#         password = request.POST['password']
-#         user = auth.authenticate(request, username=username, password=password)
-#         if user is not None:
-#             auth.login(request, user)
-#             remember_session = request.POST.get('remember_session', False)
-#             if remember_session:
-#                 settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-#             return redirect('/')
-#         else:
-#             return render(request, 'login_back.html',{'error':"사용자 이름 혹은 패스워드가 일치하지 않습니다."})
-#     else:
-#         return render(request, 'login_back.html')
-
 # 로그아웃 함수
 def logout_back(request):
     auth.logout(request)
     return redirect('/')
 
-# 팀원 찾기 > 검색 함수
-# def searchMember(request):
-#     post = Profile.objects.all().order_by('id')
-#     profiles_reg = Profile.objects.all().order_by('id')[:4]
-#     field1 = Field1.objects.all() # 대분야 (ex IT)
-#     mbti = Mbti.objects.all()
-#     region2 = Region2.objects.all() # ~시 (서울만 ~구)
-#     term = Term.objects.all()
-#     job = Job.objects.all()
-#     search = request.POST.get('examine')
-#     if search:
-#         post = post.filter(
-#             Q(name__icontains = search)
-#             #Q(mbti_id__icontains = search)|
-#             #Q(field1_id__icontains = search)|
-#             #Q(type__icontains = search)|
-#             #Q(job_id__icontains = search)|
-#             #Q(region1_id__icontains = search)|
-#         )
-#         return render(request,'member_search.html',{'profiles':post, "field1s":field1, "mbtis" : mbti, 
-#                                                     "region2s": region2, "terms": term, "jobs": job, "profiles_reg":profiles_reg})  
-
-# 마이페이지 프로필 함수
-# def mypage_profile(request):
-#     user = request.user
-#     profile = Profile.objects.get(user_id = user)
-#     user_links = User_link.objects.filter(user_id = user)
-#     user_files = User_file.objects.filter(user_id = user)
-#     user_reviews = User_review.objects.filter(to_user_id = user)
-#     user_carrers = User_carrer.objects.filter(user_id = user)
-#     return render(request, "mypage_profile_back.html", {"profile":profile, "user_links": user_links, "user_files": user_files , 
-#                 "user_reviews": user_reviews, "user_carrers":user_carrers})
 
 # 팀원 찾기 > 검색 함수
 def searchMember(request):
@@ -372,6 +313,14 @@ def searchMember(request):
 # 팀원 찾기 > 세부 필터링 함수
 def filterMember(request):
     obj = json.loads(request.body)
+    current_page = int(obj['page'])
+    start_page = (current_page-1)*18
+    txt = obj['txt']
+    if txt=="":
+        profile = Profile.objects.all()
+    else:
+        profile = Profile.objects.filter(Q(name__icontains = txt)| Q(region1_id__region1__icontains = txt) | Q(region2_id__region2__icontains = txt)
+                                        | Q(job_id__job__icontains = txt) | Q(mbti_id__mbti__icontains = txt)| Q(pr__icontains = txt)).exclude(submit=0)
     field1 = obj['field1']
     mbti = obj['mbti']
     region = obj['region']
@@ -384,77 +333,15 @@ def filterMember(request):
     if term[0]=='all':term=list(Term.objects.values_list('id', flat=True))
     if state[0]=='all':state=[0, 1, 2]
     if job[0]=='all':job=list(Job.objects.values_list('id', flat=True))
-    profiles = Profile.objects.filter(field1_id__id__in=field1,mbti_id__id__in=mbti,region2_id__id__in=region,
+    profiles = profile.filter(field1_id__id__in=field1,mbti_id__id__in=mbti,region2_id__id__in=region,
                                     term_id__id__in=term, state__in=state, job_id__id__in=job).order_by('-id')
-    return render(request, "member_list_form.html", {'profiles':profiles})
+    page_len = len(profiles)//18
+    if len(profiles)%18 != 0:
+        page_len+=1
+    page = list(range(1, page_len+1))
+    profiles = profiles[start_page:start_page+18]
+    return render(request, "member_list_form.html", {'profiles':profiles, "page": page, "current_page":current_page})
 
-# #마이페이지 프로필 수정 함수
-# def mypage_modify_profile_edit(request):
-#     user = request.user
-#     profile = Profile.objects.get(user_id = user)
-#     field1 = Field1.objects.all()
-#     mbtis = Mbti.objects.all()
-#     job = Job.objects.all()
-#     region1 =Region1.objects.all()
-#     region2 =Region2.objects.all()
-#     term =Term.objects.all()
-#     user_links = User_link.objects.filter(user_id = user)
-#     user_files = User_file.objects.filter(user_id = user)
-#     user_carrers = User_carrer.objects.filter(user_id = user)
-#     return render(request, "mypage_modify_profile_back_sunneng.html", {"term":term,"region2":region2,"region1":region1,"mbtis":mbtis,"job":job,"field1":field1,"profile":profile, "user_links": user_links, "user_files": user_files ,  "user_carrers":user_carrers})
-
-# #마이페이지 프로필 update 함수
-# def mypage_modify_profile_update(request):
-#     user = request.user
-#     name = request.POST.get('name')
-#     job = Job.objects.get(id=request.POST.get('job_id'))
-#     birthday = request.POST.get('birthday')
-#     region1 = Region1.objects.get(id=request.POST.get('region1_id'))
-#     region2 = Region2.objects.get(id=request.POST.get('region2_id'))
-#     state = request.POST.get('state')
-#     field1 = Field1.objects.get(id=request.POST.get('field1_id'))
-#     field2 = request.POST.get('field2')
-#     term = Term.objects.get(id=request.POST.get('term_id'))
-#     mbti = Mbti.objects.get(id=request.POST.get('mbti_id'))
-#     mbti_detail = request.POST.get('mbti_detail')
-#     pr = request.POST.get('pr')
-#     profile = Profile.objects.get(user_id = user)
-#     save_mbti_id = profile.mbti_id.id
-#     save_mbti = Mbti.objects.get(id=save_mbti_id)
-#     save_mbti.mbti_cnt = save_mbti.mbti_cnt -1
-#     save_mbti.save()
-#     profile.name = name
-#     profile.job_id = job
-#     profile.birthday = birthday
-#     profile.region1_id = region1
-#     profile.region2_id = region2
-#     profile.state = state
-#     profile.field1_id = field1
-#     profile.field2 = field2
-#     profile.term_id = term  
-#     profile.mbti_id =mbti
-#     mbti.mbti_cnt = mbti.mbti_cnt + 1
-#     mbti.save()
-#     profile.mbti_detail = mbti_detail
-#     profile.pr = pr
-#     # user_links = User_link.objects.filter(user_id = user) # 링크 여러개 수정할 수 있도록
-#     # user_links.link = request.POST.get('link')
-#     # if(request.FILES.getlist('user_files')): 
-#     #         profile.isfile = 1
-#     # user_carrers = User_carrer.objects.filter(user_id = user) # 커리어 여러개 수정할 수 있도록
-#     # user_carrers.start_date = request.POST.get('start_date')
-#     # user_carrers.end_date = request.POST.get('end_date')
-#     # user_carrers.content = request.POST.get('content')
-#     profile.submit = 1
-#     profile.save()
-#     # for files in request.FILES.getlist('user_files'): # 파일 여러개 수정할 수 있도록
-#     #     user_files = User_file()
-#     #     user_files.profile_id = profile
-#     #     user_files.file = files
-#     #     user_files.save()
-#     #     profile.isFile = 1
-#     #     profile.save() 
-#     return redirect('/member/mypage')
 
 # 마이페이지 함수
 def mypage(request):
@@ -483,11 +370,20 @@ def mypage_profile(request):
 
 # 마이페이지 프로젝트 함수
 def mypage_project(request):
-    projects = Project.objects.filter(user_id=request.user)
+    projects = Project.objects.filter(user_id=request.user).order_by('-id')
     member_list = {}
     for project in projects:
         member_list[project.id] = Member.objects.filter(project_id = project)
     return render(request, "mypage_project.html", {'projects':projects, "member_list": member_list.items()})
+
+# 프로젝트 isEnd(완료여부)를 완료로 바꿈
+def mypage_change_isEnd(request):
+    obj = json.loads(request.body)
+    project_id = obj['project_id']
+    project = Project.objects.get(id = project_id)
+    project.isEnd = 1
+    project.save()
+    return JsonResponse({"suc": 'success'})
 
 # 마이페이지 프로필 수정 페이지 함수
 def mypage_modify_profile(request):
@@ -535,6 +431,7 @@ def modify_profile(request):
     field1 = Field1.objects.get(id=field1_id)
     field2 = obj['field2']
     term_id = obj['term']
+    type = obj['type']
     term = Term.objects.get(id=term_id)
     mbti_id = obj['mbti']
     mbti = Mbti.objects.get(id=mbti_id)
@@ -543,6 +440,7 @@ def modify_profile(request):
     mbti_detail = obj['mbti_detail']
     phone = obj['phone']
     email = obj['email']
+    birthday = obj['birthday']
     pr = obj['pr']
     profile = Profile.objects.get(id = profile_id)
     profile.job_id = job
@@ -557,7 +455,9 @@ def modify_profile(request):
     m_save.save()
     profile.mbti_id = mbti
     profile.mbti_detail = mbti_detail
+    profile.type = int(type)
     profile.phone = phone
+    profile.birthday = birthday
     profile.email = email
     profile.pr = pr
     profile.submit = 1
@@ -621,8 +521,8 @@ def likes(request):
         alarm.member_url = '/member/member_detail/' + str(profile.id)
         alarm.save()
     else:
-        return render(request,'member_search_back.html')
-    return render(request,'member_search_back.html')
+        return render(request,'member_search.html')
+    return render(request,'member_search.html')
 
 #좋아요 취소 함수
 def likecancels(request):
@@ -630,11 +530,17 @@ def likecancels(request):
     obj = json.loads(request.body) #받아온 data를 풀어주기  project_id를 가져올것
     to_user_id = User.objects.get(id=obj['value'])
     Like.objects.get(to_user_id = to_user_id, from_user_id = request.user).delete() #like모델에 저장된 project_id랑 좋아요를 다시 클릭해서 얻어온 프로파일.user_id.id
-    return render(request,'member_search_back.html')
+    return render(request,'member_search.html')
 
 # 팀원 찾기 최신순 정렬 함수
 def latestMember(request):
     obj = json.loads(request.body)
+    txt = obj['txt']
+    if txt=="":
+        profile = Profile.objects.all()
+    else:
+        profile = Profile.objects.filter(Q(name__icontains = txt)| Q(region1_id__region1__icontains = txt) | Q(region2_id__region2__icontains = txt)
+                                        | Q(job_id__job__icontains = txt) | Q(mbti_id__mbti__icontains = txt)| Q(pr__icontains = txt)).exclude(submit=0)
     field1 = obj['field1']
     mbti = obj['mbti']
     region = obj['region']
@@ -647,13 +553,24 @@ def latestMember(request):
     if term[0]=='all':term=list(Term.objects.values_list('id', flat=True))
     if state[0]=='all':state=[0, 1, 2]
     if job[0]=='all':job=list(Job.objects.values_list('id', flat=True))
-    profiles = Profile.objects.filter(field1_id__id__in=field1,mbti_id__id__in=mbti,region2_id__id__in=region,
+    profiles = profile.filter(field1_id__id__in=field1,mbti_id__id__in=mbti,region2_id__id__in=region,
                                     term_id__id__in=term, state__in=state, job_id__id__in=job).order_by('-id')
-    return render(request, "member_list_form.html", {'profiles':profiles})
+    page_len = len(profiles)//18
+    if len(profiles)%18 != 0:
+        page_len+=1
+    page = list(range(1, page_len+1))
+    profiles = profiles[0:18]
+    return render(request, "member_list_form.html", {'profiles':profiles, "page": page, "current_page":1})
 
 # 팀원 찾기 최신순 정렬 함수
 def popularMember(request):
     obj = json.loads(request.body)
+    txt = obj['txt']
+    if txt=="":
+        profile = Profile.objects.all()
+    else:
+        profile = Profile.objects.filter(Q(name__icontains = txt)| Q(region1_id__region1__icontains = txt) | Q(region2_id__region2__icontains = txt)
+                                        | Q(job_id__job__icontains = txt) | Q(mbti_id__mbti__icontains = txt)| Q(pr__icontains = txt)).exclude(submit=0)
     field1 = obj['field1']
     mbti = obj['mbti']
     region = obj['region']
@@ -666,7 +583,7 @@ def popularMember(request):
     if term[0]=='all':term=list(Term.objects.values_list('id', flat=True))
     if state[0]=='all':state=[0, 1, 2]
     if job[0]=='all':job=list(Job.objects.values_list('id', flat=True))
-    profiles = Profile.objects.filter(field1_id__id__in=field1,mbti_id__id__in=mbti,region2_id__id__in=region,
+    profiles = profile.filter(field1_id__id__in=field1,mbti_id__id__in=mbti,region2_id__id__in=region,
                                     term_id__id__in=term, state__in=state, job_id__id__in=job).values('user_id').order_by('-id')
     user = User.objects.filter(id__in = profiles)
     like = Like.objects.filter(type = 1, to_user_id__in = user).values('to_user_id').annotate(cnt = Count('to_user_id')).order_by('-cnt')
@@ -677,9 +594,16 @@ def popularMember(request):
         user = User.objects.get(id = i)
         p = Profile.objects.get(user_id = user)
         profiles.append(p)
-    not_like_profiles = Profile.objects.filter(field1_id__id__in=field1,mbti_id__id__in=mbti,region2_id__id__in=region,
+    not_like_profiles = profile.filter(field1_id__id__in=field1,mbti_id__id__in=mbti,region2_id__id__in=region,
                                     term_id__id__in=term, state__in=state, job_id__id__in=job).exclude(user_id__in = like_id).order_by('-id')
-    return render(request, "member_list_form.html", {'profiles':profiles, "not_like_profiles":not_like_profiles})
+    for p in not_like_profiles:
+        profiles.append(p)
+    page_len = len(profiles)//18
+    if len(profiles)%18 != 0:
+        page_len+=1
+    page = list(range(1, page_len+1))
+    profiles = profiles[0:18]
+    return render(request, "member_list_form.html", {'profiles':profiles, "page": page, "current_page":1})
 
 # 알람 페이지 html 렌더링
 def alarm_detail(request):
@@ -692,6 +616,9 @@ def alarm_detail(request):
             alarm.check = int(1)
             alarm.check_date = timezone.now()
             alarm.save()
+    page = request.GET.get('page')
+    paginator = Paginator(alarms, 25)
+    alarms = paginator.get_page(page)
     return render(request, "alarm_detail.html", {'alarms':alarms, 'profiles':profiles})
 
 # 메시지 페이지 로딩 함수
@@ -715,7 +642,30 @@ def message(request):
         if(msg is not None):
             member_list[mem] = [member_list[mem], msg.state]
         else: member_list[mem] = [member_list[mem], 1]
-    return render(request, "message.html", {'member_list':member_list.items(), "select_member": 0})
+    try:
+        pay = Message_payment.objects.get(user_id = request.user, use = 1, end_date__gte = datetime.datetime.now())
+    except Message_payment.DoesNotExist:
+        pay = None
+    return render(request, "message.html", {'member_list':member_list.items(), "select_member": 0, "pay": pay})
+
+def message_payment(request):
+    return render(request, 'message_payment.html')
+
+def save_message_payment(request, type):
+    current = datetime.datetime.now()
+    payment = Message_payment()
+    payment.user_id = request.user
+    if type == 1:
+        payment.end_date = current + datetime.timedelta(days=1)
+    elif type == 2:
+        payment.end_date = current + datetime.timedelta(days=7)
+    elif type == 3:
+        payment.end_date = current + datetime.timedelta(days=30)
+    else:
+        payment.end_date = current + datetime.timedelta(days=365)
+    payment.pay_type = type
+    payment.save()
+    return redirect('https://developers.kakao.com/demo/pay/index')
 
 def load_message(request):
     obj = json.loads(request.body)
@@ -763,7 +713,11 @@ def message_room(request, profile_id):
         if(msg is not None):
             member_list[mem] = [member_list[mem], msg.state]
         else: member_list[mem] = [member_list[mem], 1]
-    return render(request, "message.html", {'member_list':member_list.items(), "select_member": profile})
+    try:
+        pay = Message_payment.objects.get(user_id = request.user, use = 1, end_date__gte = datetime.datetime.now())
+    except Message_payment.DoesNotExist:
+        pay = None
+    return render(request, "message.html", {'member_list':member_list.items(), "select_member": profile, "pay": pay})
 
 #스크랩 함수
 def scraps(request):
@@ -784,12 +738,12 @@ def scraps(request):
         alarm.member_url = '/member/member_detail/' + str(profile.id)
         alarm.save()
     else:
-        return render(request,'member_search_back.html')
-    return render(request,'member_search_back.html')
+        return render(request,'member_search.html')
+    return render(request,'member_search.html')
 
 #스크랩 취소 함수
 def scrapcancels(request):
     obj = json.loads(request.body)
     to_user_id = User.objects.get(id=obj['value'])
     Scrap.objects.get(to_user_id = to_user_id, from_user_id = request.user).delete()
-    return render(request,'member_search_back.html')
+    return render(request,'member_search.html')

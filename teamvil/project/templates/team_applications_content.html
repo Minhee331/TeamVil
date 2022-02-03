@@ -1,0 +1,96 @@
+{% load static %}
+{% load custom_tags %}
+<div class="team_application-member-info">
+    <img class="team_application-member-image" src="{% get_profile_photo profile.user_id.id %}" alt="">
+    <p class="team_application-member-name-text">{{profile.name}}</p>
+</div>
+
+
+<div class="team_application-question-container">
+
+    <div class="team_application-questions">
+        {% for qna in qna_list %}
+            {% if qna.1.type == 0 %}
+                <div class="team_application-question-item question.id" q_id="{{question.id}}" q_type ='{{question.type}}' >
+                    <div class="team_application-question spoqa-regular">
+                        {% if qna.1.isRequired == 1 %}
+                            <p class="team_application-essential">*</p>
+                        {% else %}
+                            <p>&nbsp;</p>
+                        {% endif %}
+
+                        <p class="team_application-question-content">{{qna.1.content}}</p>
+                    </div>
+                    
+                    <div class="team_application-option-list spoqa-light">
+                        {% if qna.1.choice1 is not None %}
+                            <input type="radio" name='choice{{question.id}}' value="1"  txt = "{{question.choice1}}" disabled {% if qna.0.choice_answer == 1 %}checked{% endif %}>
+                            <p>{{qna.1.choice1}}</p>
+                        {% endif %}
+
+                        {% if qna.1.choice2 is not None %}
+                            <input type="radio" name='choice{{question.id}}' value="2" txt = "{{question.choice2}}" disabled {% if qna.0.choice_answer == 2 %}checked{% endif %}>
+                            <p>{{qna.1.choice2}}</p>
+                        {% endif %}
+
+                        {% if qna.1.choice3 is not None %}
+                            <input type="radio" name='choice{{question.id}}' value="3" txt = "{{question.choice3}}" disabled {% if qna.0.choice_answer == 3 %}checked{% endif %}>
+                            <p>{{qna.1.choice3}}</p>
+                        {% endif %}
+
+                        {% if qna.1.choice4 is not None %}
+                            <input type="radio" name='choice{{question.id}}' value="4" txt = "{{question.choice4}}" disabled {% if qna.0.choice_answer == 4 %}checked{% endif %}>
+                            <p>{{qna.1.choice4}}</p>
+                        {% endif %}
+
+                        {% if qna.1.choice5 is not None %}
+                            <input type="radio" name='choice{{question.id}}' value="5" txt = "{{question.choice5}}" disabled {% if qna.0.choice_answer == 5 %}checked{% endif %}>
+                            <p>{{qna.1.choice5}}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if qna.1.type == 1 %}
+                <div class="team_application-question-item question.id" q_id="{{question.id}}" q_type ='{{question.type}}'>
+                    <div class="team_application-question spoqa-regular">
+                        {% if qna.1.isRequired == 1 %}
+                            <p class="team_application-essential">*</p>
+                        {% else %}
+                            <p>&nbsp;</p>
+                        {% endif %}
+
+                        <p class="team_application-question-content">{{qna.1.content}}</p>
+                    </div>
+
+                    <div class="team_application-answer-area">
+                        <input type="text" class="spoqa-light short_answer" value="{{qna.0.short_answer}}" disabled>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if qna.1.type == 2 %}
+                <div class="team_application-question-item question.id" q_id="{{question.id}}" q_type ='{{question.type}}'>
+                    <div class="team_application-question spoqa-regular">
+                        {% if qna.1.isRequired == 1 %}
+                            <p class="team_application-essential">*</p>
+                        {% else %}
+                            <p>&nbsp;</p>
+                        {% endif %}
+
+                        <p class="team_application-question-content">{{qna.1.content}}</p>
+                    </div>
+
+                    <div class="team_application-answer-area">
+                        <textarea name="" id="" cols="50" rows="2" class="spoqa-light long_answer" disabled>{{qna.0.long_answer}}</textarea>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="team_application-btn-container">
+        <button class="team_application-accept-btn spoqa-regular" profile_id={{profile.id}} project_id={{project.id}}>승인</button>
+        <button class="team_application-deny-btn spoqa-regular" profile_id={{profile.id}} project_id={{project.id}}>거절</button>
+    </div>
+</div>
+</div>

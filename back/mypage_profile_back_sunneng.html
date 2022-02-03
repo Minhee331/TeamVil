@@ -1,0 +1,331 @@
+{% load static %}
+{% load custom_tags %}
+<div class="mypage-info-item-wrap-container">
+    <div class="mypage-profile-row-item-container">
+        <div class="mypage-profile-left-box-item mypage-profile-box-item">
+            {% if profile.submit %}
+                {% if profile.photo.url is not None %}
+                    <img src="{{profile.photo.url}}" class="mypage-profile-img">
+                {% else %}
+                    <img src="{% static 'image/default_profile.png' %}" class="mypage-profile-img">
+                {% endif %}
+                <hr class="mypage-profile-line">
+
+                <div class="mypage-profile-info">
+                    <p class="mypage-profile-info-name-text spoqa-light">{{profile.name}}</p>
+                    
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light">직업</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin">{{profile.job_id.job}}</p>
+                    </div>
+
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light">나이</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin">{% getAge profile.birthday %}세</p>
+                    </div>  
+
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light">지역</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin">{{profile.region1_id.region1}}{{profile.region2_id.region2}}</p>
+                    </div>
+
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light">상태</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin">
+                            {% if profile.state == 1 %}
+                                팀 찾는 중
+                            {% elif profile.state == 2 %}
+                                휴식 중
+                            {% else %}
+                                팀 참여 중
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+            {% else %}
+                <img src="{% static 'image/default_profile.png' %}" class="mypage-profile-img">
+
+                <hr class="mypage-profile-line">
+
+                <div class="mypage-profile-info">
+                    <p class="mypage-profile-info-name-text spoqa-light">{{profile.name}}</p>
+                    
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light">직업</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin">-</p>
+                    </div>
+
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light">나이</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin">-</p>
+                    </div>
+
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light">지역</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin">-</p>
+                    </div>
+
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light">상태</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin">-</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        
+        <div class="mypage-profile-right-box-item mypage-profile-box-item">
+            <div class="mypage-profile-right-box-item-wrap">
+                {% if profile.submit %}
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light text-color-white">관심 분야</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin text-color-white">{{profile.field1_id.field1}}</p>
+                    </div>
+                    
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light text-color-white">기간</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin text-color-white">{{profile.term_id.term}}</p>
+                    </div>
+
+                    <hr class="mypage-profile-line line-margin">
+                    
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light text-color-white">MBTI</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin text-color-white">{{profile.mbti_id.mbti}}</p>
+                    </div>
+
+                    {% if profile.mbti_detail is not None %}
+                        <div class="mypage-profile-info-wrap mypage-profile-mbti-detail-box">
+                            <p class="mypage-profile-info-content-text spoqa-thin text-color-white">{{profile.mbti_detail}}</p>
+                        </div>
+                    {% endif %}
+                    
+                    <hr class="mypage-profile-line line-margin">
+
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light text-color-white">연락처</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin text-color-white">
+                            {% if profile.open_phone %}
+                                {{profile.phone}}
+                            {% else %}
+                                비공개
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light text-color-white">이메일</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin text-color-white">
+                            {% if profile.open_phone %}
+                                {{profile.email}}
+                            {% else %}
+                                비공개
+                            {% endif %}
+                        </p>
+                    </div>
+                {% else %}
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light text-color-white">관심 분야</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin text-color-white">-</p>
+                    </div>
+                    
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light text-color-white">기간</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin text-color-white">-</p>
+                    </div>
+
+                    <hr class="mypage-profile-line line-margin">
+                    
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light text-color-white">MBTI</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin text-color-white">-</p>
+                    </div>
+
+                    {% if profile.mbti_detail is not None %}
+                        <div class="mypage-profile-info-wrap mypage-profile-mbti-detail-box">
+                            <p class="mypage-profile-info-content-text spoqa-thin text-color-white">-</p>
+                        </div>
+                    {% endif %}
+                
+                    <hr class="mypage-profile-line line-margin">
+
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light text-color-white">연락처</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin text-color-white">
+                            {% if profile.open_phone %}
+                                {{profile.phone}}
+                            {% else %}
+                                비공개
+                            {% endif %}
+                        </p>
+                    </div>
+
+                    <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light text-color-white">이메일</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin text-color-white">
+                            {% if profile.open_phone %}
+                                {{profile.email}}
+                            {% else %}
+                                비공개
+                            {% endif %}
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mypage-info-item-wrap-container">
+    <div class="mypage-profile-column-item-container">
+        <div class="mypage-profile-detail-info-wrap">
+            <p class="mypage-profile-detail-info-title-text spoqa-regular">PR</p>
+            {% if profile.pr is not None %}
+                <p class="mypage-profile-detail-info-content-text  spoqa-light">{{profile.pr}}</p>
+            {% else %}
+                <p class="mypage-profile-detail-info-content-text  spoqa-light">PR을 등록해주세요.</p>
+            {% endif %}
+        </div>
+
+        {% if profile.isCarrer %}
+            <div class="mypage-profile-detail-info-wrap">
+                <p class="mypage-profile-detail-info-title-text spoqa-regular">경력</p>
+                    {% for user_carrer in user_carrers %}
+                        <p class="mypage-profile-detail-info-content2-text spoqa-light">{{user_carrer.start_date}}~{{user_carrer.end_date}}&nbsp;&nbsp;&nbsp;{{user_carrer.content}}</p>
+                    {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if profile.isLink %}
+            <div class="mypage-profile-detail-info-wrap">
+                <p class="mypage-profile-detail-info-title-text spoqa-regular">링크</p>
+                    {% for user_link in user_links %}
+                        <p class="mypage-profile-detail-info-content2-text spoqa-light">{{user_link.link}}</p>
+                    {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if profile.isFile %}
+            <div class="mypage-profile-detail-info-wrap">
+                <p class="mypage-profile-detail-info-title-text spoqa-regular">파일</p>
+                    {% for user_file in user_files %}
+                        <p class="mypage-profile-detail-info-content2-text spoqa-light">{{user_file.file.name}}</p>
+                    {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="mypage-profile-rating-container">
+    <div class="mypage-profile-rating">
+        <p class="mypage-profile-rating-title spoqa-regular">팀원평가</p>
+    </div>
+</div>
+
+<div class="mypage-rating spoqa-light">
+
+    <div id="chart-container">
+
+        <div id="chart">  
+        </div>
+
+        <script>
+            var colors = [
+            '#008FFB',
+            '#00E396',
+            '#FEB019',
+            '#FF4560',
+            '#775DD0',
+            ]
+        </script>
+
+
+        <script>
+            var review_list = {{user_review_all}};
+            var options = {
+            series: [{
+            name: "평가 인원수",
+            data: review_list
+            }],
+            chart: {
+            toolbar: {
+                show: false,
+                },
+            height: 270,
+            type: 'bar',
+            },
+            tooltip: {
+                enabled: true,
+                enabledOnSeries: true,
+            },
+            colors: colors,
+            plotOptions: {
+            bar: {
+                columnWidth: '45%',
+                distributed: true,
+            }
+            },
+            dataLabels: {
+            enabled: false
+            },
+            legend: {
+                show: false,
+                showForNullSeries: false,
+                showForZeroSeries: false,
+            },
+            xaxis: {
+            categories: [
+                '1점',
+                '2점',
+                '3점',
+                '4점',
+                '5점',
+            ],
+            labels: {
+                style: {
+                colors: colors,
+                fontSize: '12px'
+                }
+            }
+            },
+            yaxis: {
+                show: true,
+                opposite: false,
+                minwidth: 1,
+                labels: {
+                    formatter: function(val) {
+                        if (val== Infinity) val = 1;
+                        return parseInt(val);
+                    }
+                }
+            }
+            };
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+        </script>
+
+    </div>
+
+    <div class="mypage-profile-rating-cnt">
+        
+        {% if user_review_avg.total__avg == None %}
+        <p class="spoqa-light">팀원들의 평가가 아직 없습니다.</p>
+        {% else %}
+        <p class="spoqa-light">총 {{user_review_cnt}} 명이 참여</p>
+        <p class="spoqa-light">팀원이 준 평점 평균은 '{{user_review_avg.total__avg|floatformat:"1"}} 점' 입니다</p>
+        {% endif %}
+    </div>
+
+</div>
+
+<div class="mypage-profile-rating-content-container">
+
+    <div class="mypage-profile-rating-content">
+        {% for review in user_review %}
+            {% if review.content == "" %}
+            {% else %}
+            <p class="spoqa-light">'{{review.content}}'</p>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+</div>

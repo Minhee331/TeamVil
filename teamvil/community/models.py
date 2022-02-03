@@ -35,6 +35,7 @@ class Info(models.Model):
     isLink = models.IntegerField(default=0)
     isFile = models.IntegerField(default=0)
     view_cnt = models.IntegerField(default=0)
+    
 
 class Info_link(models.Model):
     info_id = models.ForeignKey(Info, on_delete = models.CASCADE, db_column="info_id")
@@ -47,5 +48,5 @@ class Info_file(models.Model):
     info_id = models.ForeignKey(Info, on_delete = models.CASCADE, db_column="info_id")
     file = models.FileField()
     def __str__(self):
-        return self.file
+        return self.file.url
 

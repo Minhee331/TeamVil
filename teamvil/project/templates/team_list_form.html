@@ -6,89 +6,73 @@
 {% if not projects and not not_like_projects%} 
     <h1>검색 결과가 없습니다</h1>
 {% else %} 
+<div class="team_search-team-container">
     {% for project in projects %}
-        <a href="{% url 'team_detail' project.id %}">
-            <article class="team_search-team-item">
-                {% if project.photo.url is not None %}
-                    <img class="team_search-team-image" src="{{project.photo.url}}" alt="">
-                {% else %}
-                    <img class="team_search-team-image" style="background-color: #ebebeb;" alt="">
-                {% endif %}
+    <a href="{% url 'team_detail' project.id %}">
+        <article class="team_search-team-item">
+            {% if project.photo.url is not None %}
+                <img class="team_search-team-image" src="{{project.photo.url}}" alt="">
+            {% else %}
+                <img class="team_search-team-image" style="background-color: #ebebeb;" alt="">
+            {% endif %}
 
-                <div class="team_search-team-item-container">
-                    <div class="team_search-team-item-text">
-                        {% if project.title|length > 14 %}
-                        <p class="team_search-team-item-title spoqa-medium">{{project.abb}} . . .</p>
+            <div>
+                <!-- {% if project.title|length > 12 %}
+                    <p class="home-latest-team-item-title spoqa-medium">{{project.abb}} . . .</p>
+                {% else %}
+                    <p class="home-latest-team-item-title spoqa-medium">{{project.title}}</p>
+                {% endif %} -->
+                <p class="home-latest-team-item-title spoqa-medium">{{project.abb3}}</p>
+            </div>
+            <div class="team_search-team-item-container">
+                <div class="team_search-team-item-text">
+                    <p class="team_search-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
+                    <p class="team_search-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
+                    <p class="team_search-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_total}}
+                        {% if project.state == 1%}
+                            (모집중)
                         {% else %}
-                            <p class="team_search-team-item-title spoqa-medium">{{project.title}}</p>
+                            (모집완료)
                         {% endif %}
-                        <p class="team_search-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
-                        <p class="team_search-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
-                        <p class="team_search-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
-                            {% if project.state == 1%}
-                                (모집중)
-                            {% else %}
-                                (모집완료)
-                            {% endif %}
-                        </p>
-                        <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
-                    </div>
-
-                    <div class="team_search-like-scrap-container spoqa-light">
-                        <a class="team_search-like-scrap-item">
-                            <img class="like-scrap like {% active_like 0 project.id user.id %}" src="{% static 'image/like-btn-2.png' %}" value="{{project.id}}">
-                            <p>{% get_like_cnt 0 project.id %}</p>
-                        </a>
-
-                        <a class="team_search-like-scrap-item">
-                            <img class="like-scrap scrap {% active_scrap 0 project.id user.id %}" src="{% static 'image/scrap-btn-2.png' %}" value="{{project.id}}">
-                            <p>{% get_scrap_cnt 0 project.id %}</p>
-                        </a>
-                    </div>
+                    </p>
+                    <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
                 </div>
-            </article>
-        </a>
-    {% endfor %}
-    
-    {% for project in not_like_projects %}
-        <a href="{% url 'team_detail' project.id %}">
-            <article class="team_search-team-item">
-                {% if project.photo.url is not None %}
-                    <img class="team_search-team-image" src="{{project.photo.url}}" alt="">
-                {% else %}
-                    <img class="team_search-team-image" style="background-color: #ebebeb;" alt="">
-                {% endif %}
 
-                <div class="team_search-team-item-container">
-                    <div class="team_search-team-item-text">
-                        <p class="team_search-team-item-title spoqa-medium">{{project.title}}</p>
-                        <p class="team_search-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
-                        <p class="team_search-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
-                        <p class="team_search-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
-                            {% if project.state == 1%}
-                                (모집중)
-                            {% else %}
-                                (모집완료)
-                            {% endif %}
-                        </p>
-                        <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
-                    </div>
-
-                    <div class="team_search-like-scrap-container spoqa-light">
-                        <a class="team_search-like-scrap-item">
+                <div class="team_search-like-scrap-container spoqa-light">
+                    <a class="team_search-like-scrap-item">
+                        {% if user.is_authenticated %}
                             <img class="like-scrap like {% active_like 0 project.id user.id %}" src="{% static 'image/like-btn-2.png' %}" value="{{project.id}}">
-                            <p>{% get_like_cnt 0 project.id %}</p>
-                        </a>
+                        {% else %}
+                            <img class="like-scrap like" src="{% static 'image/like-btn-2.png' %}" value="{{project.id}}">
+                        {% endif %}
+                        <p>{% get_like_cnt 0 project.id %}</p>
+                    </a>
 
-                        <a class="team_search-like-scrap-item">
+                    <a class="team_search-like-scrap-item">
+                        {% if user.is_authenticated %}
                             <img class="like-scrap scrap {% active_scrap 0 project.id user.id %}" src="{% static 'image/scrap-btn-2.png' %}" value="{{project.id}}">
-                            <p>{% get_scrap_cnt 0 project.id %}</p>
-                        </a>
-                    </div>
+                        {% else %}
+                            <img class="like-scrap scrap" src="{% static 'image/scrap-btn-2.png' %}" value="{{project.id}}">
+                        {% endif %}
+                        <p>{% get_scrap_cnt 0 project.id %}</p>
+                    </a>
                 </div>
-            </article>
-        </a>
+            </div>
+        </article>
+    </a>
+{% endfor %}
+</div>
+<div class="page-group">
+    <a href="" class="page spoqa-light" page="1"><<</a>
+    {% for p in page %}
+        {% if p == current_page %}
+            <a href="" class="page spoqa-light active" page="{{p}}">{{p}}</a>
+        {% else %}
+            <a href="" class="page spoqa-light" page="{{p}}">{{p}}</a>
+        {% endif %}
     {% endfor %}
+    <a href="" class="page spoqa-light" page="{{ page|length}}">>></a>
+</div>  
 {% endif %}
 
 <script>

@@ -10,10 +10,11 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Teamvil</title>
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
         <link rel="stylesheet" href="{% static 'css/alarm_detail.css' %}">
         <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <link rel="shortcut icon" href="{% static 'image/favicon.ico' %}"/>
     </head>
     
     <body>
@@ -118,6 +119,17 @@
             
             {% endfor %}
             {% endif %}
+        </div>
+        <div class="page-wrap">
+            <a href="?page=1" class="spoqa-light page"><<</a>
+            {% for l in  alarms.paginator.page_range %}
+                {% if alarms.number == forloop.counter %}
+                    <a href="?page={{forloop.counter}}" class="spoqa-light active page">{{forloop.counter}}</a>
+                {% else %}
+                    <a href="?page={{forloop.counter}}" class="spoqa-light page">{{forloop.counter}}</a>
+                {% endif %}
+            {% endfor %}
+            <a href="?page={{alarms.paginator.num_pages}}" class="spoqa-light page">>></a>
         </div>
 
         {% include 'footer.html' %} 

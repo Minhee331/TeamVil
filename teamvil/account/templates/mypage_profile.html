@@ -22,11 +22,11 @@
                     <div class="mypage-profile-info-wrap">
                         <p class="mypage-profile-info-title-text spoqa-light">나이</p>
                         <p class="mypage-profile-info-content-text spoqa-thin">{% getAge profile.birthday %}세</p>
-                    </div>
+                    </div>  
 
                     <div class="mypage-profile-info-wrap">
                         <p class="mypage-profile-info-title-text spoqa-light">지역</p>
-                        <p class="mypage-profile-info-content-text spoqa-thin">{{profile.region1_id.region1}}{{profile.region2_id.region2}}</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin">{{profile.region1_id.region1}} {{profile.region2_id.region2}}</p>
                     </div>
 
                     <div class="mypage-profile-info-wrap">
@@ -80,9 +80,14 @@
                         <p class="mypage-profile-info-title-text spoqa-light text-color-white">관심 분야</p>
                         <p class="mypage-profile-info-content-text spoqa-thin text-color-white">{{profile.field1_id.field1}}</p>
                     </div>
-                    
+
+                    <!-- <div class="mypage-profile-info-wrap">
+                        <p class="mypage-profile-info-title-text spoqa-light text-color-white">세부 분야</p>
+                        <p class="mypage-profile-info-content-text spoqa-thin text-color-white">{{profile.field2}}</p>
+                    </div> -->
+
                     <div class="mypage-profile-info-wrap">
-                        <p class="mypage-profile-info-title-text spoqa-light text-color-white">기간</p>
+                        <p class="mypage-profile-info-title-text spoqa-light text-color-white">선호 기간</p>
                         <p class="mypage-profile-info-content-text spoqa-thin text-color-white">{{profile.term_id.term}}</p>
                     </div>
 

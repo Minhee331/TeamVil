@@ -21,6 +21,7 @@ class Project(models.Model):
     mem_duty = models.IntegerField(default=0) # 모집할 직무 총인원 (mem_total-mem_now)
     start_date = models.DateField()
     end_date = models.DateField()
+    term = models.IntegerField(default=1) # 1: 단기, 2: 장기
     state = models.IntegerField(default=1) # 1 모집중 0 모집완료
     school = models.CharField(max_length=45, null=True)
     content = models.TextField()
@@ -31,8 +32,17 @@ class Project(models.Model):
     register = models.DateTimeField(default=timezone.now)
     def __str__(self):
         return self.title
-    def abb(self):
-        return self.title[:11]
+    def abb2(self):
+        if(len(self.title)>18):
+            return self.title[:18]+"..."
+        else:
+            return self.title[:18]
+    def abb3(self):
+        if(len(self.title)>22):
+            return self.title[:22]+"..."
+        else:
+            return self.title[:22]
+        
 
 class Project_link(models.Model):
     project_id = models.ForeignKey(Project, on_delete = models.CASCADE, db_column="project_id")
@@ -60,7 +70,7 @@ class Member(models.Model):
     user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="user_id")
     project_id = models.ForeignKey(Project, on_delete = models.CASCADE, db_column="project_id")
     duty_id = models.ForeignKey(Duty, on_delete = models.CASCADE, db_column="duty_id")
-    register_state = models.IntegerField(default=0) #null값 주거나 default 주거나 해야되는데 어케할까요?
+    register_state = models.IntegerField(default=0) #null값 주거나 default 주거나 해야되는데 어케할까요? # -1: 거절 0: 지원, 1: 승인, 2 초대
     def __str__(self):
         return self.project_id.title + " " + self.duty_id.name
 

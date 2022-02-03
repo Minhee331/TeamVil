@@ -29,8 +29,11 @@
         </div>
         
         <div class="mypage-profile-modify-element-wrap">
-            <p class="mypage-modify-title-text spoqa-regular">나이</p>
-            <p class="mypage-modify-unmodifiable-text spoqa-light">{% getAge profile.birthday %}세</p>
+            <p class="mypage-modify-title-text spoqa-regular">생년월일</p>
+            <div class="mypage-modify-input-wrap">
+                <input class="mypage-modify-unmodifiable-cal col_15 spoqa-light"  value={% DateFormat profile.birthday %} type="date" name="birthday">
+            </div>
+            
         </div>
 
         <div class="mypage-profile-modify-element-wrap">
@@ -120,7 +123,7 @@
         </div>
 
         <div class="mypage-profile-modify-element-wrap">
-            <p class="mypage-modify-title-text spoqa-regular"></p>
+            <p class="mypage-modify-title-text spoqa-regular">세부 분야</p>
             
             <div class="mypage-modify-input-wrap">
                 {% if profile.submit %}
@@ -146,6 +149,27 @@
                             {% for term in term %}
                                 <a class="select-term-item spoqa-light" value="{{term.id}}">{{term.term}} | {% if term.term_type %} 장기 {% else %} 단기 {% endif %}</a>
                             {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mypage-profile-modify-element-wrap">
+            <p class="mypage-modify-title-text spoqa-regular">선호 프로젝트</p>
+            
+            <div class="mypage-modify-dropdown-item-wrap">
+                <div class="mypage-modify-select-state spoqa-regular drop_btn" value="type">
+                    <div class="mypage-modify-select-state-button type col_17">
+                        <p class="spoqa-light" value="{{profile.type}}">{% get_project_type profile.type %}</p>
+                        <img class="mypage-modify-triangle" src="{% static 'image/triangle.png' %}">
+                    </div>
+        
+                    <div class="hidden float" id="type">
+                        <div class="mypage-modify-select-list col_17">
+                            <a class="select-type-item spoqa-light" value="0">창업</a>
+                            <a class="select-type-item spoqa-light" value="1">공모전</a>
+                            <a class="select-type-item spoqa-light" value="2">프로젝트</a>
                         </div>
                     </div>
                 </div>
@@ -230,8 +254,11 @@
         <div class="mypage-profile-modify-element-wrap">
             <p class="mypage-modify-title-text spoqa-regular">사진</p>
             <div class="mypage-modify-row-wrap">
-                <div class="mypage-modify-input-switch-wrap">
-                    <input type="file" id = "upload_photo" accept="image/*">
+                <div class="mypage-modify-row-wrap">
+                    <!-- <input type="file" id = "upload_photo" accept="image/*"> -->
+                    <input class="mypage-modify-list spoqa-light" value="선택된 파일이 없습니다." readonly>
+                    <label class="mypage-modify-file spoqa-regular" for="upload_photo">파일 선택</label>
+                    <input type="file"  accept="image/*" id="upload_photo" style="display:none;">
                 </div>
             </div>
         </div>
@@ -314,6 +341,11 @@
             $('.mypage-modify-select-state-button.term p').text($(this).text());
             $('.mypage-modify-select-state-button.term p').attr('value', $(this).attr('value'));
         }); 
+        // 선호플젝 선택 시
+        $('.select-type-item').on("click", function(){
+            $('.mypage-modify-select-state-button.type p').text($(this).text());
+            $('.mypage-modify-select-state-button.type p').attr('value', $(this).attr('value'));
+        }); 
         // mbti 선택 시
         $('.select-mbti-item').on("click", function(){
             $('.mypage-modify-select-state-button.mbti p').text($(this).text());
@@ -343,6 +375,7 @@
     // 수정하기 버튼
     $(".edit-submit-btn").on("click", function(){ 
         job_id = $('.mypage-modify-select-state-button.job p').attr('value');
+        birthday = $('input[name=birthday]').val();
         region1_id = $('select[name=region1] option:selected').val();
         region2_id = $('select[name=region2] option:selected').val();
         state = $('mypage-modify-select-state-button p').text()
@@ -356,6 +389,7 @@
         field1_id = $('.mypage-modify-select-state-button.field1 p').attr('value');
         field2 = $('.db_field2').val();
         term = $('.mypage-modify-select-state-button.term p').attr('value');
+        type = $('.mypage-modify-select-state-button.type p').attr('value');
         mbti = $('.mypage-modify-select-state-button.mbti p').attr('value');
         mbti_detail = $('.db_mbti_detail').val();
         phone = $('.db_phone').val();
@@ -364,18 +398,21 @@
         data = {
             "profile_id":{{profile.id}},
             "job_id":job_id,
+            "birthday":birthday,
             "region1_id":region1_id,
             "region2_id":region2_id,
             "state":state,
             "field1_id":field1_id,
             "field2":field2,
             "term":term,
+            "type":type,
             "mbti":mbti,
             "mbti_detail":mbti_detail,
             "phone":phone,
             "email":email,
             "pr": pr
         }
+        console.log(data)
         $.ajax({
             type: "POST",
             headers:{
@@ -412,4 +449,8 @@
             }
         });
     }
+    $("#upload_photo").on('change',function(){
+        var fileName = $("#upload_photo").val();
+        $(".mypage-modify-list").val(fileName);
+    });
 </script>

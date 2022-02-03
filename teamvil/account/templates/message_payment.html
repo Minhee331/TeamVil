@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teamvil</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/message_payment.css' %}">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <link rel="shortcut icon" href="{% static 'image/favicon.ico' %}"/>
+</head>
+<body>
+    <div class="message_payment-wrap-container">
+        <p class="message_payment-text spoqa-light">원하시는 요금제를 선택하신 후 결제하기 버튼을 눌러주세요</p>
+        <hr>
+        <div class="message_payment-text-wrap" value = 1>
+            <p class="message_payment-left-text spoqa-light">1일 무제한</p>
+            <p class="message_payment-rigth-text spoqa-light">3,300 ₩</p>
+        </div>
+        <hr>
+        <div class="message_payment-text-wrap" value = 2>
+            <p class="message_payment-left-text spoqa-light">일주일 무제한</p>
+            <p class="message_payment-rigth-text spoqa-light">10,000 ₩</p>
+        </div>
+        <hr>
+        <div class="message_payment-text-wrap" value = 3>
+            <p class="message_payment-left-text spoqa-light">한 달 무제한</p>
+            <p class="message_payment-rigth-text spoqa-light">30,000 ₩</p>
+        </div>
+        <hr>
+        <div class="message_payment-text-wrap" value = 4>
+            <p class="message_payment-left-text spoqa-light">1년 무제한</p>
+            <p class="message_payment-rigth-text spoqa-light">100,000 ₩</p>
+        </div>
+        <hr>
+        <button class="payment-btn">결제하기</button>
+    </div>
+</body>
+<script>
+    $(".message_payment-text-wrap").on("click", function(){ 
+        $(".message_payment-text-wrap").removeClass('active');
+        $(this).addClass('active');
+    });
+
+    $(".payment-btn").on("click", function(){ 
+        type = $(".message_payment-text-wrap.active").attr('value')
+        if(type === undefined){
+            alert("원하시는 요금제를 선택해주세요. ");
+        }else{
+            // location.href = "https://developers.kakao.com/demo/pay/index";
+            location.href = "/member/save_message_payment/" + type;
+        }
+    });
+</script>
+</html>

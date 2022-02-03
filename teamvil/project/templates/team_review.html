@@ -2,15 +2,16 @@
 <html lang="en">
 
     {% load static %}
-
+    {% load custom_tags %}
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <title>Teamvil</title>
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
         <link rel="stylesheet" href="{% static 'css/team_review.css' %}">
         <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <link rel="shortcut icon" href="{% static 'image/favicon.ico' %}"/>
     </head>
 
     <body>
@@ -40,9 +41,8 @@
                         
                         {% for profile in profiles %}    
                           {% if member.user_id == profile.user_id %}
-                            <img src="{{profile.photo.url}}" alt="">  
-                            {{profile.photo}}    
-                            {{profile.name}}
+                            <img class="profile-img" src="{% get_profile_photo profile.user_id.id %}" alt=""> 
+                            <p class="profile-name-text">{{profile.name}}</p>
                           {% endif %}
                         {% endfor %}
           

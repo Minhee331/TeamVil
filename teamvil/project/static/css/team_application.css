@@ -1,96 +1,180 @@
-.team_application-container{
-    margin: 70px 119px;
+.team_application-main-container {
+    margin: 50px 400px;
+}
+
+/* title */
+.team_application-title-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.team_application-title-container h5 {
+    font-size: 23px;
+    margin-bottom: 3px;
+}
+
+.team_application-title-container p {
+    font-size: 13px;
+    margin-bottom: 2px;
+}
+
+/* content */
+.team_application-content-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 50px 0;
+}
+
+/* select-task */
+.team_application-select-task-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 80px;
+}
+
+.team_application-select-task-container h6 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.team_application-tasks {
+    display: flex;
+}
+
+.team_application-task {
     display: flex;
     justify-content: center;
-}
-
-.team_application-wrap{
-    display: flex;
-    justify-content: space-between;
-    width: 90vw;
-    min-width: 900px;
-    max-width: 1600px;
-    height: 800px;
-}
-
-.team_application-member{
-    display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 100%;
-    height: 80px;
-    border-bottom: 1px solid #ebebeb;
+    margin-right: 20px;
+    border: 1px solid #0F59FF;
+    border-radius: 1px;
+    background-color: #FFFFFF;
+    width: auto;
+    padding: 0 10px;
+    height: 25px;
+    font-size: 12px;
+    text-align: center;
+}
+.team_application-task.active {
+    background-color: #0F59FF !important;
+    color: #FFFFFF !important;
 }
 
-.team_application-member-image{
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    margin-left: 20px;
+/* profile */
+.team_application-profile-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 80px;
+}
+
+.team_application-profile-container h6 {
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.team_application-profile-container input {
+    font-size: 18px;
+    width: 15px;
+    height: 15px;
     margin-right: 15px;
 }
 
-.team_application-member-name-text{
-    font-size: 18px;
-    margin-right: auto;
-}
-.team_application-state-text {
-    margin-top: 20px;
-    font-size: 12px;
-    margin-right: 20px;
-}
-
-/*스크롤 컨테이너*/
-.team_application-scroll{
-    width: 18vw;
-    min-width: 250px;
-    max-width: 350px;
-    padding: 0px 13px 0px 13px;
-    overflow-y: scroll;
-    height: 500px;/*원래 664px*/
-    box-sizing: border-box;
-    color: #1b1b1b;
-    background-color: #ffffff;
-    margin-bottom: 200px;
-    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
-    font-weight: 300;
-}
-
-/* 스크롤바*/
-.type::-webkit-scrollbar{
-    width: 6px;
-}
-
-/* 스크롤바 막대*/
-.type::-webkit-scrollbar-thumb{
-    height: 20%;
-    background-color: #D0D0D0;
-    border-radius: 3px;    
-}
-
-/* 스크롤바 뒷 배경*/
-.type::-webkit-scrollbar-track{
-    background-color: #EBEBEB;
-    border-radius: 3px;  
-}
-
-
-.team_application-detail-container{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-.team_application-member-info{
-    margin: 0 20px;
-    padding: 5px 0;
-    display: flex;
-    align-items: center;
-    border-top: 1px solid #ebebeb;
-    border-bottom: 1px solid #ebebeb;
-    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
-    font-weight: 500;
+.team_application-profile-container p {
+    font-size: 11px;
     color: #0F59FF;
 }
 
+/* questions */
+.team_application-question-container {
+    
+}
+
+.team_application-question-container h6 {
+    font-size: 18px;
+}
+
+.team_application-questions {
+
+}
+
+.team_application-question-item {
+
+}
+
+.team_application-question {
+    display: flex;
+    align-items: center;
+    margin: 50px 0 20px 0;
+}
+
+.team_application-essential {
+    color: #0F59FF;
+    padding-top: 0.2em;
+}
+
+.team_application-question-content {
+    margin-left: 0.5em;
+}
+
+.team_application-option-list {
+    display: flex;
+    align-items: center;
+    margin-left: 14px;
+}
+
+.team_application-option-list input {
+    margin-right: 5px;
+}
+
+.team_application-option-list p {
+    font-size: 14px;
+    margin-right: 15px;
+}
+
+.team_application-answer-area {
+    margin-left: 14px;
+}
+
+.team_application-answer-area input {
+    width: 60%;
+    height: 10px;
+    border: 1px solid #ebebeb;
+    padding: 10px;
+}
+
+.team_application-answer-area input:focus {
+    outline: none;
+}
+
+.team_application-answer-area textarea {
+    width: 97%;
+    height: 100px;
+    border: 1px solid #ebebeb;
+    padding: 10px;
+}
+
+.team_application-answer-area textarea:focus {
+    outline: none;
+}
+
+/* submit */
+.team_application-submit-container {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.team_application-submit-btn {
+    padding: 3px 10px;
+    border: 1px solid #0F59FF;
+    border-radius: 1px;
+    background-color: #0F59FF;
+    color: #FFFFFF;
+}
+
+.team_application-submit-btn:hover {
+    cursor: pointer;
+}
 

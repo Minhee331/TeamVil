@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teamvil</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/team_new.css' %}">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
+
+
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="content">
+
+        <div class="team_new-main-container active" action="">
+            <div class="team_new-items">
+                <div class="team_new-items-title-container">
+                    <p class="team_new-items-essential">*</p>
+                    <p class="team_new-items-title">프로젝트 종류</p>
+                </div>
+
+                <div class="team_new-upper-category-container">
+                    <div class="team_new-upper-category-item" id="startup" category='0'>
+                        <h6 class="spoqa-bold">S</h6>
+                        <p class="spoqa-regular">스타트업(창업)</p>
+                    </div>
+        
+                    <div class="team_new-upper-category-item" id="contest" category='1'>
+                        <h6 class="spoqa-bold">C</h6>
+                        <p class="spoqa-regular">공모전/대외활동</p>
+                    </div>
+        
+                    <div class="team_new-upper-category-item" id="etc" category='2'>
+                        <h6 class="spoqa-bold">P</h6>
+                        <p class="spoqa-regular">기타 프로젝트</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team_new-items">
+                <div class="team_new-items-title-container">
+                    <p class="team_new-items-essential">*</p>
+                    <p class="team_new-items-title">프로젝트 명</p>
+                </div>
+
+                <input class="team_new-input-long spoqa-light db_title" type="text" name="" id="" placeholder="ex) 신뢰할 수 있는 팀원 모집 플랫폼">
+            </div>
+
+            <div class="team_new-items">
+                <div class="team_new-items-title-container">
+                    <p class="team_new-items-essential">*</p>
+                    <p class="team_new-items-title">프로젝트 목적</p>
+                </div>
+
+                <input class="team_new-input-long spoqa-light db_desc" type="text" name="" id="" placeholder="ex) 환경보호를 위한 공유서비스를 만들고자 시작한 프로젝트입니다.">
+            </div>
+
+            <div class="team_new-items">
+                <div class="team_new-items-title-container">
+                    <p class="team_new-items-essential">*</p>
+                    <p class="team_new-items-title">분야</p>
+                </div>
+
+                <div class="team_new-category-container">
+                    {% for field1 in field1s %}
+                        <div class="team_new-category-item">
+                            <input class="team_new-radio" type="radio" name="category" f_id = {{field1.id}}>
+                            <p class="team_new-radio-name spoqa-light">{{field1.field1}}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="team_new-items">
+                <div class="team_new-items-title-container">
+                    <p class="team_new-items-essential">*</p>
+                    <p class="team_new-items-title">세부 분야</p>
+                </div>
+
+                <input class="team_new-input-mid spoqa-light db_field2" type="text" name="" id="" placeholder="ex) 과학/공학(대분야) - 환경(세부분야)">
+            </div>
+
+            <div class="team_new-items">
+                <div class="team_new-items-title-container">
+                    <p class="team_new-items-essential">*</p>
+                    <p class="team_new-items-title">지역</p>
+                </div>
+
+                <!-- <div class="member_search-member-select-state spoqa-regular drop_btn" value="sort">
+                    <div class="member_search-select-state-button">
+                        <p id="selection" value="0">전체</p>
+                        <img class="member_search-chevron" src="{% static 'image/chevron-down.png' %}">
+                    </div>
+
+                    <div class="hidden float" id="sort">
+                        <div class="member_search-select-state-list">
+                            <a onclick="changeSelection(0)">전체</a>
+                            {% for region1 in region1s %}
+                                <a onclick="changeSelection({{region1.id}}, '{{ region1.region1 }}')">{{ region1.region1 }}</a>
+                            {% endfor %} 
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="team_new-region-container">
+                    <select class="team_new-select-region spoqa-regular" id = "region1" onchange="categoryChange()" name="region1" required>
+                        {% for region1 in region1s %}
+                            <option value="{{region1.id}}" class = "{{region1}}">{{region1.region1}}</option>
+                        {% endfor %}
+                    </select>
+                    
+                    <select class="team_new-select-region spoqa-regular" id="region2" name="region2" required>
+                        {% for region_1,region_2 in region1_list %}
+                            {% if region_1 == '서울시' %}
+                                {% for region in region_2 %}  
+                                    <option value="{{region.id}}" class = "{{region.region2}}">{{region.region2}}</option>
+                                {% endfor %}                     
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="team_new-items">
+                <div class="team_new-items-title-container">
+                    <p class="team_new-items-essential">*</p>
+                    <p class="team_new-items-title">전체 팀 인원</p>
+                </div>
+
+                <div class="team_new-mem-num-container">
+                    <input class="team_new-input-short spoqa-light db_mem_now" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="현재 팀 인원">
+                    <p>/</p>
+                    <input class="team_new-input-short spoqa-light db_mem_total" type="text" oninput="this.value = this.value.replace(/[^1-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="전체 팀 인원">
+                </div>
+            </div>
+
+            <div class="team_new-items">
+                <div class="team_new-items-title-container">
+                    <p class="team_new-items-essential">*</p>
+                    <p class="team_new-items-title">모집 인원</p>
+                </div>
+
+                <div class="team_new-task-container" id="taskContainer">
+                    <div class="team_new-task">
+                        <input class="team_new-input-mid-short spoqa-light" type="text" name="" id="task" placeholder="직무">
+                        <p>/</p>
+                        <input class="team_new-input-short spoqa-light" type="text" oninput="this.value = this.value.replace(/[^1-9.]/g, '').replace(/(\..*)\./g, '$1');" name="" id="num" min='1' placeholder="인원">
+                        <input class="team_new-add-task spoqa-regular" type="button" value="추가" onclick="addTask()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="team_new-items">
+                <div class="team_new-items-title-container">
+                    <p class="team_new-items-essential">*</p>
+                    <p class="team_new-items-title">직무 설명</p>
+                </div>
+
+                <div class="team_new-duty-des-container"></div>
+            </div>
+
+            <div class="team_new-items">
+                <div class="team_new-items-title-container">
+                    <p class="team_new-items-essential">*</p>
+                    <p class="team_new-items-title">대표 사진</p>
+
+                    <label class="team_new-input-photo spoqa-regular" for="upload_photo">파일 선택</label>
+                    <input class="db_photo" id="upload_photo" type="file" value="사진 등록" accept="image/*" onchange="setThumbnail(event);" style="display:none;">
+                </div>
+
+                <div id="image_container"></div>
+            </div>
+
+            <div class="team_new-items">
+                <div class="team_new-items-title-container">
+                    <p class="team_new-items-essential">*</p>
+                    <p class="team_new-items-title">프로젝트 소개</p>
+                </div>
+
+                <textarea class="team_new-textarea spoqa-light db_content" name="" id="" cols="30" rows="10"></textarea>
+            </div>
+
+            <div class="team_new-items">
+                <div class="team_new-items-title-container">
+                    <p class="team_new-items-essential">*</p>
+                    <p class="team_new-items-title">진행 기간</p>
+                </div>
+
+                <div class="team_new-date-container spoqa-regular">
+                    <input class="team_new-input-date start_date" type="text" name="" id="" placeholder="시작일">
+                    <p> ~ </p>
+                    <input class="team_new-input-date end_date" type="text" name="" id="" placeholder="종료일">
+                </div>
+            </div>
+
+            <div class="team_new-items">
+                <div class="team_new-items-title-container">
+                    <p class="team_new-items-title">학교</p>
+                </div>
+
+                <!-- <input class="team_new-search" type="text" name="" id=""> -->
+                <select class="team_new-select-school schooltype" name="school" onchange="changeType()">
+                    <option value="중학교" class="mid" selected>중학교</option>
+                    <option value="고등학교" class="high">고등학교</option>
+                    <option value="대학교" class="univ">대학교</option>
+                </select>
+                <input class="team_new-search-school word school" name="school" placeholder="검색어를 입력하세요." onkeyup="search(this);">
+                <ul type="list" class="schoollist"></ul>
+            </div>
+
+            <div class="team_new-items">
+                <div class="team_new-items-title-container">
+                    <p class="team_new-items-title">학력 제한</p>
+                </div>
+
+                <div class="member_search-member-select-state spoqa-regular drop_btn" value="sort">
+                    <div class="member_search-select-state-button">
+                        <!-- <p id="selection">전체</p> -->
+                        <p id="selection" value="0">전체</p>
+                        <img class="member_search-chevron" src="{% static 'image/chevron-down.png' %}">
+                    </div>
+
+                    <div class="hidden float" id="sort">
+                        <div class="member_search-select-state-list">
+                            <!-- <a id="전체" onclick="changeSelection(this.id)">전체</a>
+                            <a id="중졸" onclick="changeSelection(this.id)">중졸</a>
+                            <a id="고졸" onclick="changeSelection(this.id)">고졸</a>
+                            <a id="학사" onclick="changeSelection(this.id)">학사</a>
+                            <a id="석사" onclick="changeSelection(this.id)">석사</a>
+                            <a id="박사" onclick="changeSelection(this.id)">박사</a> -->
+                            <a onclick="changeSelection(0)">전체</a>
+                            {% for education in educations %}
+                                <a onclick="changeSelection({{education.id}}, '{{ education.education }}')">{{ education.education }}</a>
+                            {% endfor %} 
+                        </div>
+                    </div>
+                    <!-- <select name="education">
+                        <option value="0">선택안함</option>
+                        {% for education in educations %}
+                        <option value="{{education.id}}">{{ education.education }}</option>
+                        {% endfor %} 
+                    </select> -->
+                </div>
+            </div>
+
+            <div class="team_new-items">
+                <div class="team_new-items-title-container">
+                    <p class="team_new-items-title">링크</p>
+                </div>
+
+                <input class="team_new-input-long spoqa-light db_link" type="text" name="" id="">
+            </div>
+
+            <div class="team_new-items">
+                <div class="team_new-items-title-container">
+                    <p class="team_new-items-title">파일</p>
+                </div>
+
+                <input class="team_new-file-list spoqa-light" value="선택된 파일이 없습니다." readonly>
+                <label class="team_new-file spoqa-regular" for="upload_files">파일 선택</label>
+                <input type="file" multiple name="" id="upload_files" style="display:none;">
+            </div>
+
+            <div class="team_form-btn-container">
+                <input class="next-btn spoqa-regular" type="button" value="다음으로">
+                <!-- <a><button class="spoqa-regular" type="submit">다음으로</button></a> -->
+            </div>
+        </div>
+
+
+        <div class="team_form-main-container hidden" action="" id="formContainer">
+            <div class="team_form-menu-container spoqa-regular">
+                <p>질문 추가</p>
+
+                <input type="button" value="단답형" name="" onclick="addQuestion(1)"> <!-- 0: 객관식 1: 단답 2: 주관-->
+                <input type="button" value="서술형" name="" onclick="addQuestion(2)">
+                <input type="button" value="객관식" name="" onclick="addSelectQuestion()">
+            </div>
+
+            <div class="team_form-question-container" id="questions">
+
+            </div>
+
+            <div class="team_form-btn-container">
+                <input class="pre-btn spoqa-regular" type="button" value="이전으로">
+                <a><button class="spoqa-regular submit-btn">제출하기</button></a>
+            </div>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+</body>
+
+<script>
+    //datepicker사용
+    
+    $(function() {
+        $.datepicker.setDefaults($.datepicker.regional['ko']);
+
+        $('.start_date').datepicker({
+            showOn:"focus",
+            dateFormat:"yy-mm-dd",
+            changeMonth:true,
+            changeYear:true,
+            onClose:function(selectedDate){
+                $(".end_date").datepicker("option","minDate",selectedDate);
+            }
+        });
+
+        $('.end_date').datepicker({
+            showOn:"focus",
+            dateFormat:"yy-mm-dd",
+            changeMonth:true,
+            changeYear:true,
+            onClose:function(selectedDate){
+                $(".start_date").datepicker("option","maxDate",selectedDate);
+            }
+        })
+    })
+
+    // 제출하기 버튼 클릭 시
+    $(".submit-btn").on("click", function(){ 
+        type = $('.team_new-upper-category-item.active').attr('category');
+        title = $('.db_title').val();
+        desc = $('.db_desc').val();
+        field1_id = $('.team_new-radio.active').attr('f_id');
+        filed2 = $('.db_field2').val();
+        region1_id = $('select[name=region1] option:selected').val();
+        region2_id = $('select[name=region2] option:selected').val();
+        mem_total = $('.db_mem_total').val();
+        mem_now = $('.db_mem_now').val();
+        duty_name = document.getElementsByClassName('team_new-task-left');
+        duty_total = document.getElementsByClassName('team_new-task-right');
+        duty_list= [];
+        for (let i = 0; i < duty_name.length; i++) {
+            duty_pair = [];
+            duty_pair.push($(duty_name[i]).text());
+            duty_pair.push($(duty_total[i]).text());
+            duty_list.push(duty_pair);
+        }
+        duty_desc = $('.db_duty_desc').val();
+        // file = new FormData($('.db_photo')); 대표사진 디비에 없음
+        content = $('.db_content').val();
+        start_date = $('.start_date').val();
+        end_date = $('.end_date').val();
+        school = $('.school').val();
+        // education_id = $('select[name=education] option:selected').val();
+        education_id = $('#selection').attr('value');
+        link = $('.db_link').val();
+        // 단답 서술 객관
+        question = document.getElementsByClassName('team_form-question-item-box');
+        q_list = []                                                                                                                                                                         
+        for (let i = 0; i < question.length; i++) {
+            q_dict = {}
+            q_item = $(question[i])
+            type = q_item.attr('value')
+            if(type == '1'){
+                q_dict['type'] = 1;
+                q_dict['content'] = q_item.find(".team_form-question-input").val();
+                if(q_dict['content']==""){
+                    alert("질문을 입력하지 않았습니다. ");
+                    return;
+                }
+            }else if(type == '2'){
+                q_dict['type'] = 2;
+                q_dict['content'] = q_item.find(".team_form-question-input").val();
+            }else if(type == '0'){
+                q_dict['type'] = 0;
+                q_dict['content'] = q_item.find("input").val();
+                option = q_item.find(".db_option")
+                option_list = []
+                for (let i = 0; i < option.length; i++) {
+                    value = $(option[i]).val();
+                    option_list.push(value)
+                }
+                q_dict['choice_list'] = option_list
+            }
+            q_list.push(q_dict);
+        }
+        data = {
+            'type': type,
+            'title': title,
+            'desc': desc,
+            "field1_id": field1_id,
+            "field2" : filed2,
+            "region1_id": region1_id,
+            "region2_id" :region2_id,
+            "mem_total":mem_total,
+            "mem_now": mem_now,
+            "duty_list": duty_list,
+            "duty_desc": duty_desc,
+            "content": content,
+            "start_date" :start_date,
+            "end_date":end_date,
+            "school": school,
+            "link":link,
+            "education_id":education_id,
+            "q_list":q_list,
+            "photo" : $("input[id='upload_photo'")[0].files[0]
+        }
+        check_val = checkData(data);
+        if(check_val>0){
+            $.ajax({
+                type: "POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url: "{% url 'team_new' %}",
+                data: JSON.stringify(data),
+                success: function(res) {
+                    upload_file(res['project_id']);
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                }
+            }); 
+        }else{
+            if(check_val==-1){
+                $('.pre-btn').click();
+            }
+        }
+    });
+
+    // 필수 data 검증
+    function checkData(data){
+        if(data['type']===undefined){
+            alert("프로젝트 종류를 선택해주세요.");
+            return -1;
+        }else if(data['title']== ""){
+            alert("프로젝트 명을 적어주세요.");
+            return -1;
+        }else if(data['desc']==""){
+            alert("프로젝트 목적을 적어주세요.");
+            return -1;
+        }else if(data['field1_id'] === undefined){
+            alert("프로젝트 분야를 선택해주세요.");
+            return -1;
+        }else if(data['field2'] === ""){
+            alert("세부 분야를 적어주세요.");
+            return -1;
+        }else if(data['mem_total']=="" || data['mem_now']==""){
+            alert("전체 팀 인원을 적어주세요.");
+            return -1;
+        }
+        if(data['duty_list'].length==0){
+            alert("모집 직무와 인원을 적어주세요.");
+            return -1;
+        }
+        if(data['duty_desc']==""){
+            alert("직무 설명을 적어주세요");
+            return -1;
+        }else if(data['photo']=== undefined){
+            alert("대표사진을 첨부해주세요.");
+            return -1;
+        }else if(data['content']== ""){
+            alert("프로젝트 소개를 적어주세요.");
+            return -1;
+        }else if(data['start_date']== "" || data['end_date']== ""){
+            alert("진행 기간을 입력해주세요.");
+            return -1;
+        }
+        if(data['q_list'].length==0){
+            alert("하나 이상의 질문을 만들어주세요.");
+            return 0;
+        }
+        for(const item of data['q_list']){
+            if(item['type'] == '1'){
+                if(item['content']==""){
+                    alert("질문을 입력하지 않았습니다. ");
+                    return 0;
+                }
+            }else if(item['type'] == '2'){
+                if(item['content']==""){
+                    alert("질문을 입력하지 않았습니다. ");
+                    return 0;
+                }
+            }else if(item['type'] == '0'){
+                if(item['content']==""){
+                    alert("질문을 입력하지 않았습니다. ");
+                    return 0;
+                }
+                for (let c_list of item['choice_list']) {
+                    if(c_list==""){
+                        alert("질문을 입력하지 않았습니다. ");
+                        return 0;
+                    }
+                }
+            }
+        }
+        return 1;
+    }
+    // 대표사진, 파일 업로드 함수
+    function upload_file(project_id){
+        photo = $("input[id='upload_photo'")[0].files[0];
+        var file_data = new FormData();
+        file_data.append("file", photo);
+        $.each($("input[id='upload_files'")[0].files, function(i, file) {
+            file_data.append("files", file);
+        });
+        file_data.append("csrfmiddlewaretoken", "{{csrf_token}}");
+        $.ajax({
+            method: "POST",
+            url: '/project/upload_project_file/'+project_id,
+            processData: false,
+            contentType: false,
+            mimeType: "multipart/form-data",
+            data: file_data,
+            success: function(res) {
+                location.href = '/project/team_detail/'+project_id;
+                console.log(res)
+            },
+            error:function(request,status,error){
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+    }
+    // 지역 선택 시 (region1에 따라 region2가 바뀜)
+    function categoryChange(){
+        var category = $('select[name=region1] option:selected').val(); //숫자 순서대로 
+        var region1 = $('select[name=region1] option:selected').text();
+        // console.log(category);
+        $("#region2").empty();
+        var dict = {{region_list|safe}}
+        str = "";
+        for(const [key, value] of Object.entries(dict)){
+            if(key == region1){
+                console.log(value)
+                for(v in value){
+                    str += `<option value="${value[v][0]}" class = "${value[v][1]}">${value[v][1]}</option>` 
+                    // console.log(v)
+                }
+            }
+        }
+        $("#region2").append(str);
+    }
+    
+    // 특정 학교 선택 시 
+    function addSchool(name){
+        $('.word').val(name);
+        $(".schoollist").empty();
+    }
+    var url = "//www.career.go.kr/cnet/openapi/getOpenApi.json?apiKey=d0c42cdd7e8461cfb295b56acc8bdc54&svcType=api&svcCode=SCHOOL&contentType=json&gubun=midd_list&searchSchulNm=";
+    // 초중고대 셀렉트 박스 변경 시
+    function changeType(){
+        type = $('.schooltype option:selected').val();
+        if(type =="고등학교") url = "//www.career.go.kr/cnet/openapi/getOpenApi.json?apiKey=d0c42cdd7e8461cfb295b56acc8bdc54&svcType=api&svcCode=SCHOOL&contentType=json&gubun=high_list&searchSchulNm=";
+        if(type =="대학교") url = "//www.career.go.kr/cnet/openapi/getOpenApi.json?apiKey=d0c42cdd7e8461cfb295b56acc8bdc54&svcType=api&svcCode=SCHOOL&contentType=json&gubun=univ_list&searchSchulNm=";
+        $('.word').val('');
+        $(".schoollist").empty();
+    }
+    // 사용자가 학교명을 keyup 할때마다 호출되는 함수 
+    function search(target){
+        var word = target.value;
+        var encodeWord = encodeURI(word);
+        $(".schoollist").empty();
+        $.ajax({
+            type:"GET",
+            dataType:"json",
+            url: url+word,
+            success: function(res){
+                var completeWord = $(".word").val();
+                if(completeWord.length>0 && res.dataSearch.content.length>0){
+                    for(i=0; i<res.dataSearch.content.length; i++){
+                        $(".schoollist").append( 
+                        "<div onclick=addSchool('"+res.dataSearch.content[i].schoolName+"')><li class='schlist' value='" + res.dataSearch.content[i].schoolName + "'>" + res.dataSearch.content[i].schoolName + "</li></div>");
+                    } 
+                }else{
+                    $(".schoollist").append("<li class='schlist'>검색결과가 없습니다.</li>");
+                }
+            },
+            error: function(err){
+                console.log("실행중 오류가 발생하였습니다.");
+            }
+        })
+    }
+    $('.team_new-radio').on("click", function(){ 
+        $('.team_new-radio').removeClass('active');
+        $(this).addClass('active')
+    });
+    $(".team_new-upper-category-item").on("click", function(){ 
+        $('.team_new-upper-category-item').removeClass('active');
+        $(this).addClass('active');
+    }); 
+    
+    var duty = 2000;
+    function addTask() { //innetHTML
+        var task = document.getElementById('task').value;
+        var num = document.getElementById('num').value;
+        if(task==""||num==""){
+            alert("모집 직무와 인원을 정확히 적어주세요.");
+            return;
+        }
+        var newTaskDiv = document.createElement("div");
+        newTaskDiv.setAttribute("class", "team_new-task");
+
+        var newTask = document.createElement("p");
+        newTask.setAttribute("class", "team_new-task-left");
+        var newTaskName = document.createTextNode(task);
+        newTask.appendChild(newTaskName);
+        newTaskDiv.appendChild(newTask);
+
+        var newSlash = document.createElement("p");
+        var newSlashText = document.createTextNode("/");
+        newSlash.appendChild(newSlashText);
+        newTaskDiv.appendChild(newSlash);
+
+        var newNum = document.createElement("p");
+        newNum.setAttribute("class", "team_new-task-right");
+        var newNumName = document.createTextNode(num);
+        newNum.appendChild(newNumName);
+        newTaskDiv.appendChild(newNum);
+
+        var newBtn = document.createElement("input");
+        newBtn.setAttribute("type", "button");
+        newBtn.setAttribute("value", "삭제");
+        newBtn.setAttribute("onclick", "delTask(this)");
+        newBtn.setAttribute("class", "team_new-del-task");
+        newBtn.setAttribute("id", duty);
+        newTaskDiv.appendChild(newBtn);
+
+        var taskContainer = document.getElementById('taskContainer');
+        taskContainer.appendChild(newTaskDiv);
+
+        document.getElementById("task").value ='';
+        document.getElementById("num").value ='';
+
+        // 직무 설명 추가 부분
+        var dutyDesc = document.getElementsByClassName('team_new-duty-des-container')[0];
+        var newDesc = document.createElement("input");
+        newDesc.setAttribute("class", "team_new-input-long spoqa-light db_duty_desc");
+        newDesc.setAttribute("id", duty);
+        newDesc.setAttribute("placeholder", task);
+        dutyDesc.appendChild(newDesc);
+        duty++;
+    }
+
+    function delTask(child) {
+        var parent = child.parentNode;
+        parent.parentNode.removeChild(parent);
+
+        //직무 설명 삭제 부분
+        var dutyDesc = document.getElementsByClassName('team_new-duty-des-container')[0];
+        dutyDesc.removeChild(document.getElementById(child.id));
+    }
+
+    // image-preview
+    function setThumbnail(event) {
+        var imgCon = document.getElementById('image_container');
+        console.log('imgCon');
+
+        if (imgCon.hasChildNodes()) {
+            imgCon.removeChild(imgCon.firstChild);
+        }
+
+        var reader = new FileReader();
+        
+        reader.onload = function(event) {
+            var img = document.createElement("img");
+            
+            img.setAttribute("src", event.target.result);
+            document.querySelector("div#image_container").appendChild(img);
+        };
+        
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    // dropdown
+    $(document).ready(function(){
+        $(".sort").on("click", function(){ 
+            let className = $(this).attr("value");
+            let currentClass = document.getElementById(className);
+            
+            if ($(currentClass).is('.hidden')){
+                $(currentClass).removeClass('hidden');
+                $(currentClass).addClass('active');
+            } else{
+                $(currentClass).removeClass('active');
+                $(currentClass).addClass('hidden');
+            }
+        }); 
+    });
+
+    // function changeSelection(val) {
+    //     let selection = document.getElementById('selection');
+
+    //     selection.innerText = val;
+    // }
+    function changeSelection(val, text) {
+        let selection = document.getElementById('selection');
+
+        selection.innerText = text;
+        $("#selection").attr('value', val);
+    }
+
+
+    $(document).ready(function(){
+        $(".next-btn").on("click", function(){ 
+            let className = $(this).attr("value");
+            let nextClass = document.getElementsByClassName('team_form-main-container')[0];
+            let preClass = document.getElementsByClassName('team_new-main-container')[0];
+
+            $(nextClass).removeClass('hidden');
+            $(nextClass).addClass('active');
+
+            $(preClass).removeClass('active');
+            $(preClass).addClass('hidden');
+        }); 
+    });
+
+    $(document).ready(function(){
+        $(".pre-btn").on("click", function(){ 
+            let className = $(this).attr("value");
+            let nextClass = document.getElementsByClassName('team_form-main-container')[0];
+            let preClass = document.getElementsByClassName('team_new-main-container')[0];
+
+            $(nextClass).removeClass('active');
+            $(nextClass).addClass('hidden');
+
+            $(preClass).removeClass('hidden');
+            $(preClass).addClass('active');
+        }); 
+    });
+
+    $("#upload_files").on('change',function(){
+        var fileName = $("#upload_files").val();
+        $(".team_new-file-list").val(fileName);
+    });
+
+
+
+
+// team_form
+
+    function addQuestion(type) {
+        var newQuestionBox = document.createElement("div");
+        newQuestionBox.setAttribute("class", "team_form-question-item-box");
+        newQuestionBox.setAttribute("value", type);
+        var newNumDiv = document.createElement("div");
+        newNumDiv.setAttribute("class", "team_form-question-num spoqa-regular");
+        var newNum = document.createElement("p");
+        var oldNum = document.getElementById("questions");
+        if (oldNum.childElementCount != 0) {
+            var oldNumText = document.getElementById("questions").lastChild.childNodes[0].childNodes[0].innerText * 1;
+            newNum.append(oldNumText + 1);
+            newNum.setAttribute("id", (oldNumText + 1));
+        } else {
+            newNum.append(1);
+            newNum.setAttribute("id", 1);
+        }
+        newNum.setAttribute("class", "pNode");
+        newNumDiv.appendChild(newNum);
+        newQuestionBox.appendChild(newNumDiv);
+
+        var newQuestionDiv = document.createElement("div");
+        newQuestionDiv.setAttribute("class", "team_form-question-item");
+        var newQuestionInput = document.createElement("input");
+        newQuestionInput.setAttribute("placeholder", "질문을 입력하세요.");
+        newQuestionInput.setAttribute("class", "team_form-question-input "+"type"+type);
+        newQuestionDiv.appendChild(newQuestionInput);
+        var newToggleDiv = document.createElement("div");
+        newToggleDiv.setAttribute("class", "toggleBG");
+        var newToggleBtn = document.createElement("input");
+        newToggleBtn.setAttribute("type", "button");
+        newToggleBtn.setAttribute("class", "toggleFG");
+        newToggleDiv.appendChild(newToggleBtn);
+        var newToggleDescDiv = document.createElement("div");
+        newToggleDescDiv.setAttribute("class", "desc");
+        var newToggleDescEss = document.createElement("p");
+        newToggleDescEss.setAttribute("class", "essential");
+        var newToggleDescEssText = document.createTextNode("필수");
+        newToggleDescEss.appendChild(newToggleDescEssText);
+        newToggleDescDiv.appendChild(newToggleDescEss);
+        var newToggleDescSel = document.createElement("p");
+        newToggleDescSel.setAttribute("class", "selective");
+        var newToggleDescSelText = document.createTextNode("선택");
+        newToggleDescSel.appendChild(newToggleDescSelText);
+        newToggleDescDiv.appendChild(newToggleDescSel);
+        newToggleDiv.appendChild(newToggleDescDiv);
+        newQuestionDiv.appendChild(newToggleDiv);
+        newQuestionBox.appendChild(newQuestionDiv);
+
+        var xBtn = document.createElement("img");
+        xBtn.setAttribute("class", "team_form-x-btn" );
+        xBtn.setAttribute("src", "{% static 'image/x-button.png' %}");
+        xBtn.setAttribute("id", newNum.id);
+        xBtn.setAttribute("onclick", "delQuestion(this)");
+        newQuestionBox.appendChild(xBtn);
+
+        var taskContainer = document.getElementById('questions');
+        taskContainer.appendChild(newQuestionBox);
+    }
+
+    var call = 1000;
+    function addSelectQuestion() {
+        var newQuestionBox = document.createElement("div");
+        newQuestionBox.setAttribute("class", "team_form-question-item-box type0");
+        newQuestionBox.setAttribute("value", "0");
+        var newNumDiv = document.createElement("div");
+        newNumDiv.setAttribute("class", "team_form-question-num spoqa-regular");
+        var newNum = document.createElement("p");
+        var oldNum = document.getElementById("questions");
+        if (oldNum.childElementCount != 0) {
+            var oldNumText = document.getElementById("questions").lastChild.childNodes[0].childNodes[0].innerText * 1;
+            newNum.append(oldNumText + 1);
+            newNum.setAttribute("id", (oldNumText + 1));
+        } else {
+            newNum.append(1);
+            newNum.setAttribute("id", 1);
+        }
+        newNum.setAttribute("class", "pNode");
+        newNumDiv.appendChild(newNum);
+        newQuestionBox.appendChild(newNumDiv);
+
+        var newQuestionCon = document.createElement("div");
+        newQuestionCon.setAttribute("class", "team_form-sel-question-container");
+        var newQuestionDiv = document.createElement("div");
+        newQuestionDiv.setAttribute("class", "team_form-sel-question-item");
+        // input
+        var newQuestionInput = document.createElement("input");
+        newQuestionInput.setAttribute("placeholder", "질문을 입력하세요.");
+        newQuestionInput.setAttribute("class", "team_form-question-input");
+        newQuestionDiv.appendChild(newQuestionInput);
+        // toggle
+        var newToggleDiv = document.createElement("div");
+        newToggleDiv.setAttribute("class", "toggleBG");
+        var newToggleBtn = document.createElement("input");
+        newToggleBtn.setAttribute("type", "button");
+        newToggleBtn.setAttribute("class", "toggleFG");
+        newToggleDiv.appendChild(newToggleBtn);
+        var newToggleDescDiv = document.createElement("div");
+        newToggleDescDiv.setAttribute("class", "desc");
+        var newToggleDescEss = document.createElement("p");
+        newToggleDescEss.setAttribute("class", "essential");
+        var newToggleDescEssText = document.createTextNode("필수");
+        newToggleDescEss.appendChild(newToggleDescEssText);
+        newToggleDescDiv.appendChild(newToggleDescEss);
+        var newToggleDescSel = document.createElement("p");
+        newToggleDescSel.setAttribute("class", "selective");
+        var newToggleDescSelText = document.createTextNode("선택");
+        newToggleDescSel.appendChild(newToggleDescSelText);
+        newToggleDescDiv.appendChild(newToggleDescSel);
+        newToggleDiv.appendChild(newToggleDescDiv);
+        newQuestionDiv.appendChild(newToggleDiv);
+        // extra
+        var newExtraDiv = document.createElement("div");
+        newExtraDiv.setAttribute("class", "team_form-extra-container");
+        // dropdown
+        var newSelectOptionDiv = document.createElement("div");
+        newSelectOptionDiv.setAttribute("class", "member_search-member-select-state spoqa-regular drop_btn");
+        newSelectOptionDiv.setAttribute("value", call);
+        var newSelectOptionBtnDiv = document.createElement("div");
+        newSelectOptionBtnDiv.setAttribute("class", "member_search-select-state-button");
+        var newSelectOptionBtn = document.createElement("p");
+        newSelectOptionBtn.setAttribute("class", "team_form-drop-select");
+        var newSelectOptionBtnText = document.createTextNode("2개");
+        newSelectOptionBtn.appendChild(newSelectOptionBtnText);
+        newSelectOptionBtnDiv.appendChild(newSelectOptionBtn);
+        var newSelectOptionChev = document.createElement("img");
+        newSelectOptionChev.setAttribute("class", "member_search-chevron");
+        newSelectOptionChev.setAttribute("src", "{% static 'image/chevron-down.png' %}");
+        newSelectOptionBtnDiv.appendChild(newSelectOptionChev);
+        newSelectOptionDiv.appendChild(newSelectOptionBtnDiv);
+        var newSelectOptionListDiv = document.createElement("div");
+        newSelectOptionListDiv.setAttribute("class", "hidden float");
+        newSelectOptionListDiv.setAttribute("id", call);
+        var newSelectOptionList = document.createElement("div");
+        newSelectOptionList.setAttribute("class", "member_search-select-state-list");
+        var newSelectOption1 = document.createElement("a");
+        var newSelectOptionText1 = document.createTextNode("2개");
+        newSelectOption1.appendChild(newSelectOptionText1);
+        newSelectOptionList.appendChild(newSelectOption1);
+        newSelectOption1.setAttribute("id", "2개");
+        newSelectOption1.setAttribute("onclick", "changeDrop(this)");
+        var newSelectOption2 = document.createElement("a");
+        var newSelectOptionText2 = document.createTextNode("3개");
+        newSelectOption2.appendChild(newSelectOptionText2);
+        newSelectOptionList.appendChild(newSelectOption2);
+        newSelectOption2.setAttribute("id", "3개");
+        newSelectOption2.setAttribute("onclick", "changeDrop(this)");
+        var newSelectOption3 = document.createElement("a");
+        var newSelectOptionText3 = document.createTextNode("4개");
+        newSelectOption3.appendChild(newSelectOptionText3);
+        newSelectOptionList.appendChild(newSelectOption3);
+        newSelectOption3.setAttribute("id", "4개");
+        newSelectOption3.setAttribute("onclick", "changeDrop(this)");
+        var newSelectOption4 = document.createElement("a");
+        var newSelectOptionText4 = document.createTextNode("5개");
+        newSelectOption4.appendChild(newSelectOptionText4);
+        newSelectOptionList.appendChild(newSelectOption4);
+        newSelectOption4.setAttribute("id", "5개");
+        newSelectOption4.setAttribute("onclick", "changeDrop(this)");
+        newSelectOptionListDiv.appendChild(newSelectOptionList);
+        newSelectOptionDiv.appendChild(newSelectOptionListDiv);
+        newExtraDiv.appendChild(newSelectOptionDiv);
+        call++;
+        // checkbox
+        var newCheckboxDiv = document.createElement("div");
+        newCheckboxDiv.setAttribute("class", "team_form-checkbox-container");
+        var newCheckbox = document.createElement("input");
+        newCheckbox.setAttribute("type", "checkbox");
+        newCheckboxDiv.appendChild(newCheckbox);
+        var newCheckboxDesc = document.createElement("p");
+        newCheckboxDesc.setAttribute("class", "spoqa-regular");
+        var newCheckboxDescText = document.createTextNode("복수 선택 가능");
+        newCheckboxDesc.appendChild(newCheckboxDescText);
+        newCheckboxDiv.appendChild(newCheckboxDesc);
+        newExtraDiv.appendChild(newCheckboxDiv);
+        newQuestionDiv.appendChild(newExtraDiv);
+        // option
+        var newOptionDiv = document.createElement("div");
+        newOptionDiv.setAttribute("class", "team_form-option-container");
+        var newOption1 = document.createElement("input");
+        newOption1.setAttribute("placeholder", "선택지를 입력하세요.");
+        newOption1.setAttribute("class", "db_option");
+        newOptionDiv.appendChild(newOption1);
+        var newOption2 = document.createElement("input");
+        newOption2.setAttribute("placeholder", "선택지를 입력하세요.");
+        newOption2.setAttribute("class", "db_option");
+        newOptionDiv.appendChild(newOption2);
+        // append
+        newQuestionCon.appendChild(newQuestionDiv);
+        newQuestionCon.appendChild(newOptionDiv);
+        newQuestionBox.appendChild(newQuestionCon);
+
+        var xBtn = document.createElement("img");
+        xBtn.setAttribute("class", "team_form-x-btn");
+        xBtn.setAttribute("src", "{% static 'image/x-button.png' %}");
+        xBtn.setAttribute("id", newNum.id);
+        xBtn.setAttribute("onclick", "delQuestion(this)");
+        newQuestionBox.appendChild(xBtn);
+
+        var taskContainer = document.getElementById('questions');
+        taskContainer.appendChild(newQuestionBox);
+    }
+
+    function delQuestion(child) {
+        // console.log(child.parentNode.childNodes)
+        var parent = child.parentNode;
+        var pNodes = document.getElementsByClassName('pNode');
+        var thisNum;
+        for (i = (child.id * 1); i < pNodes.length; i++) {
+            thisNum = (pNodes[i].id * 1);
+            document.getElementById(thisNum).innerText = (thisNum - 1);
+            document.getElementById(thisNum).id = (thisNum - 1);
+            document.getElementById(thisNum).parentNode.childNodes[2].id = (thisNum - 1);
+        }
+        // parent.removeChild(parent)
+        parent.parentNode.removeChild(parent);
+    }
+
+    // dropdown
+    $(document).on("click", ".drop_btn", function(e){
+        let className = $(this).attr("value");
+        let currentClass = document.getElementById(className);
+        
+        if ($(currentClass).is('.hidden')){
+            $(currentClass).removeClass('hidden');
+            $(currentClass).addClass('active');
+        } else{
+            $(currentClass).removeClass('active');
+            $(currentClass).addClass('hidden');
+        }
+    });
+
+    function changeDrop(thisOption) {
+        thisOption.parentNode.parentNode.parentNode.childNodes[0].childNodes[0].innerText = thisOption.id;
+
+        optionList = thisOption.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[1];
+        
+        while (optionList.hasChildNodes()) {
+            optionList.removeChild(optionList.firstChild);
+        }
+
+        let num = thisOption.id[0] * 1;
+        for (let i = 0; i < num; i++) {
+            var newOption = document.createElement("input");
+            newOption.setAttribute("placeholder", "선택지를 입력하세요.");
+            newOption.setAttribute("class", "db_option");
+            optionList.appendChild(newOption);
+        }
+    }
+
+    // toggle
+    $(document).on('click', '.toggleBG', function () {
+        var toggleBG = $(this);
+        var toggleFG = $(this).find('.toggleFG');
+        var left = toggleFG.css('left');
+        if(left == '40px') {
+            toggleBG.css('background', '#ebebeb');
+            toggleActionStart(toggleFG, 'TO_LEFT');
+        }else if(left == '0px') {
+            toggleActionStart(toggleFG, 'TO_RIGHT');
+        }
+    });
+
+    function toggleActionStart(toggleBtn, LR) {
+        var intervalID = setInterval(
+            function() {
+                var left = parseInt(toggleBtn.css('left'));
+                left += (LR == 'TO_RIGHT') ? 5 : -5;
+                if(left >= 0 && left <= 40) {
+                    left += 'px';
+                    toggleBtn.css('left', left);
+                }
+            }, 10);
+        setTimeout(function(){
+            clearInterval(intervalID);
+        }, 201);
+    }
+</script>
+
+</html>

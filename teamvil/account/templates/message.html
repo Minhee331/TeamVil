@@ -1,25 +1,65 @@
 <!DOCTYPE html>
 {% load static %}
+{% load custom_tags %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Teamvil</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/message.css' %}">
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <link rel="shortcut icon" href="{% static 'image/favicon.ico' %}"/>
 </head>
 <body>
     {% include 'navbar.html' %}
-    <div class="message-wrap-container content margin">
+    <div class="payment-wrap-container margin">
+        <div class="payment-wrap">
+            <p class="payment-text spoqa-light">
+                {% if pay is None %}
+                    이용권: 없음
+                {% else %}
+                    {% if pay.pay_type == 1 %}
+                        이용권: 1일 무제한
+                    {% elif pay.pay_type == 2 %}
+                        이용권: 일주일 무제한
+                    {% elif pay.pay_type == 3 %}
+                        이용권: 한 달 무제한
+                    {% else %}
+                        이용권: 일주일 무제한
+                    {% endif %}
+                {% endif %}
+            </p>
+            <div class="question-wrap">
+                <div>
+                    <img class="question-mark" src="{% static 'image/question.png' %}">
+                    <p class="question-text spoqa-light">
+                        {% if pay is None %}
+                            최대 3명의 멤버들과 자유롭게 메시지를 주고받을 수 있습니다.<br>4명 이상의 멤버들과 소통하시려면 무제한권을 구매해주세요. 
+                        {% else %}
+                            {% TimeFormat pay.end_date %} {% HourFormat pay.end_date %} 까지 멤버 수 제한 없이 자유롭게 메시지를 주고받을 수 있습니다. 
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            {% if pay is None %}
+                <button class="payment-btn">결제하기</button>
+            {% endif %}
+        </div>
+    </div>
+    <div class="message-wrap-container margin">
         <div class="message-wrap">
             <div class="message-list-wrap-container">
                 <div class="message-list-scroll">
+                    {% if member_list|length %}
+                    {% else %}
+                            <p class="message-member-none spoqa-light">대화 상대 없음</p>
+                    {% endif %}
 
                     {% for name, list in member_list %}
                         <div class="message-list-item" name = {{name}} user_id = {{list.0}}>
-                            <img class="message-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+                            <img class="message-member-image" src="{% get_profile_photo list.0 %}" alt="">
 
                             <p class="message-member-name-text spoqa-light {{name}}" user_id = {{user_id}}>{{name}}</p>
 
@@ -30,9 +70,12 @@
             </div>
             <div class="message-detail-wrap-container">
                 <div class="message-member-info-item">
-                    <img class="message-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                    <p class="message-select-member-name-text spoqa-regular color-blue">박민희</p>
+                    {% if member_list|length %}
+                        <img class="message-member-image message-select-member-img" src="{% get_profile_photo user.id %}" alt="">
+                        <p class="message-select-member-name-text spoqa-regular color-blue"></p>
+                    {% else %}
+                    <p class="message-select-member-none spoqa-light">대화 상대가 없습니다. 멤버 프로필 페이지에서 "메시지"버튼을 눌러 메시지를 보내보세요. </p>
+                    {% endif %}
                 </div>
 
                 <div class="message-content-item"></div>
@@ -58,36 +101,53 @@
         $('.message-member-name-text').removeClass('color-blue');
         $('.'+$(this).attr('name')).addClass('color-blue');
         $('.message-select-member-name-text').text($('.message-member-name-text.color-blue').text())
+        src = $($('.message-member-name-text.color-blue').parent().children().first()).attr('src');
+        $('.message-select-member-img').attr('src', src );
+        console.log()
         var data = {
             'user_id': $(this).attr('user_id')
         }
         
         function load_message() {
-            $.ajax({
-                type: "POST",
-                headers:{
-                    'X-CSRFToken' : '{{csrf_token}}'
-                },
-                url: "{% url 'load_message' %}",
-                data: JSON.stringify(data),
-                success: function(res) {
-                    $('.message-content-item').html(res);
-                    $(".message-content-item").scrollTop($(".message-content-item")[0].scrollHeight);
-                },
-                error:function(request,status,error){
-                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-                }
-            })
+            if(checkFocus()) { // 스크롤이 맨 아래일 때 
+                $.ajax({
+                    type: "POST",
+                    headers:{
+                        'X-CSRFToken' : '{{csrf_token}}'
+                    },
+                    url: "{% url 'load_message' %}",
+                    data: JSON.stringify(data),
+                    success: function(res) {
+                        $('.message-content-item').html(res);
+                        $(".message-content-item").scrollTop($(".message-content-item")[0].scrollHeight);
+                    },
+                    error:function(request,status,error){
+                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    }
+                })
+            }
         };
         load_message();
         var interval = setInterval(load_message, 1000);
         interval_list.push(interval)
     });
 
+    var checkFocus = function() { // 스크롤 위치 체크
+        var scrollTop = $('.message-content-item').scrollTop();
+        var innerHeight =$('.message-content-item').innerHeight();
+        var scrollHeight = $('.message-content-item').prop('scrollHeight');
+        if (scrollTop + innerHeight >= scrollHeight) { // 스크롤 맨 아래 
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     $(".message-submit-btn").on("click", function(){ 
         to_user_id = $($('.color-blue').parent()).attr('user_id');
         content = $('.message-input').val();
-        if(content==""){
+        len = {{member_list|length}}
+        if(content=="" || len==0){
             alert("전송안됨")
         }else{
             var data = {
@@ -105,6 +165,7 @@
                 success: function(res) {
                     // console.log(res);
                     $('.message-input').val('');
+                    $(".message-content-item").scrollTop($(".message-content-item")[0].scrollHeight);
                 },
                 error:function(request,status,error){
                     alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
@@ -118,5 +179,22 @@
     }else{
         $('.message-list-item[name={{select_member.name}}]').click();
     }
+
+    $('.payment-btn').on("click", function(){ 
+        var _left = Math.ceil(( window.screen.width - 400 )/2);
+        var _top = Math.ceil(( window.screen.height - 550 )/2); 
+        var payment_win = window.open("{% url 'message_payment' %}", "new", "toolbar=no, menubar=no, scrollbars=yes, resizable=no, width=450, height=550, left="+_left+", top=" + _top );
+        // 결제 창이 꺼졌는지 판단 
+        w_interval = window.setInterval(function() {
+            try {
+                if( payment_win == null || payment_win.closed ) {
+                    window.clearInterval(w_interval);
+                    payment_win = null;
+                    alert("결제가 완료되었습니다.");
+                    location.href = "/member/message/";
+                }
+            } catch (e) { }
+        }, 500);
+        });
 </script>
 </html>

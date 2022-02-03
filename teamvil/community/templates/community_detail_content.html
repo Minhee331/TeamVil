@@ -7,8 +7,8 @@
 
     <div class="community-item community-content-box">
         <div class="community-profile-container" profile_id = '{% get_profile_id communitys.user_id.id %}'>
-            <img class="community-profile-img" src="{% get_profile_photo communitys.user_id.id %}" alt="">
-            <p class="spoqa-regular">{% Name communitys.user_id.id %}</p>
+            <img class="community-profile-img community-profile-click" src="{% get_profile_photo communitys.user_id.id %}" alt="" profile_id = '{% get_profile_id communitys.user_id.id %}'>
+            <p class="spoqa-regular community-profile-click" profile_id = '{% get_profile_id communitys.user_id.id %}'>{% Name communitys.user_id.id %}</p>
         </div>
 
         <div class="community-content-container spoqa-light">
@@ -23,8 +23,8 @@
 
                 <div class="community-comment-view-container">
                     <div class="community-comment-view-item">
-                        <p>댓글</p>
-                        <p>7</p>
+                        <p class = "comment_cnt">댓글</p>
+                        <p>{{total_cnt}}</p>
                     </div>
 
                     <div class="community-comment-view-item">
@@ -43,13 +43,13 @@
             <input class="community-comment-btn spoqa-light comment_submit" com_id="{{communitys.id}}" type="button" value="댓글 작성">
         </div>
     </div>
-
+<!-- 댓글작성 -->
     <div class="community-comment-list">
         {% for comment in comments %}
         <div class="community-content-item">
             <div class="community-profile-container" profile_id = '{% get_profile_id comment.user_id.id %}'>
-                <img class="community-profile-img" src="{% get_profile_photo comment.user_id.id%}">
-                <p class="spoqa-regular" id="replyName">{% Name comment.user_id.id %}</p>
+                <img class="community-profile-img community-profile-click" src="{% get_profile_photo comment.user_id.id%}" profile_id = '{% get_profile_id comment.user_id.id %}'>
+                <p class="spoqa-regular community-profile-click" id="replyName" profile_id = '{% get_profile_id comment.user_id.id %}'>{% Name comment.user_id.id %}</p>
             </div>
             
             <div class="community-content-container spoqa-light">
@@ -80,8 +80,8 @@
                                 <img class="community-reply-img" src="/static/image/arrow-line.png">
                                 <div>
                                     <div class="community-profile-container" profile_id = '{% get_profile_id reply.user_id.id %}'>
-                                        <img class="community-profile-img" src="{% get_profile_photo reply.user_id.id %}">
-                                        <p class="spoqa-regular" id="replyName">{% Name reply.user_id.id %}</p>
+                                        <img class="community-profile-img community-profile-click" src="{% get_profile_photo reply.user_id.id %}" profile_id = '{% get_profile_id reply.user_id.id %}'>
+                                        <p class="spoqa-regular community-profile-click" id="replyName" profile_id = '{% get_profile_id reply.user_id.id %}'>{% Name reply.user_id.id %}</p>
                                     </div>
                                     
                                     <div class="community-content-container spoqa-light">
@@ -105,7 +105,7 @@
 </div>
 
 <script>
-    $(document).on("click", '.community-profile-container',function() {
+    $('.community-profile-click').on("click",function() {
         var url = "/member/member_detail/" + $(this).attr('profile_id');
         location.href = url;
     });
@@ -115,6 +115,8 @@
             'com_id' : $(this).attr('com_id'),
             'parent' : 0 
         }
+        //var comment_cnt = $(this).attr('class');
+        $(".comment_cnt").next().text(parseInt($(".comment_cnt").next().text())+1)
         $.ajax({
             type: "POST",
             headers: {
@@ -164,6 +166,7 @@
             'parent' : parent,
 
         }
+        $(".comment_cnt").next().text(parseInt($(".comment_cnt").next().text())+1)
         $.ajax({
             type: "POST",
             headers: {

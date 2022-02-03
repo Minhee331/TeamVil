@@ -8,7 +8,7 @@
                 <div class="mypage-project-title-wrap">
                     <p class="mypage-project-title spoqa-light">{{project.title}}</p>
                     <div class="mypage-project-select-state spoqa-regular drop_btn" value="job">
-                        <div class="mypage-project-select-state-button state col_10">
+                        <!-- <div class="mypage-project-select-state-button state col_10">
                             <div class="mypage-project-state-circle"></div>
                             <p class="spoqa-light">
                                 {% if project.state %}
@@ -18,9 +18,9 @@
                                 {% endif %}
                             </p>
                             <img class="mypage-project-triangle" src="{% static 'image/triangle.png' %}">
-                        </div>
+                        </div> -->
             
-                        <div class="hidden float" id="job">
+                        <!-- <div class="hidden float" id="job">
                             <div class="mypage-project-select-list col_10">
                                 <a class="select-state-item spoqa-light">모집중</a>
                                 <hr class="mypage-project-line">
@@ -28,7 +28,12 @@
                                 <hr class="mypage-project-line">
                                 <a class="select-state-item spoqa-light">종료</a>
                             </div>
-                        </div>
+                        </div> -->
+                        <select id = "state" name="state" class="mypage-project-select-list spoqa-light" project_id = {{project.id}}>
+                            <option class="spoqa-light">모집중</option>
+                            <option class="spoqa-light">모집완료</option>
+                            <option class="spoqa-light" {% if project.isEnd %}selected{%endif%}>종료</option>
+                        </select>
                     </div>
                 </div>
                 <hr class="mypage-project-line">
@@ -47,16 +52,14 @@
                         <img class="mypage-project-triangle" src="{% static 'image/triangle.png' %}">
                     </div>
                     <div class="mypage-project-manage-button">
-                        {% if project.isEnd %}
-                            <a class="mypage-project-manage-text spoqa-light" href="">팀원 평가하기</a>
-                        {% endif %}
-                        <a class="mypage-project-manage-text spoqa-light" href="">지원서 열람하기</a>
+                        <a class="mypage-project-manage-text spoqa-light {% if project.isEnd == 0 %}hidden{%endif%} review-btn" href="{% url 'team_review' project.id %}" project_id={{project.id}}>팀원 평가하기</a>
+                        <a class="mypage-project-manage-text spoqa-light" href="{% url 'team_application' project.id %}">지원서 열람하기</a>
                     </div>
                 </div>
                 <hr class="mypage-project-line">
-                {% for key, value in items %}
-                    {% if key == project.id %}
-                        {% for mem in value %}
+                {% for item in member_list %}
+                    {% if item.0 == project.id %}
+                        {% for mem in item.1 %}
                             <div class="mypage-project-member-manage-wrap {{project.id}} hidden">
                                 <p class="mypage-project-name-title spoqa-light {{project.id}} hidden">{% get_mem_name mem.id %}</p>
                                 <p class="mypage-project-detail-info-text spoqa-light {{project.id}} hidden">{% get_mem_age mem.id %}</p>
@@ -96,6 +99,32 @@
             $("."+projcet_id).addClass('hidden');
         }
     }); 
+    $('.mypage-project-select-list').on("change", function(){
+        txt = $(this).find('option:selected').text();
+        if(txt=="종료"){
+            project_id = $(this).attr('project_id');
+            data = {
+                "project_id":project_id
+            }
+            // console.log($('.review-btn[project_id='+ project_id + ']').text());
+            $.ajax({
+                type: "POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url: "{% url 'mypage_change_isEnd' %}",
+                data: JSON.stringify(data),
+                success: function(res) {
+                    // location.href = "/member/mypage"
+                    // $('review-btn[project_id='+ project_id + ']').removeClass('hidden');
+                    $('.review-btn[project_id='+ project_id + ']').removeClass('hidden');
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                }
+            });
+        }
+    });
     // $(document).ready(function(){
     //     $(".drop_btn").on("click", function(){ 
     //         let className = $(this).attr("value");

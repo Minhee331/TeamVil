@@ -37,3 +37,23 @@ hr {
     background-color: #ebebeb;
     border: 0;
 }
+
+.alarm_detail-notice {
+    font-family: 'Spoqa Han Sans Neo', 'sans-serif';
+    font-weight: 300;
+    font-size: 14.24;
+}
+
+.page-wrap{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 100px;
+    font-size: 14px;
+}
+.page{
+    margin: 0 5px;
+}
+.page.active{
+    font-weight: 500;
+    text-decoration-line: underline;
+}

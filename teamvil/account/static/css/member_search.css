@@ -18,7 +18,7 @@ hr {
     border-bottom: 1px solid #D7D7D7;
     text-align: center;
     line-height: 50px;
-    margin-bottom: 25px;
+    margin-bottom: 34px;
     font-size: 18px;
 }
 
@@ -29,6 +29,12 @@ hr {
 }
 
 .member_search-chevron-left {
+    display: block;
+    width: 60px;
+    height: 60px;
+}
+
+.member_search-chevron-right {
     display: block;
     width: 60px;
     height: 60px;
@@ -82,6 +88,9 @@ hr {
 .member_search-filter-active {
     display: flex;
     justify-content: space-between;
+    border-top: 1px solid #1b1b1b;
+    padding-top: 10px;
+    margin-top: 5px;
 }
 
 .member_search-filter-title {
@@ -112,18 +121,22 @@ hr {
     display: block;
 }
 
+main {
+    width: 80%;
+}
+
 /* select */
 .member_search-member-select-container {
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    /* margin: 0px 10px 10px 20px; */
 }
 
 .member_search-member-select-sort {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-}
+    align-items: center;}
 
 .member_search-member-select-sort a {
     font-size: 12px;
@@ -136,7 +149,7 @@ hr {
 
 .member_search-search-container {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;
     width: 200px;
     height: 30px;
@@ -166,20 +179,21 @@ hr {
 .member_search-member-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
+    width: 1060.94px;
+    /* margin-right: -80px; */
     font-size: 12px;
     line-height: 20px;
-    width: 1000px;
 }
-
 .member_search-member-item {
     width: 255px;
     height: 222px;
     border: 1px solid #D7D7D7;
     border-radius: 1px;
     padding: 30px;
-    /* margin-left: 10px; */
+    /* margin-left: 20px; */
     margin-bottom: 20px;
+    margin-right: 36px;
 }   
 
 .member_search-member-item hr {
@@ -266,4 +280,18 @@ hr {
 
 .scrap.active{
     content:url("../image/scrap-btn.png");
+}
+
+.page-group{
+    display: flex;
+    justify-content: center;
+    margin: 70px 0;
+    font-size: 14px;
+}
+.page{
+    margin: 0 5px;
+}
+.page.active{
+    font-weight: 500;
+    text-decoration-line: underline;
 }

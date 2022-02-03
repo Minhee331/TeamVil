@@ -9,10 +9,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Teamvil</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/team_apply.css' %}">
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <link rel="shortcut icon" href="{% static 'image/favicon.ico' %}"/>
 </head>
 <body>
     {% include 'navbar.html' %}
@@ -190,12 +191,18 @@
             url: "{% url 'team_apply' project.id %}",
             data: JSON.stringify(data),
             success: function(res) {
-                location.href = '/project/team_detail/'+res['project_id']
+                alert("지원 완료되었습니다. ")
+                location.href = '/project/team_application/'+res['project_id']
             },
             error:function(request,status,error){
                 alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
             }
         });
     });
+    window.onpageshow = function(event) {
+        if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+            window.location.href= '/project/team_detail/'+'{{project.id}}'
+        }
+    }
 </script>
 </html>

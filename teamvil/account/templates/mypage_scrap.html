@@ -11,12 +11,12 @@
             
             <article class="mypage-project-team-item">
                 <a href="{% url 'team_detail' project.id %}">
-                    <img class="mypage-project-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
+                    <img class="mypage-project-team-image" src="{{project.photo.url}}" alt="">
                 </a>
                 <div class="mypage-project-team-item-wrap">
                     <a href="{% url 'team_detail' project.id %}">
+                        <p class="mypage-project-team-item-title spoqa-medium">{{project.abb3}}</p>
                         <div class="mypage-project-team-item-text">
-                            <p class="mypage-project-team-item-title spoqa-medium">{{project.title}}</p>
                             
                             <p class="mypage-project-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
                             
@@ -56,6 +56,21 @@
             </article>
         {% endfor %}
     </div>
+    <!-- <div style="display: flex; justify-content: center;">
+            <p>{% if posts.has_previous %}
+                <a href="?page=1">First</a>
+                <a href="?page={{posts.previous_page_number}}">이전</a>
+            {% endif %}
+            
+            <span>{{posts.number}}</span>
+            <span>/</span>
+            <span>{{posts.paginator.num_pages}}</span>
+            
+            {% if posts.has_next %}
+                <a href="?page={{posts.next_page_number}}">다음</a>
+                <a href="?page={{posts.paginator.num_pages}}">Last</a>
+                {% endif %}</p> -->
+            <!-- </div> -->
 </div>
 <div class="mypage-info-type-wrap-container">
     <div class="mypage-project-item-wrap-container">
@@ -70,7 +85,7 @@
                 <a href="{% url 'member_detail' profile.id %}">
                     <div class="mypage-like-member-profile-container">
                         <div class="mypage-like-member-name-container">
-                            <img class="mypage-like-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
+                            <img class="mypage-like-member-image" src="{% get_profile_photo profile.user_id.id %}" alt="">
                             <p class="spoqa-medium">{{profile.name}}</p>
                         </div>
                     </div>
@@ -112,6 +127,22 @@
         {% endfor %}
         </div>
     </div>
+    <!-- <div style="display: flex; justify-content: center;">
+        <p>{% if posts.has_previous %}
+            <a href="?page=1">First</a>
+            <a href="?page={{posts.previous_page_number}}">이전</a>
+        {% endif %}
+        
+        <span>{{posts.number}}</span>
+        <span>/</span>
+        <span>{{posts.paginator.num_pages}}</span>
+        
+        {% if posts.has_next %}
+            <a href="?page={{posts.next_page_number}}">다음</a>
+            <a href="?page={{posts.paginator.num_pages}}">Last</a>
+            {% endif %}</p>
+        </div> -->
+</div>
 </div>
 <script>
     // 좋아요 활성화

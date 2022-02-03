@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 {% load static %}
+{% load custom_tags %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Teamvil</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/info.css' %}">
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <link rel="shortcut icon" href="{% static 'image/favicon.ico' %}"/>
 </head>
 <body>
     {% include 'navbar.html' %}
@@ -18,7 +20,7 @@
                 <div class="width-width">
                     <a class="float-left" href="{% url 'register_info' %}"><input class="register_info-signup-submit-btn" type="submit" value="게시 요청"></a> 
                 </div>
-                {% for info in posts %}
+                {% for info in infoList %}
                     <a href="{% url 'info_detail' info.id %}">
                         <div class="info-content-box-wrap">
                             {% if info.image.url is not None %}
@@ -38,7 +40,7 @@
                                 </div>
                                 <div class="info-content-etc-divide-wrap">
                                     <p class="info-etc-text spoqa-regular">조회 {{info.view_cnt}}</p>
-                                    <p class="info-etc-text spoqa-regular">D - 81</p>
+                                    <p class="info-etc-text spoqa-regular">{% if info.end_date is not none%}{% Dday info.end_date %}{% else %}미정{% endif %}</p>
                                 </div>
                             </div>
                         </div>
@@ -47,21 +49,16 @@
             </div>
         </div>
 
-        <div style="display: flex; justify-content: center;">
-            <p>{% if posts.has_previous %}
-                <a href="?page=1">First</a>
-                
-                <a href="?page={{posts.previous_page_number}}">이전</a>
-            {% endif %}
-        
-            <span>{{posts.number}}</span>
-            <span>/</span>
-            <span>{{posts.paginator.num_pages}}</span>
-        
-            {% if posts.has_next %}
-                <a href="?page={{posts.next_page_number}}">다음</a>
-                <a href="?page={{posts.paginator.num_pages}}">Last</a>
-            {% endif %}</p>>
+        <div class="page-wrap">
+            <a href="?page=1" class="spoqa-light page"><<</a>
+            {% for l in  infoList.paginator.page_range %}
+                {% if infoList.number == forloop.counter %}
+                    <a href="?page={{forloop.counter}}" class="spoqa-light active page">{{forloop.counter}}</a>
+                {% else %}
+                    <a href="?page={{forloop.counter}}" class="spoqa-light page">{{forloop.counter}}</a>
+                {% endif %}
+            {% endfor %}
+            <a href="?page={{infoList.paginator.num_pages}}" class="spoqa-light page">>></a>
         </div>
     </div>
     {% include 'footer.html' %}

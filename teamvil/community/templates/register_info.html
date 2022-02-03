@@ -5,10 +5,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Teamvil</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/register_info.css' %}">
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/i18n/datepicker-ko.js"></script>
+    <link rel="shortcut icon" href="{% static 'image/favicon.ico' %}"/>
 </head>
 <body>
     {% include 'navbar.html' %}
@@ -112,10 +116,10 @@
                         <div class="register_info-register-circle"></div>
 
                         <div class="register_info-long-title-wrap">
-                            <p class="register_info-title-text spoqa-light">시작 날짜</p>
+                            <p class="register_info-title-text spoqa-light">시작일</p>
                         </div>
                         
-                        <input class="register_info-input-item spoqa-light" type="datetime-local" name="start_date">
+                        <input class="register_info-input-item spoqa-light start_date" type="text" name="start_date">
                     </div>
 
                     <div class="register_info-line col_4"></div>
@@ -124,10 +128,10 @@
                         <div class="register_info-register-circle"></div>
 
                         <div class="register_info-long-title-wrap">
-                            <p class="register_info-title-text spoqa-light">종료 날짜</p>
+                            <p class="register_info-title-text spoqa-light">종료일</p>
                         </div>
                         
-                        <input class="register_info-input-item spoqa-light" type="datetime-local" name="end_date">
+                        <input class="register_info-input-item spoqa-light end_date" type="text" name="end_date">
                     </div>
 
                     <div class="register_info-line col_4"></div>
@@ -154,5 +158,28 @@
         con = confirm("게시 요청이 접수되었습니다. 작성하신 메일로 2-3일 내에 게시 여부에 대해 연락드리겠습니다.");
         return con;
     };
+    $(function() {
+        $.datepicker.setDefaults($.datepicker.regional['ko']);
+
+        $('.start_date').datepicker({
+            showOn:"focus",
+            dateFormat:"yy-mm-dd",
+            changeMonth:true,
+            changeYear:true,
+            onClose:function(selectedDate){
+                $(".end_date").datepicker("option","minDate",selectedDate);
+            },
+        });
+
+        $('.end_date').datepicker({
+            showOn:"focus",
+            dateFormat:"yy-mm-dd",
+            changeMonth:true,
+            changeYear:true,
+            onClose:function(selectedDate){
+                $(".start_date").datepicker("option","maxDate",selectedDate);
+            },
+        })
+    })
 </script>
 </html>

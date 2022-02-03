@@ -3,7 +3,7 @@
     justify-content: center;
 }
 .info-wrap{
-    margin: 100px;
+    margin: 100px 100px 60px 100px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -81,4 +81,17 @@
 }
 .float-left{
     margin-left: auto;
+}
+.page-wrap{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 100px;
+    font-size: 14px;
+}
+.page{
+    margin: 0 5px;
+}
+.page.active{
+    font-weight: 500;
+    text-decoration-line: underline;
 }

@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from django.http import request
 from django.http.response import JsonResponse
 from django.shortcuts import render
@@ -26,21 +27,27 @@ def community_detail_back(request, community_id):
             replylist.append(reply) #하나하나 나온 reply를 replylist에 넣어줌
         replydict[str(comment.id)] = replylist  #딕셔너리 형태로, str(comment.id)가 key이고 replylist가 value;
     # replys = Comment.objects.filter(com_id = community, parent = comment_id) 
+    communitys.view_cnt +=1
+    communitys.save()
     return render(request, 'community_detail_content.html', {'communitys':communitys, "comments":comments, "replydict":replydict.items()})
 
 def community_detail_content(request, community_id):
     communitys = Com.objects.get(id = community_id)
     comments = Comment.objects.filter(com_id = communitys, parent = 0)
+    comments_cnt = comments.count()
     #대댓글
     replydict = {} #dict 형식
     for comment in comments:
         replylist = []
         replies = Comment.objects.filter(parent = comment.id) #replies변수에 parent랑 comment.id랑 같은 값들 모두 넣어줌 
         for reply in replies: #가져 온 값들을 for문으로 하나하나 돌리기
-            replylist.append(reply) #하나하나 나온 reply를 replylist에 넣어줌
-        replydict[str(comment.id)] = replylist  #딕셔너리 형태로, str(comment.id)가 key이고 replylist가 value;
+            replylist.append(reply) #하나하나 나온 reply를 replylist에 넣어줌 [대댓글] [대댓글2] --- 
+        replydict[str(comment.id)] = replylist  #딕셔너리 형태로, str(comment.id)가 key이고 replylist가 value;{[아이디,대댓글1], }
     # replys = Comment.objects.filter(com_id = community, parent = comment_id) 
-    return render(request,'community_detail_content.html',{'communitys':communitys, "comments":comments, "replydict":replydict.items()})
+    total_cnt = Comment.objects.filter(com_id = communitys).count()
+    communitys.view_cnt +=1
+    communitys.save()
+    return render(request,'community_detail_content.html',{'communitys':communitys, "comments":comments, "replydict":replydict.items(), "total_cnt":total_cnt})
 
 
 
@@ -149,27 +156,38 @@ def register_info(request):
 
 def info(request):
     infoList = Info.objects.all()
-    infoList_list=Info.objects.all()
     page = request.GET.get('page')
-    paginator = Paginator(infoList_list, 2)
-    posts = paginator.get_page(page)
-    return render(request, 'info.html', {"infoList":infoList, "posts":posts})
+    paginator = Paginator(infoList, 12)
+    infoList = paginator.get_page(page)
+    return render(request, 'info.html', {"infoList":infoList})
 
 def info_detail(request, info_id):
     info = Info.objects.get(id = info_id)
     info_link = Info_link.objects.filter(info_id = info)
     info_files = Info_file.objects.filter(info_id = info)
+    #조회수 기능
+    # expire_date, now = datetime.now(), datetime.now()
+    # expire_date += timedelta(days=1)
+    # expire_date = expire_date.replace(hour=0,minute=0, second=0, microsecond=0)
+    # expire_date -= now
+    # max_age = expire_date.total_seconds()
+
+    # cookie_value = request.COOKIES.get('hitboard','_')
+    # if f'_'
+    info.view_cnt +=1
+    info.save()
     return render(request, 'info_detail.html', {'info':info, 'info_link': info_link, "info_files":info_files})
 
-
-
-# kay
+# 커뮤니티 진입 함수
 def community(request):
-    community = Com.objects.all().order_by('-id') 
-    community_list=Com.objects.all().order_by('-id')
+    community_list = Com.objects.all().order_by('-id') 
     page = request.GET.get('page')
-    paginator = Paginator(community_list, 5)
-    posts = paginator.get_page(page)
+    paginator = Paginator(community_list, 10)
+    community_list = paginator.get_page(page)
     profile = Profile.objects.get(user_id = request.user)
     name = profile.name
-    return render(request,'community.html', {'community':community, 'posts': posts, 'name':name})
+    # comment_cnt = Comment.objects.filter(parent = 0).count()
+    # reply_cnt = Comment.objects.exclude(parent = 0).count()
+    # total_cnt = comment_cnt + reply_cnt
+    return render(request,'community.html', {'community_list':community_list, 'name':name})
+

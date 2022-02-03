@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+{% load custom_tags %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teamvil</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/team_search.css' %}">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <!-- <script type="text/javascript" src="/js/twbs-pagination/jquery.twbsPagination.js"></script> -->
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="content">
+
+        <section class="team_search-category-container margin">
+            <div>
+                <a class="team_search-category-item all" href="{% url 'team_search' %}">
+                    {% if classify == 'A' %}
+                        <h6 class="blue">A</h6>
+                        <p class="blue">전체</p>
+                    {% else %}
+                        <h6 class="black">A</h6>
+                        <p class="black">전체</p>
+                    {% endif %}
+                </a>
+        
+                <p class="team_search-category-pipe spoqa-regular">|</p>
+        
+                <a class="team_search-category-item startup" href="{% url 'classify_S' %}">
+                    {% if classify == 'S' %}
+                        <h6 class="blue">S</h6>
+                        <p class="blue">스타트업(창업)</p>
+                    {% else %}
+                        <h6 class="black">S</h6>
+                        <p class="black">스타트업(창업)</p>
+                    {% endif %}
+                </a>
+        
+                <a class="team_search-category-item contest" href="{% url 'classify_C' %}">
+                    {% if classify == 'C' %}
+                        <h6 class="blue">C</h6>
+                        <p class="blue">공모전/대외활동</p>
+                    {% else %}
+                        <h6 class="black">C</h6>
+                        <p class="black">공모전/대외활동</p>
+                    {% endif %}
+                </a>
+        
+                <a class="team_search-category-item exproject" href="{% url 'classify_P' %}">
+                    {% if classify == 'P' %}
+                        <h6 class="blue">P</h6>
+                        <p class="blue">기타 프로젝트</p>
+                    {% else %}
+                        <h6 class="black">P</h6>
+                        <p class="black">기타 프로젝트</p>
+                    {% endif %}
+                </a>
+            </div>
+        </section>
+
+        <section class="member_search-rec-box margin margin">
+            <p class="member_search-rec-title spoqa-regular">recommended project</p>
+
+            <div class="member_search-rec-container">
+                <img class="member_search-chevron-left" src="{% static 'image/chevron-left.png' %}" alt="">
+
+                {% for reg in projects_reg %}
+                <div class="member_search-rec-member">
+                    {% if reg.photo.url is not None %}
+                        <img class="member_search-rec-image" src="{{reg.photo.url}}">
+                    {% else %}
+                        <img class="member_search-rec-image" style="background-color: #ebebeb;">
+                    {% endif %}
+                    <div class="member_search-rec-info">
+                        {% if reg.title|length > 13 %}
+                        <p class="member_search-rec-info-name spoqa-regular">{{reg.abb2}}. . .</p>
+                        {% else %}
+                        <p class="member_search-rec-info-name spoqa-regular">{{reg.title}}</p>
+                        {% endif %}
+                        <p class="spoqa-light">분야 : {{reg.field1_id.field1}}</p>
+                        <p class="spoqa-light">기간: {{reg.start_date|date:"Y-m-d"}} ~ {{reg.end_date|date:"Y-m-d"}}</p>
+                        <p class="spoqa-light">지역: {{reg.region1_id.region1}} {{reg.region2_id.region2}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <img class="member_search-chevron-right" src="{% static 'image/chevron-right.png' %}" alt="">
+            </div>
+        </section>
+
+        <section class="team_search-main-container margin">
+            <aside class="team_search-filter-container">
+                <div class="team_search-filter-item-container">
+                    <div class="team_search-filter-active">
+                        <p class="team_search-filter-title spoqa-medium">분야</p>
+                        <div value="field1" class="drop_btn">
+                            <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
+                        </div>
+                    </div>
+
+                    <div class="active" id="field1">
+                        <div class="team_search-filter-item-list spoqa-light">
+                            <label>
+                                <input type="checkbox" value='all' class="field1" data="field1_all" checked>
+                                <span>전체</span>
+                            </label>
+                        </div>
+                        {% for field1 in field1s %}
+                            <div class="team_search-filter-item-list spoqa-light">
+                                <label>
+                                    <input type="checkbox" value='{{field1.id}}' class="field1">
+                                    <span>{{field1.field1}}</span>
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <hr>
+
+                    <div class="team_search-filter-active">
+                        <p class="team_search-filter-title spoqa-medium">지역</p>
+                        <div value="region" class="drop_btn">
+                            <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
+                        </div>
+                    </div>
+    
+                    <div class="hidden" id="region">
+                        <div class="team_search-filter-item-list spoqa-light">
+                            <label>
+                                <input type="checkbox" value='all' class="region1" data="region1_all" checked>
+                                <span>전체</span>
+                            </label>
+                        </div>
+                        {% for region1 in region1s %}
+                            <label>
+                                <div class="team_search-filter-item-list spoqa-light">
+                                    <input type="checkbox" value='{{region1.id}}' class="region1">
+                                    <span>{{region1.region1}}</span>
+                                </div>
+                            </label>
+                        {% endfor %}
+                    </div>
+
+                    <hr>
+            
+                    <div class="team_search-filter-active">
+                        <p class="team_search-filter-title spoqa-medium">모집 상태</p>
+                        <div value="state" class="drop_btn">
+                            <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
+                        </div>
+                    </div>
+
+                    <div class="hidden" id="state">
+                        <div class="team_search-filter-item-list spoqa-light">
+                            <label>
+                                <input type="checkbox" value='all' class="state" data="state_all" checked>
+                                <span>전체</span>
+                            </label>
+                        </div>
+                        <div class="team_search-filter-item-list spoqa-light">
+                            <label>
+                                <input type="checkbox" value='1' class="state">
+                                <span>모집중</span>
+                            </label>
+                        </div>
+
+                        <div class="team_search-filter-item-list spoqa-light">
+                            <label>
+                                <input type="checkbox" value='0' class="state">
+                                <span>모집완료</span>
+                            </label>
+                        </div>
+                    </div>
+                
+
+                </div>
+                <div id="pagination-div" ></div>
+                <!-- <a class="a-search">
+                    <button class="search team_filter spoqa-medium">검색</button>
+                </a> -->
+            </aside>
+
+            <main>
+                <div class="member_search-member-select-container">
+                    <div class="member_search-member-select-sort spoqa-regular">
+                        <a href="" class="member_search-member-select-latest">최신순</a>
+                        <p>|</p>
+                        <a href="" class="member_search-member-select-popular">인기순</a>
+                    </div>
+
+                    <div class="member_search-member-select-right-container">
+                        {% if user.is_authenticated %}
+                        <div class="team_search-new-team-container">
+                            <a href="{% url 'team_new' %}"><input type="button" value="팀 만들기"></a>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="member_search-search-container">
+                            <input class="member_search-member-select-search spoqa-light" type="text">
+                            <img class="member_search-search-button" src="{% static 'image/search.png' %}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team_search-team-container">
+                    {% for project in projects %}
+                        <a href="{% url 'team_detail' project.id %}">
+                            <article class="team_search-team-item">
+                                {% if project.photo.url is not None %}
+                                    <img class="team_search-team-image" src="{{project.photo.url}}" alt="">
+                                {% else %}
+                                    <img class="team_search-team-image" style="background-color: #ebebeb;" alt="">
+                                {% endif %}
+                                <div class="team_search-team-item-container">
+                                    <div class="team_search-team-item-text">
+                                        {% if project.title|length > 12 %}
+                                        <p class="home-latest-team-item-title spoqa-medium">{{project.abb}} . . .</p>
+                                        {% else %}
+                                            <p class="home-latest-team-item-title spoqa-medium">{{project.title}}</p>
+                                        {% endif %}
+                                        <p class="team_search-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
+                                        <p class="team_search-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
+                                        <p class="team_search-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
+                                            {% if project.state == 1%}
+                                                (모집중)
+                                            {% else %}
+                                                (모집완료)
+                                            {% endif %}
+                                        </p>
+                                        <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
+                                    </div>
+
+                                    <div class="team_search-like-scrap-container spoqa-light">
+                                        <a class="team_search-like-scrap-item">
+                                            {% if user.is_authenticated %}
+                                                <img class="like-scrap like {% active_like 0 project.id user.id %}" src="{% static 'image/like-btn-2.png' %}" value="{{project.id}}">
+                                            {% else %}
+                                                <img class="like-scrap like" src="{% static 'image/like-btn-2.png' %}" value="{{project.id}}">
+                                            {% endif %}
+                                            <p>{% get_like_cnt 0 project.id %}</p>
+                                        </a>
+
+                                        <a class="team_search-like-scrap-item">
+                                            {% if user.is_authenticated %}
+                                                <img class="like-scrap scrap {% active_scrap 0 project.id user.id %}" src="{% static 'image/scrap-btn-2.png' %}" value="{{project.id}}">
+                                            {% else %}
+                                                <img class="like-scrap scrap" src="{% static 'image/scrap-btn-2.png' %}" value="{{project.id}}">
+                                            {% endif %}
+                                            <p>{% get_scrap_cnt 0 project.id %}</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </article>
+                        </a>
+                    {% endfor %}
+                </div>
+            </main>
+        </section>
+        <!-- <div style="display: flex; justify-content: center;">
+            <p>{% if posts.has_previous %}
+                <a href="?page=1">First</a>
+                <a href="?page={{posts.previous_page_number}}">이전</a>
+            {% endif %}
+            
+            <span>{{posts.number}}</span>
+            <span>/</span>
+            <span>{{posts.paginator.num_pages}}</span>
+            
+            {% if posts.has_next %}
+                <a href="?page={{posts.next_page_number}}">다음</a>
+                <a href="?page={{posts.paginator.num_pages}}">Last</a>
+                {% endif %}</p>
+            </div> -->
+    </div>
+    {% include 'footer.html' %}
+</body>
+
+
+    <script>
+        $(document).ready(function(){
+            // 좋아요 활성화
+            $(".like").on("click", function(){ 
+                user = {% if user.is_authenticated %}true{% else %}false{% endif %}
+                if(user){
+                    project_id = $(this).attr('value'); 
+                    var like = {
+                        'value': project_id
+                    }
+                    var url = '';
+                    if($(this).hasClass('active')){
+                        $(this).removeClass('active');
+                        url = "{% url 'likecancel' %}"
+                        $(this).next().text(parseInt($(this).next().text())-1);
+                    }else{
+                        $(this).addClass('active');
+                        url = "{% url 'like' %}"
+                        $(this).next().text(parseInt($(this).next().text())+1);
+                    }
+                    $.ajax({
+                        type:"POST",
+                        headers:{
+                            'X-CSRFToken' : '{{csrf_token}}'
+                        },
+                        url: url,
+                        data :JSON.stringify(like),
+                        success: function(res) {
+                        },
+                        error:function(request,status,error){
+                            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                            alert("로그인하세요.");
+                            
+                        }
+                    });
+                }else{
+                    alert("로그인하세요.");
+                }
+            });
+            
+            // 스크랩
+            $(".scrap").on("click", function(){ 
+                user = {% if user.is_authenticated %}true{% else %}false{% endif %}
+                if(user){
+                    project_id = $(this).attr('value'); 
+                    var like = {
+                        'value': project_id
+                    }
+                    var url = '';
+                    if($(this).hasClass('active')){
+                        $(this).removeClass('active');
+                        url = "{% url 'scrapcancel' %}"
+                        $(this).next().text(parseInt($(this).next().text())-1);
+                    }else{
+                        $(this).addClass('active');
+                        url = "{% url 'scrap' %}"
+                        $(this).next().text(parseInt($(this).next().text())+1);
+                    }
+                    $.ajax({
+                        type:"POST",
+                        headers:{
+                            'X-CSRFToken' : '{{csrf_token}}'
+                        },
+                        url: url,
+                        data :JSON.stringify(like),
+                        success: function(res) {
+                        },
+                        error:function(request,status,error){
+                            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                            alert("로그인하세요.");
+                        }
+                    }); 
+                }else{
+                    alert("로그인하세요.");
+                }
+            });
+
+            $(".drop_btn").on("click", function(){ 
+                let className = $(this).attr("value");
+                let currentClass = document.getElementById(className);
+                
+                if ($(currentClass).is('.hidden')){
+                    $(currentClass).removeClass('hidden');
+                    $(currentClass).addClass('active');
+                } else{
+                    $(currentClass).removeClass('active');
+                    $(currentClass).addClass('hidden');
+                }
+            }); 
+
+            $('.field1, .region1, .state').on("change",  function(){ 
+                if($(this).val()=='all'&& $(this).is(":checked")){
+                    $("."+$(this).attr('class')).prop("checked", false);
+                    $(this).prop("checked", true)
+                }else{
+                    $("input[data='"+$(this).attr('class')+"_all']").prop("checked", false);
+                }
+                if($("."+$(this).attr('class')+":checked").length ==0){
+                    $("input[data='"+$(this).attr('class')+"_all']").prop("checked", true);
+                }
+                team_filter();
+            });
+            // $(".team_filter").on("click", function(){ 
+            function team_filter(){ 
+                let field1_checked = $("#field1 input:checked");
+                let region_checked = $("#region input:checked");
+                let state_checked = $("#state input:checked");
+                let field1_list = []
+                let region_list = []
+                let state_list = []
+                for(let i=0; i<field1_checked.length; i++){
+                    field1_list.push($(field1_checked[i]).val());
+                }
+                for(let i=0; i<region_checked.length; i++){
+                    region_list.push($(region_checked[i]).val());
+                }
+                for(let i=0; i<state_checked.length; i++){
+                    state_list.push($(state_checked[i]).val());
+                }
+                var data = {
+                    'field1': field1_list,
+                    'region' : region_list,
+                    'state' : state_list,
+                }
+                console.log(data);
+                $.ajax({
+                    type: "POST",
+                    headers:{
+                        'X-CSRFToken' : '{{csrf_token}}'
+                    },
+                    url: "{% url 'filterTeam' %}",
+                    data: JSON.stringify(data),
+                    success: function(res) {
+                        $('.team_search-team-container').html(res);
+                    },
+                    error:function(request,status,error){
+                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    }
+                });
+            };
+            //최신순 필터링
+            $('.member_search-member-select-latest').on("click", function(event){ 
+                event.preventDefault();
+                let field1_checked = $("#field1 input:checked");
+                let region_checked = $("#region input:checked");
+                let state_checked = $("#state input:checked");
+                let field1_list = []
+                let region_list = []
+                let state_list = []
+                for(let i=0; i<field1_checked.length; i++){
+                    field1_list.push($(field1_checked[i]).val());
+                }
+                for(let i=0; i<region_checked.length; i++){
+                    region_list.push($(region_checked[i]).val());
+                }
+                for(let i=0; i<state_checked.length; i++){
+                    state_list.push($(state_checked[i]).val());
+                }
+                var data = {
+                    'field1': field1_list,
+                    'region' : region_list,
+                    'state' : state_list,
+                }
+                $.ajax({
+                    type: "POST",
+                    headers:{
+                        'X-CSRFToken' : '{{csrf_token}}'
+                    },
+                    url: "{% url 'latestTeam' %}",
+                    data: JSON.stringify(data),
+                    success: function(res) {
+                        $('.team_search-team-container').html(res);
+                    },
+                    error:function(request,status,error){
+                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    }
+                });
+            });
+
+            //인기순 필터링
+            $('.member_search-member-select-popular').on("click", function(event){ 
+                event.preventDefault();
+                let field1_checked = $("#field1 input:checked");
+                let region_checked = $("#region input:checked");
+                let state_checked = $("#state input:checked");
+                let field1_list = []
+                let region_list = []
+                let state_list = []
+
+                for(let i=0; i<field1_checked.length; i++){
+                    field1_list.push($(field1_checked[i]).val());
+                }
+                for(let i=0; i<region_checked.length; i++){
+                    region_list.push($(region_checked[i]).val());
+                }
+                for(let i=0; i<state_checked.length; i++){
+                    state_list.push($(state_checked[i]).val());
+                }
+                var data = {
+                    'field1': field1_list,
+                    'region' : region_list,
+                    'state' : state_list,
+                }
+                $.ajax({
+                    type: "POST",
+                    headers:{
+                        'X-CSRFToken' : '{{csrf_token}}'
+                    },
+                    url: "{% url 'popularTeam' %}",
+                    data: JSON.stringify(data),
+                    success: function(res) {
+                        $('.team_search-team-container').html(res);
+                    },
+                    error:function(request,status,error){
+                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    }
+                });
+            });
+            //팀 찾기 > 검색
+            $('.member_search-search-button').on("click", function(){ 
+                txt = $('.member_search-member-select-search').val()
+                if(txt==""){
+                    alert("검색어를 입력해주세요");
+                }else{
+                    var Teamdata = {
+                    'value': txt
+                    }
+                    $.ajax({
+                        type: "POST",
+                        headers:{
+                            'X-CSRFToken' : '{{csrf_token}}'
+                        },
+                        url: "{% url 'searchTeam' %}",
+                        data: JSON.stringify(Teamdata),
+                        success: function(res) {
+                            $('.team_search-team-container').html(res);
+                        },
+                        error:function(request,status,error){
+                            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                        }
+                    });
+                }
+            });
+            document.onkeydown = fkey;
+            document.onkeypress = fkey
+            document.onkeyup = fkey;
+
+            var wasPressed = false;
+
+            function fkey(e){
+                e = e || window.event;
+                if( wasPressed ) return; 
+
+                if (e.keyCode == 116) {
+                    alert("f5 pressed");
+                    wasPressed = true;
+                }else {
+                    alert("Window closed");
+                }
+            }
+
+            // classify
+            // function classify(thisClass) {
+            //     var blue = document.getElementsByClassName('blue')[0];
+            //     blue.classList.remove('blue');
+            //     blue.classList.add('black');
+                
+
+            //     thisClass.classList.remove('black');
+            //     thisClass.classList.add('blue');
+            // }
+
+            //분류(all)
+            /*
+            $('.all').on("click", function(e){
+                e.preventDefault()
+                $.ajax({
+                    type: "POST",
+                    headers:{
+                        'X-CSRFToken' : '{{csrf_token}}'
+                    },
+                    url: "{% url 'classify_A' %}",
+                    success: function(res){
+                        $('.team_search-team-container').html(res);
+                    },
+                    error:function(request,status,error){
+                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    }
+                })
+            });
+            
+            //분류(창업)
+            
+            $('.startup').on("click", function(e){
+                e.preventDefault()
+                $.ajax({
+                    type: "POST",
+                    headers:{
+                        'X-CSRFToken' : '{{csrf_token}}'
+                    },
+                    url: "{% url 'classify_S' %}",
+                    success: function(res){
+                        $('.team_search-team-container').html(res);
+                    },
+                    error:function(request,status,error){
+                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    }
+                })
+            });
+            
+            //분류(공모전)
+            $('.contest').on("click", function(e){
+                e.preventDefault()
+                $.ajax({
+                    type: "POST",
+                    headers:{
+                        'X-CSRFToken' : '{{csrf_token}}'
+                    },
+                    url: "{% url 'classify_C' %}",
+                    success: function(res){
+                        $('.team_search-team-container').html(res);
+                    },
+                    error:function(request,status,error){
+                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    }
+                })
+            });
+            //분류(프로젝트)
+            $('.exproject').on("click", function(e){
+                e.preventDefault()
+                $.ajax({
+                    type: "POST",
+                    headers:{
+                        'X-CSRFToken' : '{{csrf_token}}'
+                    },
+                    url: "{% url 'classify_P' %}",
+                    success: function(res){
+                        $('.team_search-team-container').html(res);
+                    },
+                    error:function(request,status,error){
+                        alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                    }
+                })
+            });
+            */
+        })
+    </script>
+</html>

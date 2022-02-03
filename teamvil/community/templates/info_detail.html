@@ -6,10 +6,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Teamvil</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/info_detail.css' %}">
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <link rel="shortcut icon" href="{% static 'image/favicon.ico' %}"/>
 </head>
 <body>
     {% include 'navbar.html' %}
@@ -40,7 +41,7 @@
                     </div>
 
                     <div class="info_detail-content-etc-divide-wrap">
-                        <p class="info_detail-etc-text spoqa-light">D  {% Dday info.end_date %}</p>
+                        <p class="info_detail-etc-text spoqa-light">{% if info.end_date is not none%}{% Dday info.end_date %}{% else %}미정{% endif %}</p>
                     </div>
                 </div>
             </div>
@@ -49,7 +50,7 @@
 
             <div class="info_detail-detail-text-wrap">
                 <p class="info_detail-detail-text spoqa-light">상세 설명</p>
-                <p class="info_detail-view-text spoqa-light">조회 81</p>
+                <p class="info_detail-view-text spoqa-light">조회 {{info.view_cnt}}</p>
             </div>
             {% if info.image.url is not None %}
                 <div class="info_detail-img-wrap">

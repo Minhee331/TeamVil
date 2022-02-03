@@ -1,128 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    {% load static %}
+{% load static %}
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        <link rel="stylesheet" href="{% static 'css/team_application.css' %}">
-    </head>
+{% load custom_tags %}
 
-    <body>
-        
-        {% include 'navbar.html' %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teamvil</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/team_application.css' %}">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <link rel="shortcut icon" href="{% static 'image/favicon.ico' %}"/>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    
+    <div class="team_application-main-container content">
+        <div class="team_application-title-container spoqa-light">
+            <h5 class="spoqa-regular">{{project.title}}</h5>
 
-        <div class="team_application-container content">
+            {% if project.type == 0 %}
+                <p>창업 | {{project.field1_id.field1}}</p> 
+            {% elif project.type == 1 %}
+                <p>공모전 | {{project.field1_id.field1}}</p>
+            {% else %}
+                <p>프로젝트 | {{project.field1_id.field1}}</p>
+            {% endif %}
 
-            <div class="team_application-wrap">
-
-                <div class="team_application-scroll type">
-                    
-                    <div class="team_application-member">
-                        <img class="team_application-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                        <p class="team_application-member-name-text">박민희</p>
-
-                        <p class="team_application-state-text">읽음</p>
-                    </div>
-
-                    <div class="team_application-member">
-                        <img class="team_application-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                        <p class="team_application-member-name-text">박민희</p>
-
-                        <p class="team_application-state-text">읽음</p>
-                    </div>
-
-                    <div class="team_application-member">
-                        <img class="team_application-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                        <p class="team_application-member-name-text">박민희</p>
-
-                        <p class="team_application-state-text">읽음</p>
-                    </div>
-
-                    <div class="team_application-member">
-                        <img class="team_application-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                        <p class="team_application-member-name-text">박민희</p>
-
-                        <p class="team_application-state-text">읽음</p>
-                    </div>
-
-                    <div class="team_application-member">
-                        <img class="team_application-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                        <p class="team_application-member-name-text">박민희</p>
-
-                        <p class="team_application-state-text">읽음</p>
-                    </div>
-
-                    <div class="team_application-member">
-                        <img class="team_application-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                        <p class="team_application-member-name-text">박민희</p>
-
-                        <p class="team_application-state-text">읽음</p>
-                    </div>
-
-                    <div class="team_application-member">
-                        <img class="team_application-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                        <p class="team_application-member-name-text">박민희</p>
-
-                        <p class="team_application-state-text">읽음</p>
-                    </div>
-
-                    <div class="team_application-member">
-                        <img class="team_application-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                        <p class="team_application-member-name-text">박민희</p>
-
-                        <p class="team_application-state-text">읽음</p>
-                    </div>
-
-                    <div class="team_application-member">
-                        <img class="team_application-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                        <p class="team_application-member-name-text">박민희</p>
-
-                        <p class="team_application-state-text">읽음</p>
-                    </div>
-
-                    <div class="team_application-member">
-                        <img class="team_application-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-
-                        <p class="team_application-member-name-text">박민희</p>
-
-                        <p class="team_application-state-text">읽음</p>
-                    </div>
-
-                </div>
-                
-
-                <div class="team_application-detail-container">
-                    
-                    <div class="team_application-member-info">
-                        <img class="team_application-member-image" src="{% static 'image/cloud.jpg' %}" alt="">
-                        <p class="team_application-member-name-text">박민희</p>
-                    </div>
-                    
-                </div>
-
-
-            </div>
-
+            <p class="">by {% Name project.user_id.id %}</p>
         </div>
 
+        <div class="team_application-content-container">
+            <div class="team_application-select-task-container">
+                <h6 class="spoqa-regular">지원 분야 선택</h6>
 
-        
-        {% include 'footer.html' %} 
+                <div class="team_application-tasks">
+                    {% for duty in duties %}
+                        {% if member.duty_id == duty %}
+                            <div class="team_application-task active" value = '{{duty.id}}'>
+                                <p>{{duty.name}} | {{duty.now}} / {{duty.total}}</p>
+                            </div>
+                        {% else %}
+                            <div class="team_application-task" value = '{{duty.id}}'>
+                                <p>{{duty.name}} | {{duty.now}} / {{duty.total}}</p>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
 
-    </body>
+            <div class="team_application-profile-container">
+                <h6 class="spoqa-regular">본인 프로필 제공 동의</h6>
+                
+                <input type="checkbox" checked disabled="disabled">
+                
+                <p>프로필 설정 시 입력한 정보가 자동으로 제공됩니다!</p>
+            </div>
 
+            <div class="team_application-question-container">
+                <h6 class="spoqa-regular">프로젝트 리더가 묻습니다!</h6>
+
+                <div class="team_application-questions">
+                    {% for qna in qna_list %}
+                        {% if qna.1.type == 0 %}
+                            <div class="team_application-question-item question.id" q_id="{{question.id}}" q_type ='{{question.type}}' >
+                                <div class="team_application-question spoqa-regular">
+                                    {% if qna.1.isRequired == 1 %}
+                                        <p class="team_application-essential">*</p>
+                                    {% else %}
+                                        <p>&nbsp;</p>
+                                    {% endif %}
+
+                                    <p class="team_application-question-content">{{qna.1.content}}</p>
+                                </div>
+                                
+                                <div class="team_application-option-list spoqa-light">
+                                    {% if qna.1.choice1 is not None %}
+                                        <input type="radio" name='choice{{question.id}}' value="1"  txt = "{{question.choice1}}" disabled {% if qna.0.choice_answer == 1 %}checked{% endif %}>
+                                        <p>{{qna.1.choice1}}</p>
+                                    {% endif %}
+
+                                    {% if qna.1.choice2 is not None %}
+                                        <input type="radio" name='choice{{question.id}}' value="2" txt = "{{question.choice2}}" disabled {% if qna.0.choice_answer == 2 %}checked{% endif %}>
+                                        <p>{{qna.1.choice2}}</p>
+                                    {% endif %}
+
+                                    {% if qna.1.choice3 is not None %}
+                                        <input type="radio" name='choice{{question.id}}' value="3" txt = "{{question.choice3}}" disabled {% if qna.0.choice_answer == 3 %}checked{% endif %}>
+                                        <p>{{qna.1.choice3}}</p>
+                                    {% endif %}
+
+                                    {% if qna.1.choice4 is not None %}
+                                        <input type="radio" name='choice{{question.id}}' value="4" txt = "{{question.choice4}}" disabled {% if qna.0.choice_answer == 4 %}checked{% endif %}>
+                                        <p>{{qna.1.choice4}}</p>
+                                    {% endif %}
+
+                                    {% if qna.1.choice5 is not None %}
+                                        <input type="radio" name='choice{{question.id}}' value="5" txt = "{{question.choice5}}" disabled {% if qna.0.choice_answer == 5 %}checked{% endif %}>
+                                        <p>{{qna.1.choice5}}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if qna.1.type == 1 %}
+                            <div class="team_application-question-item question.id" q_id="{{question.id}}" q_type ='{{question.type}}'>
+                                <div class="team_application-question spoqa-regular">
+                                    {% if qna.1.isRequired == 1 %}
+                                        <p class="team_application-essential">*</p>
+                                    {% else %}
+                                        <p>&nbsp;</p>
+                                    {% endif %}
+
+                                    <p class="team_application-question-content">{{qna.1.content}}</p>
+                                </div>
+
+                                <div class="team_application-answer-area">
+                                    <input type="text" class="spoqa-light short_answer" value="{{qna.0.short_answer}}" disabled>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if qna.1.type == 2 %}
+                            <div class="team_application-question-item question.id" q_id="{{question.id}}" q_type ='{{question.type}}'>
+                                <div class="team_application-question spoqa-regular">
+                                    {% if qna.1.isRequired == 1 %}
+                                        <p class="team_application-essential">*</p>
+                                    {% else %}
+                                        <p>&nbsp;</p>
+                                    {% endif %}
+
+                                    <p class="team_application-question-content">{{qna.1.content}}</p>
+                                </div>
+
+                                <div class="team_application-answer-area">
+                                    <textarea name="" id="" cols="50" rows="2" class="spoqa-light long_answer" disabled>{{qna.0.long_answer}}</textarea>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'footer.html' %}
+</body>
+<script>
+// window.onpopstate = function(event) {
+//     if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+//         alert("히스토리백!!!!");
+//     }
+//     alert(111);
+// }
+// document.oncontextmenu = function(){ alert(123)}
+// window.onpageshow = function(event) {
+//     alert(window.performance.navigation.type);
+// if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
+// // Back Forward Cache로 브라우저가 로딩될 경우 혹은 브라우저 뒤로가기 했을 경우
+// alert("히스토리백!!!!");
+//         }
+// }
+// $(window).bind('pageshow', function(event){
+//     if(event.originalEvent.pe)
+// });
+</script>
 </html>

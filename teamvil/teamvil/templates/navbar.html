@@ -14,8 +14,13 @@
 
     <div class="navbar-my-container spoqa-regular">
         {% if user.is_authenticated %}
-            <a href="{% url 'alarm_detail' %}"><img src="{% static 'image/noti-active.png' %}" alt="" onclick="newNoti(this)"></a>
-            <a href="{% url 'message' %}"><img src="{% static 'image/message-active.png' %}" alt="" onclick="newMessage(this)"></a>
+            <div>
+                <a href="{% url 'alarm_detail' %}"><img src="{% static 'image/noti-active.png' %}" alt="" onclick="newNoti(this)"></a>
+            </div>
+
+            <div>
+                <a href="{% url 'message' %}"><img src="{% static 'image/message-active.png' %}" alt="" onclick="newMessage(this)"></a>
+            </div>
 
             <ul class="">
                 <li class="navbar-my-item"><a href="{% url 'mypage' %}">마이페이지</a></li>

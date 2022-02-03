@@ -31,6 +31,7 @@ class Profile(models.Model):
     email = models.CharField(max_length=45)
     phone = models.CharField(max_length=15)
     birthday = models.DateField()
+    type = models.IntegerField(default=0) # 창업0, 공모전1, 프로젝트2 선호 프로젝트 타입
     region1_id = models.ForeignKey(Region1, on_delete = models.CASCADE, db_column="region1_id")
     region2_id = models.ForeignKey(Region2, on_delete = models.CASCADE, db_column="region2_id")
     openPhone = models.IntegerField()
@@ -91,3 +92,11 @@ class Message(models.Model):
     send_date = models.DateTimeField(default=timezone.now)
     content = models.CharField(max_length=1000)
     state = models.IntegerField(default=0) # 0 읽지 않음, 1 읽음
+
+class Message_payment(models.Model):
+    user_id = models.ForeignKey(User, on_delete = models.CASCADE, db_column="user_id")
+    start_date = models.DateTimeField(default=timezone.now)
+    end_date = models.DateTimeField(default=timezone.now)
+    pay_type = models.IntegerField() # (1: 1일, 2: 7일, 3: 1달, 4: 1년)
+    use = models.IntegerField(default=1) # (0: 만료 1: 사용가능)
+    

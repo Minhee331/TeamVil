@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teamvil</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/team_search.css' %}">
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <section class="team_search-category-container margin">
+
+    </section>
+
+    <section class="member_search-rec-box margin margin">
+        <p class="member_search-rec-title spoqa-regular">recommended project</p>
+
+        <div class="member_search-rec-container">
+            <img class="member_search-chevron-left" src="{% static 'image/chevron-left.png' %}" alt="">
+
+            {% for reg in projects_reg %}
+            <div class="member_search-rec-member">
+                <img class="member_search-rec-image" src="{% static 'image/cloud.jpg' %}">
+
+                <div class="member_search-rec-info">
+                    <p class="member_search-rec-info-name spoqa-regular">{{reg.title}}</p>
+                    <p class="spoqa-light">분야 : {{reg.field1_id.field1}}</p>
+                    <p class="spoqa-light">기간: {{reg.start_date|date:"Y-m-d"}} ~ {{reg.end_date|date:"Y-m-d"}}</p>
+                    <p class="spoqa-light">지역: {{reg.region1_id.region1}} {{reg.region2_id.region2}}</p>
+                </div>
+            </div>
+            {% endfor %}
+
+            <img class="member_search-chevron-right" src="{% static 'image/chevron-right.png' %}" alt="">
+        </div>
+    </section>
+
+    <section class="team_search-main-container margin">
+        <aside class="team_search-filter-container">
+            <div class="team_search-filter-item-container">
+                <div class="team_search-filter-active">
+                    <p class="team_search-filter-title spoqa-medium">분야</p>
+                    <div value="field1" class="drop_btn">
+                        <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
+                    </div>
+                </div>
+
+                <div class="active" id="field1">
+                    <div class="team_search-filter-item-list spoqa-light">
+                        <label>
+                            <input type="checkbox" value='all' class="field1" data="field1_all" checked>
+                            <span>전체</span>
+                        </label>
+                    </div>
+                    {% for field1 in field1s %}
+                        <div class="team_search-filter-item-list spoqa-light">
+                            <label>
+                                <input type="checkbox" value='{{field1.id}}' class="field1">
+                                <span>{{field1.field1}}</span>
+                            </label>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <hr>
+
+                <div class="team_search-filter-active">
+                    <p class="team_search-filter-title spoqa-medium">지역</p>
+                    <div value="region" class="drop_btn">
+                        <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
+                    </div>
+                </div>
+
+                <div class="hidden" id="region">
+                    <div class="team_search-filter-item-list spoqa-light">
+                        <label>
+                            <input type="checkbox" value='all' class="region2" data="region2_all" checked>
+                            <span>전체</span>
+                        </label>
+                    </div>
+                    {% for region2 in region2s %}
+                        <label>
+                            <div class="team_search-filter-item-list spoqa-light">
+                                <input type="checkbox" value='{{region2.id}}' class="region2">
+                                <span>{{region2.region1_id.region1}} {{region2.region2}}</span>
+                            </div>
+                        </label>
+                    {% endfor %}
+                </div>
+
+                <hr>
+        
+                <div class="team_search-filter-active">
+                    <p class="team_search-filter-title spoqa-medium">모집 상태</p>
+                    <div value="state" class="drop_btn">
+                        <img class="team_search-chevron" src="{% static 'image/chevron-down.png' %}">
+                    </div>
+                </div>
+
+                <div class="hidden" id="state">
+                    <div class="team_search-filter-item-list spoqa-light">
+                        <label>
+                            <input type="checkbox" value='all' class="state" data="state_all" checked>
+                            <span>전체</span>
+                        </label>
+                    </div>
+                    <div class="team_search-filter-item-list spoqa-light">
+                        <label>
+                            <input type="checkbox" value='1' class="state">
+                            <span>모집중</span>
+                        </label>
+                    </div>
+
+                    <div class="team_search-filter-item-list spoqa-light">
+                        <label>
+                            <input type="checkbox" value='0' class="state">
+                            <span>모집완료</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <a class="a-search">
+                <button class="search team_filter spoqa-medium">검색</button>
+            </a>
+        </aside>
+
+        <main>
+            <div class="member_search-member-select-container">
+                <div class="member_search-member-select-sort spoqa-regular">
+                    <a class="member_search-member-select-latest" href="#">최신순</a>
+                    <p>|</p>
+                    <a href="">인기순</a>
+                </div>
+
+                <div class="member_search-member-select-right-container">
+                    <div class="member_search-search-container">
+                        <input class="member_search-member-select-search spoqa-light" type="text">
+                        <img class="member_search-search-button" src="{% static 'image/search.png' %}">
+                    </div>
+
+                    <div class="member_search-member-select-state spoqa-regular drop_btn" value="sort">
+                        <div class="member_search-select-state-button">
+                            <p>전체</p>
+                            <img class="member_search-chevron" src="{% static 'image/chevron-down.png' %}">
+                        </div>
+
+                        <div class="hidden float" id="sort">
+                            <div class="member_search-select-state-list">
+                                <a href="">전체</a>
+                                <a href="">모집중</a>
+                                <a href="">모집완료</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team_search-team-container">
+                {% for project in projects %}
+                    <a href="{% url 'team_detail' project.id %}">
+                        <article class="team_search-team-item">
+                            <img class="team_search-team-image" src="{% static 'image/cloud.jpg' %}" alt="">
+
+                            <div class="team_search-team-item-text">
+                                <p class="team_search-team-item-title spoqa-medium">{{project.title}}</p>
+                                <p class="team_search-team-item-content spoqa-regular">분야 : {{project.field1_id.field1}}</p>
+                                <p class="team_search-team-item-content spoqa-regular">기간 : {{project.start_date|date:"Y-m-d"}} ~ {{project.end_date|date:"Y-m-d"}}</p>
+                                <p class="team_search-team-item-content spoqa-regular">모집인원 : {{project.mem_now}} / {{project.mem_duty}}
+                                    {% if project.state == 1%}
+                                        (모집중)
+                                    {% else %}
+                                        (모집완료)
+                                    {% endif %}
+                                </p>
+                                <p class="team_search-team-item-content spoqa-regular">지역 : {{project.region1_id.region1}} {{project.region2_id.region2}}</p>
+                            </div>
+                        </article>
+                    </a>
+                {% endfor %}
+            </div>
+        </main>
+    </section>
+
+   
+</body>
+{% include 'footer.html' %}
+<script>
+    $(document).ready(function(){
+        $(".drop_btn").on("click", function(){ 
+            let className = $(this).attr("value");
+            let currentClass = document.getElementById(className);
+            
+            if ($(currentClass).is('.hidden')){
+                $(currentClass).removeClass('hidden');
+                $(currentClass).addClass('active');
+            } else{
+                $(currentClass).removeClass('active');
+                $(currentClass).addClass('hidden');
+            }
+        }); 
+        $('.field1, .region2, .state').on("change",  function(){ 
+            if($(this).val()=='all'&& $(this).is(":checked")){
+                $("."+$(this).attr('class')).prop("checked", false);
+                $(this).prop("checked", true)
+            }else{
+                $("input[data='"+$(this).attr('class')+"_all']").prop("checked", false);
+            }
+            if($("."+$(this).attr('class')+":checked").length ==0){
+                $("input[data='"+$(this).attr('class')+"_all']").prop("checked", true);
+            }
+        });
+        $(".team_filter").on("click", function(){ 
+            let field1_checked = $("#field1 input:checked");
+            let region_checked = $("#region input:checked");
+            let state_checked = $("#state input:checked");
+            let field1_list = []
+            let region_list = []
+            let state_list = []
+            for(let i=0; i<field1_checked.length; i++){
+                field1_list.push($(field1_checked[i]).val());
+            }
+            for(let i=0; i<region_checked.length; i++){
+                region_list.push($(region_checked[i]).val());
+            }
+            for(let i=0; i<state_checked.length; i++){
+                state_list.push($(state_checked[i]).val());
+            }
+            var data = {
+                'field1': field1_list,
+                'region' : region_list,
+                'state' : state_list
+            }
+            console.log(data);
+            $.ajax({
+                type: "POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url: "{% url 'filterTeam' %}",
+                data: JSON.stringify(data),
+                success: function(res) {
+                    $('.team_search-team-container').html(res);
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                }
+            });
+        });
+        //최신순 필터링
+        $('.member_search-member-select-latest').on("click", function(event){ 
+            event.preventDefault();
+            $.ajax({
+                type: "POST",
+                headers:{
+                    'X-CSRFToken' : '{{csrf_token}}'
+                },
+                url: "{% url 'latestTeam' %}",
+                success: function(res) {
+                    $('.team_search-team-container').html(res);
+                },
+                error:function(request,status,error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                }
+            });
+        });
+    });
+</script>
+</html>

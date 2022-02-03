@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+{% load custom_tags %}
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Teamvil</title>
+        <link rel="stylesheet" href="{% static 'css/base.css' %}">
+        <link rel="stylesheet" href="{% static 'css/about.css' %}">
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <link rel="shortcut icon" href="{% static 'image/favicon.ico' %}"/>
+    </head>
+    <body>
+        {% include 'navbar.html' %}
+
+        <!-- <div class="about-container content">
+            <h1 class="about-title">TeamVil</h1>
+            <p class="about-title-content">다양한 분야, 다채로운 프로젝트를 함게할 좋은 팀원들을 찾아보세요.</p>
+            <br>
+            <br>
+            <br>
+            <p class="about-title-page">팀 찾기</p>
+            <p class="about-title-page-more">로그인 기능을 하는 페이지 입니다.</p>
+            <p class="about-title-page-more">로그인을 할 수 있습니다.</p>
+        </div>
+
+        <div>
+
+        </div> -->
+
+
+
+        <!-- {% include 'footer.html' %} -->
+        <img src="{% static 'image/about.png' %}" alt="">
+    </body>
+</html>

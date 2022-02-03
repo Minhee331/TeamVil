@@ -9,12 +9,20 @@ label{
     cursor: pointer;
 }
 
+.black {
+    color: #1b1b1b;
+}
+
+.blue {
+    color: #0f59ff;
+}
+
 /* upper-category */
 .team_search-category-container {
     display: flex;
     justify-content: center;
     margin-top: 40px;
-    color: #ffffff;
+    color: #0f59ff;
 }
 
 .team_search-category-container div {
@@ -24,14 +32,15 @@ label{
     width: 550px;
     height: 40px;
     padding: 0 50px;
+    border: 1px solid #0f59ff;
     border-radius: 3px;
-    background-color: #0f59ff;
+    background-color: #ffffff;
 }
 
 .team_search-category-item {
     display: flex;
     align-items: center;
-    color: #ffffff;
+    /* color: #1b1b1b; */
 }
 
 .team_search-category-pipe {
@@ -66,7 +75,7 @@ label{
     border-bottom: 1px solid #D7D7D7;
     text-align: center;
     line-height: 50px;
-    margin-bottom: 25px;
+    margin-bottom: 35px;
     font-size: 18px;
 }
 
@@ -77,6 +86,12 @@ label{
 }
 
 .member_search-chevron-left {
+    display: block;
+    width: 60px;
+    height: 60px;
+}
+
+.member_search-chevron-right {
     display: block;
     width: 60px;
     height: 60px;
@@ -132,6 +147,9 @@ label{
 .team_search-filter-active {
     display: flex;
     justify-content: space-between;
+    border-top: 1px solid #1b1b1b;
+    padding-top: 10px;
+    margin-top: 5px;
 }
 
 .team_search-filter-title {
@@ -185,7 +203,7 @@ label{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-right: 20px;
+    margin-left: 20px;
     width: 200px;
     height: 30px;
     border: 1px solid #0f59ff;
@@ -234,8 +252,8 @@ label{
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    width: 1040.94px;
-    margin-right: -20px;
+    width: 1060.94px;
+    margin-right: -40px;
 }
 
 .team_search-team-item {
@@ -255,7 +273,7 @@ label{
 }
 
 .team_search-team-item-text {
-    padding: 10px 20px;
+    padding: 0 20px;
     line-height: 25px;
 }
 
@@ -302,7 +320,7 @@ label{
 .team_search-like-scrap-container {
     display: flex;
     margin-right: 20px;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     align-self: flex-end;
 }
 
@@ -330,4 +348,22 @@ label{
 
 .scrap.active{
     content:url("../image/scrap-btn.png");
+}
+
+.page-group{
+    display: flex;
+    justify-content: center;
+    margin: 70px 0;
+    font-size: 14px;
+}
+.page{
+    margin: 0 5px;
+}
+.page.active{
+    font-weight: 500;
+    text-decoration-line: underline;
+}
+
+.home-latest-team-item-title {
+    padding: 10px 20px;
 }

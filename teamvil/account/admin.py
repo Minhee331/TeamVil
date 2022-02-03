@@ -11,4 +11,5 @@ admin.site.register(User_file)
 admin.site.register(User_carrer)
 admin.site.register(User_review)
 admin.site.register(Message)
+admin.site.register(Message_payment)
 

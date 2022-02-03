@@ -408,7 +408,7 @@ def likes(request):
     alarm.like_id = like
     alarm.url = '/member/member_detail/' + str(request.user.id)
     alarm.save()
-    return render(request,'member_search_back.html')
+    return render(request,'member_search.html')
 
 #좋아요 취소 함수
 def likecancels(request):
@@ -416,7 +416,7 @@ def likecancels(request):
     obj = json.loads(request.body) #받아온 data를 풀어주기  project_id를 가져올것
     to_user_id = User.objects.get(id=obj['value'])
     Like.objects.get(to_user_id = to_user_id, from_user_id = request.user).delete() #like모델에 저장된 project_id랑 좋아요를 다시 클릭해서 얻어온 프로파일.user_id.id
-    return render(request,'member_search_back.html')
+    return render(request,'member_search.html')
 
 # 팀원 찾기 최신순 정렬 함수
 def latestMember(request):

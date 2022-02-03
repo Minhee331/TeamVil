@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+{% load custom_tags %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teamvil</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/team_applications.css' %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <link rel="shortcut icon" href="{% static 'image/favicon.ico' %}"/>
+</head>
+
+<body>
+    
+    {% include 'navbar.html' %}
+
+    <div class="team_application-container content">
+
+        <div class="team_application-wrap">
+
+            <div class="team_application-scroll type">
+
+                {% for profile in profiles %}    
+                    <div class="team_application-member" value = "{{profile.id}}">
+                        <img class="team_application-member-image" src="{% get_profile_photo profile.user_id.id %}" alt="">
+                        <p class="team_application-member-name-text {% if profile == profiles.0 %}active{% endif %}">{{profile.name}}</p>
+                    </div>
+                {% endfor %}
+
+            </div>
+            
+
+            <div class="team_application-detail-container">
+                
+                <div class="team_application-member-info">
+                    {% if profile is not None %}
+                        <img class="team_application-member-image" src="{% get_profile_photo profile.user_id.id %}" alt="">
+                        <p class="team_application-member-name-text">{{profile.name}}</p>
+                    {% else %}
+                        <p class="team_application-member-name-text" style="text-align: center;">아직 지원자가 없습니다. </p>
+                    {% endif %}
+                </div>
+
+
+                <div class="team_application-question-container">
+    
+                    <div class="team_application-questions">
+                        {% for qna in qna_list %}
+                            {% if qna.1.type == 0 %}
+                                <div class="team_application-question-item question.id" q_id="{{question.id}}" q_type ='{{question.type}}' >
+                                    <div class="team_application-question spoqa-regular">
+                                        {% if qna.1.isRequired == 1 %}
+                                            <p class="team_application-essential">*</p>
+                                        {% else %}
+                                            <p>&nbsp;</p>
+                                        {% endif %}
+    
+                                        <p class="team_application-question-content">{{qna.1.content}}</p>
+                                    </div>
+                                    
+                                    <div class="team_application-option-list spoqa-light">
+                                        {% if qna.1.choice1 is not None %}
+                                            <input type="radio" name='choice{{question.id}}' value="1"  txt = "{{question.choice1}}" disabled {% if qna.0.choice_answer == 1 %}checked{% endif %}>
+                                            <p>{{qna.1.choice1}}</p>
+                                        {% endif %}
+    
+                                        {% if qna.1.choice2 is not None %}
+                                            <input type="radio" name='choice{{question.id}}' value="2" txt = "{{question.choice2}}" disabled {% if qna.0.choice_answer == 2 %}checked{% endif %}>
+                                            <p>{{qna.1.choice2}}</p>
+                                        {% endif %}
+    
+                                        {% if qna.1.choice3 is not None %}
+                                            <input type="radio" name='choice{{question.id}}' value="3" txt = "{{question.choice3}}" disabled {% if qna.0.choice_answer == 3 %}checked{% endif %}>
+                                            <p>{{qna.1.choice3}}</p>
+                                        {% endif %}
+    
+                                        {% if qna.1.choice4 is not None %}
+                                            <input type="radio" name='choice{{question.id}}' value="4" txt = "{{question.choice4}}" disabled {% if qna.0.choice_answer == 4 %}checked{% endif %}>
+                                            <p>{{qna.1.choice4}}</p>
+                                        {% endif %}
+    
+                                        {% if qna.1.choice5 is not None %}
+                                            <input type="radio" name='choice{{question.id}}' value="5" txt = "{{question.choice5}}" disabled {% if qna.0.choice_answer == 5 %}checked{% endif %}>
+                                            <p>{{qna.1.choice5}}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endif %}
+    
+                            {% if qna.1.type == 1 %}
+                                <div class="team_application-question-item question.id" q_id="{{question.id}}" q_type ='{{question.type}}'>
+                                    <div class="team_application-question spoqa-regular">
+                                        {% if qna.1.isRequired == 1 %}
+                                            <p class="team_application-essential">*</p>
+                                        {% else %}
+                                            <p>&nbsp;</p>
+                                        {% endif %}
+    
+                                        <p class="team_application-question-content">{{qna.1.content}}</p>
+                                    </div>
+    
+                                    <div class="team_application-answer-area">
+                                        <input type="text" class="spoqa-light short_answer" value="{{qna.0.short_answer}}" disabled>
+                                    </div>
+                                </div>
+                            {% endif %}
+    
+                            {% if qna.1.type == 2 %}
+                                <div class="team_application-question-item question.id" q_id="{{question.id}}" q_type ='{{question.type}}'>
+                                    <div class="team_application-question spoqa-regular">
+                                        {% if qna.1.isRequired == 1 %}
+                                            <p class="team_application-essential">*</p>
+                                        {% else %}
+                                            <p>&nbsp;</p>
+                                        {% endif %}
+    
+                                        <p class="team_application-question-content">{{qna.1.content}}</p>
+                                    </div>
+    
+                                    <div class="team_application-answer-area">
+                                        <textarea name="" id="" cols="50" rows="2" class="spoqa-light long_answer" disabled>{{qna.0.long_answer}}</textarea>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="team_application-btn-container">
+                        <button class="team_application-accept-btn spoqa-regular" profile_id={{profile.id}} project_id={{project.id}}>승인</button>
+                        <button class="team_application-deny-btn spoqa-regular" profile_id={{profile.id}} project_id={{project.id}}>거절</button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>  
+    </div>
+
+    
+    {% include 'footer.html' %} 
+</body>
+<script>
+    $('.team_application-member').on("click", function(){ 
+        profile_id = $(this).attr('value');
+        var data = {
+            'profile_id': profile_id,
+            'project_id' : {{project.id}}
+        }
+        $.ajax({
+            type:"POST",
+            headers:{
+                'X-CSRFToken' : '{{csrf_token}}'
+            },
+            url: "{% url 'team_applications_content' %}",
+            data :JSON.stringify(data),
+            success: function(res) {
+                $('.team_application-detail-container').html(res);
+            },
+            error:function(request,status,error){
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+                alert("로그인하세요.");
+                
+            }
+        });
+        $('.team_application-member').children('.team_application-member-name-text').removeClass('active');
+        $(this).children('.team_application-member-name-text').addClass('active');
+    });
+    $(document).on("click",'.team_application-accept-btn', function(){
+        project_id = $(this).attr('project_id')
+        profile_id = $(this).attr('profile_id')
+        data = {
+            'project_id':project_id,
+            'profile_id':profile_id,
+            'type':1
+        }
+        $.ajax({
+            type: "POST",
+            headers:{
+                'X-CSRFToken' : '{{csrf_token}}'
+            },
+            url: "{% url 'manageMember' %}",
+            data: JSON.stringify(data),
+            success: function(res) {
+                alert("승인되었습니다. ")
+            },
+            error:function(request,status,error){
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+    });
+    $(document).on("click",'.team_application-deny-btn', function(){
+        project_id = $(this).attr('project_id')
+        profile_id = $(this).attr('profile_id')
+        data = {
+            'project_id':project_id,
+            'profile_id':profile_id,
+            'type':-1
+        }
+        $.ajax({
+            type: "POST",
+            headers:{
+                'X-CSRFToken' : '{{csrf_token}}'
+            },
+            url: "{% url 'manageMember' %}",
+            data: JSON.stringify(data),
+            success: function(res) {
+                alert("거절되었습니다. ")
+            },
+            error:function(request,status,error){
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+    });
+</script>
+</html>
